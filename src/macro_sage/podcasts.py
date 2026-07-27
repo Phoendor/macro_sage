@@ -23,6 +23,7 @@ from macro_sage.pipeline import is_on_date
 from macro_sage.storage import DocumentStore
 
 MAX_UPLOAD_BYTES = 24 * 1024 * 1024
+SEGMENT_SECONDS = 15 * 60
 
 
 class PodcastBudgetExceeded(RuntimeError):
@@ -48,11 +49,22 @@ class PodcastTranscriber:
                 if chunk:
                     handle.write(chunk)
 
-    def _segments(self, audio_path: Path, workdir: Path) -> list[Path]:
-        if audio_path.stat().st_size <= MAX_UPLOAD_BYTES:
+    def _segments(
+        self,
+        audio_path: Path,
+        workdir: Path,
+        duration_seconds: int,
+    ) -> list[Path]:
+        if (
+            audio_path.stat().st_size <= MAX_UPLOAD_BYTES
+            and duration_seconds <= SEGMENT_SECONDS
+        ):
             return [audio_path]
         if shutil.which("ffmpeg") is None:
-            raise RuntimeError("ffmpeg is required for podcast files larger than 24 MiB")
+            raise RuntimeError(
+                "ffmpeg is required for podcast files larger than 24 MiB "
+                "or longer than 15 minutes"
+            )
         pattern = workdir / "segment-%03d.mp3"
         subprocess.run(
             [
@@ -72,12 +84,15 @@ class PodcastTranscriber:
                 "-f",
                 "segment",
                 "-segment_time",
-                "1800",
+                str(SEGMENT_SECONDS),
                 str(pattern),
             ],
             check=True,
         )
-        return sorted(workdir.glob("segment-*.mp3"))
+        segments = sorted(workdir.glob("segment-*.mp3"))
+        if not segments:
+            raise RuntimeError("ffmpeg did not produce any podcast segments")
+        return segments
 
     def _duration(self, audio_path: Path) -> int:
         if shutil.which("ffprobe") is None:
@@ -114,7 +129,7 @@ class PodcastTranscriber:
                     f"{max_seconds / 60:.0f} minutes remain in the run budget"
                 )
             transcripts = []
-            for segment in self._segments(audio_path, workdir):
+            for segment in self._segments(audio_path, workdir, duration_seconds):
                 with segment.open("rb") as handle:
                     result = self.client.audio.transcriptions.create(
                         model=self.model,
@@ -192,6 +207,7 @@ def collect_podcasts(
                 )
                 continue
             try:
+                remaining_episodes -= 1
                 transcript = transcriber.transcribe(
                     item.media_url or "",
                     max_seconds=remaining_seconds,
@@ -212,7 +228,6 @@ def collect_podcasts(
                 store.save(document)
                 report.documents.append(document)
                 collected += 1
-                remaining_episodes -= 1
                 remaining_seconds -= transcript.duration_seconds
             except PodcastBudgetExceeded as exc:
                 policy_skips.append(f"{item.title}: {exc}")

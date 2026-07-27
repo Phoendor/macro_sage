@@ -119,21 +119,21 @@ class AssetView(BaseModel):
     bias: Bias
     horizon: str
     confidence: int = Field(ge=1, le=5)
-    drivers: list[str]
-    risks: list[str]
-    source_ids: list[str]
+    drivers: list[str] = Field(max_length=5)
+    risks: list[str] = Field(max_length=5)
+    source_ids: list[str] = Field(max_length=10)
 
 
 class MacroTheme(BaseModel):
     theme: str
     market_implication: str
-    source_ids: list[str]
+    source_ids: list[str] = Field(max_length=10)
 
 
 class DailyBrief(BaseModel):
     as_of_date: str
-    executive_summary: list[str]
-    macro_themes: list[MacroTheme]
-    asset_views: list[AssetView]
-    top_risks: list[str]
-    source_ids_used: list[str]
+    executive_summary: list[str] = Field(max_length=7)
+    macro_themes: list[MacroTheme] = Field(max_length=8)
+    asset_views: list[AssetView] = Field(max_length=10)
+    top_risks: list[str] = Field(max_length=8)
+    source_ids_used: list[str] = Field(max_length=30)
