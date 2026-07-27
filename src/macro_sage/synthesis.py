@@ -133,7 +133,7 @@ def synthesize(
     }
     if settings.model.startswith("gpt-5.6"):
         request["reasoning"] = {"effort": settings.reasoning_effort}
-        request["verbosity"] = "low"
+        request["text"] = {"verbosity": "low"}
     response = api.responses.parse(
         **request,
     )
