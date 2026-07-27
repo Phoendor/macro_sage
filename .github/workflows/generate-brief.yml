@@ -56,7 +56,19 @@ jobs:
             exit 1
           fi
 
-      - name: Collect, transcribe, and synthesize
+      - name: Select an available synthesis model
+        run: python scripts/select_openai_model.py
+
+      - name: Collect and transcribe
+        run: |
+          python -m macro_sage run \
+            --date "$TARGET_DATE" \
+            --include-podcasts \
+            --no-ai \
+            --database data/macro_sage.sqlite3 \
+            --output output
+
+      - name: Synthesize from the cached collection
         run: |
           python -m macro_sage run \
             --date "$TARGET_DATE" \
