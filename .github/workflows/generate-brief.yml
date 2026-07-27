@@ -7,9 +7,19 @@ on:
         description: Brief date in YYYY-MM-DD (blank uses today in Amsterdam)
         required: false
         type: string
-  push:
-    branches:
-      - run/macro-brief
+      include_podcasts:
+        description: Transcribe same-day podcast episodes
+        required: true
+        default: true
+        type: boolean
+      max_podcast_minutes:
+        description: Maximum combined new audio minutes
+        required: true
+        default: 240
+        type: number
+  schedule:
+    - cron: "30 19 * * 1-5"
+      timezone: Europe/Amsterdam
 
 permissions:
   contents: read
@@ -21,33 +31,51 @@ jobs:
     env:
       OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
       MACRO_SAGE_TIMEZONE: Europe/Amsterdam
+      MACRO_SAGE_MODEL: ${{ vars.MACRO_SAGE_MODEL || 'gpt-5.6-luna' }}
+      MACRO_SAGE_MODEL_FALLBACKS: ${{ vars.MACRO_SAGE_MODEL_FALLBACKS || 'gpt-5.6-terra,gpt-4.1-mini' }}
+      MACRO_SAGE_TRANSCRIPTION_MODEL: ${{ vars.MACRO_SAGE_TRANSCRIPTION_MODEL || 'gpt-4o-mini-transcribe' }}
+      MACRO_SAGE_TRANSCRIPTION_MODEL_FALLBACKS: ${{ vars.MACRO_SAGE_TRANSCRIPTION_MODEL_FALLBACKS || 'whisper-1' }}
+      MACRO_SAGE_REASONING_EFFORT: ${{ vars.MACRO_SAGE_REASONING_EFFORT || 'low' }}
 
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      - uses: actions/checkout@v6
+      - uses: actions/setup-python@v6
         with:
           python-version: "3.12"
           cache: pip
 
+      - name: Select run options
+        env:
+          REQUESTED_DATE: ${{ inputs.date }}
+          REQUESTED_PODCASTS: ${{ inputs.include_podcasts }}
+          REQUESTED_MAX_MINUTES: ${{ inputs.max_podcast_minutes }}
+        run: |
+          if [ -n "$REQUESTED_DATE" ]; then
+            target_date="$REQUESTED_DATE"
+          else
+            target_date="$(TZ=Europe/Amsterdam date +%F)"
+          fi
+          if [ "$GITHUB_EVENT_NAME" = "schedule" ]; then
+            include_podcasts="true"
+            max_podcast_minutes="240"
+          else
+            include_podcasts="${REQUESTED_PODCASTS:-true}"
+            max_podcast_minutes="${REQUESTED_MAX_MINUTES:-240}"
+          fi
+          {
+            echo "TARGET_DATE=$target_date"
+            echo "INCLUDE_PODCASTS=$include_podcasts"
+            echo "MAX_PODCAST_MINUTES=$max_podcast_minutes"
+          } >> "$GITHUB_ENV"
+          echo "Generating $target_date; podcasts=$include_podcasts; audio budget=${max_podcast_minutes}m"
+
       - name: Install
         run: |
-          python -m pip install -e ".[pdf]"
-          if ! command -v ffmpeg >/dev/null 2>&1; then
+          python -m pip install -e .
+          if [ "$INCLUDE_PODCASTS" = "true" ] && ! command -v ffprobe >/dev/null 2>&1; then
             sudo apt-get update
             sudo apt-get install -y ffmpeg
           fi
-
-      - name: Select date
-        env:
-          REQUESTED_DATE: ${{ inputs.date }}
-        run: |
-          if [ -n "$REQUESTED_DATE" ]; then
-            TARGET_DATE="$REQUESTED_DATE"
-          else
-            TARGET_DATE="$(TZ=Europe/Amsterdam date +%F)"
-          fi
-          echo "TARGET_DATE=$TARGET_DATE" >> "$GITHUB_ENV"
-          echo "Generating brief for $TARGET_DATE"
 
       - name: Verify secret
         run: |
@@ -56,43 +84,64 @@ jobs:
             exit 1
           fi
 
-      - name: Select an available synthesis model
-        run: python scripts/select_openai_model.py
-
-      - name: Collect and transcribe
+      - name: Preflight OpenAI models
         run: |
-          python -m macro_sage run \
+          args=(--require-synthesis)
+          if [ "$INCLUDE_PODCASTS" = "true" ]; then
+            args+=(--require-transcription)
+          fi
+          python -m macro_sage models \
+            "${args[@]}" \
+            --output output/model-selection.json \
+            --github-env "$GITHUB_ENV"
+
+      - name: Restore document and transcript cache
+        uses: actions/cache/restore@v5
+        with:
+          path: data
+          key: macro-sage-data-v2-${{ runner.os }}-${{ github.run_id }}
+          restore-keys: |
+            macro-sage-data-v2-${{ runner.os }}-
+
+      - name: Collect sources
+        id: collect
+        run: |
+          args=()
+          if [ "$INCLUDE_PODCASTS" = "true" ]; then
+            args+=(--include-podcasts --max-podcast-minutes "$MAX_PODCAST_MINUTES")
+          fi
+          python -m macro_sage collect \
             --date "$TARGET_DATE" \
-            --include-podcasts \
-            --no-ai \
             --database data/macro_sage.sqlite3 \
-            --output output
+            --output output \
+            "${args[@]}"
 
-      - name: Synthesize from the cached collection
+      - name: Save document and transcript cache
+        if: always() && steps.collect.outcome == 'success'
+        uses: actions/cache/save@v5
+        with:
+          path: data
+          key: macro-sage-data-v2-${{ runner.os }}-${{ github.run_id }}
+
+      - name: Synthesize and render PDF
         run: |
-          python -m macro_sage run \
+          python -m macro_sage synthesize \
             --date "$TARGET_DATE" \
-            --include-podcasts \
-            --database data/macro_sage.sqlite3 \
-            --output output
+            --output output \
+            --model-selection output/model-selection.json
 
-      - name: Render PDF
-        run: |
-          mkdir -p output/pdf
-          python scripts/render_pdf.py \
-            --brief "output/$TARGET_DATE/brief.json" \
-            --documents "output/$TARGET_DATE/documents.json" \
-            --run "output/$TARGET_DATE/run.json" \
-            --output "output/pdf/macro-sage-$TARGET_DATE.pdf"
-
-      - name: Upload report
-        uses: actions/upload-artifact@v4
+      - name: Upload report and audit trail
+        if: always()
+        uses: actions/upload-artifact@v6
         with:
           name: macro-sage-${{ env.TARGET_DATE }}
           path: |
             output/pdf/macro-sage-${{ env.TARGET_DATE }}.pdf
             output/${{ env.TARGET_DATE }}/brief.md
             output/${{ env.TARGET_DATE }}/brief.json
+            output/${{ env.TARGET_DATE }}/documents.json
             output/${{ env.TARGET_DATE }}/run.json
-          if-no-files-found: error
-          retention-days: 7
+            output/${{ env.TARGET_DATE }}/source-status.md
+            output/model-selection.json
+          if-no-files-found: warn
+          retention-days: 14

@@ -23,6 +23,7 @@ class PreparedCorpus:
     text: str
     included: list[Document]
     omitted_ids: list[str]
+    truncated_ids: list[str]
 
 
 @dataclass(frozen=True, slots=True)
@@ -32,6 +33,7 @@ class SynthesisResult:
     input_tokens: int | None
     output_tokens: int | None
     omitted_ids: list[str]
+    truncated_ids: list[str]
 
 
 def _publisher_balanced(documents: list[Document]) -> list[Document]:
@@ -64,6 +66,7 @@ def prepare_corpus(documents: list[Document], settings: Settings) -> PreparedCor
     ordered = _publisher_balanced(documents)
     included: list[Document] = []
     omitted: list[str] = []
+    truncated: list[str] = []
     sections: list[str] = []
     used = 0
 
@@ -72,6 +75,8 @@ def prepare_corpus(documents: list[Document], settings: Settings) -> PreparedCor
             omitted.append(document.id)
             continue
         body = document.body[: settings.max_article_chars]
+        if len(document.body) > settings.max_article_chars:
+            truncated.append(document.id)
         section = (
             f"<document id={document.id!r} publisher={document.publisher!r} "
             f"category={document.category!r} title={document.title!r} "
@@ -86,7 +91,7 @@ def prepare_corpus(documents: list[Document], settings: Settings) -> PreparedCor
 
     if not sections:
         raise ValueError("No documents fit within the configured corpus budget")
-    return PreparedCorpus("\n\n".join(sections), included, omitted)
+    return PreparedCorpus("\n\n".join(sections), included, omitted, truncated)
 def _assert_known_sources(brief: DailyBrief, known_ids: set[str]) -> None:
     cited = set(brief.source_ids_used)
     for theme in brief.macro_themes:
@@ -107,9 +112,9 @@ def synthesize(
 ) -> SynthesisResult:
     prepared = prepare_corpus(documents, settings)
     api = client or OpenAI()
-    response = api.responses.parse(
-        model=settings.model,
-        input=[
+    request: dict[str, object] = {
+        "model": settings.model,
+        "input": [
             {"role": "developer", "content": SYSTEM_PROMPT},
             {
                 "role": "user",
@@ -119,9 +124,14 @@ def synthesize(
                 ),
             },
         ],
-        text_format=DailyBrief,
-        max_output_tokens=3_000,
-        store=False,
+        "text_format": DailyBrief,
+        "max_output_tokens": 3_000,
+        "store": False,
+    }
+    if settings.model.startswith("gpt-5.6"):
+        request["reasoning"] = {"effort": settings.reasoning_effort}
+    response = api.responses.parse(
+        **request,
     )
     brief = response.output_parsed
     if brief is None:
@@ -134,4 +144,5 @@ def synthesize(
         input_tokens=getattr(usage, "input_tokens", None),
         output_tokens=getattr(usage, "output_tokens", None),
         omitted_ids=prepared.omitted_ids,
+        truncated_ids=prepared.truncated_ids,
     )

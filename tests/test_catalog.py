@@ -18,3 +18,4 @@ def test_source_catalog_matches_configuration():
     assert "**O (observed):**" in catalog
     assert "**I (implicit):**" in catalog
     assert "**E (expected):**" in catalog
+    assert "## Would be good to have, but these don't work" in catalog

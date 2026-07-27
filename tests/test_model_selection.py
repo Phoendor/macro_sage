@@ -1,20 +1,27 @@
 import pytest
 
-from scripts.select_openai_model import choose_model
+from macro_sage.openai_models import choose_model, select_models
+from macro_sage.settings import Settings
 
 
 def test_choose_model_uses_first_available_preference():
     selected = choose_model(
         {"gpt-4.1-mini", "gpt-4o-mini"},
         ("gpt-5.6-luna", "gpt-4.1-mini", "gpt-4o-mini"),
+        purpose="synthesis",
     )
 
-    assert selected == "gpt-4.1-mini"
+    assert selected.selected == "gpt-4.1-mini"
+    assert selected.used_fallback
 
 
 def test_choose_model_fails_when_project_has_no_supported_model():
     with pytest.raises(RuntimeError, match="No supported synthesis model"):
-        choose_model({"unrelated-model"}, ("gpt-5.6-luna", "gpt-4.1-mini"))
+        choose_model(
+            {"unrelated-model"},
+            ("gpt-5.6-luna", "gpt-4.1-mini"),
+            purpose="synthesis",
+        )
 
 
 def test_choose_model_can_select_transcription_fallback():
@@ -24,7 +31,7 @@ def test_choose_model_can_select_transcription_fallback():
         purpose="transcription",
     )
 
-    assert selected == "whisper-1"
+    assert selected.selected == "whisper-1"
 
 
 def test_choose_model_names_transcription_failure():
@@ -34,3 +41,30 @@ def test_choose_model_names_transcription_failure():
             ("gpt-4o-mini-transcribe", "whisper-1"),
             purpose="transcription",
         )
+
+
+def test_selection_applies_accessible_models_to_settings():
+    class Model:
+        def __init__(self, identifier):
+            self.id = identifier
+
+    class Models:
+        def list(self):
+            return [Model("gpt-5.6-luna"), Model("gpt-4o-mini-transcribe")]
+
+    class Client:
+        models = Models()
+
+    settings = Settings()
+    selection = select_models(
+        settings,
+        require_synthesis=True,
+        require_transcription=True,
+        client=Client(),
+    )
+
+    selected_settings = selection.apply(settings)
+
+    assert selected_settings.model == "gpt-5.6-luna"
+    assert selected_settings.transcription_model == "gpt-4o-mini-transcribe"
+    assert not selection.synthesis.used_fallback

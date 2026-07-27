@@ -2,42 +2,47 @@
 
 ## Daily synthesis
 
-The default is `gpt-5.4-mini` through the Responses API with a Pydantic structured
-output. It is the best fit here because the task needs competent cross-document
-reasoning and citation discipline, but runs every day and does not justify a
-premium frontier model.
+The primary model is `gpt-5.6-luna` through the Responses API with a Pydantic
+structured output and low reasoning effort. This is a daily, cost-sensitive
+synthesis workload rather than a frontier-quality coding or agent task. OpenAI
+describes Luna as the cost-sensitive, high-volume member of the GPT-5.6 family.
 
-At OpenAI's published standard pricing on 2026-07-27, `gpt-5.4-mini` costs $0.75
-per million input tokens and $4.50 per million output tokens. The configured
-350,000-character input ceiling is roughly 90,000 tokens in a worst-case
-English-language run, so input is around $0.07 at the ceiling. The 3,000-output-
-token ceiling is about $0.014. Typical days are materially smaller.
+The default fallback order is `gpt-5.6-terra`, then `gpt-4.1-mini`. Before any
+paid full run, Macro Sage calls the Models API and selects the first configured
+model visible to the exact OpenAI project. A fallback is never silent: it is
+printed and recorded in `model-selection.json` and `run.json`.
 
-The model can be changed without code:
+Set policy without changing code:
 
 ```bash
 export MACRO_SAGE_MODEL=gpt-5.6-luna
+export MACRO_SAGE_MODEL_FALLBACKS=gpt-5.6-terra,gpt-4.1-mini
+export MACRO_SAGE_REASONING_EFFORT=low
 ```
 
-`gpt-5.6-luna` tracks the newest GPT-5.6 family but costs more. `gpt-5.4-nano` is
-cheaper, but is not the default because this brief requires nuanced synthesis
-rather than simple classification or extraction.
+The configured 350,000-character corpus ceiling is a cost and failure guard.
+It is not a recursive chunk/summarize pipeline. Publisher balancing is applied
+before the limit so a prolific source cannot crowd out the rest. Omitted and
+truncated document IDs are saved with the run.
 
+- [OpenAI GPT-5.6 model guidance](https://developers.openai.com/api/docs/guides/latest-model)
 - [OpenAI API pricing](https://developers.openai.com/api/docs/pricing)
-- [GPT-5.4 mini model](https://developers.openai.com/api/docs/models/gpt-5.4-mini)
-- [Structured Outputs](https://developers.openai.com/api/docs/guides/structured-outputs)
 
 ## Podcast transcription
 
-The opt-in default is `gpt-4o-mini-transcribe`. Published pricing is about
-$0.003/minute, or $0.18 for a one-hour episode. This is now reasonable for
-selective episodes, while local Whisper remains a poor experience on the target
-Intel Mac.
+The opt-in primary is `gpt-4o-mini-transcribe`; cloud-hosted `whisper-1` is the
+fallback. Local Whisper is never run.
 
-Audio is still constrained by the transcription upload limit. Files over 24 MiB
-are re-encoded into 30-minute, mono, 48 kbps segments with `ffmpeg`; the neural
-work remains in the API. Podcasts stay off by default and are excluded from live
-source validation and paid tests.
+New audio is limited to six episodes and 240 combined minutes per run by
+default. The limits can be lowered through CLI flags or environment variables.
+Completed transcripts are stored in SQLite locally and in the GitHub Actions
+cache remotely. Oversized files are re-encoded into 30-minute, mono, 48 kbps
+segments solely to satisfy the transcription upload limit.
 
-- [OpenAI speech-to-text guide](https://developers.openai.com/api/docs/guides/speech-to-text)
-- [OpenAI API pricing](https://developers.openai.com/api/docs/pricing)
+```bash
+export MACRO_SAGE_MAX_PODCAST_EPISODES=6
+export MACRO_SAGE_MAX_PODCAST_MINUTES=240
+```
+
+- [GPT-4o mini Transcribe](https://developers.openai.com/api/docs/models/gpt-4o-mini-transcribe)
+- [Speech-to-text guide](https://developers.openai.com/api/docs/guides/speech-to-text)
