@@ -142,7 +142,9 @@ def _paragraph(text: object, style: ParagraphStyle) -> Paragraph:
     return Paragraph(escape(str(text)).replace("\n", "<br/>"), style)
 
 
-def _bullets(values: list[str], style: ParagraphStyle) -> ListFlowable:
+def _bullets(values: list[str], style: ParagraphStyle) -> Any:
+    if not values:
+        return _paragraph("None.", style)
     items = [
         ListItem(_paragraph(value, style), leftIndent=3 * mm, value="circle")
         for value in values
@@ -381,8 +383,14 @@ def render(
         ]
         story.extend([KeepTogether(details), Spacer(1, 5 * mm)])
 
-    story.append(_paragraph("Top risks", styles["section"]))
-    story.append(_bullets(brief.get("top_risks", []), styles["body"]))
+    story.append(
+        KeepTogether(
+            [
+                _paragraph("Top risks", styles["section"]),
+                _bullets(brief.get("top_risks", []), styles["body"]),
+            ]
+        )
+    )
 
     story.append(PageBreak())
     story.append(_paragraph("Source register", styles["section"]))
@@ -404,7 +412,14 @@ def render(
             f'<link href="{url}" color="#167D7F">{url}</link><br/>'
             f"<font color=\"#829AB1\">{media}</font>"
         )
-        story.extend([Paragraph(line, styles["body"]), Spacer(1, 2 * mm)])
+        story.append(
+            KeepTogether(
+                [
+                    Paragraph(line, styles["body"]),
+                    Spacer(1, 2 * mm),
+                ]
+            )
+        )
 
     skipped = manifest.get("skipped", [])
     if errors or skipped:
