@@ -59,8 +59,10 @@ macro-sage list-sources --all
 
 `gpt-5.4-mini` is the default synthesis model because this is a daily,
 high-volume-style task. Override it with `MACRO_SAGE_MODEL`. Podcast transcription
-uses `gpt-4o-mini-transcribe`, never local Whisper, and processes oversized files
-through lightweight `ffmpeg` segments before upload.
+prefers `gpt-4o-mini-transcribe` and falls back to the cloud-hosted `whisper-1`
+when the OpenAI project cannot access the newer model. It never runs Whisper
+locally, and processes oversized files through lightweight `ffmpeg` segments
+before upload.
 
 ## Remote report run
 
