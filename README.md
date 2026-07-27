@@ -1,23 +1,20 @@
 # Macro Sage
 
-Macro Sage is an early-stage Python pipeline for turning macro-market articles and
-podcasts into a concise, asset-level daily wrap. The current prototype can fetch
-articles, parse ING research, download and transcribe podcast audio, and send a
-combined corpus to an OpenAI model for synthesis.
+Macro Sage collects a curated set of macro and central-bank feeds, extracts the
+original article or PDF text, deduplicates it in SQLite, and creates a
+source-attributed daily market brief.
 
-> **Status:** recovery and foundation work. The pipeline is a useful prototype,
-> but it is not yet production-ready. See the
-> [resumption plan](docs/RESUMPTION_PLAN.md) for the repository assessment and
-> ordered backlog.
+The old collection of one-off scripts has been replaced by an installable `src/`
+package and a deterministic CLI. Article synthesis is one structured OpenAI
+Responses API request: there is no recursive chunk-summary pipeline.
 
 ## Quick start
 
 Prerequisites:
 
 - Python 3.11 or newer
-- `ffmpeg` for audio compression
-- the `whisper` CLI when using local transcription
 - an OpenAI API key for final summarization
+- optional: `ffmpeg` only when explicitly enabling oversized podcast transcription
 
 ```bash
 python -m venv .venv
@@ -28,53 +25,65 @@ cp .env.example .env
 set -a
 source .env
 set +a
-python main_prototype.py
+macro-sage validate-sources
+macro-sage run --date 2026-07-27
 ```
 
-Install local Whisper support with:
+To collect and inspect documents without making a paid model call:
 
 ```bash
-python -m pip install -e ".[local-whisper]"
+macro-sage run --date 2026-07-27 --no-ai
 ```
 
-The prototype currently uses example sources declared in `main_prototype.py`.
-Downloaded audio and generated transcripts are written under `audio_sources/`
-and are intentionally ignored by Git.
+Outputs are written to `output/<date>/`; fetched documents are cached in
+`data/macro_sage.sqlite3`.
 
-## Current capabilities
+## Commands
 
-- generic HTTP article retrieval
-- structured ING article parsing
-- RSS and podcast feed discovery prototypes
-- local Whisper or OpenAI-hosted audio transcription
-- token-aware chunking and corpus-level market summarization
-- an experimental J.P. Morgan sitemap crawler
+```bash
+# Verify every enabled feed and extract one real item from each.
+macro-sage validate-sources
+
+# Run today's article pipeline.
+macro-sage run
+
+# Opt in to cloud podcast transcription. Disabled by default.
+macro-sage run --include-podcasts
+
+# See configured sources without network access.
+macro-sage list-sources --all
+```
+
+`gpt-5.4-mini` is the default synthesis model because this is a daily,
+high-volume-style task. Override it with `MACRO_SAGE_MODEL`. Podcast transcription
+uses `gpt-4o-mini-transcribe`, never local Whisper, and processes oversized files
+through lightweight `ffmpeg` segments before upload.
+
+The input budget is intentionally bounded by article count and characters. This
+controls cost without splitting the corpus into many model calls. The selected
+documents and any omissions are saved alongside every brief.
 
 ## Repository layout
 
 ```text
 .
-├── main_prototype.py       # current end-to-end prototype
-├── audio_tools.py          # download, compress, and transcribe audio
-├── get_data.py             # HTTP retrieval helpers
-├── parcers.py              # source-specific article parser (legacy spelling)
-├── summarization.py        # OpenAI summarization calls
-├── text_tools.py           # generic text retrieval and chunking
-├── drafts/                 # experiments awaiting review or retirement
-├── tests/                  # offline baseline tests
-└── docs/                   # recovery notes and delivery roadmap
+├── config/sources.toml     # curated article and opt-in podcast feeds
+├── src/macro_sage/         # application package
+├── tests/                  # offline fixtures and boundary tests
+├── scripts/                # bounded operational checks
+└── docs/                   # architecture and source policy
 ```
 
 ## Development
 
 ```bash
+ruff check .
 python -m pytest
-python -m compileall -q \
-  audio_tools.py get_data.py main_prototype.py parcers.py summarization.py text_tools.py
+python -m compileall -q src tests
 ```
 
 Tests must be deterministic and must not call live feeds or paid APIs. Use
-fixtures and mocked HTTP responses for integration boundaries.
+`macro-sage validate-sources` separately when feed health needs checking.
 
 ## Security
 
@@ -82,9 +91,6 @@ Never place credentials in source code, tests, notebooks, or examples. Use
 `OPENAI_API_KEY` from the environment. If a credential is accidentally committed,
 revoke it before cleaning Git history.
 
-## Project direction
-
-The first target is a reproducible CLI that ingests a configured set of feeds for
-one date, stores normalized documents, optionally transcribes audio, and emits
-both JSON and Markdown daily wraps with source attribution. Architecture and
-acceptance criteria are tracked in [docs/RESUMPTION_PLAN.md](docs/RESUMPTION_PLAN.md).
+See [the architecture notes](docs/ARCHITECTURE.md),
+[model and cost policy](docs/MODELS.md), and
+[source policy](docs/SOURCES.md) for the main design decisions.

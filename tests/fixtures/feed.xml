@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0">
+  <channel>
+    <title>Example Research</title>
+    <item>
+      <title>Rates and growth</title>
+      <link>https://example.com/research/rates?utm_source=rss&amp;keep=yes</link>
+      <author>Research Team</author>
+      <pubDate>Mon, 27 Jul 2026 08:30:00 GMT</pubDate>
+      <description><![CDATA[<p>A short feed description.</p>]]></description>
+    </item>
+  </channel>
+</rss>

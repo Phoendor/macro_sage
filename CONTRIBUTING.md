@@ -1,7 +1,7 @@
 # Contributing
 
-Macro Sage is being recovered from a prototype. Keep changes small, testable, and
-easy to review while the core interfaces settle.
+Macro Sage is a small daily research pipeline. Keep changes source-attributed,
+testable, and inexpensive to run.
 
 ## Local setup
 
@@ -13,17 +13,15 @@ python -m pip install -e ".[dev]"
 python -m pytest
 ```
 
-Use `.[crawlers]` for the experimental sitemap crawler and
-`.[local-whisper]` for local transcription.
-
 ## Working agreements
 
 1. Create a feature branch; do not develop directly on `main`.
 2. Keep credentials and downloaded source material out of Git.
 3. Add offline tests for parsing, normalization, and orchestration behavior.
 4. Mock network and model calls in the test suite.
-5. Run the test and compile checks from the README before opening a pull request.
+5. Run the lint, test, and compile checks from the README before opening a pull request.
 6. Document new feed-specific behavior, failure modes, and attribution fields.
+7. Never put live feeds or paid API calls in the deterministic test suite.
 
 ## Commit and pull request scope
 
