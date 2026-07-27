@@ -121,7 +121,9 @@ def test_synthesize_uses_structured_responses_api():
 
     assert client.responses.arguments["model"] == "gpt-5.6-luna"
     assert client.responses.arguments["reasoning"] == {"effort": "low"}
+    assert client.responses.arguments["verbosity"] == "low"
     assert client.responses.arguments["text_format"] is DailyBrief
+    assert client.responses.arguments["max_output_tokens"] == 8_000
     assert client.responses.arguments["store"] is False
     assert result.input_tokens == 100
 

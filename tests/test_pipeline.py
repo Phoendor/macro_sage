@@ -8,7 +8,12 @@ from macro_sage.models import (
     SourceState,
 )
 from macro_sage.pipeline import collect_articles
-from macro_sage.podcasts import PodcastTranscript, collect_podcasts
+from macro_sage.podcasts import (
+    SEGMENT_SECONDS,
+    PodcastTranscriber,
+    PodcastTranscript,
+    collect_podcasts,
+)
 
 
 class Store:
@@ -131,3 +136,69 @@ def test_cached_podcast_does_not_consume_new_audio_budget(monkeypatch):
 
     assert report.documents == [cached]
     assert report.outcomes[0].state is SourceState.COLLECTED
+
+
+def test_failed_transcription_consumes_episode_attempt_limit(monkeypatch):
+    podcast_source = source(SourceKind.PODCAST)
+    items = [
+        FeedItem(
+            source=podcast_source,
+            title=f"Episode {number}",
+            url=f"https://example.com/episode-{number}",
+            published_at=datetime(2026, 7, 27, tzinfo=timezone.utc),
+            media_url=f"https://example.com/audio-{number}.mp3",
+        )
+        for number in (1, 2)
+    ]
+    monkeypatch.setattr(
+        "macro_sage.podcasts.discover",
+        lambda _source, _client: items,
+    )
+
+    class Transcriber:
+        def __init__(self):
+            self.calls = 0
+
+        def transcribe(self, _url, *, max_seconds):
+            self.calls += 1
+            raise RuntimeError(f"rejected with {max_seconds=}")
+
+    transcriber = Transcriber()
+    report = collect_podcasts(
+        [podcast_source],
+        date(2026, 7, 27),
+        object(),
+        Store(),
+        transcriber,
+        timezone_name="UTC",
+        max_episodes=1,
+        max_minutes=60,
+    )
+
+    assert transcriber.calls == 1
+    assert report.outcomes[0].state is SourceState.FAILED
+    assert "daily episode limit reached" in report.outcomes[0].detail
+
+
+def test_long_compressed_audio_is_segmented_by_duration(monkeypatch, tmp_path):
+    audio_path = tmp_path / "episode.mp3"
+    audio_path.write_bytes(b"small compressed audio")
+    command = None
+
+    def fake_run(arguments, **_kwargs):
+        nonlocal command
+        command = arguments
+        (tmp_path / "segment-000.mp3").write_bytes(b"segment")
+
+    monkeypatch.setattr("macro_sage.podcasts.shutil.which", lambda _name: "/usr/bin/ffmpeg")
+    monkeypatch.setattr("macro_sage.podcasts.subprocess.run", fake_run)
+
+    segments = PodcastTranscriber._segments(
+        object(),
+        audio_path,
+        tmp_path,
+        SEGMENT_SECONDS + 1,
+    )
+
+    assert segments == [tmp_path / "segment-000.mp3"]
+    assert command[command.index("-segment_time") + 1] == str(SEGMENT_SECONDS)

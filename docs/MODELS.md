@@ -36,8 +36,9 @@ fallback. Local Whisper is never run.
 New audio is limited to six episodes and 240 combined minutes per run by
 default. The limits can be lowered through CLI flags or environment variables.
 Completed transcripts are stored in SQLite locally and in the GitHub Actions
-cache remotely. Oversized files are re-encoded into 30-minute, mono, 48 kbps
-segments solely to satisfy the transcription upload limit.
+cache remotely. New audio is re-encoded into 15-minute, mono, 48 kbps segments
+when it exceeds either that duration or the upload-size limit. The duration cap
+also keeps long, highly compressed files below the model's audio-token limit.
 
 ```bash
 export MACRO_SAGE_MAX_PODCAST_EPISODES=6

@@ -50,9 +50,10 @@ repository cache so reruns do not normally pay to transcribe the same episode.
 Local Whisper was removed. On a 2019 Intel Mac, neural transcription is the wrong
 place to spend wall-clock time. `gpt-4o-mini-transcribe` is used only with
 `--include-podcasts`; cloud `whisper-1` is the explicit fallback. New audio is
-bounded by episode count and total duration. Oversized audio is split with
-low-bitrate `ffmpeg` encoding only to satisfy the upload limit. Podcast feeds are
-not part of CI or normal live source validation.
+bounded by attempted episode count and total duration. Audio longer than 15
+minutes, or larger than the upload limit, is split with low-bitrate `ffmpeg`
+encoding to satisfy both audio-token and upload limits. Podcast feeds are not
+part of CI or normal live source validation.
 
 ### One application, two execution environments
 
