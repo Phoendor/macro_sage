@@ -1,9 +1,11 @@
 # Source catalog
 
 This is the human-readable catalog for every source in `config/sources.toml`.
-Article sources are enabled. Podcast sources are opt-in because transcription has
-a direct cost. The catalog is checked by the test suite so a configured source
-cannot be added or removed without updating this file.
+Working article sources are enabled. Podcast sources are opt-in because
+transcription has a direct cost. Sources that fit editorially but cannot
+currently be acquired are kept in a separate section rather than silently
+failing every daily run. The catalog is checked by the test suite so a
+configured source cannot be added or removed without updating this file.
 
 Frequency labels use three kinds of evidence:
 
@@ -47,7 +49,6 @@ These are practical monitoring expectations, not publisher guarantees.
 | `sf-fed-economic-letter` | FRBSF Economic Letter | O: roughly 2–4 per month | [Feed](https://www.frbsf.org/economic-research/economic-letter-rss-feed/) · [Home](https://www.frbsf.org/research-and-insights/publications/economic-letter/) | Concise, policy-relevant Federal Reserve research. | Adds rigorous work on inflation, labor and the US cycle. |
 | `sf-fed-fedviews` | SF FedViews | I: approximately monthly | [Feed](https://www.frbsf.org/economic-research/fedviews-rss-feed/) · [Home](https://www.frbsf.org/research-and-insights/publications/fedviews/) | Staff assessment of current US economic conditions. | Provides a recurring, comparable US outlook snapshot. |
 | `boj-policy-research` | Bank of Japan Policy and Research Updates | E: irregular, several per month | [Feed](https://www.boj.or.jp/en/rss/whatsnew.xml) · [Home](https://www.boj.or.jp/en/) | BOJ policy, regional outlook and research items selected from its broad feed. | Adds JPY and Japan coverage while filtering spreadsheets and routine statistics. |
-| `bruegel-analysis` | Bruegel Analysis and Events | O: several per week | [Feed](https://www.bruegel.org/rss.xml) · [Home](https://www.bruegel.org/) | Independent European economic-policy research and expert discussions. | Adds non-central-bank analysis on EU fiscal, trade and structural policy. |
 | `nber-working-papers` | New NBER Working Papers | I: weekly Monday batch | [Feed](https://www.nber.org/rss/new.xml) · [Home](https://www.nber.org/papers) | Abstracts for newly released economics working papers. | Surfaces new empirical results; the feed provides abstracts rather than paywalled PDFs. |
 
 ## Opt-in audio sources
@@ -75,12 +76,20 @@ without downloading audio or paying for transcription.
 | `pod-macro-musings` | Macro Musings | I: weekly, usually Monday | [Feed](https://macromusings.libsyn.com/rss) · [Home](https://www.mercatus.org/macro-musings) | Long-form monetary economics interviews hosted by David Beckworth. | Deepens understanding of central banking, money and financial plumbing. |
 | `pod-bloomberg-odd-lots` | Bloomberg Odd Lots | O: roughly 3–5 per week | [Feed](https://www.omnycontent.com/d/playlist/e73c998e-6e60-432f-8610-ae210140c5b1/8a94442e-5a74-4fa2-8b8d-ae27003a8d6b/982f5071-765c-403d-969d-ae27003a8d83/podcast.rss) · [Home](https://www.bloomberg.com/originals/series/odd-lots) | Deep dives into market structure, economics and unusual price signals. | Adds specialist explanations of mechanisms that headline research can miss; sponsored episodes are filtered. |
 
-## Known gaps
+## Would be good to have, but these don't work
 
-The Reserve Bank of Australia and Reserve Bank of New Zealand are reputable and
-would fit editorially, but their feeds returned HTTP 403 to the application client
-on 2026-07-27. IMF Blog and CEPR/VoxEU feeds were also rejected by their edge
-services, and the FT Unhedged feed returned HTTP 410. They are intentionally not
-configured until they can be acquired reliably. The broad BOJ feed is retained
-with a URL allow-list so routine statistics and spreadsheet releases never enter
-the text pipeline.
+These sources fit the brief, but the collector cannot currently acquire them
+reliably. Configured-but-disabled sources retain an ID so they can be re-tested
+without being silently included in daily runs.
+
+| ID | Source | Expected frequency | Links | Why I need it | What is broken |
+|---|---|---|---|---|---|
+| `bruegel-analysis` | Bruegel Analysis and Events | O: several per week | [Feed](https://www.bruegel.org/rss.xml) · [Home](https://www.bruegel.org/) | Independent EU fiscal, trade and structural-policy analysis. | The documented RSS endpoint consistently returns HTTP 403. |
+| Not configured | Reserve Bank of Australia publications | E: policy and publication driven | [Home](https://www.rba.gov.au/publications/) | Primary AUD monetary-policy and Australian-cycle coverage. | Publisher feeds returned HTTP 403 to the research-reader client. |
+| Not configured | Reserve Bank of New Zealand publications | E: policy and publication driven | [Home](https://www.rbnz.govt.nz/hub/publications) | Primary NZD policy and small-open-economy analysis. | Publisher feeds returned HTTP 403 to the research-reader client. |
+| Not configured | IMF Blog | O: several per month | [Home](https://www.imf.org/en/Blogs) | Accessible global and emerging-market policy analysis. | The edge service rejects automated feed retrieval. |
+| Not configured | CEPR / VoxEU | O: most weekdays | [Home](https://cepr.org/voxeu) | Independent, current academic macro-policy commentary. | The edge service rejects automated feed retrieval. |
+| Not configured | FT Unhedged | I: weekdays | [Home](https://www.ft.com/unhedged) | High-quality daily market interpretation and dissenting views. | The former public feed returns HTTP 410 and the publication is subscription-led. |
+
+The broad BOJ feed is retained with a URL allow-list so routine statistics and
+spreadsheet releases never enter the text pipeline.

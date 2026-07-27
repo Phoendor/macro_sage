@@ -24,14 +24,22 @@ The feeds configured for ING, Saxo articles, BNP Paribas Economic Research, ECB,
 Federal Reserve Board, BIS, Bank of Canada, and Liberty Street Economics returned
 valid entries in a live feed check on 2026-07-27. The expanded Bank of England,
 SNB, Norges Bank, Riksbank, San Francisco Fed, Bank of Japan, Bruegel, and NBER
-feeds were also checked through original-text extraction on that date. The final
-extraction validator is the authoritative repeatable check.
+feeds were also checked through original-text extraction on that date. Bruegel
+later began consistently returning HTTP 403 and is now kept as a
+configured-but-disabled candidate. The extraction validator is the authoritative
+repeatable check.
+
+After the unavailable Bruegel feed was disabled, a complete live pass on
+2026-07-27 verified original-text extraction for all 31 enabled article sources
+and enclosure discovery for all 16 opt-in podcast feeds.
 
 RBA and RBNZ feeds were considered but returned HTTP 403 to the application
 client. IMF Blog and CEPR/VoxEU feeds were rejected by their edge services. Saxo
 Trade Views was removed because its newest item was from 2020. A Bank of Canada
 working-paper URL was removed because it returned an empty feed. Sources that
-cannot be acquired correctly are not kept merely to make the list longer.
+cannot be acquired correctly are not kept merely to make the list longer. They
+are recorded in the "Would be good to have, but these don't work" catalog
+section so they can be revisited deliberately.
 
 The official feed indexes are:
 

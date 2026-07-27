@@ -28,6 +28,8 @@ NAVY = colors.HexColor("#102A43")
 TEAL = colors.HexColor("#167D7F")
 PALE_TEAL = colors.HexColor("#E8F4F3")
 PALE_BLUE = colors.HexColor("#EEF4F8")
+PALE_RED = colors.HexColor("#FDECEC")
+RED = colors.HexColor("#B42318")
 SLATE = colors.HexColor("#486581")
 MID_GREY = colors.HexColor("#829AB1")
 LIGHT_GREY = colors.HexColor("#D9E2EC")
@@ -243,6 +245,7 @@ def render(
         )
     )
     collected = len(manifest.get("documents", []))
+    errors = manifest.get("errors", [])
     model = run.get("model", "unknown")
     input_tokens = run.get("input_tokens")
     output_tokens = run.get("output_tokens")
@@ -277,6 +280,32 @@ def render(
         )
     )
     story.extend([meta_table, Spacer(1, 6 * mm), HRFlowable(color=TEAL, thickness=1)])
+    if errors:
+        failure_notice = Table(
+            [
+                [
+                    _paragraph(
+                        f"SOURCE ACQUISITION WARNING - {len(errors)} failed or "
+                        "partial source(s). See Run notes for the exact list.",
+                        styles["body"],
+                    )
+                ]
+            ],
+            colWidths=[165 * mm],
+        )
+        failure_notice.setStyle(
+            TableStyle(
+                [
+                    ("BACKGROUND", (0, 0), (-1, -1), PALE_RED),
+                    ("BOX", (0, 0), (-1, -1), 0.7, RED),
+                    ("LEFTPADDING", (0, 0), (-1, -1), 4 * mm),
+                    ("RIGHTPADDING", (0, 0), (-1, -1), 4 * mm),
+                    ("TOPPADDING", (0, 0), (-1, -1), 3 * mm),
+                    ("BOTTOMPADDING", (0, 0), (-1, -1), 3 * mm),
+                ]
+            )
+        )
+        story.extend([Spacer(1, 4 * mm), failure_notice])
 
     story.append(_paragraph("Executive summary", styles["section"]))
     story.append(_bullets(brief.get("executive_summary", []), styles["body"]))
@@ -377,7 +406,6 @@ def render(
         )
         story.extend([Paragraph(line, styles["body"]), Spacer(1, 2 * mm)])
 
-    errors = manifest.get("errors", [])
     skipped = manifest.get("skipped", [])
     if errors or skipped:
         story.append(_paragraph("Run notes", styles["section"]))
@@ -400,6 +428,10 @@ def _parser() -> argparse.ArgumentParser:
     return parser
 
 
-if __name__ == "__main__":
+def main() -> None:
     arguments = _parser().parse_args()
     render(arguments.brief, arguments.documents, arguments.run, arguments.output)
+
+
+if __name__ == "__main__":
+    main()

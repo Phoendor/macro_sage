@@ -69,6 +69,24 @@ def _media_link(entry: feedparser.FeedParserDict) -> str | None:
     return None
 
 
+def _duration_seconds(entry: feedparser.FeedParserDict) -> int | None:
+    raw = entry.get("itunes_duration")
+    if raw is None:
+        return None
+    value = str(raw).strip()
+    if value.isdigit():
+        return int(value)
+    parts = value.split(":")
+    if not all(part.isdigit() for part in parts) or len(parts) not in {2, 3}:
+        return None
+    numbers = [int(part) for part in parts]
+    if len(numbers) == 2:
+        minutes, seconds = numbers
+        return minutes * 60 + seconds
+    hours, minutes, seconds = numbers
+    return hours * 3600 + minutes * 60 + seconds
+
+
 def discover(source: SourceDefinition, client: HttpClient) -> list[FeedItem]:
     response = client.get(source.feed_url)
     parsed = feedparser.parse(response.content)
@@ -100,6 +118,7 @@ def discover(source: SourceDefinition, client: HttpClient) -> list[FeedItem]:
                 author=entry.get("author"),
                 feed_text=_feed_text(entry),
                 media_url=media_url,
+                duration_seconds=_duration_seconds(entry),
             )
         )
         if len(items) >= source.max_items:

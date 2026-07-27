@@ -1,7 +1,7 @@
 from pathlib import Path
 
 from macro_sage.feeds import canonicalize_url, discover
-from macro_sage.models import SourceDefinition
+from macro_sage.models import SourceDefinition, SourceKind
 
 
 class Response:
@@ -63,3 +63,28 @@ def test_discover_filters_before_applying_item_limit():
     [item] = discover(source, Client(content))
 
     assert item.title == "Policy report"
+
+
+def test_discover_parses_podcast_duration():
+    content = b"""\
+<rss version="2.0" xmlns:itunes="http://www.itunes.com/dtds/podcast-1.0.dtd">
+<channel><title>Podcast</title>
+<item><title>Episode</title><link>https://example.com/episode</link>
+<pubDate>Mon, 27 Jul 2026 08:00:00 GMT</pubDate>
+<itunes:duration>01:02:03</itunes:duration>
+<enclosure url="https://example.com/audio.mp3" type="audio/mpeg"/>
+</item>
+</channel></rss>
+"""
+    source = SourceDefinition(
+        id="podcast",
+        name="Podcast",
+        publisher="Publisher",
+        feed_url="https://example.com/feed.xml",
+        category="podcast",
+        kind=SourceKind.PODCAST,
+    )
+
+    [item] = discover(source, Client(content))
+
+    assert item.duration_seconds == 3723

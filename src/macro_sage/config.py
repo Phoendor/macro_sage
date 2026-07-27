@@ -40,6 +40,7 @@ def load_sources(
                 include_url_pattern=row.get("include_url_pattern"),
                 exclude_title_pattern=row.get("exclude_title_pattern"),
                 prefer_pdf=bool(row.get("prefer_pdf", False)),
+                disabled_reason=row.get("disabled_reason"),
             )
         except (KeyError, TypeError, ValueError) as exc:
             raise ConfigurationError(f"Invalid source row: {row!r}") from exc
@@ -50,6 +51,14 @@ def load_sources(
             raise ConfigurationError(f"{source.id}: feed_url must use HTTPS")
         if source.max_items < 1:
             raise ConfigurationError(f"{source.id}: max_items must be positive")
+        if (
+            not source.enabled
+            and source.kind is SourceKind.ARTICLE
+            and not source.disabled_reason
+        ):
+            raise ConfigurationError(
+                f"{source.id}: disabled article sources require disabled_reason"
+            )
         for field_name, pattern in (
             ("include_url_pattern", source.include_url_pattern),
             ("exclude_title_pattern", source.exclude_title_pattern),

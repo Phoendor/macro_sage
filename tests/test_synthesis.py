@@ -119,7 +119,16 @@ def test_synthesize_uses_structured_responses_api():
         client=client,
     )
 
-    assert client.responses.arguments["model"] == "gpt-5.4-mini"
+    assert client.responses.arguments["model"] == "gpt-5.6-luna"
+    assert client.responses.arguments["reasoning"] == {"effort": "low"}
     assert client.responses.arguments["text_format"] is DailyBrief
     assert client.responses.arguments["store"] is False
     assert result.input_tokens == 100
+
+
+def test_prepare_corpus_records_truncation():
+    settings = Settings(max_articles=1, max_article_chars=4, max_corpus_chars=500)
+
+    prepared = prepare_corpus([document("one", "long body")], settings)
+
+    assert prepared.truncated_ids == ["one"]

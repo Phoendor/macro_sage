@@ -254,6 +254,8 @@ name = "Bruegel Analysis and Events"
 publisher = "Bruegel"
 feed_url = "https://www.bruegel.org/rss.xml"
 category = "economic-research"
+enabled = false
+disabled_reason = "The documented RSS endpoint consistently returns HTTP 403."
 max_items = 6
 
 [[sources]]

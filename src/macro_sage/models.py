@@ -13,6 +13,14 @@ class SourceKind(StrEnum):
     PODCAST = "podcast"
 
 
+class SourceState(StrEnum):
+    COLLECTED = "collected"
+    NO_ITEMS = "no_items"
+    PARTIAL = "partial"
+    FAILED = "failed"
+    SKIPPED = "skipped"
+
+
 @dataclass(frozen=True, slots=True)
 class SourceDefinition:
     id: str
@@ -26,6 +34,7 @@ class SourceDefinition:
     include_url_pattern: str | None = None
     exclude_title_pattern: str | None = None
     prefer_pdf: bool = False
+    disabled_reason: str | None = None
 
 
 @dataclass(frozen=True, slots=True)
@@ -37,6 +46,7 @@ class FeedItem:
     author: str | None = None
     feed_text: str = ""
     media_url: str | None = None
+    duration_seconds: int | None = None
 
     @property
     def document_id(self) -> str:
@@ -59,11 +69,42 @@ class Document:
     media_type: str = "text/html"
 
 
+@dataclass(frozen=True, slots=True)
+class SourceOutcome:
+    source_id: str
+    source_name: str
+    kind: SourceKind
+    state: SourceState
+    document_count: int = 0
+    stage: str | None = None
+    detail: str | None = None
+
+    @property
+    def is_failure(self) -> bool:
+        return self.state in {SourceState.FAILED, SourceState.PARTIAL}
+
+    def summary(self) -> str:
+        stage = f" during {self.stage}" if self.stage else ""
+        detail = f": {self.detail}" if self.detail else ""
+        return f"{self.source_id} ({self.source_name}){stage}{detail}"
+
+
 @dataclass(slots=True)
 class CollectionReport:
     documents: list[Document] = field(default_factory=list)
-    errors: list[str] = field(default_factory=list)
-    skipped: list[str] = field(default_factory=list)
+    outcomes: list[SourceOutcome] = field(default_factory=list)
+
+    @property
+    def failures(self) -> list[SourceOutcome]:
+        return [outcome for outcome in self.outcomes if outcome.is_failure]
+
+    @property
+    def without_items(self) -> list[SourceOutcome]:
+        return [
+            outcome
+            for outcome in self.outcomes
+            if outcome.state is SourceState.NO_ITEMS
+        ]
 
 
 class Bias(StrEnum):

@@ -22,6 +22,18 @@ def test_disabled_podcasts_are_only_loaded_explicitly():
     assert all(not source.enabled for source in podcasts)
 
 
+def test_disabled_article_sources_explain_why_they_are_unavailable():
+    all_sources = load_sources(Path("config/sources.toml"), include_disabled=True)
+    disabled_articles = [
+        source
+        for source in all_sources
+        if source.kind is SourceKind.ARTICLE and not source.enabled
+    ]
+
+    assert disabled_articles
+    assert all(source.disabled_reason for source in disabled_articles)
+
+
 def test_duplicate_source_ids_are_rejected(tmp_path):
     config = tmp_path / "sources.toml"
     config.write_text(
