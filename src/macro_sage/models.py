@@ -23,6 +23,9 @@ class SourceDefinition:
     kind: SourceKind = SourceKind.ARTICLE
     enabled: bool = True
     max_items: int = 3
+    include_url_pattern: str | None = None
+    exclude_title_pattern: str | None = None
+    prefer_pdf: bool = False
 
 
 @dataclass(frozen=True, slots=True)

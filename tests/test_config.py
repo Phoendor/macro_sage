@@ -45,3 +45,22 @@ category = "research"
 
     with pytest.raises(ConfigurationError, match="Duplicate"):
         load_sources(config)
+
+
+def test_invalid_source_filter_is_rejected(tmp_path):
+    config = tmp_path / "sources.toml"
+    config.write_text(
+        """
+[[sources]]
+id = "bad-filter"
+name = "Bad Filter"
+publisher = "Publisher"
+feed_url = "https://example.com/feed.xml"
+category = "research"
+include_url_pattern = "["
+""",
+        encoding="utf-8",
+    )
+
+    with pytest.raises(ConfigurationError, match="invalid include_url_pattern"):
+        load_sources(config)

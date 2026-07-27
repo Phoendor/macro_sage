@@ -77,9 +77,16 @@ def discover(source: SourceDefinition, client: HttpClient) -> list[FeedItem]:
         raise FeedError(f"{source.id}: {detail}")
 
     items: list[FeedItem] = []
-    for entry in parsed.entries[: source.max_items]:
+    for entry in parsed.entries:
         url = _article_link(entry)
         media_url = _media_link(entry)
+        title = str(entry.get("title") or "Untitled")
+        if source.include_url_pattern and not re.search(source.include_url_pattern, url):
+            continue
+        if source.exclude_title_pattern and re.search(
+            source.exclude_title_pattern, title
+        ):
+            continue
         if source.kind is SourceKind.PODCAST and not media_url:
             continue
         if not url:
@@ -87,7 +94,7 @@ def discover(source: SourceDefinition, client: HttpClient) -> list[FeedItem]:
         items.append(
             FeedItem(
                 source=source,
-                title=str(entry.get("title") or "Untitled"),
+                title=title,
                 url=canonicalize_url(url),
                 published_at=_published_at(entry),
                 author=entry.get("author"),
@@ -95,4 +102,6 @@ def discover(source: SourceDefinition, client: HttpClient) -> list[FeedItem]:
                 media_url=media_url,
             )
         )
+        if len(items) >= source.max_items:
+            break
     return items

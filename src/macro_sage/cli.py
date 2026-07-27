@@ -120,14 +120,24 @@ def _run(args: argparse.Namespace) -> int:
 
 def _validate(args: argparse.Namespace) -> int:
     settings = Settings.from_env()
-    sources = [
+    article_sources = [
         replace(source, max_items=args.limit)
         for source in load_sources(args.config)
         if source.kind is SourceKind.ARTICLE
     ]
-    failures = 0
+    podcast_sources = (
+        [
+            replace(source, max_items=args.limit)
+            for source in load_sources(args.config, include_disabled=True)
+            if source.kind is SourceKind.PODCAST
+        ]
+        if args.include_podcasts
+        else []
+    )
+    article_failures = 0
+    podcast_failures = 0
     with HttpClient(settings) as http:
-        for source in sources:
+        for source in article_sources:
             try:
                 items = discover(source, http)
                 document = extract(items[0], http)
@@ -136,10 +146,27 @@ def _validate(args: argparse.Namespace) -> int:
                     f"{len(document.body):>7} chars"
                 )
             except Exception as exc:
-                failures += 1
+                article_failures += 1
                 print(f"FAIL  {source.id:<22} {exc}")
-    print(f"\n{len(sources) - failures}/{len(sources)} enabled article sources passed.")
-    return 1 if failures else 0
+        for source in podcast_sources:
+            try:
+                items = discover(source, http)
+                if not items or not items[0].media_url:
+                    raise ValueError("feed did not expose an audio enclosure")
+                print(f"OK    {source.id:<22} audio enclosure discovered")
+            except Exception as exc:
+                podcast_failures += 1
+                print(f"FAIL  {source.id:<22} {exc}")
+    print(
+        f"\n{len(article_sources) - article_failures}/"
+        f"{len(article_sources)} enabled article sources passed."
+    )
+    if podcast_sources:
+        print(
+            f"{len(podcast_sources) - podcast_failures}/"
+            f"{len(podcast_sources)} opt-in podcast feeds passed."
+        )
+    return 1 if article_failures or podcast_failures else 0
 
 
 def _list_sources(args: argparse.Namespace) -> int:
@@ -166,6 +193,11 @@ def build_parser() -> argparse.ArgumentParser:
         "validate-sources", help="live-check enabled article feeds and extraction"
     )
     validate.add_argument("--limit", type=int, default=1)
+    validate.add_argument(
+        "--include-podcasts",
+        action="store_true",
+        help="also verify opt-in podcast feeds without downloading audio",
+    )
     validate.set_defaults(handler=_validate)
 
     source_list = subparsers.add_parser("list-sources", help="print configured sources")

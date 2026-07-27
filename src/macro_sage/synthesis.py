@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+from collections import defaultdict, deque
 from dataclasses import dataclass
 from datetime import date, datetime, timezone
 
@@ -33,13 +34,34 @@ class SynthesisResult:
     omitted_ids: list[str]
 
 
-def prepare_corpus(documents: list[Document], settings: Settings) -> PreparedCorpus:
+def _publisher_balanced(documents: list[Document]) -> list[Document]:
     ordered = sorted(
         documents,
         key=lambda document: document.published_at
         or datetime.min.replace(tzinfo=timezone.utc),
         reverse=True,
     )
+    groups: dict[str, deque[Document]] = defaultdict(deque)
+    publisher_order: list[str] = []
+    for document in ordered:
+        if document.publisher not in groups:
+            publisher_order.append(document.publisher)
+        groups[document.publisher].append(document)
+
+    balanced: list[Document] = []
+    while groups:
+        for publisher in publisher_order:
+            group = groups.get(publisher)
+            if not group:
+                continue
+            balanced.append(group.popleft())
+            if not group:
+                del groups[publisher]
+    return balanced
+
+
+def prepare_corpus(documents: list[Document], settings: Settings) -> PreparedCorpus:
+    ordered = _publisher_balanced(documents)
     included: list[Document] = []
     omitted: list[str] = []
     sections: list[str] = []

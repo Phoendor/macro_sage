@@ -13,14 +13,22 @@ entry from every enabled article feed and requires at least 250 extracted
 characters. It intentionally does not run in CI because publisher availability is
 external and changes over time.
 
+The maintained inventory, publication cadence, description, links, and rationale
+for every configured source live in
+[SOURCE_CATALOG.md](SOURCE_CATALOG.md). An offline test prevents that catalog from
+drifting away from `config/sources.toml`.
+
 ## Verification record
 
 The feeds configured for ING, Saxo articles, BNP Paribas Economic Research, ECB,
 Federal Reserve Board, BIS, Bank of Canada, and Liberty Street Economics returned
-valid entries in a live feed check on 2026-07-27. The final extraction validator
-is the authoritative repeatable check.
+valid entries in a live feed check on 2026-07-27. The expanded Bank of England,
+SNB, Norges Bank, Riksbank, San Francisco Fed, Bank of Japan, Bruegel, and NBER
+feeds were also checked through original-text extraction on that date. The final
+extraction validator is the authoritative repeatable check.
 
-RBA feeds were considered but returned HTTP 403 to the application client. Saxo
+RBA and RBNZ feeds were considered but returned HTTP 403 to the application
+client. IMF Blog and CEPR/VoxEU feeds were rejected by their edge services. Saxo
 Trade Views was removed because its newest item was from 2020. A Bank of Canada
 working-paper URL was removed because it returned an empty feed. Sources that
 cannot be acquired correctly are not kept merely to make the list longer.
@@ -33,10 +41,21 @@ The official feed indexes are:
 - [Bank of Canada RSS feeds](https://www.bankofcanada.ca/rss-feeds/)
 - [BNP Paribas Economic Research RSS](https://economic-research.bnpparibas.com/RSS/en-US/)
 - [Saxo RSS feeds](https://www.home.saxo/insights/content-hub/rss)
+- [Bank of England RSS feeds](https://www.bankofengland.co.uk/rss)
+- [SNB RSS feeds](https://www.snb.ch/en/services-events/digital-services/rss-calendar-feeds)
+- [Norges Bank RSS feeds](https://www.norges-bank.no/en/rss-feeds/)
+- [Riksbank RSS feeds](https://www.riksbank.se/en-gb/press-and-published/subscribe-via-rss/)
 
 ## Podcasts
 
 Podcast feeds are preserved as disabled, explicit opt-ins. They are excluded from
 routine testing to avoid downloads and paid transcription. Enabling them uses at
 most the configured number of same-day episodes per feed and caches completed
-transcripts.
+transcripts. `macro-sage validate-sources --include-podcasts` verifies feed
+discovery and audio enclosures without downloading the media.
+
+Some official publication feeds point to short landing pages. Sources marked
+`prefer_pdf` fetch and parse the official linked PDF so the model receives the
+actual report rather than its teaser. The BOJ's broad update feed is filtered by
+URL before item limits are applied, preventing spreadsheets and routine
+statistical tables from entering the text corpus.
