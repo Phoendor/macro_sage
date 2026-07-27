@@ -30,6 +30,7 @@ audio_sources/
 data/
 output/
 downloads/
+tmp/
 *.db
 *.sqlite
 *.sqlite3

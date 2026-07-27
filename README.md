@@ -62,6 +62,18 @@ high-volume-style task. Override it with `MACRO_SAGE_MODEL`. Podcast transcripti
 uses `gpt-4o-mini-transcribe`, never local Whisper, and processes oversized files
 through lightweight `ffmpeg` segments before upload.
 
+## Remote report run
+
+The `Generate Macro Brief` GitHub Actions workflow can run the complete pipeline
+without access to the development machine. Add an encrypted repository Actions
+secret named `OPENAI_API_KEY` under **Settings → Secrets and variables → Actions**,
+then run the workflow from the **Actions** tab. Leave its date blank to use the
+current date in Europe/Amsterdam.
+
+The workflow transcribes same-day podcasts, synthesizes the brief, renders a PDF,
+and uploads the PDF plus brief metadata as a seven-day GitHub artifact. Never put
+an API key in a workflow file, commit, issue, or chat message.
+
 The input budget is intentionally bounded by article count and characters. This
 controls cost without splitting the corpus into many model calls. Sources are
 round-robined by publisher before the article limit is applied, so one prolific

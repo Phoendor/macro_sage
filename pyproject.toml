@@ -24,6 +24,9 @@ dev = [
     "pytest>=8.3,<9",
     "ruff>=0.12,<1",
 ]
+pdf = [
+    "reportlab>=4,<6",
+]
 
 [project.scripts]
 macro-sage = "macro_sage.cli:main"
