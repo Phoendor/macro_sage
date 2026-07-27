@@ -1,0 +1,221 @@
+version = 1
+
+# Original research sources, retained where their feeds are live and current.
+[[sources]]
+id = "ing-think"
+name = "ING Think"
+publisher = "ING"
+feed_url = "https://think.ing.com/rss/"
+category = "bank-research"
+max_items = 10
+
+[[sources]]
+id = "saxo-articles"
+name = "Saxo Market Insights"
+publisher = "Saxo Bank"
+feed_url = "https://www.home.saxo/insights/content-hub/rss/articles"
+category = "market-research"
+max_items = 12
+
+[[sources]]
+id = "bnp-eco-week"
+name = "EcoWeek"
+publisher = "BNP Paribas Economic Research"
+feed_url = "https://economic-research.bnpparibas.com/RSS/en-US/Eco-Week"
+category = "bank-research"
+max_items = 8
+
+[[sources]]
+id = "bnp-eco-flash"
+name = "EcoFlash"
+publisher = "BNP Paribas Economic Research"
+feed_url = "https://economic-research.bnpparibas.com/RSS/en-US/Eco-Flash"
+category = "bank-research"
+max_items = 8
+
+[[sources]]
+id = "bnp-eco-perspectives"
+name = "EcoPerspectives"
+publisher = "BNP Paribas Economic Research"
+feed_url = "https://economic-research.bnpparibas.com/RSS/en-US/Eco-Perspectives"
+category = "bank-research"
+max_items = 8
+
+[[sources]]
+id = "bnp-eco-insight"
+name = "EcoInsight"
+publisher = "BNP Paribas Economic Research"
+feed_url = "https://economic-research.bnpparibas.com/RSS/en-US/Eco-Insight"
+category = "bank-research"
+max_items = 8
+
+# Added primary and institutional sources.
+[[sources]]
+id = "ecb-blog"
+name = "ECB Blog"
+publisher = "European Central Bank"
+feed_url = "https://www.ecb.europa.eu/rss/blog.html"
+category = "central-bank"
+max_items = 10
+
+[[sources]]
+id = "ecb-press"
+name = "ECB Press, Speeches and Interviews"
+publisher = "European Central Bank"
+feed_url = "https://www.ecb.europa.eu/rss/press.html"
+category = "central-bank"
+max_items = 15
+
+[[sources]]
+id = "fed-press"
+name = "Federal Reserve Press Releases"
+publisher = "Federal Reserve Board"
+feed_url = "https://www.federalreserve.gov/feeds/press_all.xml"
+category = "central-bank"
+max_items = 15
+
+[[sources]]
+id = "fed-speeches"
+name = "Federal Reserve Speeches"
+publisher = "Federal Reserve Board"
+feed_url = "https://www.federalreserve.gov/feeds/speeches.xml"
+category = "central-bank"
+max_items = 15
+
+[[sources]]
+id = "fed-notes"
+name = "FEDS Notes"
+publisher = "Federal Reserve Board"
+feed_url = "https://www.federalreserve.gov/feeds/feds_notes.xml"
+category = "economic-research"
+max_items = 15
+
+[[sources]]
+id = "bis-research"
+name = "BIS Research Hub"
+publisher = "Bank for International Settlements"
+feed_url = "https://www.bis.org/doclist/reshub_papers.rss"
+category = "economic-research"
+max_items = 15
+
+[[sources]]
+id = "bis-speeches"
+name = "Central Bank Speeches"
+publisher = "Bank for International Settlements"
+feed_url = "https://www.bis.org/doclist/cbspeeches.rss"
+category = "central-bank"
+max_items = 15
+
+[[sources]]
+id = "boc-news"
+name = "Bank of Canada News"
+publisher = "Bank of Canada"
+feed_url = "https://www.bankofcanada.ca/utility/news/feed/"
+category = "central-bank"
+max_items = 10
+
+[[sources]]
+id = "boc-speeches"
+name = "Bank of Canada Speeches"
+publisher = "Bank of Canada"
+feed_url = "https://www.bankofcanada.ca/content_type/speeches/feed/"
+category = "central-bank"
+max_items = 10
+
+[[sources]]
+id = "boc-sparks"
+name = "Sparks at the Bank"
+publisher = "Bank of Canada"
+feed_url = "https://www.bankofcanada.ca/content_type/sparks-at-bank-article/feed/"
+category = "economic-research"
+max_items = 10
+
+[[sources]]
+id = "nyfed-liberty-street"
+name = "Liberty Street Economics"
+publisher = "Federal Reserve Bank of New York"
+feed_url = "https://libertystreeteconomics.newyorkfed.org/feed/"
+category = "economic-research"
+max_items = 15
+
+# Podcasts are deliberately opt-in: cloud transcription is inexpensive now, but
+# these feeds are excluded from routine validation and paid tests.
+[[sources]]
+id = "pod-jpm-at-any-rate"
+name = "At Any Rate"
+publisher = "J.P. Morgan"
+feed_url = "https://feed.podbean.com/atanyrate/feed.xml"
+category = "podcast"
+kind = "podcast"
+enabled = false
+max_items = 2
+
+[[sources]]
+id = "pod-jpm-global-data"
+name = "Global Data Pod"
+publisher = "J.P. Morgan"
+feed_url = "https://feed.podbean.com/globaldatapod/feed.xml"
+category = "podcast"
+kind = "podcast"
+enabled = false
+max_items = 2
+
+[[sources]]
+id = "pod-morgan-stanley"
+name = "Thoughts on the Market"
+publisher = "Morgan Stanley"
+feed_url = "https://rss.art19.com/thoughts-on-the-market"
+category = "podcast"
+kind = "podcast"
+enabled = false
+max_items = 2
+
+[[sources]]
+id = "pod-goldman-markets"
+name = "The Markets"
+publisher = "Goldman Sachs"
+feed_url = "https://feeds.megaphone.fm/GLD9322922848"
+category = "podcast"
+kind = "podcast"
+enabled = false
+max_items = 2
+
+[[sources]]
+id = "pod-hsbc-macro"
+name = "Macro Brief"
+publisher = "HSBC"
+feed_url = "https://feeds.acast.com/public/shows/6476e27317ed970011e62580"
+category = "podcast"
+kind = "podcast"
+enabled = false
+max_items = 2
+
+[[sources]]
+id = "pod-macro-voices"
+name = "Macro Voices"
+publisher = "Hedge Fund Telemetry"
+feed_url = "https://feed.podbean.com/macrovoices/feed.xml"
+category = "podcast"
+kind = "podcast"
+enabled = false
+max_items = 2
+
+[[sources]]
+id = "pod-moodys-economics"
+name = "Inside Economics"
+publisher = "Moody's Analytics"
+feed_url = "https://feeds.simplecast.com/4LZRim3c"
+category = "podcast"
+kind = "podcast"
+enabled = false
+max_items = 2
+
+[[sources]]
+id = "pod-bofa-research"
+name = "Global Research Unlocked"
+publisher = "Bank of America"
+feed_url = "https://feed.podbean.com/bofaglobalresearch/feed.xml"
+category = "podcast"
+kind = "podcast"
+enabled = false
+max_items = 2

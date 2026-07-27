@@ -26,10 +26,10 @@ venv/
 !.env.example
 
 # Runtime output and downloaded source material
-audio_sources/*
-!audio_sources/.gitkeep
+audio_sources/
 data/
 output/
+downloads/
 *.db
 *.sqlite
 *.sqlite3
