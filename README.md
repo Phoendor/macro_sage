@@ -44,6 +44,9 @@ Outputs are written to `output/<date>/`; fetched documents are cached in
 # Verify every enabled feed and extract one real item from each.
 macro-sage validate-sources
 
+# Also verify podcast feeds without downloading or transcribing audio.
+macro-sage validate-sources --include-podcasts
+
 # Run today's article pipeline.
 macro-sage run
 
@@ -60,8 +63,10 @@ uses `gpt-4o-mini-transcribe`, never local Whisper, and processes oversized file
 through lightweight `ffmpeg` segments before upload.
 
 The input budget is intentionally bounded by article count and characters. This
-controls cost without splitting the corpus into many model calls. The selected
-documents and any omissions are saved alongside every brief.
+controls cost without splitting the corpus into many model calls. Sources are
+round-robined by publisher before the article limit is applied, so one prolific
+feed cannot crowd out the rest. The selected documents and any omissions are
+saved alongside every brief.
 
 ## Repository layout
 
@@ -93,4 +98,6 @@ revoke it before cleaning Git history.
 
 See [the architecture notes](docs/ARCHITECTURE.md),
 [model and cost policy](docs/MODELS.md), and
-[source policy](docs/SOURCES.md) for the main design decisions.
+[source policy](docs/SOURCES.md) for the main design decisions. The full
+[source catalog](docs/SOURCE_CATALOG.md) records cadence, links, descriptions,
+and why each source belongs.

@@ -138,6 +138,132 @@ feed_url = "https://libertystreeteconomics.newyorkfed.org/feed/"
 category = "economic-research"
 max_items = 15
 
+[[sources]]
+id = "boe-speeches"
+name = "Bank of England Speeches"
+publisher = "Bank of England"
+feed_url = "https://www.bankofengland.co.uk/rss/speeches"
+category = "central-bank"
+max_items = 10
+
+[[sources]]
+id = "boe-bank-insights"
+name = "Bank Insights"
+publisher = "Bank of England"
+feed_url = "https://www.bankofengland.co.uk/rss/bank-insights"
+category = "economic-research"
+max_items = 10
+
+[[sources]]
+id = "boe-publications"
+name = "Bank of England Publications"
+publisher = "Bank of England"
+feed_url = "https://www.bankofengland.co.uk/rss/publications"
+category = "economic-research"
+max_items = 6
+prefer_pdf = true
+
+[[sources]]
+id = "snb-monetary-policy"
+name = "Monetary Policy Publications"
+publisher = "Swiss National Bank"
+feed_url = "https://www.snb.ch/public/rss/en/mopo"
+category = "central-bank"
+max_items = 4
+prefer_pdf = true
+
+[[sources]]
+id = "snb-speeches"
+name = "Swiss National Bank Speeches"
+publisher = "Swiss National Bank"
+feed_url = "https://www.snb.ch/public/rss/en/speeches"
+category = "central-bank"
+max_items = 8
+
+[[sources]]
+id = "norges-speeches"
+name = "Norges Bank Speeches"
+publisher = "Norges Bank"
+feed_url = "https://www.norges-bank.no/en/rss-feeds/Speeches---Norges-Bank/"
+category = "central-bank"
+max_items = 6
+
+[[sources]]
+id = "norges-monetary-policy"
+name = "Monetary Policy Report"
+publisher = "Norges Bank"
+feed_url = "https://www.norges-bank.no/en/rss-feeds/Norges-Bank-Monetary-Policy-Report-with-financial-stability-assessment/"
+category = "central-bank"
+max_items = 4
+prefer_pdf = true
+
+[[sources]]
+id = "norges-regional-network"
+name = "Regional Network Reports"
+publisher = "Norges Bank"
+feed_url = "https://www.norges-bank.no/en/rss-feeds/Regional-network-reports---Norges-Bank/"
+category = "economic-research"
+max_items = 4
+prefer_pdf = true
+
+[[sources]]
+id = "riksbank-speeches"
+name = "Sveriges Riksbank Speeches"
+publisher = "Sveriges Riksbank"
+feed_url = "https://www.riksbank.se/en-gb/rss/speeches/"
+category = "central-bank"
+max_items = 8
+
+[[sources]]
+id = "riksbank-minutes"
+name = "Monetary Policy Meeting Minutes"
+publisher = "Sveriges Riksbank"
+feed_url = "https://www.riksbank.se/en-gb/rss/minutes-of-the-executive-boards-monetary-policy-meetings/"
+category = "central-bank"
+max_items = 4
+prefer_pdf = true
+
+[[sources]]
+id = "sf-fed-economic-letter"
+name = "FRBSF Economic Letter"
+publisher = "Federal Reserve Bank of San Francisco"
+feed_url = "https://www.frbsf.org/economic-research/economic-letter-rss-feed/"
+category = "economic-research"
+max_items = 10
+
+[[sources]]
+id = "sf-fed-fedviews"
+name = "SF FedViews"
+publisher = "Federal Reserve Bank of San Francisco"
+feed_url = "https://www.frbsf.org/economic-research/fedviews-rss-feed/"
+category = "economic-research"
+max_items = 6
+
+[[sources]]
+id = "boj-policy-research"
+name = "Policy and Research Updates"
+publisher = "Bank of Japan"
+feed_url = "https://www.boj.or.jp/en/rss/whatsnew.xml"
+category = "central-bank"
+max_items = 8
+include_url_pattern = "/en/(?:mopo|research/(?:brp|wps_rev)|about/press)/"
+
+[[sources]]
+id = "bruegel-analysis"
+name = "Bruegel Analysis and Events"
+publisher = "Bruegel"
+feed_url = "https://www.bruegel.org/rss.xml"
+category = "economic-research"
+max_items = 6
+
+[[sources]]
+id = "nber-working-papers"
+name = "New NBER Working Papers"
+publisher = "National Bureau of Economic Research"
+feed_url = "https://www.nber.org/rss/new.xml"
+category = "economic-research"
+max_items = 4
+
 # Podcasts are deliberately opt-in: cloud transcription is inexpensive now, but
 # these feeds are excluded from routine validation and paid tests.
 [[sources]]
@@ -219,3 +345,84 @@ category = "podcast"
 kind = "podcast"
 enabled = false
 max_items = 2
+
+[[sources]]
+id = "pod-saxo-market-call"
+name = "Saxo Market Call"
+publisher = "Saxo Bank"
+feed_url = "https://feed.podbean.com/saxostrats/feed.xml"
+category = "podcast"
+kind = "podcast"
+enabled = false
+max_items = 2
+
+[[sources]]
+id = "pod-jpm-making-sense"
+name = "Making Sense"
+publisher = "J.P. Morgan"
+feed_url = "https://feed.podbean.com/marketmatters/feed.xml"
+category = "podcast"
+kind = "podcast"
+enabled = false
+max_items = 2
+
+[[sources]]
+id = "pod-jpm-week-ahead"
+name = "Notes on the Week Ahead"
+publisher = "J.P. Morgan Asset Management"
+feed_url = "https://feed.podbean.com/notesontheweekahead/feed.xml"
+category = "podcast"
+kind = "podcast"
+enabled = false
+max_items = 2
+
+[[sources]]
+id = "pod-deutsche-weekly"
+name = "PERSPECTIVES Weekly"
+publisher = "Deutsche Bank"
+feed_url = "https://feeds.captivate.fm/cio-weekly-investment-o/"
+category = "podcast"
+kind = "podcast"
+enabled = false
+max_items = 2
+
+[[sources]]
+id = "pod-macro-trading-floor"
+name = "The Macro Trading Floor"
+publisher = "Alf Peccatiello and Andreas Steno Larsen"
+feed_url = "https://feeds.megaphone.fm/ALFINVESTMENTSTRATEGYBV2974145286"
+category = "podcast"
+kind = "podcast"
+enabled = false
+max_items = 2
+
+[[sources]]
+id = "pod-imf"
+name = "IMF Podcasts"
+publisher = "International Monetary Fund"
+feed_url = "https://imfpodcast.libsyn.com/rss"
+category = "podcast"
+kind = "podcast"
+enabled = false
+max_items = 2
+
+[[sources]]
+id = "pod-macro-musings"
+name = "Macro Musings"
+publisher = "Mercatus Center"
+feed_url = "https://macromusings.libsyn.com/rss"
+category = "podcast"
+kind = "podcast"
+enabled = false
+max_items = 2
+
+[[sources]]
+id = "pod-bloomberg-odd-lots"
+name = "Odd Lots"
+publisher = "Bloomberg"
+feed_url = "https://www.omnycontent.com/d/playlist/e73c998e-6e60-432f-8610-ae210140c5b1/8a94442e-5a74-4fa2-8b8d-ae27003a8d6b/982f5071-765c-403d-969d-ae27003a8d83/podcast.rss"
+category = "podcast"
+kind = "podcast"
+enabled = false
+max_items = 2
+exclude_title_pattern = "(?i)sponsored content"

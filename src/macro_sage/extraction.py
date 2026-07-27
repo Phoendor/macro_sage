@@ -1,8 +1,10 @@
 from __future__ import annotations
 
 from io import BytesIO
+from urllib.parse import urljoin
 
 import trafilatura
+from bs4 import BeautifulSoup
 from pypdf import PdfReader
 
 from macro_sage.http import HttpClient
@@ -19,10 +21,37 @@ def _pdf_text(content: bytes) -> str:
     return "\n\n".join(page for page in pages if page)
 
 
+def _preferred_pdf_url(html: str, base_url: str) -> str | None:
+    soup = BeautifulSoup(html, "html.parser")
+    candidates: list[tuple[int, str]] = []
+    for link in soup.select("a[href]"):
+        href = str(link.get("href") or "")
+        if ".pdf" not in href.lower():
+            continue
+        text = link.get_text(" ", strip=True).lower()
+        score = sum(
+            marker in text
+            for marker in ("download", "report", "paper", "bulletin", "minutes")
+        )
+        candidates.append((score, urljoin(base_url, href)))
+    if not candidates:
+        return None
+    return max(candidates, key=lambda candidate: candidate[0])[1]
+
+
 def extract(item: FeedItem, client: HttpClient, *, minimum_chars: int = 250) -> Document:
     response = client.get(item.url)
     content_type = response.headers.get("content-type", "").lower()
     is_pdf = "application/pdf" in content_type or item.url.lower().endswith(".pdf")
+    if item.source.prefer_pdf and not is_pdf:
+        pdf_url = _preferred_pdf_url(response.text, response.url)
+        if not pdf_url:
+            raise ExtractionError(f"{item.source.id}: preferred PDF link was not found")
+        response = client.get(pdf_url)
+        content_type = response.headers.get("content-type", "").lower()
+        is_pdf = "application/pdf" in content_type or pdf_url.lower().endswith(".pdf")
+        if not is_pdf:
+            raise ExtractionError(f"{item.source.id}: preferred link is not a PDF")
     if is_pdf:
         body = _pdf_text(response.content)
         media_type = "application/pdf"

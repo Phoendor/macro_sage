@@ -7,12 +7,17 @@ from macro_sage.settings import Settings
 from macro_sage.synthesis import _assert_known_sources, prepare_corpus, synthesize
 
 
-def document(identifier: str, body: str = "body") -> Document:
+def document(
+    identifier: str,
+    body: str = "body",
+    *,
+    publisher: str = "Publisher",
+) -> Document:
     return Document(
         id=identifier,
         source_id="source",
         source_name="Source",
-        publisher="Publisher",
+        publisher=publisher,
         category="research",
         title=identifier,
         url=f"https://example.com/{identifier}",
@@ -30,6 +35,20 @@ def test_prepare_corpus_uses_one_bounded_payload():
     assert prepared.omitted_ids == ["two"]
     assert "x" * 20 in prepared.text
     assert "x" * 21 not in prepared.text
+
+
+def test_prepare_corpus_balances_publishers_before_taking_second_item():
+    settings = Settings(max_articles=2, max_article_chars=20, max_corpus_chars=500)
+    documents = [
+        document("a-new", publisher="A"),
+        document("a-old", publisher="A"),
+        document("b-new", publisher="B"),
+    ]
+
+    prepared = prepare_corpus(documents, settings)
+
+    assert [item.id for item in prepared.included] == ["a-new", "b-new"]
+    assert prepared.omitted_ids == ["a-old"]
 
 
 def test_unknown_model_citation_is_rejected():

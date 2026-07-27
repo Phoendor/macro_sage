@@ -1,7 +1,7 @@
 from datetime import datetime, timezone
 from pathlib import Path
 
-from macro_sage.extraction import extract
+from macro_sage.extraction import _preferred_pdf_url, extract
 from macro_sage.models import FeedItem, SourceDefinition
 
 
@@ -42,3 +42,14 @@ def test_extract_returns_main_article_text():
     assert "services inflation" in document.body
     assert "Cookie settings" not in document.body
     assert document.publisher == "Example Publisher"
+
+
+def test_preferred_pdf_url_ranks_full_report_link():
+    html = """\
+<a href="/appendix.pdf">Appendix</a>
+<a href="/full-report.pdf">Download the report</a>
+"""
+
+    value = _preferred_pdf_url(html, "https://example.com/publication")
+
+    assert value == "https://example.com/full-report.pdf"
