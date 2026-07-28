@@ -63,6 +63,25 @@ def test_top_risks_stay_with_their_heading(tmp_path):
     assert len(matching_pages) == 1
 
 
+def test_pdf_explicitly_reports_when_no_sources_failed(tmp_path):
+    pages = _render(
+        tmp_path,
+        {
+            "as_of_date": "2026-07-27",
+            "executive_summary": [],
+            "macro_themes": [],
+            "asset_views": [],
+            "top_risks": [],
+            "source_ids_used": [],
+        },
+        [],
+    )
+
+    text = "\n".join(pages)
+    assert "Failed or partial sources" in text
+    assert "None." in text
+
+
 def test_source_register_entries_do_not_split_across_pages(tmp_path):
     documents = [
         {

@@ -422,14 +422,15 @@ def render(
         )
 
     skipped = manifest.get("skipped", [])
-    if errors or skipped:
-        story.append(_paragraph("Run notes", styles["section"]))
-        if errors:
-            story.append(_paragraph("Collection errors", styles["card_title"]))
-            story.append(_bullets([str(value) for value in errors], styles["small"]))
-        if skipped:
-            story.append(_paragraph("Sources without dated items", styles["card_title"]))
-            story.append(_bullets([str(value) for value in skipped], styles["small"]))
+    story.append(_paragraph("Run notes", styles["section"]))
+    story.append(_paragraph("Failed or partial sources", styles["card_title"]))
+    if errors:
+        story.append(_bullets([str(value) for value in errors], styles["small"]))
+    else:
+        story.append(_paragraph("None.", styles["small"]))
+    if skipped:
+        story.append(_paragraph("Sources without dated items", styles["card_title"]))
+        story.append(_bullets([str(value) for value in skipped], styles["small"]))
 
     pdf.build(story, onFirstPage=_footer, onLaterPages=_footer)
 
