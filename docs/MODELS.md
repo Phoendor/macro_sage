@@ -7,10 +7,15 @@ structured output and low reasoning effort. This is a daily, cost-sensitive
 synthesis workload rather than a frontier-quality coding or agent task. OpenAI
 describes Luna as the cost-sensitive, high-volume member of the GPT-5.6 family.
 
-The default fallback order is `gpt-5.6-terra`, then `gpt-4.1-mini`. Before any
-paid full run, Macro Sage calls the Models API and selects the first configured
-model visible to the exact OpenAI project. A fallback is never silent: it is
-printed and recorded in `model-selection.json` and `run.json`.
+The default compatibility preference order after the requested model is
+`gpt-5.6-terra`, then `gpt-4.1-mini`. Before any
+paid model-backed run, Macro Sage calls the Models API once and selects the first
+configured model visible to the exact OpenAI project. The immutable selection is
+then shared by collection and synthesis. A compatibility choice is never
+silent: it is printed and recorded in `model-selection.json` and `run.json`.
+This is preflight selection, not a request-time retry. Plain text-only
+collection and source validation do not require model discovery or an OpenAI
+key.
 
 Set policy without changing code:
 
@@ -31,7 +36,7 @@ truncated document IDs are saved with the run.
 ## Podcast transcription
 
 The opt-in primary is `gpt-4o-mini-transcribe`; cloud-hosted `whisper-1` is the
-fallback. Local Whisper is never run.
+next preflight compatibility choice. Local Whisper is never run.
 
 New audio is limited to six episodes and 240 combined minutes per run by
 default. The limits can be lowered through CLI flags or environment variables.

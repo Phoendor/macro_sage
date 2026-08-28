@@ -4,20 +4,21 @@ import argparse
 import json
 import os
 from dataclasses import replace
-from datetime import date, datetime
+from datetime import date
 from pathlib import Path
-from zoneinfo import ZoneInfo
 
 from openai import OpenAI
 
 from macro_sage.config import load_sources
 from macro_sage.extraction import extract
 from macro_sage.feeds import discover
+from macro_sage.files import copy_atomic, write_json_atomic, write_text_atomic
 from macro_sage.http import HttpClient
-from macro_sage.models import CollectionReport, SourceKind
+from macro_sage.models import CollectionReport, ContentResult, RunHealth, SourceKind
 from macro_sage.openai_models import (
     ModelSelection,
     describe_selection,
+    load_model_selection,
     select_models,
     write_github_env,
 )
@@ -30,8 +31,19 @@ from macro_sage.reporting import (
     load_manifest,
     print_status,
     status_markdown,
+    write_audit_manifest,
     write_manifest,
 )
+from macro_sage.run_state import (
+    RunPaths,
+    build_run_paths,
+    classify_collection,
+    error_category,
+    request_id_from_error,
+    sanitized_error,
+    update_run_record,
+)
+from macro_sage.scheduling import DateResolution, resolve_target_date
 from macro_sage.settings import Settings
 from macro_sage.storage import DocumentStore
 from macro_sage.synthesis import synthesize
@@ -52,12 +64,34 @@ def _positive_int(value: str) -> int:
     return parsed
 
 
-def _target(args: argparse.Namespace, settings: Settings) -> date:
-    return args.date or datetime.now(ZoneInfo(settings.timezone_name)).date()
+def _resolution(args: argparse.Namespace, settings: Settings) -> DateResolution:
+    saved = getattr(args, "date_resolution", None)
+    if saved is not None:
+        value = json.loads(saved.read_text(encoding="utf-8"))
+        if not isinstance(value, dict):
+            raise SystemExit(f"Invalid date-resolution object in {saved}")
+        resolution = DateResolution.from_dict(value)
+        if args.date is not None and args.date != resolution.target_date:
+            raise SystemExit(
+                f"Requested date {args.date} does not match {resolution.target_date} in {saved}"
+            )
+        return resolution
+    return resolve_target_date(
+        requested=args.date,
+        timezone_name=settings.timezone_name,
+        scheduled=getattr(args, "scheduled", False),
+    )
 
 
-def _day_dir(output: Path, target: date) -> Path:
-    return output / target.isoformat()
+def _paths(args: argparse.Namespace, target: date, *, create_local: bool) -> RunPaths:
+    configured = getattr(args, "run_id", None) or os.getenv("MACRO_SAGE_RUN_ID")
+    hosted = bool(os.getenv("GITHUB_RUN_ID"))
+    return build_run_paths(
+        args.output,
+        target,
+        configured,
+        create_run_id=create_local or hosted,
+    )
 
 
 def _require_api_key(reason: str) -> None:
@@ -66,11 +100,7 @@ def _require_api_key(reason: str) -> None:
 
 
 def _write_model_selection(path: Path, selection: ModelSelection) -> None:
-    path.parent.mkdir(parents=True, exist_ok=True)
-    path.write_text(
-        json.dumps(selection.as_dict(), indent=2),
-        encoding="utf-8",
-    )
+    write_json_atomic(path, selection.as_dict())
 
 
 def _report_selection(selection: ModelSelection) -> None:
@@ -83,19 +113,99 @@ def _report_selection(selection: ModelSelection) -> None:
         )
 
 
+def _selection_for(
+    settings: Settings,
+    *,
+    require_synthesis: bool,
+    require_transcription: bool,
+    selection_path: Path | None,
+) -> ModelSelection:
+    if selection_path is not None:
+        selection = load_model_selection(selection_path)
+        if require_synthesis and selection.synthesis is None:
+            raise SystemExit(
+                f"{selection_path} does not contain a synthesis model selection"
+            )
+        if require_transcription and selection.transcription is None:
+            raise SystemExit(
+                f"{selection_path} does not contain a transcription model selection"
+            )
+        for line in describe_selection(selection):
+            print(f"Recorded {line.lower()}")
+        return selection
+
+    _require_api_key("model preflight")
+    selection = select_models(
+        settings,
+        require_synthesis=require_synthesis,
+        require_transcription=require_transcription,
+    )
+    _report_selection(selection)
+    return selection
+
+
+def _resolve_date(args: argparse.Namespace) -> int:
+    settings = Settings.from_env()
+    resolution = _resolution(args, settings)
+    print(
+        f"Resolved {resolution.target_date.isoformat()} using {resolution.rule} "
+        f"at {resolution.local_time.isoformat()}"
+    )
+    if args.output:
+        write_json_atomic(args.output, resolution.as_dict())
+    if args.github_env:
+        args.github_env.parent.mkdir(parents=True, exist_ok=True)
+        with args.github_env.open("a", encoding="utf-8") as handle:
+            handle.write(f"TARGET_DATE={resolution.target_date.isoformat()}\n")
+    append_github_summary(
+        "## Publication date\n\n"
+        f"- Target: `{resolution.target_date.isoformat()}`\n"
+        f"- Rule: `{resolution.rule}`\n"
+        f"- Amsterdam time: `{resolution.local_time.isoformat()}`\n\n"
+    )
+    return 0
+
+
 def _models(args: argparse.Namespace) -> int:
     _require_api_key("model preflight")
     settings = Settings.from_env()
-    selection = select_models(
-        settings,
-        require_synthesis=args.require_synthesis,
-        require_transcription=args.require_transcription,
-    )
+    if args.run_record:
+        update_run_record(
+            args.run_record,
+            run_id=args.run_id,
+            stage="model_preflight_started",
+            content_result=ContentResult.NOT_PRODUCED.value,
+            health=RunHealth.HEALTHY.value,
+        )
+    try:
+        selection = select_models(
+            settings,
+            require_synthesis=args.require_synthesis,
+            require_transcription=args.require_transcription,
+        )
+    except Exception as exc:
+        if args.run_record:
+            update_run_record(
+                args.run_record,
+                stage="model_preflight_failed",
+                content_result=ContentResult.NOT_PRODUCED.value,
+                health=RunHealth.FAILED.value,
+                error_category=error_category(exc),
+                error=sanitized_error(exc),
+                openai_request_id=request_id_from_error(exc),
+            )
+        raise
     _report_selection(selection)
     if args.output:
         _write_model_selection(args.output, selection)
     if args.github_env:
         write_github_env(selection, args.github_env)
+    if args.run_record:
+        update_run_record(
+            args.run_record,
+            stage="model_preflight_complete",
+            model_selection=selection.as_dict(),
+        )
     return 0
 
 
@@ -120,7 +230,7 @@ def _collect_corpus(
                 if source.kind is SourceKind.PODCAST
             ]
             transcriber = PodcastTranscriber(
-                OpenAI(),
+                OpenAI(timeout=settings.request_timeout_seconds),
                 http,
                 settings.transcription_model,
             )
@@ -140,17 +250,41 @@ def _collect_corpus(
 
 
 def _save_collection(
-    output: Path,
+    paths: RunPaths,
     target: date,
     report: CollectionReport,
-) -> None:
-    output_dir = _day_dir(output, target)
-    output_dir.mkdir(parents=True, exist_ok=True)
-    write_manifest(output_dir / "documents.json", target, report)
-    status = status_markdown(target, report)
-    (output_dir / "source-status.md").write_text(status, encoding="utf-8")
+    resolution: DateResolution,
+    selection: ModelSelection | None,
+) -> tuple[ContentResult, RunHealth]:
+    paths.directory.mkdir(parents=True, exist_ok=True)
+    write_manifest(paths.private_manifest, target, report)
+    paths.private_manifest.chmod(0o600)
+    write_audit_manifest(paths.audit_manifest, target, report)
+    content_result, health = classify_collection(report)
+    status = status_markdown(
+        target,
+        report,
+        content_result=content_result,
+        health=health,
+    )
+    write_text_atomic(paths.source_status, status)
+    run_updates: dict[str, object] = {
+        "run_id": paths.run_id,
+        "target_date": target.isoformat(),
+        "date_resolution": resolution.as_dict(),
+        "stage": "collection_complete",
+        "content_result": content_result.value,
+        "health": health.value,
+        "document_count": len(report.documents),
+        "failed_or_partial_source_count": len(report.failures),
+        "no_item_source_count": len(report.without_items),
+    }
+    if selection is not None:
+        run_updates["model_selection"] = selection.as_dict()
+    update_run_record(paths.run_record, **run_updates)
     print_status(target, report)
     append_github_summary(status + "\n")
+    return content_result, health
 
 
 def _collect(args: argparse.Namespace) -> int:
@@ -162,44 +296,99 @@ def _collect(args: argparse.Namespace) -> int:
         max_podcast_minutes=args.max_podcast_minutes
         or base_settings.max_podcast_minutes,
     )
+    selection: ModelSelection | None = None
     if args.include_podcasts:
         _require_api_key("podcast transcription")
-        selection = select_models(
+        selection = _selection_for(
             settings,
             require_synthesis=False,
             require_transcription=True,
+            selection_path=args.model_selection,
         )
         settings = selection.apply(settings)
-        _report_selection(selection)
-    target = _target(args, settings)
-    report = _collect_corpus(args, settings, target)
-    _save_collection(args.output, target, report)
-    return 0 if report.documents else 1
+    resolution = _resolution(args, settings)
+    target = resolution.target_date
+    paths = _paths(args, target, create_local=False)
+    run_updates: dict[str, object] = {
+        "run_id": paths.run_id,
+        "target_date": target.isoformat(),
+        "date_resolution": resolution.as_dict(),
+        "stage": "collection_started",
+        "content_result": ContentResult.NOT_PRODUCED.value,
+        "health": RunHealth.HEALTHY.value,
+    }
+    if selection is not None:
+        run_updates["model_selection"] = selection.as_dict()
+    update_run_record(paths.run_record, **run_updates)
+    try:
+        report = _collect_corpus(args, settings, target)
+        _, health = _save_collection(paths, target, report, resolution, selection)
+    except Exception as exc:
+        update_run_record(
+            paths.run_record,
+            stage="collection_failed",
+            content_result=ContentResult.NOT_PRODUCED.value,
+            health=RunHealth.FAILED.value,
+            error_category=error_category(exc),
+            error=sanitized_error(exc),
+            openai_request_id=request_id_from_error(exc),
+        )
+        append_github_summary(
+            "## Collection failed\n\n"
+            f"- Run ID: `{paths.run_id}`\n"
+            f"- Error: `{sanitized_error(exc)}`\n\n"
+        )
+        raise
+    return 1 if health is RunHealth.FAILED else 0
 
 
 def _synthesize_report(
     *,
-    output: Path,
+    paths: RunPaths,
     target: date,
     report: CollectionReport,
     settings: Settings,
     selection: ModelSelection,
-    selection_path: Path | None = None,
 ) -> Path:
-    result = synthesize(report.documents, target, settings)
-    output_dir = _day_dir(output, target)
-    output_dir.mkdir(parents=True, exist_ok=True)
-    (output_dir / "brief.json").write_text(
-        result.brief.model_dump_json(indent=2),
-        encoding="utf-8",
+    _, collection_health = classify_collection(report)
+    update_run_record(
+        paths.run_record,
+        stage="synthesis_started",
+        content_result=ContentResult.NOT_PRODUCED.value,
+        health=collection_health.value,
+        model_selection=selection.as_dict(),
+        regeneration_used=False,
     )
-    (output_dir / "brief.md").write_text(
+    try:
+        result = synthesize(report.documents, target, settings)
+    except Exception as exc:
+        update_run_record(
+            paths.run_record,
+            stage="synthesis_failed",
+            content_result=ContentResult.NOT_PRODUCED.value,
+            health=RunHealth.FAILED.value,
+            error_category=error_category(exc),
+            error=sanitized_error(exc),
+            openai_request_id=request_id_from_error(exc),
+            regeneration_used=False,
+        )
+        append_github_summary(
+            "## Synthesis failed\n\n"
+            f"- Run ID: `{paths.run_id}`\n"
+            f"- Category: `{error_category(exc)}`\n"
+            f"- Error: `{sanitized_error(exc)}`\n\n"
+        )
+        raise
+
+    paths.directory.mkdir(parents=True, exist_ok=True)
+    write_text_atomic(
+        paths.brief_json,
+        result.brief.model_dump_json(indent=2) + "\n",
+    )
+    write_text_atomic(
+        paths.brief_markdown,
         render_markdown(result.brief, report.documents, report.outcomes),
-        encoding="utf-8",
     )
-    recorded_selection: dict[str, object] = selection.as_dict()
-    if selection_path and selection_path.exists():
-        recorded_selection = json.loads(selection_path.read_text(encoding="utf-8"))
     metadata = {
         "model": result.model,
         "reasoning_effort": (
@@ -211,58 +400,127 @@ def _synthesize_report(
         "output_tokens": result.output_tokens,
         "omitted_document_ids": result.omitted_ids,
         "truncated_document_ids": result.truncated_ids,
+        "citation_map": result.citation_map,
         "failed_or_partial_sources": [
             outcome.summary() for outcome in report.failures
         ],
-        "model_selection": recorded_selection,
+        "model_selection": selection.as_dict(),
+        "actual_models": {
+            "synthesis": result.model,
+        },
+        "attempted_models": {
+            "synthesis": [result.model],
+        },
     }
-    run_path = output_dir / "run.json"
-    run_path.write_text(json.dumps(metadata, indent=2), encoding="utf-8")
-    pdf_path = output / "pdf" / f"macro-sage-{target.isoformat()}.pdf"
-    render_pdf(
-        output_dir / "brief.json",
-        output_dir / "documents.json",
-        run_path,
-        pdf_path,
+    update_run_record(
+        paths.run_record,
+        **metadata,
+        stage="rendering_started",
+        content_result=ContentResult.REPORT.value,
+        health=collection_health.value,
     )
-    print(f"Saved brief to {output_dir / 'brief.md'}")
-    print(f"Saved PDF to {pdf_path}")
+    temporary_pdf = paths.report_pdf.with_name(f".{paths.report_pdf.name}.tmp")
+    try:
+        render_pdf(
+            paths.brief_json,
+            paths.audit_manifest,
+            paths.run_record,
+            temporary_pdf,
+        )
+        temporary_pdf.replace(paths.report_pdf)
+        copy_atomic(paths.report_pdf, paths.latest_pdf)
+    except Exception as exc:
+        temporary_pdf.unlink(missing_ok=True)
+        update_run_record(
+            paths.run_record,
+            stage="rendering_failed",
+            content_result=ContentResult.NOT_PRODUCED.value,
+            health=RunHealth.FAILED.value,
+            error_category=error_category(exc),
+            error=sanitized_error(exc),
+            openai_request_id=request_id_from_error(exc),
+        )
+        append_github_summary(
+            "## PDF rendering failed\n\n"
+            f"- Run ID: `{paths.run_id}`\n"
+            f"- Error: `{sanitized_error(exc)}`\n\n"
+        )
+        raise
+    update_run_record(
+        paths.run_record,
+        stage="complete",
+        content_result=ContentResult.REPORT.value,
+        health=collection_health.value,
+        report_pdf=str(paths.report_pdf),
+        latest_pdf=str(paths.latest_pdf),
+    )
+    print(f"Saved brief to {paths.brief_markdown}")
+    print(f"Saved PDF to {paths.report_pdf}")
     append_github_summary(
         "## Brief generated\n\n"
+        f"- Run ID: `{paths.run_id}`\n"
+        f"- Outcome: `report/{collection_health.value}`\n"
         f"- Model: `{result.model}`\n"
         f"- Input tokens: {result.input_tokens or 'n/a'}\n"
         f"- Output tokens: {result.output_tokens or 'n/a'}\n"
-        f"- PDF: `{pdf_path}`\n\n"
+        f"- PDF: `{paths.report_pdf}`\n\n"
     )
-    return pdf_path
+    return paths.report_pdf
 
 
 def _synthesize(args: argparse.Namespace) -> int:
-    _require_api_key("brief synthesis")
     settings = Settings.from_env()
-    selection = select_models(
-        settings,
-        require_synthesis=True,
-        require_transcription=False,
+    resolution = _resolution(args, settings)
+    target = resolution.target_date
+    paths = _paths(args, target, create_local=False)
+    legacy_manifest = paths.directory / "documents.json"
+    manifest_path = (
+        paths.private_manifest if paths.private_manifest.exists() else legacy_manifest
     )
-    settings = selection.apply(settings)
-    _report_selection(selection)
-    target = _target(args, settings)
-    manifest_path = _day_dir(args.output, target) / "documents.json"
     manifest_target, report = load_manifest(manifest_path)
     if manifest_target != target:
         raise SystemExit(
             f"Manifest date {manifest_target} does not match requested date {target}"
         )
+    content_result, health = classify_collection(report)
+    if not paths.audit_manifest.exists():
+        write_audit_manifest(paths.audit_manifest, target, report)
     if not report.documents:
-        raise SystemExit(f"No documents in {manifest_path}")
+        update_run_record(
+            paths.run_record,
+            run_id=paths.run_id,
+            target_date=target.isoformat(),
+            date_resolution=resolution.as_dict(),
+            stage="complete",
+            content_result=content_result.value,
+            health=health.value,
+            document_count=0,
+        )
+        append_github_summary(
+            "## No brief generated\n\n"
+            f"- Run ID: `{paths.run_id}`\n"
+            f"- Outcome: `{content_result.value}/{health.value}`\n"
+            "- No synthesis request was made.\n\n"
+        )
+        return 1 if health is RunHealth.FAILED else 0
+
+    _require_api_key("brief synthesis")
+    selection_path = args.model_selection
+    if selection_path is None and paths.model_selection.exists():
+        selection_path = paths.model_selection
+    selection = _selection_for(
+        settings,
+        require_synthesis=True,
+        require_transcription=False,
+        selection_path=selection_path,
+    )
+    settings = selection.apply(settings)
     _synthesize_report(
-        output=args.output,
+        paths=paths,
         target=target,
         report=report,
         settings=settings,
         selection=selection,
-        selection_path=args.model_selection,
     )
     return 0
 
@@ -277,28 +535,56 @@ def _run(args: argparse.Namespace) -> int:
         max_podcast_minutes=args.max_podcast_minutes
         or settings.max_podcast_minutes,
     )
-    selection = select_models(
+    selection = _selection_for(
         settings,
         require_synthesis=True,
         require_transcription=args.include_podcasts,
+        selection_path=args.model_selection,
     )
     settings = selection.apply(settings)
-    _report_selection(selection)
-    target = _target(args, settings)
-    output_dir = _day_dir(args.output, target)
-    selection_path = output_dir / "model-selection.json"
-    _write_model_selection(selection_path, selection)
-    report = _collect_corpus(args, settings, target)
-    _save_collection(args.output, target, report)
+    resolution = _resolution(args, settings)
+    target = resolution.target_date
+    paths = _paths(args, target, create_local=True)
+    _write_model_selection(paths.model_selection, selection)
+    update_run_record(
+        paths.run_record,
+        run_id=paths.run_id,
+        target_date=target.isoformat(),
+        date_resolution=resolution.as_dict(),
+        stage="collection_started",
+        content_result=ContentResult.NOT_PRODUCED.value,
+        health=RunHealth.HEALTHY.value,
+        model_selection=selection.as_dict(),
+    )
+    try:
+        report = _collect_corpus(args, settings, target)
+        _, health = _save_collection(paths, target, report, resolution, selection)
+    except Exception as exc:
+        update_run_record(
+            paths.run_record,
+            stage="collection_failed",
+            content_result=ContentResult.NOT_PRODUCED.value,
+            health=RunHealth.FAILED.value,
+            error_category=error_category(exc),
+            error=sanitized_error(exc),
+            openai_request_id=request_id_from_error(exc),
+        )
+        raise
     if not report.documents:
-        return 1
+        update_run_record(paths.run_record, stage="complete")
+        append_github_summary(
+            "## No brief generated\n\n"
+            f"- Run ID: `{paths.run_id}`\n"
+            f"- Outcome: `no_data/{health.value}`\n"
+            "- No synthesis request was made.\n\n"
+        )
+        return 1 if health is RunHealth.FAILED else 0
     _synthesize_report(
-        output=args.output,
+        paths=paths,
         target=target,
         report=report,
         settings=settings,
         selection=selection,
-        selection_path=selection_path,
     )
     return 0
 
@@ -368,8 +654,12 @@ def _list_sources(args: argparse.Namespace) -> int:
 
 def _add_collection_arguments(parser: argparse.ArgumentParser) -> None:
     parser.add_argument("--date", type=_date)
+    parser.add_argument("--scheduled", action="store_true")
+    parser.add_argument("--date-resolution", type=Path)
+    parser.add_argument("--run-id")
     parser.add_argument("--database", type=Path, default=DEFAULT_DATABASE)
     parser.add_argument("--output", type=Path, default=DEFAULT_OUTPUT)
+    parser.add_argument("--model-selection", type=Path)
     parser.add_argument("--include-podcasts", action="store_true")
     parser.add_argument("--max-podcast-episodes", type=_positive_int)
     parser.add_argument("--max-podcast-minutes", type=_positive_int)
@@ -396,9 +686,22 @@ def build_parser() -> argparse.ArgumentParser:
         help="synthesize and render an already collected source corpus",
     )
     synthesize_parser.add_argument("--date", type=_date)
+    synthesize_parser.add_argument("--scheduled", action="store_true")
+    synthesize_parser.add_argument("--date-resolution", type=Path)
+    synthesize_parser.add_argument("--run-id")
     synthesize_parser.add_argument("--output", type=Path, default=DEFAULT_OUTPUT)
     synthesize_parser.add_argument("--model-selection", type=Path)
     synthesize_parser.set_defaults(handler=_synthesize)
+
+    resolve_date = subparsers.add_parser(
+        "resolve-date",
+        help="resolve and record the intended Amsterdam publication date",
+    )
+    resolve_date.add_argument("--date", type=_date)
+    resolve_date.add_argument("--scheduled", action="store_true")
+    resolve_date.add_argument("--output", type=Path)
+    resolve_date.add_argument("--github-env", type=Path)
+    resolve_date.set_defaults(handler=_resolve_date)
 
     models = subparsers.add_parser(
         "models",
@@ -408,6 +711,8 @@ def build_parser() -> argparse.ArgumentParser:
     models.add_argument("--require-transcription", action="store_true")
     models.add_argument("--output", type=Path)
     models.add_argument("--github-env", type=Path)
+    models.add_argument("--run-record", type=Path)
+    models.add_argument("--run-id")
     models.set_defaults(handler=_models)
 
     validate = subparsers.add_parser(

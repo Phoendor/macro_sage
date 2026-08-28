@@ -1,14 +1,20 @@
 from __future__ import annotations
 
+import hashlib
 import json
 import os
 from dataclasses import asdict
 from datetime import date, datetime
 from pathlib import Path
 
+from macro_sage.files import write_json_atomic
 from macro_sage.models import (
     CollectionReport,
+    ContentResult,
     Document,
+    ItemOutcome,
+    ItemState,
+    RunHealth,
     SourceKind,
     SourceOutcome,
     SourceState,
@@ -20,6 +26,14 @@ def document_to_dict(document: Document) -> dict[str, object]:
     value["published_at"] = (
         document.published_at.isoformat() if document.published_at else None
     )
+    return value
+
+
+def document_audit_to_dict(document: Document) -> dict[str, object]:
+    value = document_to_dict(document)
+    body = str(value.pop("body"))
+    value["body_chars"] = len(body)
+    value["content_sha256"] = hashlib.sha256(body.encode("utf-8")).hexdigest()
     return value
 
 
@@ -56,6 +70,20 @@ def outcome_from_dict(value: dict[str, object]) -> SourceOutcome:
     )
 
 
+def item_outcome_from_dict(value: dict[str, object]) -> ItemOutcome:
+    return ItemOutcome(
+        source_id=str(value["source_id"]),
+        title=str(value["title"]),
+        url=str(value["url"]),
+        state=ItemState(str(value["state"])),
+        stage=str(value["stage"]) if value.get("stage") else None,
+        detail=str(value["detail"]) if value.get("detail") else None,
+        document_id=(
+            str(value["document_id"]) if value.get("document_id") else None
+        ),
+    )
+
+
 def write_manifest(path: Path, target: date, report: CollectionReport) -> None:
     failures = [outcome.summary() for outcome in report.failures]
     no_items = [
@@ -68,14 +96,33 @@ def write_manifest(path: Path, target: date, report: CollectionReport) -> None:
         "source_statuses": [
             outcome_to_dict(outcome) for outcome in report.outcomes
         ],
+        "item_statuses": [asdict(outcome) for outcome in report.item_outcomes],
         # Kept as human-readable compatibility fields for existing renderers.
         "errors": failures,
         "skipped": no_items,
     }
-    path.write_text(
-        json.dumps(value, indent=2, ensure_ascii=False),
-        encoding="utf-8",
-    )
+    write_json_atomic(path, value)
+
+
+def write_audit_manifest(path: Path, target: date, report: CollectionReport) -> None:
+    failures = [outcome.summary() for outcome in report.failures]
+    no_items = [
+        f"{outcome.source_id} ({outcome.source_name}): {outcome.detail}"
+        for outcome in report.without_items
+    ]
+    value = {
+        "date": target.isoformat(),
+        "documents": [
+            document_audit_to_dict(document) for document in report.documents
+        ],
+        "source_statuses": [
+            outcome_to_dict(outcome) for outcome in report.outcomes
+        ],
+        "item_statuses": [asdict(outcome) for outcome in report.item_outcomes],
+        "errors": failures,
+        "skipped": no_items,
+    }
+    write_json_atomic(path, value)
 
 
 def load_manifest(path: Path) -> tuple[date, CollectionReport]:
@@ -88,11 +135,21 @@ def load_manifest(path: Path) -> tuple[date, CollectionReport]:
             outcome_from_dict(outcome)
             for outcome in value.get("source_statuses", [])
         ],
+        item_outcomes=[
+            item_outcome_from_dict(outcome)
+            for outcome in value.get("item_statuses", [])
+        ],
     )
     return date.fromisoformat(value["date"]), report
 
 
-def status_markdown(target: date, report: CollectionReport) -> str:
+def status_markdown(
+    target: date,
+    report: CollectionReport,
+    *,
+    content_result: ContentResult | None = None,
+    health: RunHealth | None = None,
+) -> str:
     failures = report.failures
     lines = [
         f"# Source acquisition status - {target.isoformat()}",
@@ -100,10 +157,12 @@ def status_markdown(target: date, report: CollectionReport) -> str:
         f"- Documents collected: **{len(report.documents)}**",
         f"- Failed or partial sources: **{len(failures)}**",
         f"- Sources with no same-day item: **{len(report.without_items)}**",
-        "",
-        "## Failed or partial sources",
-        "",
     ]
+    if content_result is not None:
+        lines.append(f"- Content result: **{content_result.value}**")
+    if health is not None:
+        lines.append(f"- Run health: **{health.value}**")
+    lines.extend(["", "## Failed or partial sources", ""])
     if failures:
         lines.extend(f"- **{outcome.summary()}**" for outcome in failures)
     else:

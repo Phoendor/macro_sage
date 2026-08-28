@@ -10,10 +10,14 @@ Macro Sage is intentionally a small batch application, not a framework.
 4. Documents are cached by a stable URL hash in SQLite.
 5. Every configured source receives an explicit collected, no-items, partial,
    failed, or policy-skipped outcome.
-6. Documents for one configured local date are placed into one bounded corpus.
-7. The OpenAI Responses API returns a Pydantic-validated `DailyBrief`.
-8. JSON, Markdown, PDF, source documents, model selection, token usage, failures,
-   truncations, and omissions are saved together.
+6. Documents selected for synthesis receive short run-scoped citation keys such
+   as `S001`; opaque canonical IDs remain internal.
+7. The OpenAI Responses API returns a Pydantic-validated `DailyBrief`, and the
+   short keys are strictly resolved back to canonical document IDs.
+8. Each attempt writes atomically to `output/runs/<run-id>/`, with separate
+   content and health outcomes.
+9. The local private corpus is separated from a body-free audit manifest used
+   by PDF rendering and GitHub artifact upload.
 
 ## Main decisions
 
@@ -28,8 +32,9 @@ summarization layer.
 ### Structured output with enforced citations
 
 The model emits a schema rather than free-form prose. Every theme and asset view
-must contain source IDs, and unknown IDs make the run fail. Markdown is rendered
-locally from that validated object.
+must contain supplied short citation keys, and unknown or missing keys make the
+run fail. The application resolves them to canonical document IDs before JSON,
+Markdown, or PDF output, avoiding fragile reproduction of opaque hashes.
 
 ### Generic extraction before source-specific code
 
@@ -60,7 +65,8 @@ part of CI or normal live source validation.
 Local runs and GitHub Actions call the same CLI. `run` performs the complete
 pipeline; `collect` and `synthesize` are first-class recovery and inspection
 stages. GitHub adds only scheduling, secrets, cache persistence, and artifact
-upload. It does not contain separate collection or model-selection logic.
+upload. The workflow resolves the target date and selects accessible models once,
+then passes those immutable records to collection and synthesis.
 
 ### Failures are output, not log noise
 
@@ -69,3 +75,18 @@ manifest records a structured outcome for every attempted source. Failed and
 partial sources are repeated in the terminal, `source-status.md`, the brief,
 the PDF, and the GitHub job summary. A source with no same-day item is reported
 separately because absence is normal for lower-frequency publishers.
+
+### Content and health are separate outcomes
+
+`content_result` is `report`, `no_data`, or `not_produced`; `health` is
+`healthy`, `degraded`, or `failed`. This makes a normal quiet day successful
+without allowing a systemic acquisition failure to masquerade as normal
+silence. Every attempt receives its own run directory and writes diagnostics
+before synthesis begins.
+
+### Private corpus, safe artifact
+
+`documents.private.json` contains the bodies required for local synthesis and
+is permission-restricted. `manifest.json` contains document metadata, body
+lengths, content hashes, item/source outcomes, and provenance without article or
+transcript text. PDF rendering and hosted artifact upload use the safe manifest.

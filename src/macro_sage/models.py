@@ -21,6 +21,25 @@ class SourceState(StrEnum):
     SKIPPED = "skipped"
 
 
+class ContentResult(StrEnum):
+    REPORT = "report"
+    NO_DATA = "no_data"
+    NOT_PRODUCED = "not_produced"
+
+
+class RunHealth(StrEnum):
+    HEALTHY = "healthy"
+    DEGRADED = "degraded"
+    FAILED = "failed"
+
+
+class ItemState(StrEnum):
+    COLLECTED = "collected"
+    CACHED = "cached"
+    FAILED = "failed"
+    SKIPPED = "skipped"
+
+
 @dataclass(frozen=True, slots=True)
 class SourceDefinition:
     id: str
@@ -89,10 +108,22 @@ class SourceOutcome:
         return f"{self.source_id} ({self.source_name}){stage}{detail}"
 
 
+@dataclass(frozen=True, slots=True)
+class ItemOutcome:
+    source_id: str
+    title: str
+    url: str
+    state: ItemState
+    stage: str | None = None
+    detail: str | None = None
+    document_id: str | None = None
+
+
 @dataclass(slots=True)
 class CollectionReport:
     documents: list[Document] = field(default_factory=list)
     outcomes: list[SourceOutcome] = field(default_factory=list)
+    item_outcomes: list[ItemOutcome] = field(default_factory=list)
 
     @property
     def failures(self) -> list[SourceOutcome]:
@@ -121,13 +152,13 @@ class AssetView(BaseModel):
     confidence: int = Field(ge=1, le=5)
     drivers: list[str] = Field(max_length=5)
     risks: list[str] = Field(max_length=5)
-    source_ids: list[str] = Field(max_length=10)
+    source_ids: list[str] = Field(min_length=1, max_length=10)
 
 
 class MacroTheme(BaseModel):
     theme: str
     market_implication: str
-    source_ids: list[str] = Field(max_length=10)
+    source_ids: list[str] = Field(min_length=1, max_length=10)
 
 
 class DailyBrief(BaseModel):

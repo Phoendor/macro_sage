@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import json
 from dataclasses import asdict, dataclass, replace
 from pathlib import Path
 
@@ -44,6 +45,26 @@ class ModelSelection:
             ),
         }
 
+    @classmethod
+    def from_dict(cls, value: dict[str, object]) -> ModelSelection:
+        def selected(raw: object) -> SelectedModel | None:
+            if not isinstance(raw, dict):
+                return None
+            preferences = raw.get("preferences", ())
+            if not isinstance(preferences, (list, tuple)):
+                raise ValueError("model preferences must be a list")
+            return SelectedModel(
+                purpose=str(raw["purpose"]),
+                requested=str(raw["requested"]),
+                selected=str(raw["selected"]),
+                preferences=tuple(str(item) for item in preferences),
+            )
+
+        return cls(
+            synthesis=selected(value.get("synthesis")),
+            transcription=selected(value.get("transcription")),
+        )
+
 
 def choose_model(
     available: set[str],
@@ -74,7 +95,7 @@ def select_models(
 ) -> ModelSelection:
     if not require_synthesis and not require_transcription:
         return ModelSelection()
-    api = client or OpenAI()
+    api = client or OpenAI(timeout=settings.request_timeout_seconds)
     available = {model.id for model in api.models.list()}
     synthesis = (
         choose_model(
@@ -103,7 +124,7 @@ def describe_selection(selection: ModelSelection) -> list[str]:
         if selected is None:
             continue
         suffix = (
-            f" (fallback from {selected.requested})"
+            f" (preflight compatibility choice; requested {selected.requested})"
             if selected.used_fallback
             else " (requested model)"
         )
@@ -123,3 +144,10 @@ def write_github_env(selection: ModelSelection, path: Path) -> None:
     with path.open("a", encoding="utf-8") as handle:
         for value in values:
             handle.write(f"{value}\n")
+
+
+def load_model_selection(path: Path) -> ModelSelection:
+    value = json.loads(path.read_text(encoding="utf-8"))
+    if not isinstance(value, dict):
+        raise ValueError(f"Invalid model-selection object in {path}")
+    return ModelSelection.from_dict(value)

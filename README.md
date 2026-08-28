@@ -20,7 +20,7 @@ Prerequisites:
 python -m venv .venv
 source .venv/bin/activate
 python -m pip install --upgrade pip
-python -m pip install -e ".[dev]"
+python -m pip install --constraint constraints.txt -e ".[dev]"
 cp .env.example .env
 set -a
 source .env
@@ -35,9 +35,11 @@ To collect and inspect text documents without making a paid model call:
 macro-sage collect --date 2026-07-27
 ```
 
-Outputs are written to `output/<date>/`; fetched documents are cached in
-`data/macro_sage.sqlite3`. A full run also writes
-`output/pdf/macro-sage-<date>.pdf`.
+Each full run receives an immutable attempt ID and writes to
+`output/runs/<run-id>/`; fetched documents are cached in
+`data/macro_sage.sqlite3`. The latest successful PDF is copied atomically to
+`output/pdf/macro-sage-<date>.pdf`. Staged `collect`/`synthesize` commands without
+a run ID retain the convenient `output/<date>/` directory.
 
 ## Commands
 
@@ -62,11 +64,14 @@ macro-sage synthesize
 macro-sage list-sources --all
 ```
 
-Every model-backed command checks the models available to the OpenAI project
-before doing paid work. Daily synthesis prefers `gpt-5.6-luna`, with explicit
-fallbacks configured through `MACRO_SAGE_MODEL_FALLBACKS`. Podcast transcription
-prefers `gpt-4o-mini-transcribe` and falls back to cloud-hosted `whisper-1`.
-Selected models and any fallback are printed and saved with the run.
+Every model-backed run checks the models available to the OpenAI project once
+before doing paid work, then passes that immutable selection through later
+stages. Daily synthesis prefers `gpt-5.6-luna`, with additional compatibility
+preferences configured through the legacy-named `MACRO_SAGE_MODEL_FALLBACKS`
+variable. Podcast transcription prefers `gpt-4o-mini-transcribe`, with
+cloud-hosted `whisper-1` as the next preflight choice. Model selection is not a
+request-time retry: the selected model and any compatibility choice are printed
+and saved with the run.
 
 Podcasts never use local Whisper. New transcription is limited to six episodes
 and four hours by default, and completed transcripts are cached. Oversized audio
@@ -81,16 +86,21 @@ repository Actions secret named `OPENAI_API_KEY` under
 **Actions** tab. Leave its date blank to use the current date in Amsterdam.
 Podcast inclusion and the audio-duration ceiling are explicit inputs.
 
-The workflow also runs automatically at 19:30 Amsterdam time on weekdays. It
-persists the SQLite document/transcript cache between runs, synthesizes the
-brief, renders a PDF, and uploads the PDF plus the complete audit trail for 14
-days. Standard GitHub-hosted runners are free for this public repository; OpenAI
-API transcription and synthesis remain paid usage.
+The workflow also runs automatically at 19:30 Amsterdam time on weekdays. Date
+resolution is handled in tested Python code, so a runner delayed past midnight
+still selects the intended Amsterdam publication day. It persists the SQLite
+document/transcript cache between runs, synthesizes the brief, renders a PDF,
+and uploads the PDF plus a sanitized audit trail for 14 days. Raw article bodies
+and transcripts are never included in the uploaded artifact. Standard
+GitHub-hosted runners are free for this public repository; OpenAI API
+transcription and synthesis remain paid usage.
 
 Every run writes `source-status.md` and lists failed or partially acquired
 sources in terminal output, GitHub's run summary, Markdown, JSON, and the PDF.
 Sources with no same-day publication are listed separately and are not treated
-as failures.
+as failures. A healthy no-data day completes successfully without making a
+synthesis request; collection health is recorded separately as healthy,
+degraded, or failed.
 
 The input budget is intentionally bounded by article count and characters. This
 controls cost without splitting the corpus into many model calls. Sources are
@@ -111,23 +121,27 @@ saved alongside every brief.
 ## Development
 
 ```bash
-ruff check .
-python -m pytest
-python -m compileall -q src tests
+python scripts/check.py
 ```
 
-Tests must be deterministic and must not call live feeds or paid APIs. Use
+The check command verifies that the active environment imports this checkout,
+then runs compilation, Ruff, and the offline test suite with a two-minute limit
+per subprocess. Tests must be deterministic and must not call live feeds or paid APIs. Use
 `macro-sage validate-sources` separately when feed health needs checking.
 
 ## Security
 
 Never place credentials in source code, tests, notebooks, or examples. Use
 `OPENAI_API_KEY` from the environment. If a credential is accidentally committed,
-revoke it before cleaning Git history.
+revoke it before cleaning Git history. `documents.private.json` is local run
+material for synthesis and must never be added to a hosted artifact; the safe
+`manifest.json` contains metadata, hashes, provenance, and source outcomes but
+no source bodies.
 
 See [the architecture notes](docs/ARCHITECTURE.md),
 [model and cost policy](docs/MODELS.md), and
 [source policy](docs/SOURCES.md) for the main design decisions. The full
 [source catalog](docs/SOURCE_CATALOG.md) records cadence, links, descriptions,
 and why each source belongs. The current implementation sequence and acceptance
-criteria are maintained in the [action plan](docs/ROADMAP.md).
+criteria are maintained in the [action plan](docs/ROADMAP.md); released changes
+are summarized in the [changelog](CHANGELOG.md).

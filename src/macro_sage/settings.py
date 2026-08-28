@@ -16,7 +16,7 @@ DEFAULT_MAX_PODCAST_MINUTES = 240
 
 def _positive_int(name: str, default: int) -> int:
     raw = os.getenv(name)
-    if raw is None:
+    if raw is None or not raw.strip():
         return default
     value = int(raw)
     if value < 1:
@@ -30,7 +30,7 @@ def _preferences(
     default_primary: str,
     default_fallbacks: tuple[str, ...],
 ) -> tuple[str, ...]:
-    primary = os.getenv(primary_name, default_primary).strip()
+    primary = os.getenv(primary_name, "").strip() or default_primary
     configured = tuple(
         value.strip()
         for value in os.getenv(fallback_name, "").split(",")
@@ -77,7 +77,9 @@ class Settings:
             transcription_model=transcription_preferences[0],
             model_preferences=model_preferences,
             transcription_model_preferences=transcription_preferences,
-            reasoning_effort=os.getenv("MACRO_SAGE_REASONING_EFFORT", "low"),
+            reasoning_effort=(
+                os.getenv("MACRO_SAGE_REASONING_EFFORT", "").strip() or "low"
+            ),
             max_articles=_positive_int("MACRO_SAGE_MAX_ARTICLES", DEFAULT_MAX_ARTICLES),
             max_article_chars=_positive_int(
                 "MACRO_SAGE_MAX_ARTICLE_CHARS", DEFAULT_MAX_ARTICLE_CHARS
@@ -93,5 +95,7 @@ class Settings:
                 "MACRO_SAGE_MAX_PODCAST_MINUTES",
                 DEFAULT_MAX_PODCAST_MINUTES,
             ),
-            timezone_name=os.getenv("MACRO_SAGE_TIMEZONE", "Europe/Amsterdam"),
+            timezone_name=(
+                os.getenv("MACRO_SAGE_TIMEZONE", "").strip() or "Europe/Amsterdam"
+            ),
         )

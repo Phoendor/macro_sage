@@ -1,7 +1,14 @@
+import json
+
 import pytest
 
-from macro_sage.openai_models import choose_model, select_models
-from macro_sage.settings import Settings
+from macro_sage.openai_models import (
+    ModelSelection,
+    choose_model,
+    load_model_selection,
+    select_models,
+)
+from macro_sage.settings import DEFAULT_MODEL, Settings
 
 
 def test_choose_model_uses_first_available_preference():
@@ -68,3 +75,33 @@ def test_selection_applies_accessible_models_to_settings():
     assert selected_settings.model == "gpt-5.6-luna"
     assert selected_settings.transcription_model == "gpt-4o-mini-transcribe"
     assert not selection.synthesis.used_fallback
+
+
+def test_selection_round_trip_preserves_immutable_choices(tmp_path):
+    value = {
+        "synthesis": {
+            "purpose": "synthesis",
+            "requested": "requested-model",
+            "selected": "selected-model",
+            "preferences": ["requested-model", "selected-model"],
+        },
+        "transcription": None,
+    }
+    path = tmp_path / "models.json"
+    path.write_text(json.dumps(value), encoding="utf-8")
+
+    selection = load_model_selection(path)
+
+    assert isinstance(selection, ModelSelection)
+    assert selection.synthesis.selected == "selected-model"
+    assert selection.synthesis.preferences == ("requested-model", "selected-model")
+
+
+def test_empty_environment_override_uses_committed_default(monkeypatch):
+    monkeypatch.setenv("MACRO_SAGE_MODEL", "")
+    monkeypatch.setenv("MACRO_SAGE_MODEL_FALLBACKS", "")
+
+    settings = Settings.from_env()
+
+    assert settings.model == DEFAULT_MODEL
+    assert settings.model_preferences[0] == DEFAULT_MODEL

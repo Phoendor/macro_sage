@@ -1,6 +1,7 @@
 # Macro Sage action plan
 
-Status: draft complete for owner review; implementation has not started.
+Status: approved; Milestone 1 code-complete and awaiting its scheduled-run
+observation gate. Milestones 2 onward remain planned.
 
 Baseline date: 2026-08-28.
 
@@ -65,16 +66,13 @@ allowed after a timestamped market-data source has been integrated.
 - [x] Removed local Whisper and made cloud transcription explicit.
 - [x] Made the same CLI operate locally and in GitHub Actions.
 - [x] Added model preflight selection and recorded the selected models.
-- [x] Added offline tests; the checked-in source was last verified with 33
-  passing tests plus lint and compilation checks when loaded directly from its
-  src path.
+- [x] Added bounded offline compilation, lint and regression checks; version
+  0.4.0 is verified from a clean editable installation.
 
 ### Current operating state
 
-- At the start of this planning pass, the main branch was synchronized with
-  origin/main; this roadmap and its README link are the only new working-tree
-  changes.
-- The most recent commit is 0345339 from 2026-07-28.
+- Safe runner version 0.4.0 was implemented on 2026-08-28; its five-run
+  operational observation gate remains open.
 - The GitHub workflow runs on weekdays at 19:30 Europe/Amsterdam and currently
   includes podcasts.
 - This operating snapshot includes scheduled workflow run
@@ -82,11 +80,13 @@ allowed after a timestamped market-data source has been integrated.
   created at 2026-08-28 01:35:56 UTC.
 - Between 2026-07-27 and that run, 24 scheduled runs produced 14 successes and
   10 failures.
-- Eight scheduled failures came from model-generated source identifiers that
-  did not exactly match the opaque document hashes.
+- Eight historical scheduled failures came from model-generated source
+  identifiers that did not exactly match opaque document hashes; version 0.4.0
+  replaces those model-facing hashes with short citation keys.
 - One scheduled failure was GitHub runner infrastructure.
 - One scheduled failure was a healthy empty collection incorrectly treated as
-  an error after a severely delayed start selected the wrong publication date.
+  an error after a severely delayed start selected the wrong publication date;
+  version 0.4.0 adds explicit no-data success and delay-safe date resolution.
 - The current synthesis model is gpt-5.6-luna with low reasoning effort.
 - The current transcription model is gpt-4o-mini-transcribe with whisper-1 as a
   preflight compatibility fallback; request-time fallback is not implemented.
@@ -97,8 +97,8 @@ allowed after a timestamped market-data source has been integrated.
   still be concentrated in a few prolific publishers.
 - Local saved reports cover 2026-07-27 and 2026-07-28; hosted artifacts currently
   expire after 14 days.
-- The checked-in code is healthy, but the local virtual environment contains
-  stale editable-install metadata and should be rebuilt.
+- The local virtual environment was rebuilt from the exact dependency
+  constraints and imports this checkout correctly.
 
 ## 3. Priority and dependency map
 
@@ -125,22 +125,22 @@ cleanup phase.
 
 ### A1. Replace model-facing document hashes with short citation keys
 
-- [ ] Assign deterministic run-scoped labels such as S001, S002 and S003 after
+- [x] Assign deterministic run-scoped labels such as S001, S002 and S003 after
   corpus selection.
-- [ ] Keep canonical URL-derived document IDs internal; never ask the model to
+- [x] Keep canonical URL-derived document IDs internal; never ask the model to
   reproduce a 16-character hash.
-- [ ] Include the short label, publisher, title, date, category and URL in each
+- [x] Include the short label, publisher, title, date, category and URL in each
   corpus document header.
-- [ ] constrain every citation-bearing schema field to labels that were
+- [x] Constrain every citation-bearing schema field to labels that were
   actually supplied for that run.
-- [ ] Convert short labels back to canonical document IDs before writing the
+- [x] Convert short labels back to canonical document IDs before writing the
   final brief and renderers.
-- [ ] Save the label-to-document mapping in the run audit trail.
-- [ ] Preserve strict validation. Unknown or missing citations must not be
+- [x] Save the label-to-document mapping in the run audit trail.
+- [x] Preserve strict validation. Unknown or missing citations must not be
   silently discarded.
-- [ ] Add focused tests for copied, duplicated, missing, malformed and unknown
+- [x] Add focused tests for copied, duplicated, missing, malformed and unknown
   labels.
-- [ ] Reproduce the historical ING, Saxo, BIS, ECB, BOJ, BofA and Goldman
+- [x] Reproduce the historical ING, Saxo, BIS, ECB, BOJ, BofA and Goldman
   failure cases in offline fixtures.
 
 Acceptance criteria:
@@ -155,26 +155,26 @@ Acceptance criteria:
 
 ### A2. Introduce explicit run outcomes
 
-- [ ] Record two independent dimensions:
+- [x] Record two independent dimensions:
   - content result: report, no-data or not-produced;
   - run health: healthy, degraded or failed.
-- [ ] Define strict precedence for the displayed outcome and process exit code
+- [x] Define strict precedence for the displayed outcome and process exit code
   rather than forcing mixed states into one ambiguous enum.
-- [ ] Define no-data as no matching documents and therefore no synthesis
+- [x] Define no-data as no matching documents and therefore no synthesis
   request; use the health dimension to say whether that absence was trustworthy.
-- [ ] Distinguish a normal no-publication day from a day on which every
+- [x] Distinguish a normal no-publication day from a day on which every
   important source failed.
-- [ ] Define zero documents plus a non-systemic source failure as
+- [x] Define zero documents plus a non-systemic source failure as
   no-data/degraded, and zero documents plus systemic or material coverage
   failure as no-data/failed.
 - [ ] Determine material coverage from configured source criticality and
   coverage rules, not an ad hoc model judgment, and record the rule used.
-- [ ] Return a successful process status for a healthy no-data run so GitHub
+- [x] Return a successful process status for a healthy no-data run so GitHub
   does not send a false failure notification.
-- [ ] Produce a small status artifact, and preferably a one-page status PDF,
+- [x] Produce a small status artifact, and preferably a one-page status PDF,
   explaining that no brief was generated and listing source outcomes.
-- [ ] Keep failed and partial sources visible even on a no-data day.
-- [ ] Add tests for healthy empty, partially failed empty, fully failed,
+- [x] Keep failed and partial sources visible even on a no-data day.
+- [x] Add tests for healthy empty, partially failed empty, fully failed,
   degraded-with-documents and normal-success cases.
 
 Acceptance criteria:
@@ -189,16 +189,16 @@ Acceptance criteria:
 
 Phase 1, implemented in Milestone 1:
 
-- [ ] Move scheduled-date resolution into tested Python code shared by local
+- [x] Move scheduled-date resolution into tested Python code shared by local
   and hosted execution.
-- [ ] Preserve an explicitly supplied date exactly.
-- [ ] For scheduled execution, resolve the intended Amsterdam publication day
+- [x] Preserve an explicitly supplied date exactly.
+- [x] For scheduled execution, resolve the intended Amsterdam publication day
   rather than blindly using the runner's eventual start date.
-- [ ] Handle a weekday job delayed across midnight, a Friday job delayed into
+- [x] Handle a weekday job delayed across midnight, a Friday job delayed into
   Saturday, daylight-saving transitions and month/year boundaries.
-- [ ] Record requested date, resolved date, resolution rule, local start time
+- [x] Record requested date, resolved date, resolution rule, local start time
   and UTC start time in run.json.
-- [ ] Display the resolved date and reason in the GitHub job summary.
+- [x] Display the resolved date and reason in the GitHub job summary.
 
 Phase 2, implemented only after durable history in Milestone 3:
 
@@ -223,28 +223,28 @@ Acceptance criteria:
 
 ### A4. Improve hosted workflow behavior
 
-- [ ] Add a concurrency group so two scheduled or manual full runs cannot
+- [x] Add a concurrency group so two scheduled or manual full runs cannot
   overlap accidentally.
-- [ ] Keep cancellation behavior conservative so an older in-flight report is
+- [x] Keep cancellation behavior conservative so an older in-flight report is
   not silently destroyed by a new run.
-- [ ] Give collection, transcription, synthesis, validation and rendering
+- [x] Give collection, transcription, synthesis, validation and rendering
   distinct visible stages and failure categories.
-- [ ] Set explicit network, subprocess and overall job timeouts appropriate to
+- [x] Set explicit network, subprocess and overall job timeouts appropriate to
   each stage, with progress messages for long podcast work.
-- [ ] Always upload the available manifest, source status, model selection and
+- [x] Always upload the available manifest, source status, model selection and
   diagnostics after an application failure.
-- [ ] Put the resolved date, outcome, collected count, failed-source count,
+- [x] Put the resolved date, outcome, collected count, failed-source count,
   no-item count, model names and artifact link in the GitHub summary.
-- [ ] Ensure infrastructure failures remain distinguishable from application
+- [x] Ensure infrastructure failures remain distinguishable from application
   failures.
-- [ ] Assign every attempt a run ID and write diagnostics before synthesis.
-- [ ] Store attempts in separate run directories; never overwrite an earlier
+- [x] Assign every attempt a run ID and write diagnostics before synthesis.
+- [x] Store attempts in separate run directories; never overwrite an earlier
   same-date run.
-- [ ] Write output files atomically and expose a convenient latest-successful
+- [x] Write output files atomically and expose a convenient latest-successful
   pointer or copy.
-- [ ] Preserve item-level outcomes with item title, URL, stage, state and error;
+- [x] Preserve item-level outcomes with item title, URL, stage, state and error;
   derive concise source summaries from those records.
-- [ ] Add workflow tests or static assertions for schedule inputs, artifact
+- [x] Add workflow tests or static assertions for schedule inputs, artifact
   paths and no-data behavior.
 
 Acceptance criteria:
@@ -262,15 +262,15 @@ Acceptance criteria:
 ### A5. Make model-response failures recoverable only when safe
 
 - [ ] Classify transport, API, schema, citation and semantic validation errors.
-- [ ] Use structured schema constraints to prevent errors rather than repairing
+- [x] Use structured schema constraints to prevent errors rather than repairing
   them after generation wherever possible.
-- [ ] Do not fuzzy-match, truncate or guess an unknown citation label.
+- [x] Do not fuzzy-match, truncate or guess an unknown citation label.
 - [ ] If schema constraints cannot prevent a narrow formatting failure, permit
   at most one bounded model regeneration with the original error and allowed
   labels; treat it as a nondeterministic retry, not a deterministic repair.
-- [ ] Never weaken factual or citation requirements to obtain a green run.
-- [ ] Record the original validation error and whether regeneration was used.
-- [ ] Preserve OpenAI request IDs in diagnostics when the SDK exposes them,
+- [x] Never weaken factual or citation requirements to obtain a green run.
+- [x] Record the original validation error and whether regeneration was used.
+- [x] Preserve OpenAI request IDs in diagnostics when the SDK exposes them,
   without recording credentials or sensitive headers.
 
 Acceptance criteria:
@@ -283,17 +283,17 @@ Acceptance criteria:
 
 ### A6. Resolve models once per model-backed run
 
-- [ ] Perform model discovery and selection once for each model-backed run and
+- [x] Perform model discovery and selection once for each model-backed run and
   only for the purposes that run actually needs.
-- [ ] Keep text-only collection and source validation usable without an OpenAI
+- [x] Keep text-only collection and source validation usable without an OpenAI
   key or Models API request.
-- [ ] Pass one immutable selection object through collection, transcription and
+- [x] Pass one immutable selection object through collection, transcription and
   synthesis instead of repeating model-list calls in multiple commands.
 - [ ] Record requested, selected, attempted and actually used models.
-- [ ] Rename “fallback” if it remains preflight selection only.
-- [ ] If runtime fallback is retained, restrict it to deterministic
-  unsupported-model errors; do not retry ambiguous transport errors that may
-  duplicate a completed paid request.
+- [x] Rename “fallback” in user-facing output because it remains preflight
+  selection only.
+- [x] Keep runtime fallback disabled rather than retrying ambiguous transport
+  errors that may duplicate a completed paid request.
 - [ ] Test inaccessible requested models, empty overrides, explicit overrides
   and request-time failures.
 
@@ -1166,51 +1166,55 @@ the release-candidate milestone.
 - [ ] Add fake OpenAI clients for synthesis and transcription payload contracts.
 - [ ] Add storage migration tests from the current database schema.
 - [ ] Add Markdown/JSON parity tests and PDF content assertions.
-- [ ] Keep all routine CI tests offline and free of live publisher/API
+- [x] Keep all routine CI tests offline and free of live publisher/API
   dependencies.
 
 ### J2. Add replay and visual checks
 
 - [ ] Retain sanitized historical manifests for the known failure classes.
 - [ ] Replay pipeline stages without redownloading sources.
-- [ ] Render representative PDFs and inspect page images after layout changes.
-- [ ] Verify hyperlinks, pagination, long titles, empty sections, multilingual
+- [x] Render representative PDFs and inspect page images after layout changes.
+- [x] Verify hyperlinks, pagination, long titles, empty sections, multilingual
   text and large source registers.
 
 ### J3. Make dependencies reproducible
 
-- [ ] Replace the stale local environment.
-- [ ] Choose and document one lock/constraints strategy for application and
+- [x] Replace the stale local environment.
+- [x] Choose and document one lock/constraints strategy for application and
   development dependencies.
-- [ ] Make GitHub install the tested dependency set rather than unconstrained
+- [x] Make GitHub install the tested dependency set rather than unconstrained
   future versions.
 - [ ] Add controlled dependency-update automation with CI verification.
-- [ ] Test the supported Python versions declared by the project.
-- [ ] Consolidate committed model and runtime defaults into one authoritative
+- [x] Test the supported Python versions declared by the project.
+- [x] Consolidate committed model and runtime defaults into one authoritative
   configuration layer; `.env`, repository variables and workflow inputs should
   be explicit overrides, not duplicate defaults.
-- [ ] Treat empty local or GitHub override variables as absent rather than as an
+- [x] Treat empty local or GitHub override variables as absent rather than as an
   invalid model name or path.
-- [ ] Add a quick deterministic environment/bootstrap check that verifies the
+- [x] Add a quick deterministic environment/bootstrap check that verifies the
   active interpreter imports this checkout rather than a stale editable install.
-- [ ] Inventory ignored legacy audio, downloads, databases and build metadata
+- [x] Inventory ignored legacy audio, downloads, databases and build metadata
   before any cleanup, and request approval before deleting or archiving user
   data.
 
+Implementation note (2026-08-28): the broken 385 MB virtual environment was
+replaced; 283 MB of ignored historical downloads, the local database and prior
+outputs were inventoried and retained unchanged.
+
 ### J4. Protect source material and hosted artifacts
 
-- [ ] Separate the private internal synthesis corpus from the user-facing audit
+- [x] Separate the private internal synthesis corpus from the user-facing audit
   manifest.
-- [ ] Do not upload complete article bodies or podcast transcripts in hosted
+- [x] Do not upload complete article bodies or podcast transcripts in hosted
   workflow artifacts.
 - [ ] Keep artifact manifests useful with metadata, canonical links, content
   hashes, revision IDs, extraction/transcription provenance, omissions and
   failures.
-- [ ] Define local raw-content retention and access expectations separately
+- [x] Define local raw-content retention and access expectations separately
   from hosted artifact retention.
-- [ ] Verify that exception strings, request diagnostics and rendered outputs do
+- [x] Verify that exception strings, request diagnostics and rendered outputs do
   not expose API keys, authorization headers or repository secrets.
-- [ ] Add artifact-content tests using distinctive fixture text to prove raw
+- [x] Add artifact-content tests using distinctive fixture text to prove raw
   bodies and secrets are absent.
 
 Acceptance criteria:
@@ -1221,9 +1225,9 @@ Acceptance criteria:
 
 ### J5. Release discipline
 
-- [ ] Update architecture, models, sources, catalog and README in the same
+- [x] Update architecture, models, sources, catalog and README in the same
   changes that alter behavior.
-- [ ] Maintain a concise changelog.
+- [x] Maintain a concise changelog.
 - [ ] Use schema and database migrations for breaking changes.
 - [ ] Run a fixed-date canary before enabling each major change on the schedule.
 - [ ] Observe at least five consecutive scheduled runs after the reliability
@@ -1279,15 +1283,21 @@ Acceptance criteria for Workstream J:
 
 - [x] Consolidate current status and prior discussions.
 - [x] Exclude cost-safety features.
-- [ ] Review and approve this roadmap.
+- [x] Review and approve this roadmap.
 
-No implementation work begins before this milestone is approved.
+Approved for implementation on 2026-08-28.
 
 ### Milestone 1 — safe runner v0.4
 
-Includes A1, A2, phase 1 of A3, A4–A6, the clean
-environment/bootstrap/initial dependency-lock subset of J3, all of J4, and the
-relevant J1/J2 checks.
+Includes A1, A2, phase 1 of A3, A4, the safe deterministic subset of A5, the
+single-preflight subset of A6, the clean environment/bootstrap/initial
+dependency-lock subset of J3, the hosted-artifact-safety subset of J4, and the
+relevant J1/J2 checks. Unchecked items in those workstreams remain planned and
+are not implied complete by this milestone.
+
+Implementation status: code-complete on 2026-08-28 in version 0.4.0. The
+operational observation gate remains open until five consecutive scheduled runs
+complete without a known application reliability failure.
 
 Exit gate:
 
@@ -1433,6 +1443,9 @@ These are not part of the current roadmap:
 - keeping broken sources enabled merely for broader apparent coverage.
 
 ## 18. First implementation batch after approval
+
+Status: implemented in version 0.4.0 on 2026-08-28; scheduled-run observation
+continues under the Milestone 1 exit gate.
 
 The first implementation batch should contain only:
 

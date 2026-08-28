@@ -8,11 +8,14 @@ from macro_sage.feeds import discover
 from macro_sage.http import HttpClient
 from macro_sage.models import (
     CollectionReport,
+    ItemOutcome,
+    ItemState,
     SourceDefinition,
     SourceKind,
     SourceOutcome,
     SourceState,
 )
+from macro_sage.run_state import redact_text
 from macro_sage.storage import DocumentStore
 
 
@@ -44,7 +47,7 @@ def collect_articles(
                     source.kind,
                     SourceState.FAILED,
                     stage="feed discovery",
-                    detail=str(exc),
+                    detail=redact_text(str(exc)),
                 )
             )
             continue
@@ -70,15 +73,44 @@ def collect_articles(
             cached = store.get(item.document_id)
             if cached:
                 report.documents.append(cached)
+                report.item_outcomes.append(
+                    ItemOutcome(
+                        source.id,
+                        item.title,
+                        item.url,
+                        ItemState.CACHED,
+                        document_id=cached.id,
+                    )
+                )
                 collected += 1
                 continue
             try:
                 document = extract(item, client)
                 store.save(document)
                 report.documents.append(document)
+                report.item_outcomes.append(
+                    ItemOutcome(
+                        source.id,
+                        item.title,
+                        item.url,
+                        ItemState.COLLECTED,
+                        document_id=document.id,
+                    )
+                )
                 collected += 1
             except Exception as exc:
-                failures.append(f"{item.title}: {exc}")
+                safe_error = redact_text(str(exc))
+                failures.append(f"{item.title}: {safe_error}")
+                report.item_outcomes.append(
+                    ItemOutcome(
+                        source.id,
+                        item.title,
+                        item.url,
+                        ItemState.FAILED,
+                        stage="article extraction",
+                        detail=safe_error,
+                    )
+                )
         state = (
             SourceState.PARTIAL
             if collected and failures

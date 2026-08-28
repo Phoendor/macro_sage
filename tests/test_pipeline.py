@@ -3,6 +3,7 @@ from datetime import date, datetime, timezone
 from macro_sage.models import (
     Document,
     FeedItem,
+    ItemState,
     SourceDefinition,
     SourceKind,
     SourceState,
@@ -55,6 +56,54 @@ def test_article_feed_failure_is_structured_and_explicit(monkeypatch):
     assert report.failures[0].source_id == "source"
     assert report.failures[0].state is SourceState.FAILED
     assert "HTTP 403" in report.failures[0].summary()
+
+
+def test_article_failure_redacts_environment_secret(monkeypatch):
+    monkeypatch.setenv("PUBLISHER_API_TOKEN", "publisher-secret-value")
+
+    def fail_discovery(_source, _client):
+        raise RuntimeError("rejected publisher-secret-value")
+
+    monkeypatch.setattr("macro_sage.pipeline.discover", fail_discovery)
+
+    report = collect_articles(
+        [source()],
+        date(2026, 7, 27),
+        object(),
+        Store(),
+        timezone_name="UTC",
+    )
+
+    assert "publisher-secret-value" not in report.failures[0].detail
+    assert "[REDACTED]" in report.failures[0].detail
+
+
+def test_article_item_failure_remains_individually_auditable(monkeypatch):
+    article_source = source()
+    item = FeedItem(
+        source=article_source,
+        title="Broken article",
+        url="https://example.com/broken",
+        published_at=datetime(2026, 7, 27, tzinfo=timezone.utc),
+    )
+    monkeypatch.setattr("macro_sage.pipeline.discover", lambda *_args: [item])
+    monkeypatch.setattr(
+        "macro_sage.pipeline.extract",
+        lambda *_args: (_ for _ in ()).throw(RuntimeError("paywall")),
+    )
+
+    report = collect_articles(
+        [article_source],
+        date(2026, 7, 27),
+        object(),
+        Store(),
+        timezone_name="UTC",
+    )
+
+    assert report.item_outcomes[0].title == "Broken article"
+    assert report.item_outcomes[0].state is ItemState.FAILED
+    assert report.item_outcomes[0].stage == "article extraction"
+    assert report.item_outcomes[0].detail == "paywall"
 
 
 def test_podcast_duration_budget_skips_before_paid_transcription(monkeypatch):

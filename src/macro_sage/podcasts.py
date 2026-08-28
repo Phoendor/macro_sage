@@ -15,15 +15,19 @@ from macro_sage.http import HttpClient
 from macro_sage.models import (
     CollectionReport,
     Document,
+    ItemOutcome,
+    ItemState,
     SourceDefinition,
     SourceOutcome,
     SourceState,
 )
 from macro_sage.pipeline import is_on_date
+from macro_sage.run_state import redact_text
 from macro_sage.storage import DocumentStore
 
 MAX_UPLOAD_BYTES = 24 * 1024 * 1024
 SEGMENT_SECONDS = 15 * 60
+MEDIA_PROCESS_TIMEOUT_SECONDS = 10 * 60
 
 
 class PodcastBudgetExceeded(RuntimeError):
@@ -88,6 +92,7 @@ class PodcastTranscriber:
                 str(pattern),
             ],
             check=True,
+            timeout=MEDIA_PROCESS_TIMEOUT_SECONDS,
         )
         segments = sorted(workdir.glob("segment-*.mp3"))
         if not segments:
@@ -113,6 +118,7 @@ class PodcastTranscriber:
             check=True,
             capture_output=True,
             text=True,
+            timeout=MEDIA_PROCESS_TIMEOUT_SECONDS,
         )
         return max(1, round(float(result.stdout.strip())))
 
@@ -167,7 +173,7 @@ def collect_podcasts(
                     source.kind,
                     SourceState.FAILED,
                     stage="feed discovery",
-                    detail=str(exc),
+                    detail=redact_text(str(exc)),
                 )
             )
             continue
@@ -195,19 +201,54 @@ def collect_podcasts(
             cached = store.get(item.document_id)
             if cached:
                 report.documents.append(cached)
+                report.item_outcomes.append(
+                    ItemOutcome(
+                        source.id,
+                        item.title,
+                        item.url,
+                        ItemState.CACHED,
+                        document_id=cached.id,
+                    )
+                )
                 collected += 1
                 continue
             if remaining_episodes <= 0:
                 policy_skips.append(f"{item.title}: daily episode limit reached")
+                report.item_outcomes.append(
+                    ItemOutcome(
+                        source.id,
+                        item.title,
+                        item.url,
+                        ItemState.SKIPPED,
+                        stage="podcast budget",
+                        detail="daily episode limit reached",
+                    )
+                )
                 continue
             if item.duration_seconds and item.duration_seconds > remaining_seconds:
-                policy_skips.append(
-                    f"{item.title}: declared duration exceeds the remaining "
+                detail = (
+                    "declared duration exceeds the remaining "
                     f"{remaining_seconds / 60:.0f}-minute budget"
+                )
+                policy_skips.append(f"{item.title}: {detail}")
+                report.item_outcomes.append(
+                    ItemOutcome(
+                        source.id,
+                        item.title,
+                        item.url,
+                        ItemState.SKIPPED,
+                        stage="podcast budget",
+                        detail=detail,
+                    )
                 )
                 continue
             try:
                 remaining_episodes -= 1
+                print(
+                    f"Transcribing {source.name}: {item.title} "
+                    f"({remaining_seconds / 60:.0f} run minutes remain)",
+                    flush=True,
+                )
                 transcript = transcriber.transcribe(
                     item.media_url or "",
                     max_seconds=remaining_seconds,
@@ -227,12 +268,43 @@ def collect_podcasts(
                 )
                 store.save(document)
                 report.documents.append(document)
+                report.item_outcomes.append(
+                    ItemOutcome(
+                        source.id,
+                        item.title,
+                        item.url,
+                        ItemState.COLLECTED,
+                        document_id=document.id,
+                    )
+                )
                 collected += 1
                 remaining_seconds -= transcript.duration_seconds
             except PodcastBudgetExceeded as exc:
-                policy_skips.append(f"{item.title}: {exc}")
+                safe_error = redact_text(str(exc))
+                policy_skips.append(f"{item.title}: {safe_error}")
+                report.item_outcomes.append(
+                    ItemOutcome(
+                        source.id,
+                        item.title,
+                        item.url,
+                        ItemState.SKIPPED,
+                        stage="podcast budget",
+                        detail=safe_error,
+                    )
+                )
             except Exception as exc:
-                failures.append(f"{item.title}: {exc}")
+                safe_error = redact_text(str(exc))
+                failures.append(f"{item.title}: {safe_error}")
+                report.item_outcomes.append(
+                    ItemOutcome(
+                        source.id,
+                        item.title,
+                        item.url,
+                        ItemState.FAILED,
+                        stage="podcast transcription",
+                        detail=safe_error,
+                    )
+                )
         details = [*failures, *policy_skips]
         if failures:
             state = SourceState.PARTIAL if collected else SourceState.FAILED
