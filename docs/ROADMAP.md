@@ -1074,13 +1074,55 @@ market-data enrichment in Workstream H.
 - [ ] Put a direct artifact link and concise outcome summary on the run page.
 - [ ] Add a repository workflow-status badge and clear instructions for finding
   the latest report.
-- [ ] Decide on a private user-facing delivery channel for successful PDFs,
-  such as email or connected cloud storage, before implementing external
-  delivery.
 - [ ] Do not publish personal research outputs permanently in the public source
   repository by accident.
 
-### I2. Improve notifications
+### I2. Deliver reports to a Telegram channel
+
+- [ ] Add a small Telegram delivery adapter that sends the completed PDF as a
+  document through the official Telegram Bot API.
+- [ ] Configure the destination with `TELEGRAM_BOT_TOKEN` as a GitHub/local
+  secret and `TELEGRAM_CHAT_ID` as an explicit environment or repository
+  variable; never place either value in source, artifacts or logs.
+- [ ] Document how to create the bot, add it to the selected channel and grant
+  only the permission needed to publish messages.
+- [ ] Keep delivery disabled when configuration is absent. A local run sends
+  only when explicitly requested, while a scheduled GitHub run sends
+  automatically after a successful render when Telegram is configured.
+- [ ] Send successful and degraded PDFs with a concise caption containing the
+  report date, run outcome, coverage warning, failed-source count and GitHub run
+  link.
+- [ ] Send a short status message rather than inventing a PDF for a normal
+  no-data outcome; make failure notifications a separately configurable option.
+- [ ] Validate the PDF against the Bot API's current document-size and file-type
+  requirements before attempting delivery.
+- [ ] Use report run ID plus PDF content hash as an idempotency key, store the
+  returned Telegram message ID, and prevent automatic retries or workflow
+  reruns from posting duplicate reports.
+- [ ] Provide an explicit force-resend command for intentional redelivery.
+- [ ] Use bounded retries only for safe transient failures and respect Telegram
+  retry guidance; do not loop indefinitely.
+- [ ] Preserve the generated artifact when delivery fails. Record delivery as a
+  separate failed stage with the sanitized API error and a link for manual
+  download.
+- [ ] Escape or constrain captions so report/source text cannot inject Telegram
+  formatting or commands.
+- [ ] Test the adapter with a fake HTTP client for success, missing
+  configuration, permission errors, rate limits, oversized files, duplicate
+  suppression, force-resend and sanitized logging. Routine tests must not send
+  live Telegram messages.
+
+Acceptance criteria:
+
+- One successful scheduled run posts exactly one matching PDF to the configured
+  Telegram channel.
+- The message identifies the report date and warns visibly when the report is
+  degraded or has failed sources.
+- A Telegram outage cannot destroy or hide an otherwise valid report.
+- The bot token never appears in logs, exceptions, artifacts or test fixtures.
+- Local and GitHub delivery use the same adapter and configuration contract.
+
+### I3. Improve notifications
 
 - [ ] Make application failure summaries state the exact failed stage and
   whether a usable partial artifact exists.
@@ -1090,7 +1132,7 @@ market-data enrichment in Workstream H.
   channel is selected.
 - [ ] Avoid notification noise from normal no-publication days.
 
-### I3. Preserve local usability
+### I4. Preserve local usability
 
 - [ ] Rebuild the local virtual environment from the current pyproject.
 - [ ] Verify documented commands from a clean checkout.
@@ -1101,6 +1143,8 @@ market-data enrichment in Workstream H.
 Acceptance criteria for Workstream I:
 
 - The owner can find the latest successful PDF without opening job logs.
+- A configured scheduled run delivers the PDF exactly once to the selected
+  Telegram channel.
 - A failure notification explains what happened in plain language.
 - Local and hosted runs produce the same report for the same saved corpus and
   model response.
@@ -1207,6 +1251,9 @@ Acceptance criteria for Workstream J:
 - Podcast speech recognition remains cloud-based; the Intel Mac will not run a
   local neural model.
 - A report may say “no material change” or provide no actionable setup.
+- Telegram is the selected external delivery channel for completed PDFs; the
+  same delivery adapter must work from GitHub and from an explicitly enabled
+  local run.
 - The product supports research decisions but does not place orders, select
   leverage or size a portfolio.
 - Cost-safety features are excluded from this roadmap.
@@ -1218,8 +1265,9 @@ Acceptance criteria for Workstream J:
   on scheduled runs.
 - Select and license market-data providers, and choose delayed intraday versus
   completed-close timing, before making current-market claims.
-- Select a private PDF delivery channel and artifact retention period before
-  external delivery is implemented.
+- Confirm the Telegram channel identifier, its public/private visibility,
+  whether failure/no-data messages should be posted, and the hosted artifact
+  retention period before enabling automated delivery.
 - Enable new sources only after the Workstream G admission gate, even when the
   institution is reputable.
 - Promote DailyBriefV2 only after the evaluation gates, shadow comparison and
@@ -1280,7 +1328,7 @@ Exit gate:
 
 ### Milestone 4 — decision brief and delivery v0.5
 
-Freeze D1 first, then implement C1–C3, D2–D3, E1–E2 and I1–I3 with their
+Freeze D1 first, then implement C1–C3, D2–D3, E1–E2 and I1–I4 with their
 contract, evidence, temporal and visual tests.
 
 Exit gate:
@@ -1288,8 +1336,8 @@ Exit gate:
 - V2 beats the current format on the documented evaluation set;
 - all formats agree and the first page is useful in roughly two minutes;
 - source failures and market-data limitations remain prominent;
-- the latest successful report is immediately discoverable and, if a private
-  delivery channel has been approved, delivered through it;
+- the latest successful report is immediately discoverable and, when Telegram
+  configuration is present, delivered exactly once to the selected channel;
 - the owner approves the information hierarchy and output quality.
 
 ### Milestone 5 — modern podcasts
@@ -1362,6 +1410,8 @@ The roadmap is complete when:
 - market values, when added, always carry timestamp and provider provenance;
 - JSON, Markdown and PDF agree;
 - the owner can reliably receive or find the latest report;
+- a configured scheduled run delivers exactly one PDF to the selected Telegram
+  channel without exposing its bot credentials;
 - local and GitHub execution remain the same application;
 - all tests and documented clean-install checks pass;
 - hosted artifacts contain no raw article or transcript bodies, and durable
