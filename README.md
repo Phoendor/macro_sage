@@ -129,4 +129,5 @@ See [the architecture notes](docs/ARCHITECTURE.md),
 [model and cost policy](docs/MODELS.md), and
 [source policy](docs/SOURCES.md) for the main design decisions. The full
 [source catalog](docs/SOURCE_CATALOG.md) records cadence, links, descriptions,
-and why each source belongs.
+and why each source belongs. The current implementation sequence and acceptance
+criteria are maintained in the [action plan](docs/ROADMAP.md).
