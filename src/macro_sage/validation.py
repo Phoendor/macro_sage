@@ -210,6 +210,9 @@ def _contract_sample(result: dict[str, Any]) -> dict[str, Any]:
     sample = {
         "contract_version": 2,
         "source_id": result["source_id"],
+        "automated_status": result.get("status"),
+        "failure_stage": result.get("failure_stage"),
+        "error": result.get("error"),
         "review": {
             "status": "pending_review",
             "reviewer": None,
@@ -298,9 +301,6 @@ def run_validation(
             stale_sample.unlink()
     samples: dict[str, dict[str, Any]] = {}
     for result in results:
-        if result["status"] == "failed":
-            (samples_dir / f"{result['source_id']}.json").unlink(missing_ok=True)
-            continue
         sample = _contract_sample(result)
         samples[str(result["source_id"])] = sample
         write_json_atomic(samples_dir / f"{result['source_id']}.json", sample)
@@ -395,9 +395,9 @@ def apply_manual_reviews(
         state = str(decision.get("status") or "")
         if state not in REVIEW_STATES:
             raise ValueError(f"Invalid review status for {source_id}: {state!r}")
-        if automated_status.get(source_id) == "degraded" and state == "approved":
+        if automated_status.get(source_id) in {"degraded", "failed"} and state == "approved":
             raise ValueError(
-                f"Degraded source {source_id} must retain limitations or be rejected"
+                f"Non-passing source {source_id} must retain limitations or be rejected"
             )
         notes = str(decision.get("notes") or "").strip()
         if not notes:

@@ -107,6 +107,23 @@ def test_generated_contract_is_pending_until_a_bound_manual_decision():
     assert len(sample["contract_fingerprint"]) == 64
 
 
+def test_failed_contract_replaces_stale_success_and_remains_reviewable():
+    sample = _contract_sample(
+        {
+            "source_id": "source",
+            "status": "failed",
+            "failure_stage": "feed_discovery",
+            "error": "HTTP 404",
+            "warnings": [],
+        }
+    )
+
+    assert sample["automated_status"] == "failed"
+    assert sample["failure_stage"] == "feed_discovery"
+    assert sample["representative_entry"] is None
+    assert sample["review"]["status"] == "pending_review"
+
+
 def test_manual_review_requires_exact_contract_fingerprint(tmp_path):
     validation = tmp_path / "validation.json"
     samples = tmp_path / "contracts"
