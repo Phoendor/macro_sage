@@ -1,0 +1,49 @@
+{
+  "contract_version": 1,
+  "source_id": "norges-monetary-policy",
+  "review": {
+    "status": "reviewed",
+    "reviewer": "Codex Milestone 2 source-contract review, 2026-08-29",
+    "reviewed_at": "2026-08-29T06:59:15.483776+00:00"
+  },
+  "newest_entry": {
+    "title": "Monetary Policy Report 2/2026",
+    "url": "https://www.norges-bank.no/en/news-events/publications/Monetary-Policy-Report/2026/mpr-22026/",
+    "original_url": "https://www.norges-bank.no/en/news-events/publications/Monetary-Policy-Report/2026/mpr-22026/",
+    "published_at": "2026-06-18T08:00:00+00:00",
+    "updated_at": null,
+    "raw_published": "Thu, 18 Jun 2026 08:00:00 GMT",
+    "raw_updated": null,
+    "guid": "2d512c15-ee38-4869-8baa-d4cf8507f000",
+    "media_url": null,
+    "media_type": null,
+    "timestamp_warning": null
+  },
+  "representative_entry": {
+    "title": "Monetary Policy Report 2/2026",
+    "url": "https://www.norges-bank.no/en/news-events/publications/Monetary-Policy-Report/2026/mpr-22026/",
+    "original_url": "https://www.norges-bank.no/en/news-events/publications/Monetary-Policy-Report/2026/mpr-22026/",
+    "published_at": "2026-06-18T08:00:00+00:00",
+    "updated_at": null,
+    "raw_published": "Thu, 18 Jun 2026 08:00:00 GMT",
+    "raw_updated": null,
+    "guid": "2d512c15-ee38-4869-8baa-d4cf8507f000",
+    "media_url": null,
+    "media_type": null,
+    "timestamp_warning": null
+  },
+  "extraction_attempts": [
+    {
+      "title": "Monetary Policy Report 2/2026",
+      "url": "https://www.norges-bank.no/en/news-events/publications/Monetary-Policy-Report/2026/mpr-22026/",
+      "status": "passed"
+    }
+  ],
+  "resolved_content_url": "https://www.norges-bank.no/en/news-events/publications/Monetary-Policy-Report/2026/mpr-22026/",
+  "extraction_method": "full_html",
+  "content_type": "text/html",
+  "content_length": 467,
+  "content_sha256": "3573e63e46aa6bd6d000783ff985249ab935eed0ff346fad8d5ab6f068e0bf81",
+  "revision_id": "4b341383820ac709f4a25192",
+  "warnings": []
+}

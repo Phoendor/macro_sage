@@ -1,0 +1,60 @@
+{
+  "contract_version": 1,
+  "source_id": "snb-speeches",
+  "review": {
+    "status": "reviewed",
+    "reviewer": "Codex Milestone 2 source-contract review, 2026-08-29",
+    "reviewed_at": "2026-08-29T06:59:15.483776+00:00"
+  },
+  "newest_entry": {
+    "title": "2026-08-26 - Antoine Martin: Monetary policy and financial stability at the SNB: the role of macroprudential tools",
+    "url": "https://www.snb.ch/en/publications/communication/speeches/2026/ref_20260826_anmar",
+    "original_url": "https://www.snb.ch/en/publications/communication/speeches/2026/ref_20260826_anmar",
+    "published_at": "2026-08-26T16:15:00+00:00",
+    "updated_at": "2026-08-26T16:15:00+00:00",
+    "raw_published": null,
+    "raw_updated": "2026-08-26T16:15:00Z",
+    "guid": "https://www.snb.ch/en/publications/communication/speeches/2026/ref_20260826_anmar",
+    "media_url": null,
+    "media_type": null,
+    "timestamp_warning": "publication time derived from updated time by source policy"
+  },
+  "representative_entry": {
+    "title": "2026-08-26 - Antoine Martin: Monetary policy and financial stability at the SNB: the role of macroprudential tools",
+    "url": "https://www.snb.ch/en/publications/communication/speeches/2026/ref_20260826_anmar",
+    "original_url": "https://www.snb.ch/en/publications/communication/speeches/2026/ref_20260826_anmar",
+    "published_at": "2026-08-26T16:15:00+00:00",
+    "updated_at": "2026-08-26T16:15:00+00:00",
+    "raw_published": null,
+    "raw_updated": "2026-08-26T16:15:00Z",
+    "guid": "https://www.snb.ch/en/publications/communication/speeches/2026/ref_20260826_anmar",
+    "media_url": null,
+    "media_type": null,
+    "timestamp_warning": "publication time derived from updated time by source policy"
+  },
+  "extraction_attempts": [
+    {
+      "title": "2026-08-26 - Antoine Martin: Monetary policy and financial stability at the SNB: the role of macroprudential tools",
+      "url": "https://www.snb.ch/en/publications/communication/speeches/2026/ref_20260826_anmar",
+      "status": "passed"
+    }
+  ],
+  "resolved_content_url": "https://www.snb.ch/en/publications/communication/speeches/2026/ref_20260826_anmar",
+  "extraction_method": "full_html",
+  "content_type": "text/html",
+  "content_length": 36112,
+  "content_sha256": "7fd5def93e946be98f53835262e4bb8292a4d8799fbe4a7842f79dc038d89a14",
+  "revision_id": "f4644149380db120aecbaf97",
+  "warnings": [
+    "2026-08-26 - Antoine Martin: Monetary policy and financial stability at the SNB: the role of macroprudential tools: publication time derived from updated time by source policy",
+    "2026-06-18 - Martin Schlegel / Antoine Martin / Petra Tschudin: Introductory remarks, news conference: publication time derived from updated time by source policy",
+    "2026-04-24 - Barbara Janom Steiner: The SNB - firmly anchored even in turbulent times: publication time derived from updated time by source policy",
+    "2026-04-24 - Martin Schlegel: Comments on Swiss monetary policy: publication time derived from updated time by source policy",
+    "2026-04-16 - Petra Tschudin / Thomas Moser: Swipe, scan, tap: the cashless payments market: publication time derived from updated time by source policy",
+    "2026-03-19 - Martin Schlegel / Antoine Martin / Petra Tschudin: Introductory remarks, news conference: publication time derived from updated time by source policy",
+    "2026-03-04 - Antoine Martin / Sébastien Kraenzlin: Emphase Ltd to design new banknote series: publication time derived from updated time by source policy",
+    "2025-12-11 - Martin Schlegel / Antoine Martin / Petra Tschudin: Introductory remarks, news conference: publication time derived from updated time by source policy",
+    "2025-11-21 - Martin Schlegel: The path to the monetary policy decision at the SNB: publication time derived from updated time by source policy",
+    "2025-11-13 - Petra Tschudin / Thomas Moser: Bank funding costs: latest developments from a monetary policy perspective: publication time derived from updated time by source policy"
+  ]
+}

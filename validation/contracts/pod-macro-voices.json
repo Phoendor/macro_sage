@@ -1,0 +1,31 @@
+{
+  "contract_version": 1,
+  "source_id": "pod-macro-voices",
+  "review": {
+    "status": "reviewed",
+    "reviewer": "Codex Milestone 2 source-contract review, 2026-08-29",
+    "reviewed_at": "2026-08-29T06:59:15.483776+00:00"
+  },
+  "newest_entry": {
+    "title": "MacroVoices #547 Daniel Lacalle: The Future of Reserve Currency",
+    "url": "https://macrovoices.podbean.com/e/macrovoices-547-daniel-lacalle-the-future-of-reserve-currency/",
+    "original_url": "https://macrovoices.podbean.com/e/macrovoices-547-daniel-lacalle-the-future-of-reserve-currency/",
+    "published_at": "2026-08-27T17:13:58+00:00",
+    "updated_at": null,
+    "raw_published": "Thu, 27 Aug 2026 12:13:58 -0500",
+    "raw_updated": null,
+    "guid": "macrovoices.podbean.com/0ca6507c-75c0-3f81-af76-42749e4e0dbc",
+    "media_url": "https://dts.podtrac.com/redirect.mp3/mcdn.podbean.com/mf/web/m6qcztpwx4jq97ij/Macrovoices-2026-08-27-Daniel-Lacalle.mp3",
+    "media_type": "audio/mpeg",
+    "timestamp_warning": null
+  },
+  "representative_entry": null,
+  "extraction_attempts": null,
+  "resolved_content_url": "https://s353.podbean.com/pb/180a0f473f7cf1956f2affcbb34fbdb2/6a91ed4b/data1/fs158/6042395/uploads/Macrovoices-2026-08-27-Daniel-Lacalle.mp3?pbss=03daa4df-c40d-5712-8f92-8e7b6035a85a",
+  "extraction_method": "audio_enclosure_probe",
+  "content_type": "audio/mpeg",
+  "content_length": 60419517,
+  "content_sha256": null,
+  "revision_id": null,
+  "warnings": []
+}

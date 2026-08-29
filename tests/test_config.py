@@ -2,8 +2,8 @@ from pathlib import Path
 
 import pytest
 
-from macro_sage.config import ConfigurationError, load_sources
-from macro_sage.models import SourceKind
+from macro_sage.config import ConfigurationError, load_inventory, load_sources
+from macro_sage.models import Participation, SourceKind, ValidationStatus
 
 
 def test_repository_source_config_is_valid():
@@ -20,6 +20,7 @@ def test_disabled_podcasts_are_only_loaded_explicitly():
     podcasts = [source for source in all_sources if source.kind is SourceKind.PODCAST]
     assert podcasts
     assert all(not source.enabled for source in podcasts)
+    assert all(source.participation is Participation.OPTIONAL for source in podcasts)
 
 
 def test_disabled_article_sources_explain_why_they_are_unavailable():
@@ -32,6 +33,28 @@ def test_disabled_article_sources_explain_why_they_are_unavailable():
 
     assert disabled_articles
     assert all(source.disabled_reason for source in disabled_articles)
+
+
+def test_repository_inventory_has_complete_structured_metadata():
+    inventory = load_inventory(Path("config/sources.toml"))
+
+    assert inventory.version == 2
+    assert len(inventory.sources) == 48
+    assert len(inventory.candidates) >= 5
+    for source in inventory.sources:
+        assert source.homepage_url
+        assert source.description
+        assert source.rationale
+        assert source.geographies
+        assert source.topics
+        assert source.asset_classes
+        assert source.owner
+        assert source.scan_depth >= source.daily_limit
+        if source.participation is not Participation.UNAVAILABLE:
+            assert source.validation_status in {
+                ValidationStatus.VALIDATED,
+                ValidationStatus.DEGRADED,
+            }
 
 
 def test_duplicate_source_ids_are_rejected(tmp_path):

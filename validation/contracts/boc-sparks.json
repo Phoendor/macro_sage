@@ -1,0 +1,60 @@
+{
+  "contract_version": 1,
+  "source_id": "boc-sparks",
+  "review": {
+    "status": "reviewed",
+    "reviewer": "Codex Milestone 2 source-contract review, 2026-08-29",
+    "reviewed_at": "2026-08-29T06:59:15.483776+00:00"
+  },
+  "newest_entry": {
+    "title": "Canadian businesses’ use of AI: What the evidence shows",
+    "url": "https://www.bankofcanada.ca/2026/08/sparks-at-bank-article-2026-20/",
+    "original_url": "https://www.bankofcanada.ca/2026/08/sparks-at-bank-article-2026-20/",
+    "published_at": "2026-08-24T10:30:16+00:00",
+    "updated_at": "2026-08-24T10:30:16+00:00",
+    "raw_published": null,
+    "raw_updated": "2026-08-24T10:30:16+00:00",
+    "guid": "https://www.bankofcanada.ca/2026/08/sparks-at-bank-article-2026-20/",
+    "media_url": null,
+    "media_type": null,
+    "timestamp_warning": "publication time derived from updated time by source policy"
+  },
+  "representative_entry": {
+    "title": "Canadian businesses’ use of AI: What the evidence shows",
+    "url": "https://www.bankofcanada.ca/2026/08/sparks-at-bank-article-2026-20/",
+    "original_url": "https://www.bankofcanada.ca/2026/08/sparks-at-bank-article-2026-20/",
+    "published_at": "2026-08-24T10:30:16+00:00",
+    "updated_at": "2026-08-24T10:30:16+00:00",
+    "raw_published": null,
+    "raw_updated": "2026-08-24T10:30:16+00:00",
+    "guid": "https://www.bankofcanada.ca/2026/08/sparks-at-bank-article-2026-20/",
+    "media_url": null,
+    "media_type": null,
+    "timestamp_warning": "publication time derived from updated time by source policy"
+  },
+  "extraction_attempts": [
+    {
+      "title": "Canadian businesses’ use of AI: What the evidence shows",
+      "url": "https://www.bankofcanada.ca/2026/08/sparks-at-bank-article-2026-20/",
+      "status": "passed"
+    }
+  ],
+  "resolved_content_url": "https://www.bankofcanada.ca/2026/08/sparks-at-bank-article-2026-20/",
+  "extraction_method": "full_html",
+  "content_type": "text/html",
+  "content_length": 6946,
+  "content_sha256": "a4f956f9056016dd305c8d5d6b47731fb725105f03f75550bbfc8c1ce52d5a15",
+  "revision_id": "61d88632b8926d28b243e502",
+  "warnings": [
+    "Canadian businesses’ use of AI: What the evidence shows: publication time derived from updated time by source policy",
+    "Early signs of AI-driven adjustments in Canada’s labour market: publication time derived from updated time by source policy",
+    "Private credit in Canada: publication time derived from updated time by source policy",
+    "Assessing risks to oil prices through options markets: publication time derived from updated time by source policy",
+    "How Indigenous-owned firms finance their operations: publication time derived from updated time by source policy",
+    "The trade-offs between different designs of tokenized systems: publication time derived from updated time by source policy",
+    "Tokenization: What it is and how to think about&nbsp;it: publication time derived from updated time by source policy",
+    "How Canada’s counter-tariffs impacted consumer prices: publication time derived from updated time by source policy",
+    "​​Canada’s shifting position in global maritime trade​: publication time derived from updated time by source policy",
+    "When parents co‑sign a mortgage to help their adult children buy their first home: publication time derived from updated time by source policy"
+  ]
+}

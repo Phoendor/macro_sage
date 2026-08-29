@@ -1,0 +1,33 @@
+{
+  "contract_version": 1,
+  "source_id": "pod-hsbc-macro",
+  "review": {
+    "status": "reviewed",
+    "reviewer": "Codex Milestone 2 source-contract review, 2026-08-29",
+    "reviewed_at": "2026-08-29T06:59:15.483776+00:00"
+  },
+  "newest_entry": {
+    "title": "The AI ascendency",
+    "url": "http://macrobrief.research.hsbc.com/",
+    "original_url": "http://macrobrief.research.hsbc.com/",
+    "published_at": "2026-08-13T14:30:00+00:00",
+    "updated_at": null,
+    "raw_published": "Thu, 13 Aug 2026 14:30:00 GMT",
+    "raw_updated": null,
+    "guid": "6a7ef0f9ff328abd8479c0e0",
+    "media_url": "https://sphinx.acast.com/p/open/s/6476e27317ed970011e62580/e/6a7ef0f9ff328abd8479c0e0/media.mp3",
+    "media_type": "audio/mpeg",
+    "timestamp_warning": null
+  },
+  "representative_entry": null,
+  "extraction_attempts": null,
+  "resolved_content_url": "https://sphinx.acast.com/p/open/s/6476e27317ed970011e62580/e/6a7ef0f9ff328abd8479c0e0/media.mp3",
+  "extraction_method": "audio_enclosure_probe",
+  "content_type": "text/plain; charset=utf-8",
+  "content_length": 2,
+  "content_sha256": null,
+  "revision_id": null,
+  "warnings": [
+    "probe returned text/plain; charset=utf-8; feed declares audio/mpeg"
+  ]
+}

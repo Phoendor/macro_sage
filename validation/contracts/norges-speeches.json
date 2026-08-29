@@ -1,0 +1,49 @@
+{
+  "contract_version": 1,
+  "source_id": "norges-speeches",
+  "review": {
+    "status": "reviewed",
+    "reviewer": "Codex Milestone 2 source-contract review, 2026-08-29",
+    "reviewed_at": "2026-08-29T06:59:15.483776+00:00"
+  },
+  "newest_entry": {
+    "title": "Schweigaard lecture: Ten questions and answers about monetary policy",
+    "url": "https://www.norges-bank.no/en/news-events/news/Speeches/2026/2026-08-24-schweigaard-lecture/",
+    "original_url": "https://www.norges-bank.no/en/news-events/news/Speeches/2026/2026-08-24-schweigaard-lecture/",
+    "published_at": "2026-08-27T15:45:00+00:00",
+    "updated_at": null,
+    "raw_published": "Thu, 27 Aug 2026 15:45:00 GMT",
+    "raw_updated": null,
+    "guid": "0611ee49-3051-46b5-976d-3ccc5c4dd9ac",
+    "media_url": null,
+    "media_type": null,
+    "timestamp_warning": null
+  },
+  "representative_entry": {
+    "title": "Schweigaard lecture: Ten questions and answers about monetary policy",
+    "url": "https://www.norges-bank.no/en/news-events/news/Speeches/2026/2026-08-24-schweigaard-lecture/",
+    "original_url": "https://www.norges-bank.no/en/news-events/news/Speeches/2026/2026-08-24-schweigaard-lecture/",
+    "published_at": "2026-08-27T15:45:00+00:00",
+    "updated_at": null,
+    "raw_published": "Thu, 27 Aug 2026 15:45:00 GMT",
+    "raw_updated": null,
+    "guid": "0611ee49-3051-46b5-976d-3ccc5c4dd9ac",
+    "media_url": null,
+    "media_type": null,
+    "timestamp_warning": null
+  },
+  "extraction_attempts": [
+    {
+      "title": "Schweigaard lecture: Ten questions and answers about monetary policy",
+      "url": "https://www.norges-bank.no/en/news-events/news/Speeches/2026/2026-08-24-schweigaard-lecture/",
+      "status": "passed"
+    }
+  ],
+  "resolved_content_url": "https://www.norges-bank.no/en/news-events/news/Speeches/2026/2026-08-24-schweigaard-lecture/",
+  "extraction_method": "full_html",
+  "content_type": "text/html",
+  "content_length": 25256,
+  "content_sha256": "b9e246e4dea8a04dc8c9dfd9d8b70474780689f1a213dedbc99ffc0631c19369",
+  "revision_id": "fff0e3ed04551bab8e3e239e",
+  "warnings": []
+}

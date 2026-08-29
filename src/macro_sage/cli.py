@@ -9,12 +9,16 @@ from pathlib import Path
 
 from openai import OpenAI
 
-from macro_sage.config import load_sources
-from macro_sage.extraction import extract
-from macro_sage.feeds import discover
+from macro_sage.config import load_inventory, load_sources
 from macro_sage.files import copy_atomic, write_json_atomic, write_text_atomic
 from macro_sage.http import HttpClient
-from macro_sage.models import CollectionReport, ContentResult, RunHealth, SourceKind
+from macro_sage.models import (
+    CollectionReport,
+    ContentResult,
+    Participation,
+    RunHealth,
+    SourceKind,
+)
 from macro_sage.openai_models import (
     ModelSelection,
     describe_selection,
@@ -47,6 +51,8 @@ from macro_sage.scheduling import DateResolution, resolve_target_date
 from macro_sage.settings import Settings
 from macro_sage.storage import DocumentStore
 from macro_sage.synthesis import synthesize
+from macro_sage.validation import run_validation
+from macro_sage.versions import transformation_versions
 
 DEFAULT_CONFIG = Path("config/sources.toml")
 DEFAULT_DATABASE = Path("data/macro_sage.sqlite3")
@@ -176,6 +182,7 @@ def _models(args: argparse.Namespace) -> int:
             stage="model_preflight_started",
             content_result=ContentResult.NOT_PRODUCED.value,
             health=RunHealth.HEALTHY.value,
+            versions=transformation_versions(),
         )
     try:
         selection = select_models(
@@ -278,6 +285,7 @@ def _save_collection(
         "document_count": len(report.documents),
         "failed_or_partial_source_count": len(report.failures),
         "no_item_source_count": len(report.without_items),
+        "versions": transformation_versions(),
     }
     if selection is not None:
         run_updates["model_selection"] = selection.as_dict()
@@ -316,6 +324,7 @@ def _collect(args: argparse.Namespace) -> int:
         "stage": "collection_started",
         "content_result": ContentResult.NOT_PRODUCED.value,
         "health": RunHealth.HEALTHY.value,
+        "versions": transformation_versions(),
     }
     if selection is not None:
         run_updates["model_selection"] = selection.as_dict()
@@ -405,6 +414,7 @@ def _synthesize_report(
             outcome.summary() for outcome in report.failures
         ],
         "model_selection": selection.as_dict(),
+        "versions": transformation_versions(),
         "actual_models": {
             "synthesis": result.model,
         },
@@ -494,6 +504,7 @@ def _synthesize(args: argparse.Namespace) -> int:
             stage="complete",
             content_result=content_result.value,
             health=health.value,
+            versions=transformation_versions(),
             document_count=0,
         )
         append_github_summary(
@@ -555,6 +566,7 @@ def _run(args: argparse.Namespace) -> int:
         content_result=ContentResult.NOT_PRODUCED.value,
         health=RunHealth.HEALTHY.value,
         model_selection=selection.as_dict(),
+        versions=transformation_versions(),
     )
     try:
         report = _collect_corpus(args, settings, target)
@@ -591,63 +603,44 @@ def _run(args: argparse.Namespace) -> int:
 
 def _validate(args: argparse.Namespace) -> int:
     settings = Settings.from_env()
+    inventory = load_inventory(args.config)
     article_sources = [
-        replace(source, max_items=args.limit)
-        for source in load_sources(args.config)
+        replace(source, scan_depth=max(args.limit, 1), daily_limit=1)
+        for source in inventory.sources
+        if source.participation is Participation.DEFAULT
         if source.kind is SourceKind.ARTICLE
     ]
     podcast_sources = (
         [
-            replace(source, max_items=args.limit)
-            for source in load_sources(args.config, include_disabled=True)
+            replace(source, scan_depth=max(args.limit, 1), daily_limit=1)
+            for source in inventory.sources
+            if source.participation is Participation.OPTIONAL
             if source.kind is SourceKind.PODCAST
         ]
         if args.include_podcasts
         else []
     )
-    article_failures = 0
-    podcast_failures = 0
-    with HttpClient(settings) as http:
-        for source in article_sources:
-            try:
-                items = discover(source, http)
-                document = extract(items[0], http)
-                print(
-                    f"OK    {source.id:<22} {document.media_type:<16} "
-                    f"{len(document.body):>7} chars"
-                )
-            except Exception as exc:
-                article_failures += 1
-                print(f"FAIL  {source.id:<22} {exc}")
-        for source in podcast_sources:
-            try:
-                items = discover(source, http)
-                if not items or not items[0].media_url:
-                    raise ValueError("feed did not expose an audio enclosure")
-                print(f"OK    {source.id:<22} audio enclosure discovered")
-            except Exception as exc:
-                podcast_failures += 1
-                print(f"FAIL  {source.id:<22} {exc}")
-    print(
-        f"\n{len(article_sources) - article_failures}/"
-        f"{len(article_sources)} enabled article sources passed."
+    output = args.output or Path(
+        f"validation/source-validation-{date.today().isoformat()}.json"
     )
-    if podcast_sources:
-        print(
-            f"{len(podcast_sources) - podcast_failures}/"
-            f"{len(podcast_sources)} opt-in podcast feeds passed."
-        )
-    return 1 if article_failures or podcast_failures else 0
+    record = run_validation(
+        [*article_sources, *podcast_sources],
+        settings,
+        output=output,
+        samples_dir=args.samples_dir,
+        reviewer=args.reviewer,
+        workers=args.workers,
+    )
+    print(
+        f"\nValidation: {record['passed']} passed, {record['degraded']} degraded, "
+        f"{record['failed']} failed. Saved {output}."
+    )
+    return 1 if record["failed"] else 0
 
 
 def _list_sources(args: argparse.Namespace) -> int:
     for source in load_sources(args.config, include_disabled=args.all):
-        if source.enabled:
-            state = "enabled"
-        elif source.kind is SourceKind.PODCAST:
-            state = "opt-in"
-        else:
-            state = "unavailable"
+        state = source.participation.value
         print(f"{source.id:<24} {source.kind.value:<8} {state:<11} {source.name}")
     return 0
 
@@ -725,6 +718,14 @@ def build_parser() -> argparse.ArgumentParser:
         action="store_true",
         help="also verify opt-in podcast feeds without downloading audio",
     )
+    validate.add_argument("--output", type=Path)
+    validate.add_argument(
+        "--samples-dir", type=Path, default=Path("validation/contracts")
+    )
+    validate.add_argument(
+        "--reviewer", default="Codex acquisition-contract review"
+    )
+    validate.add_argument("--workers", type=_positive_int, default=6)
     validate.set_defaults(handler=_validate)
 
     source_list = subparsers.add_parser("list-sources", help="print configured sources")

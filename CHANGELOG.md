@@ -1,5 +1,49 @@
 # Changelog
 
+## 0.4.5 - 2026-08-29
+
+### Source contracts
+
+- Replaced the overloaded enabled flag with default, optional and unavailable
+  participation in one versioned structured inventory.
+- Added evidence, coverage, cadence, acquisition, priority, health and
+  selection metadata and generated the source catalog and coverage matrix from
+  that inventory.
+- Added a structured non-working candidate registry with exact failure and
+  review information.
+- Recorded a fresh 47-source live baseline: 45 passed, BIS Research Hub was
+  degraded by two explicit third-party timeouts, and Norges Regional Network
+  was degraded because chart data lost tabular structure; no source contract
+  failed completely.
+
+### Acquisition and provenance
+
+- Separated publication/update/raw timestamps, added explicit source timestamp
+  policies, sorted before selection, and exposed missing, future, stale,
+  filtered and duplicate outcomes.
+- Added access-page, title, language, density, repeated-text and PDF quality
+  validation, declarative PDF selection, and explicit feed-body degradation.
+- Made document identity independent of discovery source and retained original,
+  canonical, landing/resolved, extraction and quality provenance.
+
+### Storage and reproducibility
+
+- Added a backward-compatible SQLite schema-2 migration with immutable content
+  revisions, many-to-many discovery origins, source-health events and
+  review-only similar-title candidates.
+- Added safe conditional cache revalidation and deterministic invalidation for
+  updates, extractor changes and quality warnings.
+- Versioned every transformation contract in `run.json` and increased the
+  offline suite to 86 tests, including generated-catalog drift checks.
+
+### Deferred
+
+- Durable brief history and comparison remain Milestone 3.
+- Publisher transcripts, advertisement handling and transcript provenance
+  remain in the later podcast milestone.
+- Ongoing cadence monitoring, corpus balancing and source expansion remain G6
+  through G9.
+
 ## 0.4.0 - 2026-08-28
 
 ### Reliability

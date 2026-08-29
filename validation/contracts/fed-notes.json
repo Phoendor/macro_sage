@@ -1,0 +1,49 @@
+{
+  "contract_version": 1,
+  "source_id": "fed-notes",
+  "review": {
+    "status": "reviewed",
+    "reviewer": "Codex Milestone 2 source-contract review, 2026-08-29",
+    "reviewed_at": "2026-08-29T06:59:15.483776+00:00"
+  },
+  "newest_entry": {
+    "title": "FEDS Note: A Decade of U.S. Cross-Border Payments Efforts",
+    "url": "https://www.federalreserve.gov/econres/notes/feds-notes/a-decade-of-u-s-cross-border-payments-efforts-20260826.html",
+    "original_url": "https://www.federalreserve.gov/econres/notes/feds-notes/a-decade-of-u-s-cross-border-payments-efforts-20260826.html",
+    "published_at": "2026-08-26T18:30:00+00:00",
+    "updated_at": null,
+    "raw_published": "Wed, 26 Aug 2026 18:30:00 GMT",
+    "raw_updated": null,
+    "guid": "https://www.federalreserve.gov/econres/notes/feds-notes/a-decade-of-u-s-cross-border-payments-efforts-20260826.html",
+    "media_url": null,
+    "media_type": null,
+    "timestamp_warning": null
+  },
+  "representative_entry": {
+    "title": "FEDS Note: A Decade of U.S. Cross-Border Payments Efforts",
+    "url": "https://www.federalreserve.gov/econres/notes/feds-notes/a-decade-of-u-s-cross-border-payments-efforts-20260826.html",
+    "original_url": "https://www.federalreserve.gov/econres/notes/feds-notes/a-decade-of-u-s-cross-border-payments-efforts-20260826.html",
+    "published_at": "2026-08-26T18:30:00+00:00",
+    "updated_at": null,
+    "raw_published": "Wed, 26 Aug 2026 18:30:00 GMT",
+    "raw_updated": null,
+    "guid": "https://www.federalreserve.gov/econres/notes/feds-notes/a-decade-of-u-s-cross-border-payments-efforts-20260826.html",
+    "media_url": null,
+    "media_type": null,
+    "timestamp_warning": null
+  },
+  "extraction_attempts": [
+    {
+      "title": "FEDS Note: A Decade of U.S. Cross-Border Payments Efforts",
+      "url": "https://www.federalreserve.gov/econres/notes/feds-notes/a-decade-of-u-s-cross-border-payments-efforts-20260826.html",
+      "status": "passed"
+    }
+  ],
+  "resolved_content_url": "https://www.federalreserve.gov/econres/notes/feds-notes/a-decade-of-u-s-cross-border-payments-efforts-20260826.html",
+  "extraction_method": "full_html",
+  "content_type": "text/html",
+  "content_length": 37240,
+  "content_sha256": "2eaede3f2c88b6de805d6558e184ef31b85ca6d939db3632eda7c002656cd67c",
+  "revision_id": "7d6509bcbcd3037ccaa738e8",
+  "warnings": []
+}

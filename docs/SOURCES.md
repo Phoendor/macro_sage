@@ -1,37 +1,46 @@
 # Source policy
 
-Enabled sources must:
+Default sources must:
 
 - publish a stable HTTPS RSS or Atom feed;
-- expose a publication timestamp and canonical item link;
+- expose a publication timestamp and canonical item link, or have a documented
+  explicit timestamp policy;
 - allow retrieval of the linked HTML or PDF with a normal research-reader user agent;
 - yield meaningful main text through the generic extractor;
 - be reputable primary institutions or established research publishers.
 
-Run `macro-sage validate-sources` after changing the list. It fetches the newest
-entry from every enabled article feed and requires at least 250 extracted
-characters. It intentionally does not run in CI because publisher availability is
-external and changes over time.
+Run `macro-sage validate-sources --include-podcasts` after changing the list. It
+records feed HTTP/redirect behavior, timestamp quality, parse counts and up to
+three representative extraction attempts for every default text and optional
+audio source. Podcast media is probed without transcription or a complete
+download. Live validation intentionally does not run in CI because publisher
+availability is external and changes over time.
 
-The maintained inventory, publication cadence, description, links, and rationale
-for every configured source live in
-[SOURCE_CATALOG.md](SOURCE_CATALOG.md). An offline test prevents that catalog from
-drifting away from `config/sources.toml`.
+`config/sources.toml` is authoritative. It generates
+[SOURCE_CATALOG.md](SOURCE_CATALOG.md) and
+[SOURCE_COVERAGE.md](SOURCE_COVERAGE.md); offline checks compare the complete
+generated documents rather than only checking that IDs appear.
 
 ## Verification record
 
-The feeds configured for ING, Saxo articles, BNP Paribas Economic Research, ECB,
-Federal Reserve Board, BIS, Bank of Canada, and Liberty Street Economics returned
-valid entries in a live feed check on 2026-07-27. The expanded Bank of England,
-SNB, Norges Bank, Riksbank, San Francisco Fed, Bank of Japan, Bruegel, and NBER
-feeds were also checked through original-text extraction on that date. Bruegel
-later began consistently returning HTTP 403 and is now kept as a
-configured-but-disabled candidate. The extraction validator is the authoritative
-repeatable check.
+The current baseline is
+[`validation/source-validation-2026-08-29.json`](../validation/source-validation-2026-08-29.json).
+It checked all 31 default text sources and all 16 optional podcast feeds under
+application version 0.4.5: 45 passed and two were degraded, with no completely
+failed source contract. BIS Research Hub remained usable through a current BOJ
+paper, but two newer Kansas City Fed links timed out. The Norges Regional
+Network report's prose extracted completely, while its charts lost tabular
+structure and are therefore explicitly degraded. One reviewed, body-free
+representative contract record is retained per participating source under
+`validation/contracts/`.
 
-After the unavailable Bruegel feed was disabled, a complete live pass on
-2026-07-27 verified original-text extraction for all 31 enabled article sources
-and enclosure discovery for all 16 opt-in podcast feeds.
+That pass also corrected the Norges Monetary Policy Report contract from an old
+PDF assumption to its current complete web report, accepted Acast's generic
+range-probe response only because the HSBC feed explicitly declares
+`audio/mpeg`, and documented explicit timestamp policies for feeds that do not
+publish a conventional item publication field. A malformed 2035 BIS date and a
+future Bank of Canada event entry are retained as warnings but are not eligible
+for daily collection.
 
 RBA and RBNZ feeds were considered but returned HTTP 403 to the application
 client. IMF Blog and CEPR/VoxEU feeds were rejected by their edge services. Saxo
@@ -56,14 +65,15 @@ The official feed indexes are:
 
 ## Podcasts
 
-Podcast feeds are preserved as disabled, explicit opt-ins. They are excluded from
-routine testing to avoid downloads and paid transcription. Enabling them uses at
+Podcast feeds have explicit `optional` participation, distinct from unavailable
+sources. They are excluded from routine offline tests to avoid downloads and
+paid transcription. Enabling them uses at
 most the configured number of same-day episodes per feed and caches completed
 transcripts. `macro-sage validate-sources --include-podcasts` verifies feed
 discovery and audio enclosures without downloading the media.
 
-Some official publication feeds point to short landing pages. Sources marked
-`prefer_pdf` fetch and parse the official linked PDF so the model receives the
-actual report rather than its teaser. The BOJ's broad update feed is filtered by
-URL before item limits are applied, preventing spreadsheets and routine
-statistical tables from entering the text corpus.
+Some official publication feeds point to short landing pages. Sources with a
+`full_pdf` acquisition contract use a tested declarative PDF-link pattern so the
+model receives the report rather than a teaser or unrelated appendix. The BOJ's
+broad update feed is filtered by URL before daily selection, preventing
+spreadsheets and routine statistical tables from entering the text corpus.

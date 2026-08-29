@@ -1,0 +1,31 @@
+{
+  "contract_version": 1,
+  "source_id": "pod-morgan-stanley",
+  "review": {
+    "status": "reviewed",
+    "reviewer": "Codex Milestone 2 source-contract review, 2026-08-29",
+    "reviewed_at": "2026-08-29T06:59:15.483776+00:00"
+  },
+  "newest_entry": {
+    "title": "The Politics Behind the Rising U.S. Debt",
+    "url": "gid://art19-episode-locator/V0/vsskbSr_ZsfBKZD4I9phVME5USvL0XpXDa4uNq-QyJg",
+    "original_url": "gid://art19-episode-locator/V0/vsskbSr_ZsfBKZD4I9phVME5USvL0XpXDa4uNq-QyJg",
+    "published_at": "2026-08-28T20:00:00+00:00",
+    "updated_at": null,
+    "raw_published": "Fri, 28 Aug 2026 20:00:00 -0000",
+    "raw_updated": null,
+    "guid": "gid://art19-episode-locator/V0/vsskbSr_ZsfBKZD4I9phVME5USvL0XpXDa4uNq-QyJg",
+    "media_url": "https://pdst.fm/e/pscrb.fm/rss/p/rss.art19.com/episodes/0199a413-c981-45ec-95bd-9304e5b718e6.mp3?rss_browser=BAhJIg5NYWNyb1NhZ2UGOgZFVA%3D%3D--372221597f7dbe625dc05354cc555550418f43da",
+    "media_type": "audio/mpeg",
+    "timestamp_warning": null
+  },
+  "representative_entry": null,
+  "extraction_attempts": null,
+  "resolved_content_url": "https://rss.art19.com/episodes/0199a413-c981-45ec-95bd-9304e5b718e6.mp3?pscrb_ip=2a02:a451:aac9:0:a164:8f9b:63d6:beda&rss_browser=BAhJIg5NYWNyb1NhZ2UGOgZFVA%3D%3D--372221597f7dbe625dc05354cc555550418f43da",
+  "extraction_method": "audio_enclosure_probe",
+  "content_type": "audio/mpeg",
+  "content_length": null,
+  "content_sha256": null,
+  "revision_id": null,
+  "warnings": []
+}

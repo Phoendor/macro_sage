@@ -1,0 +1,49 @@
+{
+  "contract_version": 1,
+  "source_id": "bnp-eco-perspectives",
+  "review": {
+    "status": "reviewed",
+    "reviewer": "Codex Milestone 2 source-contract review, 2026-08-29",
+    "reviewed_at": "2026-08-29T06:59:15.483776+00:00"
+  },
+  "newest_entry": {
+    "title": "Emerging Economies: So far weathering the energy shock well",
+    "url": "https://economic-research.bnpparibas.com/html/en-US/Emerging-Economies-weathering-energy-shock-well-7/24/2026,53682",
+    "original_url": "https://economic-research.bnpparibas.com/html/en-US/Emerging-Economies-weathering-energy-shock-well-7/24/2026,53682",
+    "published_at": "2026-07-23T22:00:00+00:00",
+    "updated_at": null,
+    "raw_published": "Fri, 24 Jul 2026 00:00:00 +0200",
+    "raw_updated": null,
+    "guid": null,
+    "media_url": null,
+    "media_type": null,
+    "timestamp_warning": null
+  },
+  "representative_entry": {
+    "title": "Emerging Economies: So far weathering the energy shock well",
+    "url": "https://economic-research.bnpparibas.com/html/en-US/Emerging-Economies-weathering-energy-shock-well-7/24/2026,53682",
+    "original_url": "https://economic-research.bnpparibas.com/html/en-US/Emerging-Economies-weathering-energy-shock-well-7/24/2026,53682",
+    "published_at": "2026-07-23T22:00:00+00:00",
+    "updated_at": null,
+    "raw_published": "Fri, 24 Jul 2026 00:00:00 +0200",
+    "raw_updated": null,
+    "guid": null,
+    "media_url": null,
+    "media_type": null,
+    "timestamp_warning": null
+  },
+  "extraction_attempts": [
+    {
+      "title": "Emerging Economies: So far weathering the energy shock well",
+      "url": "https://economic-research.bnpparibas.com/html/en-US/Emerging-Economies-weathering-energy-shock-well-7/24/2026,53682",
+      "status": "passed"
+    }
+  ],
+  "resolved_content_url": "https://economic-research.bnpparibas.com/html/en-US/Emerging-Economies-weathering-energy-shock-well-7/24/2026,53682",
+  "extraction_method": "full_html",
+  "content_type": "text/html",
+  "content_length": 1558,
+  "content_sha256": "c9918fdc2c51f5dd9a839a84f4ee591da76c9afb02ee7035fae85ac1aa7f1e5d",
+  "revision_id": "11f9ba93a75962efdb219dfb",
+  "warnings": []
+}

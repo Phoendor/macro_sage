@@ -1,0 +1,31 @@
+{
+  "contract_version": 1,
+  "source_id": "pod-jpm-at-any-rate",
+  "review": {
+    "status": "reviewed",
+    "reviewer": "Codex Milestone 2 source-contract review, 2026-08-29",
+    "reviewed_at": "2026-08-29T06:59:15.483776+00:00"
+  },
+  "newest_entry": {
+    "title": "Global FX: EU deep dive, US roundup, back to school themes",
+    "url": "https://atanyrate.podbean.com/e/global-fx-xxx-fri-28-aug-draft/",
+    "original_url": "https://atanyrate.podbean.com/e/global-fx-xxx-fri-28-aug-draft/",
+    "published_at": "2026-08-28T16:17:23+00:00",
+    "updated_at": null,
+    "raw_published": "Fri, 28 Aug 2026 12:17:23 -0400",
+    "raw_updated": null,
+    "guid": "atanyrate.podbean.com/cc996774-f755-39d1-9fe3-ed5358f6b6e8",
+    "media_url": "https://mcdn.podbean.com/mf/web/xvgf9ctmg6azzi88/AARFX260828_KAL-1-D0C29JLX.mp3",
+    "media_type": "audio/mpeg",
+    "timestamp_warning": null
+  },
+  "representative_entry": null,
+  "extraction_attempts": null,
+  "resolved_content_url": "https://s335.podbean.com/pb/fe634a70bb42e4ac5630c99b6a155abe/6a91ee7d/data1/fs140/6141678/uploads/AARFX260828_KAL-1-D0C29JLX.mp3?pbss=745e03fb-d753-5e22-a8a7-b58264520cf5",
+  "extraction_method": "audio_enclosure_probe",
+  "content_type": "audio/mpeg",
+  "content_length": 30899719,
+  "content_sha256": null,
+  "revision_id": null,
+  "warnings": []
+}

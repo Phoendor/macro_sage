@@ -4,7 +4,7 @@ from datetime import date, datetime
 from zoneinfo import ZoneInfo
 
 from macro_sage.extraction import extract
-from macro_sage.feeds import discover
+from macro_sage.feeds import discover_with_diagnostics
 from macro_sage.http import HttpClient
 from macro_sage.models import (
     CollectionReport,
@@ -25,6 +25,35 @@ def is_on_date(value: datetime | None, target: date, timezone_name: str) -> bool
     return value.astimezone(ZoneInfo(timezone_name)).date() == target
 
 
+def _empty_state(
+    source: SourceDefinition,
+    target: date,
+    dated_items: list,
+    invalid_count: int,
+    timezone_name: str,
+) -> tuple[SourceState, str]:
+    if not dated_items and invalid_count:
+        return SourceState.INVALID_DATES, (
+            f"{invalid_count} scanned entries lacked a valid publication timestamp"
+        )
+    if dated_items:
+        newest = max(item.published_at for item in dated_items if item.published_at)
+        newest_day = newest.astimezone(ZoneInfo(timezone_name)).date()
+        age = (target - newest_day).days
+        if age > source.max_gap_days:
+            return SourceState.STALE, (
+                f"newest publication is {newest_day.isoformat()} ({age} days old; "
+                f"normal gap <= {source.max_gap_days})"
+            )
+    if not source.event_driven and target.weekday() in source.active_weekdays:
+        return SourceState.EXPECTED_ABSENT, (
+            f"publication expected on {target.isoformat()} but none was discovered"
+        )
+    return SourceState.QUIET_EXPECTED, (
+        f"no publication expected or observed on {target.isoformat()}"
+    )
+
+
 def collect_articles(
     sources: list[SourceDefinition],
     target: date,
@@ -34,69 +63,122 @@ def collect_articles(
     timezone_name: str,
 ) -> CollectionReport:
     report = CollectionReport()
+    collected_ids: set[str] = set()
     for source in sources:
         if source.kind is not SourceKind.ARTICLE:
             continue
         try:
-            items = discover(source, client)
+            discovery = discover_with_diagnostics(source, client)
         except Exception as exc:
-            report.outcomes.append(
-                SourceOutcome(
-                    source.id,
-                    source.name,
-                    source.kind,
-                    SourceState.FAILED,
-                    stage="feed discovery",
-                    detail=redact_text(str(exc)),
-                )
+            outcome = SourceOutcome(
+                source.id,
+                source.name,
+                source.kind,
+                SourceState.FAILED,
+                stage="feed discovery",
+                detail=redact_text(str(exc)),
             )
+            report.outcomes.append(outcome)
+            store.record_source_health(outcome)
             continue
 
-        matching = [
-            item for item in items if is_on_date(item.published_at, target, timezone_name)
-        ]
-        if not matching:
-            report.outcomes.append(
-                SourceOutcome(
+        invalid_items = [item for item in discovery.items if item.published_at is None]
+        for item in invalid_items:
+            report.item_outcomes.append(
+                ItemOutcome(
                     source.id,
-                    source.name,
-                    source.kind,
-                    SourceState.NO_ITEMS,
-                    detail=f"no items on {target.isoformat()}",
+                    item.title,
+                    item.url,
+                    ItemState.INVALID_DATE,
+                    stage="publication dating",
+                    detail=item.timestamp_warning or "missing publication timestamp",
                 )
             )
+        dated_items = [item for item in discovery.items if item.published_at is not None]
+        matching_all = [
+            item
+            for item in dated_items
+            if is_on_date(item.published_at, target, timezone_name)
+        ]
+        matching = matching_all[: source.daily_limit]
+        for item in matching_all[source.daily_limit :]:
+            report.item_outcomes.append(
+                ItemOutcome(
+                    source.id,
+                    item.title,
+                    item.url,
+                    ItemState.FILTERED,
+                    stage="daily inclusion limit",
+                    detail=f"daily limit is {source.daily_limit}",
+                )
+            )
+        if not matching:
+            state, detail = _empty_state(
+                source,
+                target,
+                dated_items,
+                len(invalid_items),
+                timezone_name,
+            )
+            outcome = SourceOutcome(
+                source.id,
+                source.name,
+                source.kind,
+                state,
+                stage="publication dating" if state is SourceState.INVALID_DATES else None,
+                detail=detail,
+            )
+            report.outcomes.append(outcome)
+            store.record_source_health(outcome)
             continue
 
         collected = 0
         failures: list[str] = []
+        degraded: list[str] = []
+        duplicates = 0
         for item in matching:
-            cached = store.get(item.document_id)
-            if cached:
-                report.documents.append(cached)
-                report.item_outcomes.append(
-                    ItemOutcome(
-                        source.id,
-                        item.title,
-                        item.url,
-                        ItemState.CACHED,
-                        document_id=cached.id,
-                    )
-                )
-                collected += 1
-                continue
+            cached = store.get_for_item(item)
             try:
-                document = extract(item, client)
-                store.save(document)
-                report.documents.append(document)
+                document = extract(item, client, cached=cached)
+                saved = store.save(document, item=item)
+                if saved.id in collected_ids:
+                    duplicates += 1
+                    report.item_outcomes.append(
+                        ItemOutcome(
+                            source.id,
+                            item.title,
+                            item.url,
+                            ItemState.DUPLICATE,
+                            stage="identity resolution",
+                            detail="same canonical document or exact content already collected",
+                            document_id=saved.id,
+                        )
+                    )
+                    continue
+                collected_ids.add(saved.id)
+                report.documents.append(saved)
+                is_cached = bool(cached and cached.revision_id == saved.revision_id)
+                item_state = (
+                    ItemState.DEGRADED
+                    if saved.quality_flags
+                    else ItemState.CACHED
+                    if is_cached
+                    else ItemState.COLLECTED
+                )
+                detail = ", ".join(saved.quality_flags) or None
                 report.item_outcomes.append(
                     ItemOutcome(
                         source.id,
                         item.title,
                         item.url,
-                        ItemState.COLLECTED,
-                        document_id=document.id,
+                        item_state,
+                        stage="content quality" if saved.quality_flags else None,
+                        detail=detail,
+                        document_id=saved.id,
                     )
                 )
+                if saved.quality_flags:
+                    degraded.append(f"{item.title}: {detail}")
                 collected += 1
             except Exception as exc:
                 safe_error = redact_text(str(exc))
@@ -111,22 +193,22 @@ def collect_articles(
                         detail=safe_error,
                     )
                 )
-        state = (
-            SourceState.PARTIAL
-            if collected and failures
-            else SourceState.FAILED
-            if failures
-            else SourceState.COLLECTED
+        details = [*failures, *degraded]
+        if failures or degraded:
+            state = SourceState.PARTIAL if collected else SourceState.FAILED
+        elif duplicates and not collected:
+            state = SourceState.DUPLICATE
+        else:
+            state = SourceState.COLLECTED
+        outcome = SourceOutcome(
+            source.id,
+            source.name,
+            source.kind,
+            state,
+            document_count=collected,
+            stage="article extraction" if failures else "content quality" if degraded else None,
+            detail="; ".join(details) if details else None,
         )
-        report.outcomes.append(
-            SourceOutcome(
-                source.id,
-                source.name,
-                source.kind,
-                state,
-                document_count=collected,
-                stage="article extraction" if failures else None,
-                detail="; ".join(failures) if failures else None,
-            )
-        )
+        report.outcomes.append(outcome)
+        store.record_source_health(outcome)
     return report

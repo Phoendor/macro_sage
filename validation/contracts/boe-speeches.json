@@ -1,0 +1,49 @@
+{
+  "contract_version": 1,
+  "source_id": "boe-speeches",
+  "review": {
+    "status": "reviewed",
+    "reviewer": "Codex Milestone 2 source-contract review, 2026-08-29",
+    "reviewed_at": "2026-08-29T06:59:15.483776+00:00"
+  },
+  "newest_entry": {
+    "title": "It’s all about the role of money - speech by Nathanaël Benjamin",
+    "url": "https://www.bankofengland.co.uk/speech/2026/july/nathanael-benjamin-speech-at-omfif",
+    "original_url": "https://www.bankofengland.co.uk/speech/2026/july/nathanael-benjamin-speech-at-omfif",
+    "published_at": "2026-07-21T10:00:00+00:00",
+    "updated_at": null,
+    "raw_published": "Tue, 21 Jul 2026 11:00:00 +0100",
+    "raw_updated": null,
+    "guid": "{ADA504F7-71BB-489D-8548-27BCBC3A667F}",
+    "media_url": null,
+    "media_type": null,
+    "timestamp_warning": null
+  },
+  "representative_entry": {
+    "title": "It’s all about the role of money - speech by Nathanaël Benjamin",
+    "url": "https://www.bankofengland.co.uk/speech/2026/july/nathanael-benjamin-speech-at-omfif",
+    "original_url": "https://www.bankofengland.co.uk/speech/2026/july/nathanael-benjamin-speech-at-omfif",
+    "published_at": "2026-07-21T10:00:00+00:00",
+    "updated_at": null,
+    "raw_published": "Tue, 21 Jul 2026 11:00:00 +0100",
+    "raw_updated": null,
+    "guid": "{ADA504F7-71BB-489D-8548-27BCBC3A667F}",
+    "media_url": null,
+    "media_type": null,
+    "timestamp_warning": null
+  },
+  "extraction_attempts": [
+    {
+      "title": "It’s all about the role of money - speech by Nathanaël Benjamin",
+      "url": "https://www.bankofengland.co.uk/speech/2026/july/nathanael-benjamin-speech-at-omfif",
+      "status": "passed"
+    }
+  ],
+  "resolved_content_url": "https://www.bankofengland.co.uk/speech/2026/july/nathanael-benjamin-speech-at-omfif",
+  "extraction_method": "full_html",
+  "content_type": "text/html",
+  "content_length": 36769,
+  "content_sha256": "5a5b3915b0055c03a0c6a54cd5375d31d71337a051e4b97685e8c4468022ab75",
+  "revision_id": "3c21089dbf315241d08c23e1",
+  "warnings": []
+}

@@ -1,0 +1,49 @@
+{
+  "contract_version": 1,
+  "source_id": "nyfed-liberty-street",
+  "review": {
+    "status": "reviewed",
+    "reviewer": "Codex Milestone 2 source-contract review, 2026-08-29",
+    "reviewed_at": "2026-08-29T06:59:15.483776+00:00"
+  },
+  "newest_entry": {
+    "title": "Has Broader Stock Market Participation Changed How Interest Rates Affect the Economy?",
+    "url": "https://libertystreeteconomics.newyorkfed.org/2026/08/has-broader-stock-market-participation-changed-how-interest-rates-affect-the-economy/",
+    "original_url": "https://libertystreeteconomics.newyorkfed.org/2026/08/has-broader-stock-market-participation-changed-how-interest-rates-affect-the-economy/",
+    "published_at": "2026-08-19T11:00:00+00:00",
+    "updated_at": null,
+    "raw_published": "Wed, 19 Aug 2026 11:00:00 +0000",
+    "raw_updated": null,
+    "guid": "https://libertystreeteconomics.newyorkfed.org/?p=44647",
+    "media_url": null,
+    "media_type": null,
+    "timestamp_warning": null
+  },
+  "representative_entry": {
+    "title": "Has Broader Stock Market Participation Changed How Interest Rates Affect the Economy?",
+    "url": "https://libertystreeteconomics.newyorkfed.org/2026/08/has-broader-stock-market-participation-changed-how-interest-rates-affect-the-economy/",
+    "original_url": "https://libertystreeteconomics.newyorkfed.org/2026/08/has-broader-stock-market-participation-changed-how-interest-rates-affect-the-economy/",
+    "published_at": "2026-08-19T11:00:00+00:00",
+    "updated_at": null,
+    "raw_published": "Wed, 19 Aug 2026 11:00:00 +0000",
+    "raw_updated": null,
+    "guid": "https://libertystreeteconomics.newyorkfed.org/?p=44647",
+    "media_url": null,
+    "media_type": null,
+    "timestamp_warning": null
+  },
+  "extraction_attempts": [
+    {
+      "title": "Has Broader Stock Market Participation Changed How Interest Rates Affect the Economy?",
+      "url": "https://libertystreeteconomics.newyorkfed.org/2026/08/has-broader-stock-market-participation-changed-how-interest-rates-affect-the-economy/",
+      "status": "passed"
+    }
+  ],
+  "resolved_content_url": "https://libertystreeteconomics.newyorkfed.org/2026/08/has-broader-stock-market-participation-changed-how-interest-rates-affect-the-economy/",
+  "extraction_method": "full_html",
+  "content_type": "text/html",
+  "content_length": 7304,
+  "content_sha256": "3573586a485783286d08dcd040d753571dbf53f05156247598215fa2a0270cea",
+  "revision_id": "ae0497f0979e680eb57a33d5",
+  "warnings": []
+}

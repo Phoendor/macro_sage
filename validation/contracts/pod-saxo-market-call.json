@@ -1,0 +1,31 @@
+{
+  "contract_version": 1,
+  "source_id": "pod-saxo-market-call",
+  "review": {
+    "status": "reviewed",
+    "reviewer": "Codex Milestone 2 source-contract review, 2026-08-29",
+    "reviewed_at": "2026-08-29T06:59:15.483776+00:00"
+  },
+  "newest_entry": {
+    "title": "Can Fed Chair Warsh give the market what it wants?",
+    "url": "https://saxostrats.podbean.com/e/can-fed-chair-warsh-give-the-market-what-it-wants/",
+    "original_url": "https://saxostrats.podbean.com/e/can-fed-chair-warsh-give-the-market-what-it-wants/",
+    "published_at": "2026-08-28T09:10:53+00:00",
+    "updated_at": null,
+    "raw_published": "Fri, 28 Aug 2026 11:10:53 +0200",
+    "raw_updated": null,
+    "guid": "saxostrats.podbean.com/225b4254-c95f-3fae-a52e-a34f4f3549e9",
+    "media_url": "https://mcdn.podbean.com/mf/web/vxyirfs2riv6se6w/2026_08_28_SaxoMarketCall.mp3",
+    "media_type": "audio/mpeg",
+    "timestamp_warning": null
+  },
+  "representative_entry": null,
+  "extraction_attempts": null,
+  "resolved_content_url": "https://s504.podbean.com/pb/e64a878cd724ff4be3a53c7adf546ee9/6a91f0fa/data1/fs56/5709963/uploads/2026_08_28_SaxoMarketCall.mp3?pbss=cfd636fb-24c8-5ec1-aa3c-3eae33ff6810",
+  "extraction_method": "audio_enclosure_probe",
+  "content_type": "audio/mpeg",
+  "content_length": 26398035,
+  "content_sha256": null,
+  "revision_id": null,
+  "warnings": []
+}

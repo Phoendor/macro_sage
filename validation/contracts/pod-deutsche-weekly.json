@@ -1,0 +1,31 @@
+{
+  "contract_version": 1,
+  "source_id": "pod-deutsche-weekly",
+  "review": {
+    "status": "reviewed",
+    "reviewer": "Codex Milestone 2 source-contract review, 2026-08-29",
+    "reviewed_at": "2026-08-29T06:59:15.483776+00:00"
+  },
+  "newest_entry": {
+    "title": "Watching for the Fed’s preferred inflation gauge",
+    "url": "https://www.deutschewealth.com/",
+    "original_url": "https://www.deutschewealth.com/",
+    "published_at": "2026-08-23T23:00:00+00:00",
+    "updated_at": null,
+    "raw_published": "Mon, 24 Aug 2026 00:00:00 +0100",
+    "raw_updated": null,
+    "guid": "32075819-644d-4cbd-a44f-142c4820818f",
+    "media_url": "https://episodes.captivate.fm/episode/32075819-644d-4cbd-a44f-142c4820818f.mp3",
+    "media_type": "audio/mpeg",
+    "timestamp_warning": null
+  },
+  "representative_entry": null,
+  "extraction_attempts": null,
+  "resolved_content_url": "https://podcasts.captivate.fm/media/73fd1d86-579e-49ed-b32a-04693471b6e0/26-08-21-Perspectives-Podcast.mp3",
+  "extraction_method": "audio_enclosure_probe",
+  "content_type": "audio/mpeg",
+  "content_length": 11269582,
+  "content_sha256": null,
+  "revision_id": null,
+  "warnings": []
+}

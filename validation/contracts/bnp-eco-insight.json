@@ -1,0 +1,49 @@
+{
+  "contract_version": 1,
+  "source_id": "bnp-eco-insight",
+  "review": {
+    "status": "reviewed",
+    "reviewer": "Codex Milestone 2 source-contract review, 2026-08-29",
+    "reviewed_at": "2026-08-29T06:59:15.483776+00:00"
+  },
+  "newest_entry": {
+    "title": "United States: A drop of oil in the Treasuries market’s gears",
+    "url": "https://economic-research.bnpparibas.com/html/en-US/United-States-drop-Treasuries-market-gears-6/18/2026,53561",
+    "original_url": "https://economic-research.bnpparibas.com/html/en-US/United-States-drop-Treasuries-market-gears-6/18/2026,53561",
+    "published_at": "2026-06-17T22:00:00+00:00",
+    "updated_at": null,
+    "raw_published": "Thu, 18 Jun 2026 00:00:00 +0200",
+    "raw_updated": null,
+    "guid": null,
+    "media_url": null,
+    "media_type": null,
+    "timestamp_warning": null
+  },
+  "representative_entry": {
+    "title": "United States: A drop of oil in the Treasuries market’s gears",
+    "url": "https://economic-research.bnpparibas.com/html/en-US/United-States-drop-Treasuries-market-gears-6/18/2026,53561",
+    "original_url": "https://economic-research.bnpparibas.com/html/en-US/United-States-drop-Treasuries-market-gears-6/18/2026,53561",
+    "published_at": "2026-06-17T22:00:00+00:00",
+    "updated_at": null,
+    "raw_published": "Thu, 18 Jun 2026 00:00:00 +0200",
+    "raw_updated": null,
+    "guid": null,
+    "media_url": null,
+    "media_type": null,
+    "timestamp_warning": null
+  },
+  "extraction_attempts": [
+    {
+      "title": "United States: A drop of oil in the Treasuries market’s gears",
+      "url": "https://economic-research.bnpparibas.com/html/en-US/United-States-drop-Treasuries-market-gears-6/18/2026,53561",
+      "status": "passed"
+    }
+  ],
+  "resolved_content_url": "https://economic-research.bnpparibas.com/html/en-US/United-States-drop-Treasuries-market-gears-6/18/2026,53561",
+  "extraction_method": "full_html",
+  "content_type": "text/html",
+  "content_length": 4173,
+  "content_sha256": "1655410ad0bc7bce271a5853c8ec328e4d4d658f2dc38b29134dabe57aec5b2e",
+  "revision_id": "6143cf4a63eac7fafab906cd",
+  "warnings": []
+}

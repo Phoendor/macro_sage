@@ -1,0 +1,31 @@
+{
+  "contract_version": 1,
+  "source_id": "pod-imf",
+  "review": {
+    "status": "reviewed",
+    "reviewer": "Codex Milestone 2 source-contract review, 2026-08-29",
+    "reviewed_at": "2026-08-29T06:59:15.483776+00:00"
+  },
+  "newest_entry": {
+    "title": "Pierre-Olivier Gourinchas on the Story Behind the Number",
+    "url": "https://www.imf.org/en/news/podcasts",
+    "original_url": "https://www.imf.org/en/news/podcasts",
+    "published_at": "2026-06-29T22:37:09+00:00",
+    "updated_at": null,
+    "raw_published": "Mon, 29 Jun 2026 22:37:09 +0000",
+    "raw_updated": null,
+    "guid": "cbd40854-4e5c-442f-9cc9-f7f496d2c527",
+    "media_url": "https://traffic.libsyn.com/secure/imfpodcast/Pierre-Olivier_Gourinchas-Audio_MIX_1.mp3?dest-id=355221",
+    "media_type": "audio/mpeg",
+    "timestamp_warning": null
+  },
+  "representative_entry": null,
+  "extraction_attempts": null,
+  "resolved_content_url": "https://content.libsyn.com/p/2/2/b/22b9b598ffaeceb3/Pierre-Olivier_Gourinchas-Audio_MIX_1.mp3?c_id=203559650&cs_id=203559650&destination_id=355221&response-content-type=audio%2Fmpeg&Expires=1787989098&Signature=IJPD3B53y9gnoLYvttCCEh24DdgYZCfK9gyr4BdbKS-wqXWsS82tbwv-Emxn2a8I-Ww7qEyCiVzAutZ952SYJvHxbIyuRkxlaP-GcYMU68YFQmqsX5U0lJ83xeXbINpBaYdqvDUhuDwthwpr8PMddFtxmyJv0r-2wYA8orGgV1uQY58xnUvAQH9cyhLlWTkjFhDTJTo307JVPM9WIj4r4iWXegheZ5zmaTS7zA4H8X~HJri~hd4M3qs6dC3uB0cKG~SgOCNIfr8jthdCpINMmkwpH1UYjldNWrBFly2Sf7LkQQNcAw0vrhJuUtxGDBTneBc1delrF67s4vC6IxCNgw__&Key-Pair-Id=K1YS7LZGUP96OI",
+  "extraction_method": "audio_enclosure_probe",
+  "content_type": "audio/mpeg",
+  "content_length": 30010367,
+  "content_sha256": null,
+  "revision_id": null,
+  "warnings": []
+}

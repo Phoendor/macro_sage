@@ -4,12 +4,16 @@ Macro Sage is intentionally a small batch application, not a framework.
 
 ## Data flow
 
-1. `config/sources.toml` defines stable publisher feeds.
-2. Feed entries are normalized and tracking parameters are removed.
-3. The original linked HTML or PDF is fetched; RSS body text is only a fallback.
-4. Documents are cached by a stable URL hash in SQLite.
-5. Every configured source receives an explicit collected, no-items, partial,
-   failed, or policy-skipped outcome.
+1. `config/sources.toml` is the versioned source, catalog and acquisition
+   inventory.
+2. All feed entries are normalized, deduplicated and sorted before scan and
+   daily-selection limits; publication and update times remain separate.
+3. The original linked HTML or configured PDF is fetched and quality checked;
+   feed body text is an explicitly degraded fallback.
+4. Canonical URLs and content hashes establish source-independent document
+   identity in a migrated, revision-preserving SQLite schema.
+5. Every discovery origin, content revision, source-health event, invalid date,
+   filter, duplicate, quiet period and failure remains auditable.
 6. Documents selected for synthesis receive short run-scoped citation keys such
    as `S001`; opaque canonical IDs remain internal.
 7. The OpenAI Responses API returns a Pydantic-validated `DailyBrief`, and the
@@ -43,12 +47,30 @@ the verified sources without fragile per-publisher CSS selectors. A
 publisher-specific adapter should only be introduced when a live validation
 proves generic extraction inadequate.
 
+The generic path rejects access-control/error pages, checks title and expected
+language plausibility, removes repeated text, preserves tables, validates PDF
+type/page/text density, and retains both the landing and resolved content URLs.
+PDF sources use declarative link patterns in the inventory. A fallback to feed
+text is never represented as full publisher content.
+
+### Publication time is a source contract
+
+An RSS/Atom `updated` value is not silently treated as publication time. Feeds
+that use it as their publication contract opt in explicitly; NBER's undated
+weekly batch explicitly uses the official feed `Last-Modified` header. Raw,
+parsed publication and update values are retained separately. Missing,
+malformed and implausibly future values produce explicit outcomes.
+
 ### SQLite as the local boundary
 
-SQLite provides idempotency without introducing an external database. It also
-lets a failed model call reuse already fetched documents. Local runs reuse it
-directly; GitHub Actions restores and saves the same data directory through the
-repository cache so reruns do not normally pay to transcribe the same episode.
+SQLite provides idempotency without introducing an external database. Schema 2
+migrates the legacy table in place into canonical documents, immutable content
+revisions, many-to-many discovery origins, source-health events and review-only
+similar-title duplicate candidates. Canonical URL and exact-content matches may
+deduplicate; title similarity alone never merges evidence. ETag and
+Last-Modified validators are used only while the extractor version and quality
+contract still match. Local runs reuse the database directly; GitHub Actions
+restores the same data directory as a performance cache.
 
 ### Podcasts are opt-in and cloud-first
 

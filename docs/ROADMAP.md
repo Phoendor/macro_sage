@@ -1,9 +1,9 @@
 # Macro Sage action plan
 
-Status: approved; Milestone 1 code-complete and awaiting its scheduled-run
-observation gate. Milestones 2 onward remain planned.
+Status: approved; Milestones 1 and 2 are code-complete. Milestone 1 is still
+awaiting its scheduled-run observation gate; Milestone 3 is next.
 
-Baseline date: 2026-08-28.
+Baseline date: 2026-08-29.
 
 This is the authoritative implementation roadmap for turning Macro Sage from a
 working source-attributed research reader into a reliable daily macro
@@ -66,8 +66,9 @@ allowed after a timestamped market-data source has been integrated.
 - [x] Removed local Whisper and made cloud transcription explicit.
 - [x] Made the same CLI operate locally and in GitHub Actions.
 - [x] Added model preflight selection and recorded the selected models.
-- [x] Added bounded offline compilation, lint and regression checks; version
-  0.4.0 is verified from a clean editable installation.
+- [x] Added bounded offline compilation, generated-catalog validation, lint and
+  regression checks; version 0.4.5 is verified from a clean editable
+  installation.
 
 ### Current operating state
 
@@ -91,7 +92,11 @@ allowed after a timestamped market-data source has been integrated.
 - The current transcription model is gpt-4o-mini-transcribe with whisper-1 as a
   preflight compatibility fallback; request-time fallback is not implemented.
 - The proposed gpt-transcribe migration has not been implemented.
-- The last complete documented live source validation was 2026-07-27.
+- The current live source baseline is 2026-08-29: all 47 participating sources
+  have reviewed contract records; 45 passed, BIS Research Hub is degraded by
+  two explicit Kansas City Fed timeouts while a current BOJ paper passed, and
+  Norges Regional Network is degraded because charts lose tabular structure
+  even though its prose extracts completely.
 - The 2026-08-25 run collected 13 documents from six sources; ING and Saxo
   supplied nine of them. The configured inventory is broad, but daily input can
   still be concentrated in a few prolific publishers.
@@ -309,14 +314,14 @@ Acceptance criteria:
 
 ### B1. Version every transformation
 
-- [ ] Define explicit versions for source configuration, extraction behavior,
+- [x] Define explicit versions for source configuration, extraction behavior,
   corpus preparation, synthesis prompt, output schema, transcription prompt and
   renderer.
-- [ ] Save those versions, the application version and Git commit in run.json.
-- [ ] Save the exact selected model identifiers and reasoning settings.
-- [ ] Add backward-compatible SQLite migrations rather than recreating the
+- [x] Save those versions, the application version and Git commit in run.json.
+- [x] Save the exact selected model identifiers and reasoning settings.
+- [x] Add backward-compatible SQLite migrations rather than recreating the
   database.
-- [ ] Document which changes invalidate cached documents, transcripts or prior
+- [x] Document which changes invalidate cached documents, transcripts or prior
   briefs.
 
 ### B2. Store successful brief history
@@ -735,10 +740,10 @@ selection quality and portfolio expansion after that foundation is stable.
 
 ### G1. Make one structured inventory authoritative
 
-- [ ] Replace the overloaded enabled flag with explicit participation states:
+- [x] Replace the overloaded enabled flag with explicit participation states:
   default, optional, unavailable and candidate.
-- [ ] Keep healthy opt-in podcasts distinct from known-broken text sources.
-- [ ] Add structured metadata used by the program:
+- [x] Keep healthy opt-in podcasts distinct from known-broken text sources.
+- [x] Add structured metadata used by the program:
   - evidence tier: primary, institutional analysis, market interpretation or
     informed viewpoint;
   - geography, topic and applicable asset classes;
@@ -750,29 +755,29 @@ selection quality and portfolio expansion after that foundation is stable.
   - priority, critical coverage role, scan depth, daily inclusion limit and
     per-publisher selection cap;
   - validation status, last validation date and source owner/publisher.
-- [ ] Generate the human-readable catalog deterministically from the structured
+- [x] Generate the human-readable catalog deterministically from the structured
   inventory so cadence, links, descriptions, status and “why I need it” cannot
   drift.
-- [ ] Generate the “Would be good to have, but these don't work” section from a
+- [x] Generate the “Would be good to have, but these don't work” section from a
   structured candidate registry containing the attempted official endpoints,
   precise failure, last attempt, lawful alternative, constraint and next
   review date.
-- [ ] Test complete field equality between configuration and generated catalog,
+- [x] Test complete field equality between configuration and generated catalog,
   not merely the presence of source IDs.
 
 ### G2. Establish a fresh, auditable validation baseline
 
-- [ ] Run a complete live check of all 31 active text sources and 16 podcast
+- [x] Run a complete live check of all 31 active text sources and 16 podcast
   feeds before claiming current coverage.
-- [ ] Save a machine-readable validation record containing check time, HTTP and
+- [x] Save a machine-readable validation record containing check time, HTTP and
   redirect results, newest entry, parseable-entry count, resolved URL,
   extraction method, content type, content length, warnings and exact failure
   stage.
-- [ ] Retain one manually reviewed representative contract sample per active
+- [x] Retain one manually reviewed representative contract sample per active
   source.
-- [ ] Build a coverage matrix by geography, institution type, topic, asset
+- [x] Build a coverage matrix by geography, institution type, topic, asset
   class, evidence tier, language, cadence and acquisition method.
-- [ ] Record the 2026-08-25 concentration—nine of 13 documents from ING and
+- [x] Record the 2026-08-25 concentration—nine of 13 documents from ING and
   Saxo—as the initial corpus-balance benchmark.
 
 Acceptance criteria:
@@ -782,21 +787,21 @@ Acceptance criteria:
 
 ### G3. Correct feed discovery and publication dating
 
-- [ ] Retain published time, updated time and raw publisher timestamp as
+- [x] Retain published time, updated time and raw publisher timestamp as
   separate fields.
-- [ ] Never reinterpret an update date as a publication date unless an explicit
+- [x] Never reinterpret an update date as a publication date unless an explicit
   source policy authorizes it.
-- [ ] Normalize and sort all scanned entries before applying target-window and
+- [x] Normalize and sort all scanned entries before applying target-window and
   daily inclusion limits; do not assume feeds are newest-first.
-- [ ] Separate scan depth from maximum items selected for the day.
-- [ ] Report missing and malformed timestamps explicitly rather than folding
+- [x] Separate scan depth from maximum items selected for the day.
+- [x] Report missing and malformed timestamps explicitly rather than folding
   them into “no items.”
-- [ ] Distinguish no publication expected, no publication in the window,
+- [x] Distinguish no publication expected, no publication in the window,
   expected-but-absent, stale feed, entries filtered by policy, invalid dates,
   duplicate discoveries and discovery failure.
-- [ ] Normalize after redirects and honor reliable canonical links while
+- [x] Normalize after redirects and honor reliable canonical links while
   retaining original feed URLs, GUIDs and publisher identifiers.
-- [ ] Test RSS, Atom, podcast namespaces, timezones, daylight-saving boundaries,
+- [x] Test RSS, Atom, podcast namespaces, timezones, daylight-saving boundaries,
   out-of-order and high-volume feeds, revisions, missing dates and duplicates.
 
 Acceptance criteria:
@@ -811,28 +816,28 @@ documented live failure proves they are required.
 
 For HTML:
 
-- [ ] Verify that the final title resembles the feed item title.
-- [ ] Reject login, denial, cookie, bot-challenge, error and paywall bodies.
-- [ ] Validate expected language, text density, boilerplate ratio, repeated
+- [x] Verify that the final title resembles the feed item title.
+- [x] Reject login, denial, cookie, bot-challenge, error and paywall bodies.
+- [x] Validate expected language, text density, boilerplate ratio, repeated
   paragraphs, relevance and plausible completeness.
-- [ ] Preserve useful tables while removing menus and promotion.
-- [ ] Mark feed-summary or teaser fallback as visibly degraded; never call it a
+- [x] Preserve useful tables while removing menus and promotion.
+- [x] Mark feed-summary or teaser fallback as visibly degraded; never call it a
   complete article.
 
 For PDF:
 
-- [ ] Replace the loose link-text heuristic with tested source patterns or
+- [x] Replace the loose link-text heuristic with tested source patterns or
   selectors when a landing page contains multiple files.
-- [ ] Verify content type, title, date, language, page count and extracted-text
+- [x] Verify content type, title, date, language, page count and extracted-text
   density before accepting a PDF.
-- [ ] Detect scans, broken reading order, table corruption and wrong-language,
+- [x] Detect scans, broken reading order, table corruption and wrong-language,
   appendix, slide or unrelated-file selection.
-- [ ] Remove repeated headers and footers without deleting substantive text.
-- [ ] Retain both the publication landing page and actual PDF URL.
+- [x] Remove repeated headers and footers without deleting substantive text.
+- [x] Retain both the publication landing page and actual PDF URL.
 
 For podcasts:
 
-- [ ] Validate enclosure type and download behavior without downloading an
+- [x] Validate enclosure type and download behavior without downloading an
   entire episode during a lightweight health check.
 - [ ] Prefer and verify official publisher transcripts, then use the cloud
   transcription path in Workstream F.
@@ -849,23 +854,23 @@ Acceptance criteria:
 
 ### G5. Fix identity, cache freshness and revision provenance
 
-- [ ] Make canonical document identity independent of the source through which
+- [x] Make canonical document identity independent of the source through which
   it was discovered.
-- [ ] Add a many-to-many discovery-origin record so one BIS/central-bank speech
+- [x] Add a many-to-many discovery-origin record so one BIS/central-bank speech
   is synthesized once while every feed that exposed it remains auditable.
-- [ ] Use canonical/final URLs and content hashes for exact deduplication.
-- [ ] Use normalized-title similarity only to propose reviewable duplicate
+- [x] Use canonical/final URLs and content hashes for exact deduplication.
+- [x] Use normalized-title similarity only to propose reviewable duplicate
   candidates; never merge on title alone because recurring releases often have
   nearly identical names.
-- [ ] Store original URL, canonical URL, resolved content URL, publication and
+- [x] Store original URL, canonical URL, resolved content URL, publication and
   update times, fetch time, language, content hash, extractor version,
   extraction method and quality flags.
-- [ ] Use ETag and Last-Modified validators where available.
-- [ ] Refresh when the publisher reports an update, content changes, extraction
+- [x] Use ETag and Last-Modified validators where available.
+- [x] Refresh when the publisher reports an update, content changes, extraction
   behavior changes, or cached content has a quality warning.
-- [ ] Preserve prior revisions rather than silently overwriting evidence.
-- [ ] Store source-health events separately from article bodies.
-- [ ] Normalize tracking parameters and query ordering consistently.
+- [x] Preserve prior revisions rather than silently overwriting evidence.
+- [x] Store source-health events separately from article bodies.
+- [x] Normalize tracking parameters and query ordering consistently.
 
 Acceptance criteria:
 
@@ -1314,6 +1319,13 @@ Exit gate:
 
 Includes G1–G5, including the G2 live validation baseline, B1 storage and
 version migrations, and the relevant J1/J2 fixtures.
+
+Implementation status: code-complete on 2026-08-29 in application version
+0.4.5. The dated baseline contains 45 passing and two visibly degraded
+contracts, with no completely failed participating source. Publisher-transcript,
+advertisement and rich podcast-programme metadata items explicitly remain in
+Milestone 5; ongoing cadence monitoring, selection balancing and source
+expansion remain G6–G9.
 
 Exit gate:
 

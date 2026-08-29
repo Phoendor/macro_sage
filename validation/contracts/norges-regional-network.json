@@ -1,0 +1,51 @@
+{
+  "contract_version": 1,
+  "source_id": "norges-regional-network",
+  "review": {
+    "status": "reviewed",
+    "reviewer": "Codex Milestone 2 source-contract review, 2026-08-29",
+    "reviewed_at": "2026-08-29T06:59:15.483776+00:00"
+  },
+  "newest_entry": {
+    "title": "Recruitment difficulties have eased somewhat",
+    "url": "https://www.norges-bank.no/en/news-events/publications/Regional-network-reports/2026/2-2026/",
+    "original_url": "https://www.norges-bank.no/en/news-events/publications/Regional-network-reports/2026/2-2026/",
+    "published_at": "2026-06-11T08:00:00+00:00",
+    "updated_at": null,
+    "raw_published": "Thu, 11 Jun 2026 08:00:00 GMT",
+    "raw_updated": null,
+    "guid": "bc28ab4b-2daa-4295-b3c6-3bcdaac7b682",
+    "media_url": null,
+    "media_type": null,
+    "timestamp_warning": null
+  },
+  "representative_entry": {
+    "title": "Recruitment difficulties have eased somewhat",
+    "url": "https://www.norges-bank.no/en/news-events/publications/Regional-network-reports/2026/2-2026/",
+    "original_url": "https://www.norges-bank.no/en/news-events/publications/Regional-network-reports/2026/2-2026/",
+    "published_at": "2026-06-11T08:00:00+00:00",
+    "updated_at": null,
+    "raw_published": "Thu, 11 Jun 2026 08:00:00 GMT",
+    "raw_updated": null,
+    "guid": "bc28ab4b-2daa-4295-b3c6-3bcdaac7b682",
+    "media_url": null,
+    "media_type": null,
+    "timestamp_warning": null
+  },
+  "extraction_attempts": [
+    {
+      "title": "Recruitment difficulties have eased somewhat",
+      "url": "https://www.norges-bank.no/en/news-events/publications/Regional-network-reports/2026/2-2026/",
+      "status": "passed"
+    }
+  ],
+  "resolved_content_url": "https://www.norges-bank.no/contentassets/c4dfaabe47ed47b89fcb3df4fc3cad8d/regional-network-2-26.pdf?v=10062026163340",
+  "extraction_method": "full_pdf",
+  "content_type": "application/pdf",
+  "content_length": 36080,
+  "content_sha256": "fb4781a6db8ddb56d420115ba5b99fbfed7a2fb0f6d451a2bfeb8ca013fa5670",
+  "revision_id": "7786ddd07581e124829e6594",
+  "warnings": [
+    "pdf_reading_order_warning"
+  ]
+}

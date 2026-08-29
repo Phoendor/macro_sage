@@ -1,0 +1,49 @@
+{
+  "contract_version": 1,
+  "source_id": "riksbank-speeches",
+  "review": {
+    "status": "reviewed",
+    "reviewer": "Codex Milestone 2 source-contract review, 2026-08-29",
+    "reviewed_at": "2026-08-29T06:59:15.483776+00:00"
+  },
+  "newest_entry": {
+    "title": "Göran Hjelm: Signs of stronger economic activity, but the risks of inflation being too high remain",
+    "url": "https://www.riksbank.se/en-gb/press-and-published/speeches-and-presentations/2026/goran-hjelm-signs-of-stronger-economic-activity--but-the-risks-of-inflation-being-too-high-remain/",
+    "original_url": "https://www.riksbank.se/en-gb/press-and-published/speeches-and-presentations/2026/goran-hjelm-signs-of-stronger-economic-activity--but-the-risks-of-inflation-being-too-high-remain/",
+    "published_at": "2026-08-26T06:00:10+00:00",
+    "updated_at": "2026-08-26T06:00:10+00:00",
+    "raw_published": "Wed, 26 Aug 2026 08:00:10 +0200",
+    "raw_updated": "2026-08-26T08:00:10+02:00",
+    "guid": "https://www.riksbank.se/en-gb/press-and-published/speeches-and-presentations/2026/goran-hjelm-signs-of-stronger-economic-activity--but-the-risks-of-inflation-being-too-high-remain/",
+    "media_url": null,
+    "media_type": null,
+    "timestamp_warning": null
+  },
+  "representative_entry": {
+    "title": "Göran Hjelm: Signs of stronger economic activity, but the risks of inflation being too high remain",
+    "url": "https://www.riksbank.se/en-gb/press-and-published/speeches-and-presentations/2026/goran-hjelm-signs-of-stronger-economic-activity--but-the-risks-of-inflation-being-too-high-remain/",
+    "original_url": "https://www.riksbank.se/en-gb/press-and-published/speeches-and-presentations/2026/goran-hjelm-signs-of-stronger-economic-activity--but-the-risks-of-inflation-being-too-high-remain/",
+    "published_at": "2026-08-26T06:00:10+00:00",
+    "updated_at": "2026-08-26T06:00:10+00:00",
+    "raw_published": "Wed, 26 Aug 2026 08:00:10 +0200",
+    "raw_updated": "2026-08-26T08:00:10+02:00",
+    "guid": "https://www.riksbank.se/en-gb/press-and-published/speeches-and-presentations/2026/goran-hjelm-signs-of-stronger-economic-activity--but-the-risks-of-inflation-being-too-high-remain/",
+    "media_url": null,
+    "media_type": null,
+    "timestamp_warning": null
+  },
+  "extraction_attempts": [
+    {
+      "title": "Göran Hjelm: Signs of stronger economic activity, but the risks of inflation being too high remain",
+      "url": "https://www.riksbank.se/en-gb/press-and-published/speeches-and-presentations/2026/goran-hjelm-signs-of-stronger-economic-activity--but-the-risks-of-inflation-being-too-high-remain/",
+      "status": "passed"
+    }
+  ],
+  "resolved_content_url": "https://www.riksbank.se/en-gb/press-and-published/speeches-and-presentations/2026/goran-hjelm-signs-of-stronger-economic-activity--but-the-risks-of-inflation-being-too-high-remain/",
+  "extraction_method": "full_html",
+  "content_type": "text/html",
+  "content_length": 3036,
+  "content_sha256": "17b8050d588fc332c79dc74211d33874c2263c3a12f3a6ac4948e532b1567a3d",
+  "revision_id": "e2bb6699cec78d70f2601380",
+  "warnings": []
+}

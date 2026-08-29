@@ -1,0 +1,31 @@
+{
+  "contract_version": 1,
+  "source_id": "pod-jpm-global-data",
+  "review": {
+    "status": "reviewed",
+    "reviewer": "Codex Milestone 2 source-contract review, 2026-08-29",
+    "reviewed_at": "2026-08-29T06:59:15.483776+00:00"
+  },
+  "newest_entry": {
+    "title": "Global Data Pod Weekender: Beachside banter",
+    "url": "https://globaldatapod.podbean.com/e/global-data-pod-weekender-1787342139/",
+    "original_url": "https://globaldatapod.podbean.com/e/global-data-pod-weekender-1787342139/",
+    "published_at": "2026-08-21T20:02:52+00:00",
+    "updated_at": null,
+    "raw_published": "Fri, 21 Aug 2026 16:02:52 -0400",
+    "raw_updated": null,
+    "guid": "globaldatapod.podbean.com/7a03453f-d261-32fa-9da4-5e5ab93dfb8d",
+    "media_url": "https://mcdn.podbean.com/mf/web/rvfkv94ifeuivcik/08212026_MMTVuse.mp3",
+    "media_type": "audio/mpeg",
+    "timestamp_warning": null
+  },
+  "representative_entry": null,
+  "extraction_attempts": null,
+  "resolved_content_url": "https://s335.podbean.com/pb/53c8ca5d46bb17bee761cfd42b47a2c0/6a91f4f5/data1/fs156/12329997/uploads/08212026_MMTVuse.mp3?pbss=ffcf0c0e-baf8-5dfe-a1fe-94fd0e41ae83",
+  "extraction_method": "audio_enclosure_probe",
+  "content_type": "audio/mpeg",
+  "content_length": 42312757,
+  "content_sha256": null,
+  "revision_id": null,
+  "warnings": []
+}

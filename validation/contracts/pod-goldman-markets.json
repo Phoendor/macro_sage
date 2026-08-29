@@ -1,0 +1,31 @@
+{
+  "contract_version": 1,
+  "source_id": "pod-goldman-markets",
+  "review": {
+    "status": "reviewed",
+    "reviewer": "Codex Milestone 2 source-contract review, 2026-08-29",
+    "reviewed_at": "2026-08-29T06:59:15.483776+00:00"
+  },
+  "newest_entry": {
+    "title": "What Is the Outlook for Diesel and Gasoline Supplies?",
+    "url": "13abf02a-a259-11f1-863b-4b6938922179",
+    "original_url": "13abf02a-a259-11f1-863b-4b6938922179",
+    "published_at": "2026-08-28T04:00:00+00:00",
+    "updated_at": null,
+    "raw_published": "Fri, 28 Aug 2026 04:00:00 -0000",
+    "raw_updated": null,
+    "guid": "13abf02a-a259-11f1-863b-4b6938922179",
+    "media_url": "https://mgln.ai/e/1720/traffic.megaphone.fm/GLD8684687449.mp3",
+    "media_type": "audio/mpeg",
+    "timestamp_warning": null
+  },
+  "representative_entry": null,
+  "extraction_attempts": null,
+  "resolved_content_url": "https://dcs-cached.megaphone.fm/GLD8684687449.mp3?key=98ce35b5d81d58e2af2401ff4ed66a5e&request_event_id=0965fec2-976d-433f-a8ee-c7c58251a745&session_id=5cbf7b02-b2fb-43a1-8ded-9bba9c05a7cc&timetoken=1787993791_C0FCF3C9A7E7173D768A858E7796B9B4",
+  "extraction_method": "audio_enclosure_probe",
+  "content_type": "audio/mpeg",
+  "content_length": 12052570,
+  "content_sha256": null,
+  "revision_id": null,
+  "warnings": []
+}

@@ -1,0 +1,49 @@
+{
+  "contract_version": 1,
+  "source_id": "ecb-press",
+  "review": {
+    "status": "reviewed",
+    "reviewer": "Codex Milestone 2 source-contract review, 2026-08-29",
+    "reviewed_at": "2026-08-29T06:59:15.483776+00:00"
+  },
+  "newest_entry": {
+    "title": "Isabel Schnabel: Central banks on-chain",
+    "url": "https://www.ecb.europa.eu/press/key/date/2026/html/ecb.sp260828~fe9afc86e8.en.html",
+    "original_url": "https://www.ecb.europa.eu//press/key/date/2026/html/ecb.sp260828~fe9afc86e8.en.html",
+    "published_at": "2026-08-28T16:00:00+00:00",
+    "updated_at": null,
+    "raw_published": "Fri, 28 Aug 2026 18:00:00 +0200",
+    "raw_updated": null,
+    "guid": "https://www.ecb.europa.eu//press/key/date/2026/html/ecb.sp260828~fe9afc86e8.en.html",
+    "media_url": null,
+    "media_type": null,
+    "timestamp_warning": null
+  },
+  "representative_entry": {
+    "title": "Isabel Schnabel: Central banks on-chain",
+    "url": "https://www.ecb.europa.eu/press/key/date/2026/html/ecb.sp260828~fe9afc86e8.en.html",
+    "original_url": "https://www.ecb.europa.eu//press/key/date/2026/html/ecb.sp260828~fe9afc86e8.en.html",
+    "published_at": "2026-08-28T16:00:00+00:00",
+    "updated_at": null,
+    "raw_published": "Fri, 28 Aug 2026 18:00:00 +0200",
+    "raw_updated": null,
+    "guid": "https://www.ecb.europa.eu//press/key/date/2026/html/ecb.sp260828~fe9afc86e8.en.html",
+    "media_url": null,
+    "media_type": null,
+    "timestamp_warning": null
+  },
+  "extraction_attempts": [
+    {
+      "title": "Isabel Schnabel: Central banks on-chain",
+      "url": "https://www.ecb.europa.eu/press/key/date/2026/html/ecb.sp260828~fe9afc86e8.en.html",
+      "status": "passed"
+    }
+  ],
+  "resolved_content_url": "https://www.ecb.europa.eu/press/key/date/2026/html/ecb.sp260828~fe9afc86e8.en.html",
+  "extraction_method": "full_html",
+  "content_type": "text/html",
+  "content_length": 30654,
+  "content_sha256": "17ac5c20356002263e868b55c84e6467ebd7703494ae450a2b19a0f7abfa90cd",
+  "revision_id": "1687dc921dd285c1d83d2274",
+  "warnings": []
+}

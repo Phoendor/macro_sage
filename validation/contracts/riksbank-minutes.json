@@ -1,0 +1,49 @@
+{
+  "contract_version": 1,
+  "source_id": "riksbank-minutes",
+  "review": {
+    "status": "reviewed",
+    "reviewer": "Codex Milestone 2 source-contract review, 2026-08-29",
+    "reviewed_at": "2026-08-29T06:59:15.483776+00:00"
+  },
+  "newest_entry": {
+    "title": "Minutes of the monetary policy meeting on 19 August 2026",
+    "url": "https://www.riksbank.se/en-gb/press-and-published/notices-and-press-releases/press-releases/2026/minutes-of-the-monetary-policy-meeting-on-19-august-2026/",
+    "original_url": "https://www.riksbank.se/en-gb/press-and-published/notices-and-press-releases/press-releases/2026/minutes-of-the-monetary-policy-meeting-on-19-august-2026/",
+    "published_at": "2026-08-25T07:30:41+00:00",
+    "updated_at": "2026-08-25T07:30:41+00:00",
+    "raw_published": "Tue, 25 Aug 2026 09:30:41 +0200",
+    "raw_updated": "2026-08-25T09:30:41+02:00",
+    "guid": "https://www.riksbank.se/en-gb/press-and-published/notices-and-press-releases/press-releases/2026/minutes-of-the-monetary-policy-meeting-on-19-august-2026/",
+    "media_url": null,
+    "media_type": null,
+    "timestamp_warning": null
+  },
+  "representative_entry": {
+    "title": "Minutes of the monetary policy meeting on 19 August 2026",
+    "url": "https://www.riksbank.se/en-gb/press-and-published/notices-and-press-releases/press-releases/2026/minutes-of-the-monetary-policy-meeting-on-19-august-2026/",
+    "original_url": "https://www.riksbank.se/en-gb/press-and-published/notices-and-press-releases/press-releases/2026/minutes-of-the-monetary-policy-meeting-on-19-august-2026/",
+    "published_at": "2026-08-25T07:30:41+00:00",
+    "updated_at": "2026-08-25T07:30:41+00:00",
+    "raw_published": "Tue, 25 Aug 2026 09:30:41 +0200",
+    "raw_updated": "2026-08-25T09:30:41+02:00",
+    "guid": "https://www.riksbank.se/en-gb/press-and-published/notices-and-press-releases/press-releases/2026/minutes-of-the-monetary-policy-meeting-on-19-august-2026/",
+    "media_url": null,
+    "media_type": null,
+    "timestamp_warning": null
+  },
+  "extraction_attempts": [
+    {
+      "title": "Minutes of the monetary policy meeting on 19 August 2026",
+      "url": "https://www.riksbank.se/en-gb/press-and-published/notices-and-press-releases/press-releases/2026/minutes-of-the-monetary-policy-meeting-on-19-august-2026/",
+      "status": "passed"
+    }
+  ],
+  "resolved_content_url": "https://www.riksbank.se/globalassets/media/dagordningar--protokoll/protokoll/penningpolitiskt/engelska/2026/minutes-of-the-monetary-policy-meeting-held-on-19-august-2026.pdf",
+  "extraction_method": "full_pdf",
+  "content_type": "application/pdf",
+  "content_length": 51297,
+  "content_sha256": "bd3cc48e0900f97c1296e828a6570ac91226e3c2b451c3780c836ec03b7ca390",
+  "revision_id": "3dc6cb1e47961db1732cdbe6",
+  "warnings": []
+}

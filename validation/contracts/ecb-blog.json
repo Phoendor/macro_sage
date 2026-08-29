@@ -1,0 +1,49 @@
+{
+  "contract_version": 1,
+  "source_id": "ecb-blog",
+  "review": {
+    "status": "reviewed",
+    "reviewer": "Codex Milestone 2 source-contract review, 2026-08-29",
+    "reviewed_at": "2026-08-29T06:59:15.483776+00:00"
+  },
+  "newest_entry": {
+    "title": "AI adoption and the productivity promise: what workers report",
+    "url": "https://www.ecb.europa.eu/press/blog/date/2026/html/ecb.blog20260826~e1c1a89999.en.html",
+    "original_url": "https://www.ecb.europa.eu//press/blog/date/2026/html/ecb.blog20260826~e1c1a89999.en.html",
+    "published_at": "2026-08-26T09:00:00+00:00",
+    "updated_at": null,
+    "raw_published": "Wed, 26 Aug 2026 11:00:00 +0200",
+    "raw_updated": null,
+    "guid": "https://www.ecb.europa.eu//press/blog/date/2026/html/ecb.blog20260826~e1c1a89999.en.html",
+    "media_url": null,
+    "media_type": null,
+    "timestamp_warning": null
+  },
+  "representative_entry": {
+    "title": "AI adoption and the productivity promise: what workers report",
+    "url": "https://www.ecb.europa.eu/press/blog/date/2026/html/ecb.blog20260826~e1c1a89999.en.html",
+    "original_url": "https://www.ecb.europa.eu//press/blog/date/2026/html/ecb.blog20260826~e1c1a89999.en.html",
+    "published_at": "2026-08-26T09:00:00+00:00",
+    "updated_at": null,
+    "raw_published": "Wed, 26 Aug 2026 11:00:00 +0200",
+    "raw_updated": null,
+    "guid": "https://www.ecb.europa.eu//press/blog/date/2026/html/ecb.blog20260826~e1c1a89999.en.html",
+    "media_url": null,
+    "media_type": null,
+    "timestamp_warning": null
+  },
+  "extraction_attempts": [
+    {
+      "title": "AI adoption and the productivity promise: what workers report",
+      "url": "https://www.ecb.europa.eu/press/blog/date/2026/html/ecb.blog20260826~e1c1a89999.en.html",
+      "status": "passed"
+    }
+  ],
+  "resolved_content_url": "https://www.ecb.europa.eu/press/blog/date/2026/html/ecb.blog20260826~e1c1a89999.en.html",
+  "extraction_method": "full_html",
+  "content_type": "text/html",
+  "content_length": 9738,
+  "content_sha256": "ca556b20c6c403e0cb75a4e276066c6cad45f76bdacb6e4e86225905d7b230f7",
+  "revision_id": "54ccc9b3860595b6080a88b3",
+  "warnings": []
+}

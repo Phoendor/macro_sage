@@ -1,0 +1,75 @@
+{
+  "contract_version": 1,
+  "source_id": "bis-speeches",
+  "review": {
+    "status": "reviewed",
+    "reviewer": "Codex Milestone 2 source-contract review, 2026-08-29",
+    "reviewed_at": "2026-08-29T06:59:15.483776+00:00"
+  },
+  "newest_entry": {
+    "title": "Lesetja Kganyago: Remarks - annual dinner for the Heads of Foreign Missions accredited in South Africa",
+    "url": "https://www.bis.org/review/r260813i.htm",
+    "original_url": "https://www.bis.org/review/r260813i.htm",
+    "published_at": "2026-08-17T08:22:00+00:00",
+    "updated_at": "2026-08-17T08:22:00+00:00",
+    "raw_published": null,
+    "raw_updated": "2026-08-17T08:22:00Z",
+    "guid": "https://www.bis.org/review/r260813i.htm",
+    "media_url": null,
+    "media_type": null,
+    "timestamp_warning": "publication time derived from updated time by source policy"
+  },
+  "representative_entry": {
+    "title": "Lesetja Kganyago: Remarks - annual dinner for the Heads of Foreign Missions accredited in South Africa",
+    "url": "https://www.bis.org/review/r260813i.htm",
+    "original_url": "https://www.bis.org/review/r260813i.htm",
+    "published_at": "2026-08-17T08:22:00+00:00",
+    "updated_at": "2026-08-17T08:22:00+00:00",
+    "raw_published": null,
+    "raw_updated": "2026-08-17T08:22:00Z",
+    "guid": "https://www.bis.org/review/r260813i.htm",
+    "media_url": null,
+    "media_type": null,
+    "timestamp_warning": "publication time derived from updated time by source policy"
+  },
+  "extraction_attempts": [
+    {
+      "title": "Lesetja Kganyago: Remarks - annual dinner for the Heads of Foreign Missions accredited in South Africa",
+      "url": "https://www.bis.org/review/r260813i.htm",
+      "status": "passed"
+    }
+  ],
+  "resolved_content_url": "https://www.bis.org/review/r260813i.htm",
+  "extraction_method": "full_html",
+  "content_type": "text/html",
+  "content_length": 7395,
+  "content_sha256": "4ef104a397061fa01df8d453008b7e808ad75ca0440c8317a802f4e001323db4",
+  "revision_id": "7e609a471faaa507e72c18c5",
+  "warnings": [
+    "Lesetja Kganyago: Remarks - annual dinner for the Heads of Foreign Missions accredited in South Africa: publication time derived from updated time by source policy",
+    "Lesetja Kganyago: Overview of the South African economy: publication time derived from updated time by source policy",
+    "Lisa D Cook: Outlook for the US and Alaskan economies: publication time derived from updated time by source policy",
+    "Yannis Stournaras: The global economy in 2026 and beyond - financing Europe and Greece's future: publication time derived from updated time by source policy",
+    "Burkhard Balz: 40 years of the Deutsche Bundesbank's Representative Office in New York: publication time derived from updated time by source policy",
+    "Philip R Lane: AI and monetary policy: publication time derived from updated time by source policy",
+    "Rohit Jain: Building deep and resilient financial markets for a Viksit Bharat: publication time derived from updated time by source policy",
+    "Chia Der Jiun: Remarks on the MAS Annual Report 2025/2026: publication time derived from updated time by source policy",
+    "Michele Bullock: Monetary policy in an era of shocks: publication time derived from updated time by source policy",
+    "Denis Beau: Opportunities and risks for CCPs and their overseers in a changing environment: publication time derived from updated time by source policy",
+    "Piero Cipollone: The cooperative spirit at the heart of the digital euro: publication time derived from updated time by source policy",
+    "Mary-Elizabeth McMunn: Reinforcing the foundations - openness through resilience in the face of change: publication time derived from updated time by source policy",
+    "Joachim Nagel: Acting together for a sovereign and competitive Europe: publication time derived from updated time by source policy",
+    "Swaminathan J: Strengthening customer grievance redress - the role of the internal ombudsman: publication time derived from updated time by source policy",
+    "Phil Mnisi: Opening remarks - CMA Governors Meeting: publication time derived from updated time by source policy",
+    "Michelle W Bowman: Opening remarks on Sound Practices for Artificial Intelligence: publication time derived from updated time by source policy",
+    "Fabio Panetta: Playing the long game - how should monetary policy adapt to the Great Reconfiguration?: publication time derived from updated time by source policy",
+    "Arthur Yuen: Opening remarks - Hong Kong Monetary Authority (HKMA)-Hong Kong Association of Banks (HKAB) seminar: publication time derived from updated time by source policy",
+    "Andriy Pyshnyy: National Bank of Ukraine press briefing - monetary policy decisions: publication time derived from updated time by source policy",
+    "Michelle W Bowman: Responsible innovation and financial inclusion: publication time derived from updated time by source policy",
+    "Philip N Jefferson: Navigating economic shocks - a monetary policymaker's perspective: publication time derived from updated time by source policy",
+    "John C Williams: Stability of Thy Times: publication time derived from updated time by source policy",
+    "Michelle W Bowman: Modernizing financial regulation: publication time derived from updated time by source policy",
+    "Andrew Bailey: Growth and regulation: publication time derived from updated time by source policy",
+    "Lisa D Cook: Economic outlook: publication time derived from updated time by source policy"
+  ]
+}

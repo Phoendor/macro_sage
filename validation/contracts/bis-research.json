@@ -1,0 +1,89 @@
+{
+  "contract_version": 1,
+  "source_id": "bis-research",
+  "review": {
+    "status": "reviewed",
+    "reviewer": "Codex Milestone 2 source-contract review, 2026-08-29",
+    "reviewed_at": "2026-08-29T06:59:15.483776+00:00"
+  },
+  "newest_entry": {
+    "title": "Introducing Trimmed Imports and Exports",
+    "url": "https://www.kansascityfed.org/research/research-working-papers/introducing-trimmed-imports-and-exports/",
+    "original_url": "https://www.kansascityfed.org/research/research-working-papers/introducing-trimmed-imports-and-exports/",
+    "published_at": "2026-08-18T00:00:00+00:00",
+    "updated_at": "2026-08-18T00:00:00+00:00",
+    "raw_published": null,
+    "raw_updated": "2026-08-18T00:00:00Z",
+    "guid": "https://www.kansascityfed.org/research/research-working-papers/introducing-trimmed-imports-and-exports/",
+    "media_url": null,
+    "media_type": null,
+    "timestamp_warning": "publication time derived from updated time by source policy"
+  },
+  "representative_entry": {
+    "title": "What Prevents Productivity Gains from Translating into Wages: Lessons from Japan fs Deflationary Period",
+    "url": "https://www.boj.or.jp/en/research/wps_rev/wps_2026/data/wp26e12.pdf",
+    "original_url": "https://www.boj.or.jp/en/research/wps_rev/wps_2026/data/wp26e12.pdf",
+    "published_at": "2026-08-14T00:00:00+00:00",
+    "updated_at": "2026-08-14T00:00:00+00:00",
+    "raw_published": null,
+    "raw_updated": "2026-08-14T00:00:00Z",
+    "guid": "https://www.boj.or.jp/en/research/wps_rev/wps_2026/data/wp26e12.pdf",
+    "media_url": null,
+    "media_type": null,
+    "timestamp_warning": "publication time derived from updated time by source policy"
+  },
+  "extraction_attempts": [
+    {
+      "title": "Introducing Trimmed Imports and Exports",
+      "url": "https://www.kansascityfed.org/research/research-working-papers/introducing-trimmed-imports-and-exports/",
+      "status": "failed",
+      "error": "ConnectionError: HTTPSConnectionPool(host='www.kansascityfed.org', port=443): Max retries exceeded with url: /research/research-working-papers/introducing-trimmed-imports-and-exports/ (Caused by ReadTimeoutError(\"HTTPSConnectionPool(host='www.kansascityfed.org', port=443): Read timed out. (read timeout=30)\"))"
+    },
+    {
+      "title": "The Dynamic Distribution in the Fixed Cost Model: An Analytical Solution",
+      "url": "https://www.kansascityfed.org/research/research-working-papers/the-dynamic-distribution-in-the-fixed-cost-model-an-analytical-solution/",
+      "status": "failed",
+      "error": "ConnectionError: HTTPSConnectionPool(host='www.kansascityfed.org', port=443): Max retries exceeded with url: /research/research-working-papers/the-dynamic-distribution-in-the-fixed-cost-model-an-analytical-solution/ (Caused by ReadTimeoutError(\"HTTPSConnectionPool(host='www.kansascityfed.org', port=443): Read timed out. (read timeout=30)\"))"
+    },
+    {
+      "title": "What Prevents Productivity Gains from Translating into Wages: Lessons from Japan fs Deflationary Period",
+      "url": "https://www.boj.or.jp/en/research/wps_rev/wps_2026/data/wp26e12.pdf",
+      "status": "passed"
+    }
+  ],
+  "resolved_content_url": "https://www.boj.or.jp/en/research/wps_rev/wps_2026/data/wp26e12.pdf",
+  "extraction_method": "full_pdf",
+  "content_type": "application/pdf",
+  "content_length": 148473,
+  "content_sha256": "7b70f9b744bbf2c13c30c211ff4254e8c2bf893066e5c02f9bd5d39451e6b6e5",
+  "revision_id": "d8e1eb86d78f0bb6a8d23599",
+  "warnings": [
+    "Simple Tests for the Correct Specification of Conditional Predictive Densities: publication time derived from updated time by source policy; implausible future publication timestamp: 2035-09-01T00:00:00+00:00",
+    "Introducing Trimmed Imports and Exports: publication time derived from updated time by source policy",
+    "The Dynamic Distribution in the Fixed Cost Model: An Analytical Solution: publication time derived from updated time by source policy",
+    "What Prevents Productivity Gains from Translating into Wages: Lessons from Japan fs Deflationary Period: publication time derived from updated time by source policy",
+    "Occupational Complexity, Capital-Skill Complementarity, and the Evolution of U.S. Wage Inequality: A Quantitative Analysis: publication time derived from updated time by source policy",
+    "Is the AI Boom Volatility-Biased Technological Change?: publication time derived from updated time by source policy",
+    "Zoning and the American Suburb: publication time derived from updated time by source policy",
+    "Government bond-backed repo markets: between resilience and vulnerability: publication time derived from updated time by source policy",
+    "Linkages of Firm Spending Behavior through Supply Chains: publication time derived from updated time by source policy",
+    "Mapping Japan's Manufacturing Supply Chains Through Firm-to-Firm Transaction Data: publication time derived from updated time by source policy",
+    "The Erosion of Public Capital in Portugal: publication time derived from updated time by source policy",
+    "Reaching for Duration: publication time derived from updated time by source policy",
+    "Will AI Intensify or Weaken Market Competition?: publication time derived from updated time by source policy",
+    "Are We Consuming Too Much Groundwater?: publication time derived from updated time by source policy",
+    "What the Iran War Teaches Us about the Price Elasticity of Oil Supply: publication time derived from updated time by source policy",
+    "The Incidence of Fuel-Price Shocks and Tax Holidays: Evidence from the 2026 Oil Shock: publication time derived from updated time by source policy",
+    "Spreading Out Across Expanding Idea Space: publication time derived from updated time by source policy",
+    "Optimal Second-best Menu Design: Evidence from Residential Electricity Plans: publication time derived from updated time by source policy",
+    "ForeComp: An R Package for Comparing Predictive Accuracy Using Fixed-Smoothing Asymptotics: publication time derived from updated time by source policy",
+    "The Effects of U.S. Public R&D on Global Growth: publication time derived from updated time by source policy",
+    "Mortgage Lock-in: A Review of the Literature: publication time derived from updated time by source policy",
+    "Financial and Production Integration in the Macroeconomy: publication time derived from updated time by source policy",
+    "How Do Sectoral Shocks Shape Future GDP?: publication time derived from updated time by source policy",
+    "Subnational Bilateral Remittance Flows in the U.S.-Mexico Corridor: A Multi-Source Imputation and Validation: publication time derived from updated time by source policy",
+    "Can structural reforms unleash private investment?: publication time derived from updated time by source policy",
+    "representative fallback after extraction failure: Introducing Trimmed Imports and Exports: ConnectionError: HTTPSConnectionPool(host='www.kansascityfed.org', port=443): Max retries exceeded with url: /research/research-working-papers/introducing-trimmed-imports-and-exports/ (Caused by ReadTimeoutError(\"HTTPSConnectionPool(host='www.kansascityfed.org', port=443): Read timed out. (read timeout=30)\"))",
+    "representative fallback after extraction failure: The Dynamic Distribution in the Fixed Cost Model: An Analytical Solution: ConnectionError: HTTPSConnectionPool(host='www.kansascityfed.org', port=443): Max retries exceeded with url: /research/research-working-papers/the-dynamic-distribution-in-the-fixed-cost-model-an-analytical-solution/ (Caused by ReadTimeoutError(\"HTTPSConnectionPool(host='www.kansascityfed.org', port=443): Read timed out. (read timeout=30)\"))"
+  ]
+}

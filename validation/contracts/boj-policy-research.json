@@ -1,0 +1,49 @@
+{
+  "contract_version": 1,
+  "source_id": "boj-policy-research",
+  "review": {
+    "status": "reviewed",
+    "reviewer": "Codex Milestone 2 source-contract review, 2026-08-29",
+    "reviewed_at": "2026-08-29T06:59:15.483776+00:00"
+  },
+  "newest_entry": {
+    "title": "(BOJ Review) Expanding and Revising the Application of Hedonic Quality Adjustment in the Corporate Goods Price Index",
+    "url": "http://www.boj.or.jp/en/research/wps_rev/rev_2026/rev26e11.htm",
+    "original_url": "http://www.boj.or.jp/en/research/wps_rev/rev_2026/rev26e11.htm",
+    "published_at": "2026-08-28T05:00:00+00:00",
+    "updated_at": null,
+    "raw_published": "Fri, 28 Aug 2026 14:00:00 +0900",
+    "raw_updated": null,
+    "guid": "http://www.boj.or.jp/en/research/wps_rev/rev_2026/rev26e11.htm",
+    "media_url": null,
+    "media_type": null,
+    "timestamp_warning": null
+  },
+  "representative_entry": {
+    "title": "(BOJ Review) Expanding and Revising the Application of Hedonic Quality Adjustment in the Corporate Goods Price Index",
+    "url": "http://www.boj.or.jp/en/research/wps_rev/rev_2026/rev26e11.htm",
+    "original_url": "http://www.boj.or.jp/en/research/wps_rev/rev_2026/rev26e11.htm",
+    "published_at": "2026-08-28T05:00:00+00:00",
+    "updated_at": null,
+    "raw_published": "Fri, 28 Aug 2026 14:00:00 +0900",
+    "raw_updated": null,
+    "guid": "http://www.boj.or.jp/en/research/wps_rev/rev_2026/rev26e11.htm",
+    "media_url": null,
+    "media_type": null,
+    "timestamp_warning": null
+  },
+  "extraction_attempts": [
+    {
+      "title": "(BOJ Review) Expanding and Revising the Application of Hedonic Quality Adjustment in the Corporate Goods Price Index",
+      "url": "http://www.boj.or.jp/en/research/wps_rev/rev_2026/rev26e11.htm",
+      "status": "passed"
+    }
+  ],
+  "resolved_content_url": "https://www.boj.or.jp/en/research/wps_rev/rev_2026/rev26e11.htm",
+  "extraction_method": "full_html",
+  "content_type": "text/html",
+  "content_length": 1897,
+  "content_sha256": "588428208f01d9dd2a63728ec50b28bf2e6e3d4fec6f318c55168a79dcd43654",
+  "revision_id": "051b2e944c184c48422b44e6",
+  "warnings": []
+}

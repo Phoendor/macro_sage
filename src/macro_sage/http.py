@@ -22,12 +22,36 @@ class HttpClient:
         self.session.mount("https://", HTTPAdapter(max_retries=retry))
         self.session.headers.update({"User-Agent": settings.user_agent})
 
-    def get(self, url: str, *, stream: bool = False) -> requests.Response:
+    def get(
+        self,
+        url: str,
+        *,
+        stream: bool = False,
+        headers: dict[str, str] | None = None,
+    ) -> requests.Response:
         response = self.session.get(
             url,
             timeout=(10, self.settings.request_timeout_seconds),
             stream=stream,
+            headers=headers,
         )
+        response.raise_for_status()
+        return response
+
+    def probe(self, url: str) -> requests.Response:
+        response = self.session.head(
+            url,
+            timeout=(10, self.settings.request_timeout_seconds),
+            allow_redirects=True,
+        )
+        if response.status_code in {403, 405}:
+            response.close()
+            response = self.session.get(
+                url,
+                timeout=(10, self.settings.request_timeout_seconds),
+                headers={"Range": "bytes=0-0"},
+                stream=True,
+            )
         response.raise_for_status()
         return response
 

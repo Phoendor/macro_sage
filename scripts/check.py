@@ -48,6 +48,10 @@ def main() -> None:
     _verify_import()
     commands = [
         (
+            "catalog",
+            [sys.executable, "scripts/generate_source_catalog.py", "--check"],
+        ),
+        (
             "compile",
             [sys.executable, "-m", "compileall", "-q", "src", "tests", "scripts"],
         ),

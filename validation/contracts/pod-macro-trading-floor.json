@@ -1,0 +1,31 @@
+{
+  "contract_version": 1,
+  "source_id": "pod-macro-trading-floor",
+  "review": {
+    "status": "reviewed",
+    "reviewer": "Codex Milestone 2 source-contract review, 2026-08-29",
+    "reviewed_at": "2026-08-29T06:59:15.483776+00:00"
+  },
+  "newest_entry": {
+    "title": "On Bessent, Gold & Idiosyncratic Trades",
+    "url": "823608ea-a219-11f1-b45f-cf62504a9996",
+    "original_url": "823608ea-a219-11f1-b45f-cf62504a9996",
+    "published_at": "2026-08-28T13:00:00+00:00",
+    "updated_at": null,
+    "raw_published": "Fri, 28 Aug 2026 13:00:00 -0000",
+    "raw_updated": null,
+    "guid": "823608ea-a219-11f1-b45f-cf62504a9996",
+    "media_url": "https://traffic.megaphone.fm/ALFINVESTMENTSTRATEGYBV9992490790.mp3",
+    "media_type": "audio/mpeg",
+    "timestamp_warning": null
+  },
+  "representative_entry": null,
+  "extraction_attempts": null,
+  "resolved_content_url": "https://dcs-spotify.megaphone.fm/ALFINVESTMENTSTRATEGYBV9992490790.mp3?key=cecc5ccdee905e406e473bdc18e8f87b&request_event_id=05d41d14-05f8-4fb5-a71f-3785f0e3b175&session_id=c8fc3811-bf8a-45a0-a122-5451a016c407&timetoken=1787993798_41BC45EE96D380CA253E17D9C43ECBFD",
+  "extraction_method": "audio_enclosure_probe",
+  "content_type": "audio/mpeg",
+  "content_length": 51943668,
+  "content_sha256": null,
+  "revision_id": null,
+  "warnings": []
+}

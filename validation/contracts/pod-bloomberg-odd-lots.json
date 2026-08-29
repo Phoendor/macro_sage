@@ -1,0 +1,31 @@
+{
+  "contract_version": 1,
+  "source_id": "pod-bloomberg-odd-lots",
+  "review": {
+    "status": "reviewed",
+    "reviewer": "Codex Milestone 2 source-contract review, 2026-08-29",
+    "reviewed_at": "2026-08-29T06:59:15.483776+00:00"
+  },
+  "newest_entry": {
+    "title": "Austan Goolsbee Is Worried the Economy Is Overheating",
+    "url": "https://omny.fm/shows/odd-lots/austan-goolsbee-is-worried-the-economy-is-overheating",
+    "original_url": "https://omny.fm/shows/odd-lots/austan-goolsbee-is-worried-the-economy-is-overheating",
+    "published_at": "2026-08-28T17:23:16+00:00",
+    "updated_at": null,
+    "raw_published": "Fri, 28 Aug 2026 17:23:16 +0000",
+    "raw_updated": null,
+    "guid": "5d168bda-ebfd-485d-a948-b4b4011d13e0",
+    "media_url": "https://podtrac.com/pts/redirect.mp3/tracking.swap.fm/track/UVBrz8bN8aM2Xe47PEPu/traffic.omny.fm/d/clips/e73c998e-6e60-432f-8610-ae210140c5b1/8a94442e-5a74-4fa2-8b8d-ae27003a8d6b/5d168bda-ebfd-485d-a948-b4b4011d13e0/audio.mp3?in_playlist=982f5071-765c-403d-969d-ae27003a8d83",
+    "media_type": "audio/mpeg",
+    "timestamp_warning": null
+  },
+  "representative_entry": null,
+  "extraction_attempts": null,
+  "resolved_content_url": "https://iheartmedia.mc.tritondigital.com/OMNY_ODDLOTS_PODCAST_P/media/d/clips/e73c998e-6e60-432f-8610-ae210140c5b1/8a94442e-5a74-4fa2-8b8d-ae27003a8d6b/5d168bda-ebfd-485d-a948-b4b4011d13e0/audio/direct/t1787937724/Austan_Goolsbee_Is_Worried_the_Economy_Is_Overheating.mp3?t=1787937724&starship-episode-id=28c60831-6737-4032-b40d-cbe18939b6a4&in_playlist=982f5071-765c-403d-969d-ae27003a8d83",
+  "extraction_method": "audio_enclosure_probe",
+  "content_type": "audio/mpeg",
+  "content_length": 44715173,
+  "content_sha256": null,
+  "revision_id": null,
+  "warnings": []
+}

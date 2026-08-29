@@ -1,0 +1,31 @@
+{
+  "contract_version": 1,
+  "source_id": "pod-jpm-week-ahead",
+  "review": {
+    "status": "reviewed",
+    "reviewer": "Codex Milestone 2 source-contract review, 2026-08-29",
+    "reviewed_at": "2026-08-29T06:59:15.483776+00:00"
+  },
+  "newest_entry": {
+    "title": "The Road to $40 Trillion",
+    "url": "https://notesontheweekahead.podbean.com/e/the-road-to-40-trillion/",
+    "original_url": "https://notesontheweekahead.podbean.com/e/the-road-to-40-trillion/",
+    "published_at": "2026-08-25T13:07:21+00:00",
+    "updated_at": null,
+    "raw_published": "Tue, 25 Aug 2026 10:07:21 -0300",
+    "raw_updated": null,
+    "guid": "notesontheweekahead.podbean.com/b3ebdba5-f844-3122-bb5a-e7e88ad99756",
+    "media_url": "https://mcdn.podbean.com/mf/web/wbreafyyuyhn2qa9/audio_notwa_024269zzcs.mp3",
+    "media_type": "audio/mpeg",
+    "timestamp_warning": null
+  },
+  "representative_entry": null,
+  "extraction_attempts": null,
+  "resolved_content_url": "https://s323.podbean.com/pb/78b5399832cb1141f1ddcafd29d7f9e0/6a91ee0c/data1/fs142/4666493/uploads/audio_notwa_024269zzcs.mp3?pbss=ba52e3d5-5322-56b5-bcc8-6ec4e1d82aeb",
+  "extraction_method": "audio_enclosure_probe",
+  "content_type": "audio/mpeg",
+  "content_length": 13212859,
+  "content_sha256": null,
+  "revision_id": null,
+  "warnings": []
+}

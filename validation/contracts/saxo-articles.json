@@ -1,0 +1,49 @@
+{
+  "contract_version": 1,
+  "source_id": "saxo-articles",
+  "review": {
+    "status": "reviewed",
+    "reviewer": "Codex Milestone 2 source-contract review, 2026-08-29",
+    "reviewed_at": "2026-08-29T06:59:15.483776+00:00"
+  },
+  "newest_entry": {
+    "title": "Commodity weekly: From barrels to bushels and bullion as scarcity broadens the commodity rally",
+    "url": "https://www.home.saxo/content/articles/commodities/from-barrels-to-bushels-and-bullion-as-scarcity-broadens-the-commodity-rally-28082026",
+    "original_url": "https://www.home.saxo/content/articles/commodities/from-barrels-to-bushels-and-bullion-as-scarcity-broadens-the-commodity-rally-28082026",
+    "published_at": "2026-08-28T11:30:00+00:00",
+    "updated_at": "2026-08-28T11:56:43+00:00",
+    "raw_published": "Fri, 28 Aug 2026 11:30:00 Z",
+    "raw_updated": "2026-08-28T11:56:43Z",
+    "guid": "{D3C92EE6-E6D8-4E83-A6EB-28F8E55F7DD4}",
+    "media_url": null,
+    "media_type": null,
+    "timestamp_warning": null
+  },
+  "representative_entry": {
+    "title": "Commodity weekly: From barrels to bushels and bullion as scarcity broadens the commodity rally",
+    "url": "https://www.home.saxo/content/articles/commodities/from-barrels-to-bushels-and-bullion-as-scarcity-broadens-the-commodity-rally-28082026",
+    "original_url": "https://www.home.saxo/content/articles/commodities/from-barrels-to-bushels-and-bullion-as-scarcity-broadens-the-commodity-rally-28082026",
+    "published_at": "2026-08-28T11:30:00+00:00",
+    "updated_at": "2026-08-28T11:56:43+00:00",
+    "raw_published": "Fri, 28 Aug 2026 11:30:00 Z",
+    "raw_updated": "2026-08-28T11:56:43Z",
+    "guid": "{D3C92EE6-E6D8-4E83-A6EB-28F8E55F7DD4}",
+    "media_url": null,
+    "media_type": null,
+    "timestamp_warning": null
+  },
+  "extraction_attempts": [
+    {
+      "title": "Commodity weekly: From barrels to bushels and bullion as scarcity broadens the commodity rally",
+      "url": "https://www.home.saxo/content/articles/commodities/from-barrels-to-bushels-and-bullion-as-scarcity-broadens-the-commodity-rally-28082026",
+      "status": "passed"
+    }
+  ],
+  "resolved_content_url": "https://www.home.saxo/content/articles/commodities/from-barrels-to-bushels-and-bullion-as-scarcity-broadens-the-commodity-rally-28082026",
+  "extraction_method": "full_html",
+  "content_type": "text/html",
+  "content_length": 14491,
+  "content_sha256": "39796fc90b120d6c29f3ae3e1076dceb462869543c787633b09bb4241d64f343",
+  "revision_id": "6f1e5e53eff6585752c78b6a",
+  "warnings": []
+}

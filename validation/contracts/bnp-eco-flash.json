@@ -1,0 +1,49 @@
+{
+  "contract_version": 1,
+  "source_id": "bnp-eco-flash",
+  "review": {
+    "status": "reviewed",
+    "reviewer": "Codex Milestone 2 source-contract review, 2026-08-29",
+    "reviewed_at": "2026-08-29T06:59:15.483776+00:00"
+  },
+  "newest_entry": {
+    "title": "Eurozone pulls level with the US",
+    "url": "https://economic-research.bnpparibas.com/html/en-US/Eurozone-pulls-level-US-7/30/2026,53692",
+    "original_url": "https://economic-research.bnpparibas.com/html/en-US/Eurozone-pulls-level-US-7/30/2026,53692",
+    "published_at": "2026-07-29T22:00:00+00:00",
+    "updated_at": null,
+    "raw_published": "Thu, 30 Jul 2026 00:00:00 +0200",
+    "raw_updated": null,
+    "guid": null,
+    "media_url": null,
+    "media_type": null,
+    "timestamp_warning": null
+  },
+  "representative_entry": {
+    "title": "Eurozone pulls level with the US",
+    "url": "https://economic-research.bnpparibas.com/html/en-US/Eurozone-pulls-level-US-7/30/2026,53692",
+    "original_url": "https://economic-research.bnpparibas.com/html/en-US/Eurozone-pulls-level-US-7/30/2026,53692",
+    "published_at": "2026-07-29T22:00:00+00:00",
+    "updated_at": null,
+    "raw_published": "Thu, 30 Jul 2026 00:00:00 +0200",
+    "raw_updated": null,
+    "guid": null,
+    "media_url": null,
+    "media_type": null,
+    "timestamp_warning": null
+  },
+  "extraction_attempts": [
+    {
+      "title": "Eurozone pulls level with the US",
+      "url": "https://economic-research.bnpparibas.com/html/en-US/Eurozone-pulls-level-US-7/30/2026,53692",
+      "status": "passed"
+    }
+  ],
+  "resolved_content_url": "https://economic-research.bnpparibas.com/html/en-US/Eurozone-pulls-level-US-7/30/2026,53692",
+  "extraction_method": "full_html",
+  "content_type": "text/html",
+  "content_length": 3729,
+  "content_sha256": "4903579ddcb8cde305a7c9d62be3b68cf825cc9fcc468ee05cee14b1311d0cc2",
+  "revision_id": "650dcb591bda0a7b2d0b2b3f",
+  "warnings": []
+}

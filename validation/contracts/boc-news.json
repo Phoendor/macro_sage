@@ -1,0 +1,60 @@
+{
+  "contract_version": 1,
+  "source_id": "boc-news",
+  "review": {
+    "status": "reviewed",
+    "reviewer": "Codex Milestone 2 source-contract review, 2026-08-29",
+    "reviewed_at": "2026-08-29T06:59:15.483776+00:00"
+  },
+  "newest_entry": {
+    "title": "Bank of Canada recognizes RCMP constable with award for counterfeit deterrence",
+    "url": "https://www.bankofcanada.ca/2026/08/canada-border-services-agency-and-royal-canadian-mounted-police-win-bank-canada-counterfeit-deterrence-award-2/",
+    "original_url": "https://www.bankofcanada.ca/2026/08/canada-border-services-agency-and-royal-canadian-mounted-police-win-bank-canada-counterfeit-deterrence-award-2/",
+    "published_at": "2026-08-19T10:00:20+00:00",
+    "updated_at": "2026-08-19T10:00:20+00:00",
+    "raw_published": null,
+    "raw_updated": "2026-08-19T10:00:20+00:00",
+    "guid": "https://www.bankofcanada.ca/2026/08/canada-border-services-agency-and-royal-canadian-mounted-police-win-bank-canada-counterfeit-deterrence-award-2/",
+    "media_url": null,
+    "media_type": null,
+    "timestamp_warning": "publication time derived from updated time by source policy"
+  },
+  "representative_entry": {
+    "title": "Bank of Canada recognizes RCMP constable with award for counterfeit deterrence",
+    "url": "https://www.bankofcanada.ca/2026/08/canada-border-services-agency-and-royal-canadian-mounted-police-win-bank-canada-counterfeit-deterrence-award-2/",
+    "original_url": "https://www.bankofcanada.ca/2026/08/canada-border-services-agency-and-royal-canadian-mounted-police-win-bank-canada-counterfeit-deterrence-award-2/",
+    "published_at": "2026-08-19T10:00:20+00:00",
+    "updated_at": "2026-08-19T10:00:20+00:00",
+    "raw_published": null,
+    "raw_updated": "2026-08-19T10:00:20+00:00",
+    "guid": "https://www.bankofcanada.ca/2026/08/canada-border-services-agency-and-royal-canadian-mounted-police-win-bank-canada-counterfeit-deterrence-award-2/",
+    "media_url": null,
+    "media_type": null,
+    "timestamp_warning": "publication time derived from updated time by source policy"
+  },
+  "extraction_attempts": [
+    {
+      "title": "Bank of Canada recognizes RCMP constable with award for counterfeit deterrence",
+      "url": "https://www.bankofcanada.ca/2026/08/canada-border-services-agency-and-royal-canadian-mounted-police-win-bank-canada-counterfeit-deterrence-award-2/",
+      "status": "passed"
+    }
+  ],
+  "resolved_content_url": "https://www.bankofcanada.ca/2026/08/canada-border-services-agency-and-royal-canadian-mounted-police-win-bank-canada-counterfeit-deterrence-award-2/",
+  "extraction_method": "full_html",
+  "content_type": "text/html",
+  "content_length": 968,
+  "content_sha256": "c6ef0a59327173cce400686b39443adc19a70a32188133e45f72552337f36e29",
+  "revision_id": "edf25c51a2d33623e65fc098",
+  "warnings": [
+    "Bank of Canada recognizes RCMP constable with award for counterfeit deterrence: publication time derived from updated time by source policy",
+    "Bank of Canada response to Canadian Labour Congress President: publication time derived from updated time by source policy",
+    "G7 2026 Cross-Border Coordination Exercise (CBCE): publication time derived from updated time by source policy",
+    "Summary of Governing Council deliberations: Fixed announcement date of July&nbsp;15, 2026: publication time derived from updated time by source policy",
+    "Market Participants Survey—Second Quarter of 2026: publication time derived from updated time by source policy",
+    "Bank of Canada publishes its 2027 schedule for policy interest rate announcements and other major publications: publication time derived from updated time by source policy",
+    "Bank of Canada maintains the policy rate at 2¼%: publication time derived from updated time by source policy",
+    "Monetary Policy Report—July 2026: publication time derived from updated time by source policy",
+    "Monetary Policy Report Press Conference Opening Statement: publication time derived from updated time by source policy",
+    "Business Outlook Survey—Second Quarter of 2026: publication time derived from updated time by source policy"
+  ]
+}

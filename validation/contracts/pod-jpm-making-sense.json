@@ -1,0 +1,31 @@
+{
+  "contract_version": 1,
+  "source_id": "pod-jpm-making-sense",
+  "review": {
+    "status": "reviewed",
+    "reviewer": "Codex Milestone 2 source-contract review, 2026-08-29",
+    "reviewed_at": "2026-08-29T06:59:15.483776+00:00"
+  },
+  "newest_entry": {
+    "title": "The capital required for critical supply chains",
+    "url": "https://marketmatters.podbean.com/e/the-capital-required-for-critical-supply-chains/",
+    "original_url": "https://marketmatters.podbean.com/e/the-capital-required-for-critical-supply-chains/",
+    "published_at": "2026-08-28T16:03:40+00:00",
+    "updated_at": null,
+    "raw_published": "Fri, 28 Aug 2026 13:03:40 -0300",
+    "raw_updated": null,
+    "guid": "marketmatters.podbean.com/69b5d94b-3bdd-30d6-a7e4-4cf462c11119",
+    "media_url": "https://mcdn.podbean.com/mf/web/qegkirmvw5cne3y7/JPM_MS_SRI_Supply_Chain_Assets_V188esn.mp3",
+    "media_type": "audio/mpeg",
+    "timestamp_warning": null
+  },
+  "representative_entry": null,
+  "extraction_attempts": null,
+  "resolved_content_url": "https://s387.podbean.com/pb/b3bc449a10be57ba2ba284c0fdf930e7/6a91ea94/data1/fs73/4665031/uploads/JPM_MS_SRI_Supply_Chain_Assets_V188esn.mp3?pbss=15187a01-6bbb-5f25-8be0-32f82057245b",
+  "extraction_method": "audio_enclosure_probe",
+  "content_type": "audio/mpeg",
+  "content_length": 27808112,
+  "content_sha256": null,
+  "revision_id": null,
+  "warnings": []
+}

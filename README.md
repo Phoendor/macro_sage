@@ -1,8 +1,8 @@
 # Macro Sage
 
-Macro Sage collects a curated set of macro and central-bank feeds, extracts the
-original article or PDF text, deduplicates it in SQLite, and creates a
-source-attributed daily market brief.
+Macro Sage collects a structured, curated set of macro and central-bank feeds,
+verifies and versions the original article or PDF text, deduplicates it in
+SQLite, and creates a source-attributed daily market brief.
 
 The old collection of one-off scripts has been replaced by an installable `src/`
 package and a deterministic CLI. Article synthesis is one structured OpenAI
@@ -44,10 +44,10 @@ a run ID retain the convenient `output/<date>/` directory.
 ## Commands
 
 ```bash
-# Verify every enabled feed and extract one real item from each.
+# Verify every default feed and extract representative original content.
 macro-sage validate-sources
 
-# Also verify podcast feeds without downloading or transcribing audio.
+# Also probe every optional podcast enclosure without transcription.
 macro-sage validate-sources --include-podcasts
 
 # Run today's article pipeline.
@@ -108,11 +108,31 @@ round-robined by publisher before the article limit is applied, so one prolific
 feed cannot crowd out the rest. The selected documents and any omissions are
 saved alongside every brief.
 
+## Source and cache contracts
+
+`config/sources.toml` is the single source inventory. It distinguishes default,
+optional and unavailable participation and records evidence tier, coverage,
+cadence, expected gaps, acquisition mode, validation state and selection limits.
+The source catalog and coverage matrix are generated from it; `python
+scripts/check.py` fails if either generated document drifts.
+
+Feed publication and update timestamps remain separate. A small set of feeds
+that publish only an update field or a feed-level `Last-Modified` value have an
+explicit per-source publication policy; implausible future dates are rejected.
+Missing dates and every acquisition failure remain visible rather than becoming
+a false quiet day.
+
+SQLite schema migrations preserve existing cached material. Documents use a
+source-independent canonical identity, retain every discovery origin and keep
+immutable content revisions. See [cache and provenance](docs/CACHE.md) before
+changing extraction, source, or transcription contracts.
+
 ## Repository layout
 
 ```text
 .
 ├── config/sources.toml     # curated article and opt-in podcast feeds
+├── validation/             # dated live baseline and reviewed contract metadata
 ├── src/macro_sage/         # application package
 ├── tests/                  # offline fixtures and boundary tests
 └── docs/                   # architecture and source policy
@@ -125,9 +145,10 @@ python scripts/check.py
 ```
 
 The check command verifies that the active environment imports this checkout,
-then runs compilation, Ruff, and the offline test suite with a two-minute limit
-per subprocess. Tests must be deterministic and must not call live feeds or paid APIs. Use
-`macro-sage validate-sources` separately when feed health needs checking.
+checks the generated catalog and coverage matrix, then runs compilation, Ruff,
+and the offline test suite with a two-minute limit per subprocess. Tests must be
+deterministic and must not call live feeds or paid APIs. Use `macro-sage
+validate-sources` separately when feed health needs checking.
 
 ## Security
 

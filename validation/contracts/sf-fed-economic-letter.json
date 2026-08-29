@@ -1,0 +1,49 @@
+{
+  "contract_version": 1,
+  "source_id": "sf-fed-economic-letter",
+  "review": {
+    "status": "reviewed",
+    "reviewer": "Codex Milestone 2 source-contract review, 2026-08-29",
+    "reviewed_at": "2026-08-29T06:59:15.483776+00:00"
+  },
+  "newest_entry": {
+    "title": "What’s Behind the Declining Trend Unemployment Rate?",
+    "url": "https://www.frbsf.org/research-and-insights/publications/economic-letter/2026/08/whats-behind-declining-trend-unemployment-rate/",
+    "original_url": "https://www.frbsf.org/research-and-insights/publications/economic-letter/2026/08/whats-behind-declining-trend-unemployment-rate/",
+    "published_at": "2026-08-25T00:00:00+00:00",
+    "updated_at": null,
+    "raw_published": "Mon, 24 Aug 2026 17:00:00 -0700",
+    "raw_updated": null,
+    "guid": "https://www.frbsf.org/research-and-insights/publications/economic-letter/2026/08/whats-behind-declining-trend-unemployment-rate/",
+    "media_url": null,
+    "media_type": null,
+    "timestamp_warning": null
+  },
+  "representative_entry": {
+    "title": "What’s Behind the Declining Trend Unemployment Rate?",
+    "url": "https://www.frbsf.org/research-and-insights/publications/economic-letter/2026/08/whats-behind-declining-trend-unemployment-rate/",
+    "original_url": "https://www.frbsf.org/research-and-insights/publications/economic-letter/2026/08/whats-behind-declining-trend-unemployment-rate/",
+    "published_at": "2026-08-25T00:00:00+00:00",
+    "updated_at": null,
+    "raw_published": "Mon, 24 Aug 2026 17:00:00 -0700",
+    "raw_updated": null,
+    "guid": "https://www.frbsf.org/research-and-insights/publications/economic-letter/2026/08/whats-behind-declining-trend-unemployment-rate/",
+    "media_url": null,
+    "media_type": null,
+    "timestamp_warning": null
+  },
+  "extraction_attempts": [
+    {
+      "title": "What’s Behind the Declining Trend Unemployment Rate?",
+      "url": "https://www.frbsf.org/research-and-insights/publications/economic-letter/2026/08/whats-behind-declining-trend-unemployment-rate/",
+      "status": "passed"
+    }
+  ],
+  "resolved_content_url": "https://www.frbsf.org/research-and-insights/publications/economic-letter/2026/08/whats-behind-declining-trend-unemployment-rate/",
+  "extraction_method": "full_html",
+  "content_type": "text/html",
+  "content_length": 12562,
+  "content_sha256": "acbb2c49e4f03ebc2dcf088a8483a37f4938be265ae47edf2b0d42bb449011a6",
+  "revision_id": "d22b910f810a86dce6c2429b",
+  "warnings": []
+}

@@ -1,0 +1,49 @@
+{
+  "contract_version": 1,
+  "source_id": "bnp-eco-week",
+  "review": {
+    "status": "reviewed",
+    "reviewer": "Codex Milestone 2 source-contract review, 2026-08-29",
+    "reviewed_at": "2026-08-29T06:59:15.483776+00:00"
+  },
+  "newest_entry": {
+    "title": "Is the energy crisis accelerating the low-carbon transition? A nuanced response for advanced economies — Part 2*",
+    "url": "https://economic-research.bnpparibas.com/html/en-US/energy-crisis-accelerating-carbon-transition-nuanced-response-advanced-economies-Part-2-7/27/2026,53688",
+    "original_url": "https://economic-research.bnpparibas.com/html/en-US/energy-crisis-accelerating-carbon-transition-nuanced-response-advanced-economies-Part-2-7/27/2026,53688",
+    "published_at": "2026-07-26T22:00:00+00:00",
+    "updated_at": null,
+    "raw_published": "Mon, 27 Jul 2026 00:00:00 +0200",
+    "raw_updated": null,
+    "guid": null,
+    "media_url": null,
+    "media_type": null,
+    "timestamp_warning": null
+  },
+  "representative_entry": {
+    "title": "Is the energy crisis accelerating the low-carbon transition? A nuanced response for advanced economies — Part 2*",
+    "url": "https://economic-research.bnpparibas.com/html/en-US/energy-crisis-accelerating-carbon-transition-nuanced-response-advanced-economies-Part-2-7/27/2026,53688",
+    "original_url": "https://economic-research.bnpparibas.com/html/en-US/energy-crisis-accelerating-carbon-transition-nuanced-response-advanced-economies-Part-2-7/27/2026,53688",
+    "published_at": "2026-07-26T22:00:00+00:00",
+    "updated_at": null,
+    "raw_published": "Mon, 27 Jul 2026 00:00:00 +0200",
+    "raw_updated": null,
+    "guid": null,
+    "media_url": null,
+    "media_type": null,
+    "timestamp_warning": null
+  },
+  "extraction_attempts": [
+    {
+      "title": "Is the energy crisis accelerating the low-carbon transition? A nuanced response for advanced economies — Part 2*",
+      "url": "https://economic-research.bnpparibas.com/html/en-US/energy-crisis-accelerating-carbon-transition-nuanced-response-advanced-economies-Part-2-7/27/2026,53688",
+      "status": "passed"
+    }
+  ],
+  "resolved_content_url": "https://economic-research.bnpparibas.com/html/en-US/energy-crisis-accelerating-carbon-transition-nuanced-response-advanced-economies-Part-2-7/27/2026,53688",
+  "extraction_method": "full_html",
+  "content_type": "text/html",
+  "content_length": 10047,
+  "content_sha256": "30a8b6c21203237e553983b5943466e66bb14cb71da85d6e96eddb4ce556b000",
+  "revision_id": "96a057ddf2e2b83ffe8eba38",
+  "warnings": []
+}

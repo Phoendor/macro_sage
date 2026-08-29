@@ -1,4 +1,5 @@
 from datetime import date, datetime, timezone
+from types import SimpleNamespace
 
 from macro_sage.models import (
     Document,
@@ -8,7 +9,7 @@ from macro_sage.models import (
     SourceKind,
     SourceState,
 )
-from macro_sage.pipeline import collect_articles
+from macro_sage.pipeline import collect_articles, is_on_date
 from macro_sage.podcasts import (
     SEGMENT_SECONDS,
     PodcastTranscriber,
@@ -21,11 +22,15 @@ class Store:
     def __init__(self):
         self.documents = {}
 
-    def get(self, identifier):
-        return self.documents.get(identifier)
+    def get_for_item(self, item):
+        return self.documents.get(item.document_id)
 
-    def save(self, document):
+    def save(self, document, *, item=None):
         self.documents[document.id] = document
+        return document
+
+    def record_source_health(self, _outcome):
+        return None
 
 
 def source(kind=SourceKind.ARTICLE):
@@ -39,11 +44,17 @@ def source(kind=SourceKind.ARTICLE):
     )
 
 
+def test_publication_date_uses_configured_timezone_across_dst():
+    value = datetime(2026, 3, 29, 22, 30, tzinfo=timezone.utc)
+
+    assert is_on_date(value, date(2026, 3, 30), "Europe/Amsterdam")
+
+
 def test_article_feed_failure_is_structured_and_explicit(monkeypatch):
     def fail_discovery(_source, _client):
         raise RuntimeError("HTTP 403")
 
-    monkeypatch.setattr("macro_sage.pipeline.discover", fail_discovery)
+    monkeypatch.setattr("macro_sage.pipeline.discover_with_diagnostics", fail_discovery)
 
     report = collect_articles(
         [source()],
@@ -64,7 +75,7 @@ def test_article_failure_redacts_environment_secret(monkeypatch):
     def fail_discovery(_source, _client):
         raise RuntimeError("rejected publisher-secret-value")
 
-    monkeypatch.setattr("macro_sage.pipeline.discover", fail_discovery)
+    monkeypatch.setattr("macro_sage.pipeline.discover_with_diagnostics", fail_discovery)
 
     report = collect_articles(
         [source()],
@@ -86,10 +97,13 @@ def test_article_item_failure_remains_individually_auditable(monkeypatch):
         url="https://example.com/broken",
         published_at=datetime(2026, 7, 27, tzinfo=timezone.utc),
     )
-    monkeypatch.setattr("macro_sage.pipeline.discover", lambda *_args: [item])
+    monkeypatch.setattr(
+        "macro_sage.pipeline.discover_with_diagnostics",
+        lambda *_args: SimpleNamespace(items=[item]),
+    )
     monkeypatch.setattr(
         "macro_sage.pipeline.extract",
-        lambda *_args: (_ for _ in ()).throw(RuntimeError("paywall")),
+        lambda *_args, **_kwargs: (_ for _ in ()).throw(RuntimeError("paywall")),
     )
 
     report = collect_articles(
@@ -104,6 +118,66 @@ def test_article_item_failure_remains_individually_auditable(monkeypatch):
     assert report.item_outcomes[0].state is ItemState.FAILED
     assert report.item_outcomes[0].stage == "article extraction"
     assert report.item_outcomes[0].detail == "paywall"
+
+
+def test_missing_publication_dates_cannot_masquerade_as_a_quiet_day(monkeypatch):
+    article_source = source()
+    item = FeedItem(
+        source=article_source,
+        title="Undated article",
+        url="https://example.com/undated",
+        published_at=None,
+        timestamp_warning="missing publication timestamp",
+    )
+    monkeypatch.setattr(
+        "macro_sage.pipeline.discover_with_diagnostics",
+        lambda *_args: SimpleNamespace(items=[item]),
+    )
+
+    report = collect_articles(
+        [article_source],
+        date(2026, 7, 27),
+        object(),
+        Store(),
+        timezone_name="UTC",
+    )
+
+    assert report.outcomes[0].state is SourceState.INVALID_DATES
+    assert report.item_outcomes[0].state is ItemState.INVALID_DATE
+    assert report.failures
+
+
+def test_expected_but_absent_source_is_visibly_degraded(monkeypatch):
+    article_source = SourceDefinition(
+        "daily",
+        "Daily",
+        "Publisher",
+        "https://example.com/feed.xml",
+        "research",
+        event_driven=False,
+        max_gap_days=30,
+    )
+    old = FeedItem(
+        source=article_source,
+        title="Old article",
+        url="https://example.com/old",
+        published_at=datetime(2026, 7, 24, tzinfo=timezone.utc),
+    )
+    monkeypatch.setattr(
+        "macro_sage.pipeline.discover_with_diagnostics",
+        lambda *_args: SimpleNamespace(items=[old]),
+    )
+
+    report = collect_articles(
+        [article_source],
+        date(2026, 7, 27),
+        object(),
+        Store(),
+        timezone_name="UTC",
+    )
+
+    assert report.outcomes[0].state is SourceState.EXPECTED_ABSENT
+    assert report.failures
 
 
 def test_podcast_duration_budget_skips_before_paid_transcription(monkeypatch):

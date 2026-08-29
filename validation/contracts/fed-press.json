@@ -1,0 +1,49 @@
+{
+  "contract_version": 1,
+  "source_id": "fed-press",
+  "review": {
+    "status": "reviewed",
+    "reviewer": "Codex Milestone 2 source-contract review, 2026-08-29",
+    "reviewed_at": "2026-08-29T06:59:15.483776+00:00"
+  },
+  "newest_entry": {
+    "title": "Federal Reserve Board issues enforcement action with former employee of Banco Popular de Puerto Rico",
+    "url": "https://www.federalreserve.gov/newsevents/pressreleases/enforcement20260827a.htm",
+    "original_url": "https://www.federalreserve.gov/newsevents/pressreleases/enforcement20260827a.htm",
+    "published_at": "2026-08-27T15:00:00+00:00",
+    "updated_at": null,
+    "raw_published": "Thu, 27 Aug 2026 15:00:00 GMT",
+    "raw_updated": null,
+    "guid": "https://www.federalreserve.gov/newsevents/pressreleases/enforcement20260827a.htm",
+    "media_url": null,
+    "media_type": null,
+    "timestamp_warning": null
+  },
+  "representative_entry": {
+    "title": "Federal Reserve Board issues enforcement action with former employee of Banco Popular de Puerto Rico",
+    "url": "https://www.federalreserve.gov/newsevents/pressreleases/enforcement20260827a.htm",
+    "original_url": "https://www.federalreserve.gov/newsevents/pressreleases/enforcement20260827a.htm",
+    "published_at": "2026-08-27T15:00:00+00:00",
+    "updated_at": null,
+    "raw_published": "Thu, 27 Aug 2026 15:00:00 GMT",
+    "raw_updated": null,
+    "guid": "https://www.federalreserve.gov/newsevents/pressreleases/enforcement20260827a.htm",
+    "media_url": null,
+    "media_type": null,
+    "timestamp_warning": null
+  },
+  "extraction_attempts": [
+    {
+      "title": "Federal Reserve Board issues enforcement action with former employee of Banco Popular de Puerto Rico",
+      "url": "https://www.federalreserve.gov/newsevents/pressreleases/enforcement20260827a.htm",
+      "status": "passed"
+    }
+  ],
+  "resolved_content_url": "https://www.federalreserve.gov/newsevents/pressreleases/enforcement20260827a.htm",
+  "extraction_method": "full_html",
+  "content_type": "text/html",
+  "content_length": 554,
+  "content_sha256": "9fa65160b17642ffcea2cb3cd1777dbf702a6f0375298476dc90cf104579e7ed",
+  "revision_id": "9e0be528cec03c396c2540c0",
+  "warnings": []
+}

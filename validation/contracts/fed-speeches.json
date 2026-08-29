@@ -1,0 +1,49 @@
+{
+  "contract_version": 1,
+  "source_id": "fed-speeches",
+  "review": {
+    "status": "reviewed",
+    "reviewer": "Codex Milestone 2 source-contract review, 2026-08-29",
+    "reviewed_at": "2026-08-29T06:59:15.483776+00:00"
+  },
+  "newest_entry": {
+    "title": "Warsh, In Our Time",
+    "url": "https://www.federalreserve.gov/newsevents/speech/warsh20260828a.htm",
+    "original_url": "https://www.federalreserve.gov/newsevents/speech/warsh20260828a.htm",
+    "published_at": "2026-08-28T14:00:00+00:00",
+    "updated_at": null,
+    "raw_published": "Fri, 28 Aug 2026 14:00:00 GMT",
+    "raw_updated": null,
+    "guid": "https://www.federalreserve.gov/newsevents/speech/warsh20260828a.htm",
+    "media_url": null,
+    "media_type": null,
+    "timestamp_warning": null
+  },
+  "representative_entry": {
+    "title": "Warsh, In Our Time",
+    "url": "https://www.federalreserve.gov/newsevents/speech/warsh20260828a.htm",
+    "original_url": "https://www.federalreserve.gov/newsevents/speech/warsh20260828a.htm",
+    "published_at": "2026-08-28T14:00:00+00:00",
+    "updated_at": null,
+    "raw_published": "Fri, 28 Aug 2026 14:00:00 GMT",
+    "raw_updated": null,
+    "guid": "https://www.federalreserve.gov/newsevents/speech/warsh20260828a.htm",
+    "media_url": null,
+    "media_type": null,
+    "timestamp_warning": null
+  },
+  "extraction_attempts": [
+    {
+      "title": "Warsh, In Our Time",
+      "url": "https://www.federalreserve.gov/newsevents/speech/warsh20260828a.htm",
+      "status": "passed"
+    }
+  ],
+  "resolved_content_url": "https://www.federalreserve.gov/newsevents/speech/warsh20260828a.htm",
+  "extraction_method": "full_html",
+  "content_type": "text/html",
+  "content_length": 27327,
+  "content_sha256": "53932d0b119b1deb79e58098df69a0d7397814ebee6dd8903dc00237b9c3daf2",
+  "revision_id": "a5f7e9eee0c6b6186d181e4a",
+  "warnings": []
+}

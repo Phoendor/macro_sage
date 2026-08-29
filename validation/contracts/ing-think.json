@@ -1,0 +1,60 @@
+{
+  "contract_version": 1,
+  "source_id": "ing-think",
+  "review": {
+    "status": "reviewed",
+    "reviewer": "Codex Milestone 2 source-contract review, 2026-08-29",
+    "reviewed_at": "2026-08-29T06:59:15.483776+00:00"
+  },
+  "newest_entry": {
+    "title": "Warsh guides forward without forward guidance",
+    "url": "https://think.ing.com/snaps/warshs-hawkish-words-pivots-the-curve-flatter/",
+    "original_url": "https://think.ing.com/snaps/warshs-hawkish-words-pivots-the-curve-flatter/",
+    "published_at": "2026-08-28T14:46:00+00:00",
+    "updated_at": "2026-08-28T14:46:00+00:00",
+    "raw_published": null,
+    "raw_updated": "2026-08-28T14:46:00+00:00",
+    "guid": "https://think.ing.com/snaps/warshs-hawkish-words-pivots-the-curve-flatter/#When:14:46:00Z",
+    "media_url": null,
+    "media_type": null,
+    "timestamp_warning": "publication time derived from updated time by source policy"
+  },
+  "representative_entry": {
+    "title": "Warsh guides forward without forward guidance",
+    "url": "https://think.ing.com/snaps/warshs-hawkish-words-pivots-the-curve-flatter/",
+    "original_url": "https://think.ing.com/snaps/warshs-hawkish-words-pivots-the-curve-flatter/",
+    "published_at": "2026-08-28T14:46:00+00:00",
+    "updated_at": "2026-08-28T14:46:00+00:00",
+    "raw_published": null,
+    "raw_updated": "2026-08-28T14:46:00+00:00",
+    "guid": "https://think.ing.com/snaps/warshs-hawkish-words-pivots-the-curve-flatter/#When:14:46:00Z",
+    "media_url": null,
+    "media_type": null,
+    "timestamp_warning": "publication time derived from updated time by source policy"
+  },
+  "extraction_attempts": [
+    {
+      "title": "Warsh guides forward without forward guidance",
+      "url": "https://think.ing.com/snaps/warshs-hawkish-words-pivots-the-curve-flatter/",
+      "status": "passed"
+    }
+  ],
+  "resolved_content_url": "https://think.ing.com/snaps/warshs-hawkish-words-pivots-the-curve-flatter/",
+  "extraction_method": "full_html",
+  "content_type": "text/html",
+  "content_length": 3501,
+  "content_sha256": "0b27b9f1dad8f8ae7f11627bbd92264027e26048f03208ba236ce981c2cecb5e",
+  "revision_id": "a82ac63490357bca98abed0b",
+  "warnings": [
+    "Warsh guides forward without forward guidance: publication time derived from updated time by source policy",
+    "RBNZ preview: A 25bp hike, with some dovish risks: publication time derived from updated time by source policy",
+    "Poland’s draft 2027 budget: Not great, not terrible: publication time derived from updated time by source policy",
+    "Italian confidence data improves further in August: publication time derived from updated time by source policy",
+    "Hungary’s labour market eases, but structural pressures remain: publication time derived from updated time by source policy",
+    "CEE & CCA week ahead: Kazakhstan rate decision and Polish GDP: publication time derived from updated time by source policy",
+    "Strong jump in eurozone sentiment in August: publication time derived from updated time by source policy",
+    "THINK Ahead: Six months of the Iran War in six charts: publication time derived from updated time by source policy",
+    "French economy grinds to a halt: publication time derived from updated time by source policy",
+    "Asia week ahead: Key data on Australia, China, India, Japan, Korea, Philippines: publication time derived from updated time by source policy"
+  ]
+}

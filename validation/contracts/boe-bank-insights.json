@@ -1,0 +1,49 @@
+{
+  "contract_version": 1,
+  "source_id": "boe-bank-insights",
+  "review": {
+    "status": "reviewed",
+    "reviewer": "Codex Milestone 2 source-contract review, 2026-08-29",
+    "reviewed_at": "2026-08-29T06:59:15.483776+00:00"
+  },
+  "newest_entry": {
+    "title": "Bank Rate expectations in the UK curve following the war in Iran",
+    "url": "https://www.bankofengland.co.uk/bank-insights/2026/bank-rate-expectations-uk-curve-following-the-war-in-iran",
+    "original_url": "https://www.bankofengland.co.uk/bank-insights/2026/bank-rate-expectations-uk-curve-following-the-war-in-iran",
+    "published_at": "2026-07-17T11:00:00+00:00",
+    "updated_at": null,
+    "raw_published": "Fri, 17 Jul 2026 12:00:00 +0100",
+    "raw_updated": null,
+    "guid": "{CC081113-BCB3-4B7D-BA7E-9CEF448B9528}",
+    "media_url": null,
+    "media_type": null,
+    "timestamp_warning": null
+  },
+  "representative_entry": {
+    "title": "Bank Rate expectations in the UK curve following the war in Iran",
+    "url": "https://www.bankofengland.co.uk/bank-insights/2026/bank-rate-expectations-uk-curve-following-the-war-in-iran",
+    "original_url": "https://www.bankofengland.co.uk/bank-insights/2026/bank-rate-expectations-uk-curve-following-the-war-in-iran",
+    "published_at": "2026-07-17T11:00:00+00:00",
+    "updated_at": null,
+    "raw_published": "Fri, 17 Jul 2026 12:00:00 +0100",
+    "raw_updated": null,
+    "guid": "{CC081113-BCB3-4B7D-BA7E-9CEF448B9528}",
+    "media_url": null,
+    "media_type": null,
+    "timestamp_warning": null
+  },
+  "extraction_attempts": [
+    {
+      "title": "Bank Rate expectations in the UK curve following the war in Iran",
+      "url": "https://www.bankofengland.co.uk/bank-insights/2026/bank-rate-expectations-uk-curve-following-the-war-in-iran",
+      "status": "passed"
+    }
+  ],
+  "resolved_content_url": "https://www.bankofengland.co.uk/bank-insights/2026/bank-rate-expectations-uk-curve-following-the-war-in-iran",
+  "extraction_method": "full_html",
+  "content_type": "text/html",
+  "content_length": 18770,
+  "content_sha256": "b12651bcf1715e6d9afe27d12f1567b0e1f05ce73062395cef2d4295b415646c",
+  "revision_id": "feb284af414adbd4cc20e263",
+  "warnings": []
+}

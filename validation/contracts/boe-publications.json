@@ -1,0 +1,49 @@
+{
+  "contract_version": 1,
+  "source_id": "boe-publications",
+  "review": {
+    "status": "reviewed",
+    "reviewer": "Codex Milestone 2 source-contract review, 2026-08-29",
+    "reviewed_at": "2026-08-29T06:59:15.483776+00:00"
+  },
+  "newest_entry": {
+    "title": "How do firms cope with economic shocks in real time?",
+    "url": "https://www.bankofengland.co.uk/working-paper/2026/how-do-firms-cope-with-economic-shocks-in-real-time",
+    "original_url": "https://www.bankofengland.co.uk/working-paper/2026/how-do-firms-cope-with-economic-shocks-in-real-time",
+    "published_at": "2026-08-28T13:02:00+00:00",
+    "updated_at": null,
+    "raw_published": "Fri, 28 Aug 2026 14:02:00 +0100",
+    "raw_updated": null,
+    "guid": "{713BEE28-C8FA-4FC3-AB9E-122A9C676E84}",
+    "media_url": null,
+    "media_type": null,
+    "timestamp_warning": null
+  },
+  "representative_entry": {
+    "title": "How do firms cope with economic shocks in real time?",
+    "url": "https://www.bankofengland.co.uk/working-paper/2026/how-do-firms-cope-with-economic-shocks-in-real-time",
+    "original_url": "https://www.bankofengland.co.uk/working-paper/2026/how-do-firms-cope-with-economic-shocks-in-real-time",
+    "published_at": "2026-08-28T13:02:00+00:00",
+    "updated_at": null,
+    "raw_published": "Fri, 28 Aug 2026 14:02:00 +0100",
+    "raw_updated": null,
+    "guid": "{713BEE28-C8FA-4FC3-AB9E-122A9C676E84}",
+    "media_url": null,
+    "media_type": null,
+    "timestamp_warning": null
+  },
+  "extraction_attempts": [
+    {
+      "title": "How do firms cope with economic shocks in real time?",
+      "url": "https://www.bankofengland.co.uk/working-paper/2026/how-do-firms-cope-with-economic-shocks-in-real-time",
+      "status": "passed"
+    }
+  ],
+  "resolved_content_url": "https://www.bankofengland.co.uk/-/media/boe/files/working-paper/2026/how-do-firms-cope-with-economic-shocks-in-real-time.pdf",
+  "extraction_method": "full_pdf",
+  "content_type": "application/pdf",
+  "content_length": 112228,
+  "content_sha256": "2c977fae89ae3521f28087cf0da99fe3994e78914bcc929e82f218889699a30d",
+  "revision_id": "8ec7f75dbaef52aafb91d8aa",
+  "warnings": []
+}

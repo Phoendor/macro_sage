@@ -9,6 +9,7 @@ from pathlib import Path
 
 from macro_sage.files import write_json_atomic
 from macro_sage.models import (
+    AcquisitionMode,
     CollectionReport,
     ContentResult,
     Document,
@@ -23,9 +24,9 @@ from macro_sage.models import (
 
 def document_to_dict(document: Document) -> dict[str, object]:
     value = asdict(document)
-    value["published_at"] = (
-        document.published_at.isoformat() if document.published_at else None
-    )
+    for field_name in ("published_at", "updated_at", "fetched_at"):
+        field_value = getattr(document, field_name)
+        value[field_name] = field_value.isoformat() if field_value else None
     return value
 
 
@@ -51,6 +52,49 @@ def document_from_dict(value: dict[str, object]) -> Document:
         body=str(value["body"]),
         author=str(value["author"]) if value.get("author") is not None else None,
         media_type=str(value.get("media_type", "text/html")),
+        original_url=(
+            str(value["original_url"]) if value.get("original_url") else None
+        ),
+        canonical_url=(
+            str(value["canonical_url"]) if value.get("canonical_url") else None
+        ),
+        resolved_content_url=(
+            str(value["resolved_content_url"])
+            if value.get("resolved_content_url")
+            else None
+        ),
+        updated_at=(
+            datetime.fromisoformat(str(value["updated_at"]))
+            if value.get("updated_at")
+            else None
+        ),
+        raw_published=(
+            str(value["raw_published"]) if value.get("raw_published") else None
+        ),
+        raw_updated=(
+            str(value["raw_updated"]) if value.get("raw_updated") else None
+        ),
+        fetched_at=(
+            datetime.fromisoformat(str(value["fetched_at"]))
+            if value.get("fetched_at")
+            else None
+        ),
+        language=str(value.get("language", "en")),
+        content_sha256=str(value.get("content_sha256", "")),
+        extractor_version=str(value.get("extractor_version", "")),
+        acquisition_method=AcquisitionMode(
+            str(value.get("acquisition_method", AcquisitionMode.FULL_HTML))
+        ),
+        quality_flags=tuple(str(item) for item in value.get("quality_flags", [])),
+        revision_id=str(value.get("revision_id", "")),
+        etag=str(value["etag"]) if value.get("etag") else None,
+        last_modified=(
+            str(value["last_modified"]) if value.get("last_modified") else None
+        ),
+        page_count=(int(value["page_count"]) if value.get("page_count") else None),
+        discovery_source_ids=tuple(
+            str(item) for item in value.get("discovery_source_ids", [])
+        ),
     )
 
 

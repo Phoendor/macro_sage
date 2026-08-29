@@ -1,0 +1,63 @@
+{
+  "contract_version": 1,
+  "source_id": "snb-monetary-policy",
+  "review": {
+    "status": "reviewed",
+    "reviewer": "Codex Milestone 2 source-contract review, 2026-08-29",
+    "reviewed_at": "2026-08-29T06:59:15.483776+00:00"
+  },
+  "newest_entry": {
+    "title": "2026-06-24 - Quarterly Bulletin 2/2026",
+    "url": "https://www.snb.ch/en/publications/quarterly-bulletin/2026/quartbul_2026_2_komplett",
+    "original_url": "https://www.snb.ch/en/publications/quarterly-bulletin/2026/quartbul_2026_2_komplett",
+    "published_at": "2026-06-24T13:00:00+00:00",
+    "updated_at": "2026-06-24T13:00:00+00:00",
+    "raw_published": null,
+    "raw_updated": "2026-06-24T13:00:00Z",
+    "guid": "https://www.snb.ch/en/publications/quarterly-bulletin/2026/quartbul_2026_2_komplett",
+    "media_url": null,
+    "media_type": null,
+    "timestamp_warning": "publication time derived from updated time by source policy"
+  },
+  "representative_entry": {
+    "title": "2026-06-24 - Quarterly Bulletin 2/2026",
+    "url": "https://www.snb.ch/en/publications/quarterly-bulletin/2026/quartbul_2026_2_komplett",
+    "original_url": "https://www.snb.ch/en/publications/quarterly-bulletin/2026/quartbul_2026_2_komplett",
+    "published_at": "2026-06-24T13:00:00+00:00",
+    "updated_at": "2026-06-24T13:00:00+00:00",
+    "raw_published": null,
+    "raw_updated": "2026-06-24T13:00:00Z",
+    "guid": "https://www.snb.ch/en/publications/quarterly-bulletin/2026/quartbul_2026_2_komplett",
+    "media_url": null,
+    "media_type": null,
+    "timestamp_warning": "publication time derived from updated time by source policy"
+  },
+  "extraction_attempts": [
+    {
+      "title": "2026-06-24 - Quarterly Bulletin 2/2026",
+      "url": "https://www.snb.ch/en/publications/quarterly-bulletin/2026/quartbul_2026_2_komplett",
+      "status": "passed"
+    }
+  ],
+  "resolved_content_url": "https://www.snb.ch/public/asset/en/www-snb-ch/publications/quarterly-bulletin/2026/quartbul_2026_2_komplett/publications0_en/quartbul_2026_2_komplett.en.pdf",
+  "extraction_method": "full_pdf",
+  "content_type": "application/pdf",
+  "content_length": 110710,
+  "content_sha256": "250c641cdc9e56a9562100f3e3e3e9c1ef4902530e2cfd3f2e449f0d49a2d252",
+  "revision_id": "ddbd8c19e7b616f8d9d3351e",
+  "warnings": [
+    "2026-06-24 - Quarterly Bulletin 2/2026: publication time derived from updated time by source policy",
+    "2026-06-18 - Monetary policy assessment of 18 June 2026: publication time derived from updated time by source policy",
+    "2026-03-25 - Quarterly Bulletin 1/2026: publication time derived from updated time by source policy",
+    "2026-03-19 - Monetary policy assessment of 19 March 2026: publication time derived from updated time by source policy",
+    "2025-12-17 - Quarterly Bulletin 4/2025: publication time derived from updated time by source policy",
+    "2025-12-11 - Monetary policy assessment of 11 December 2025: publication time derived from updated time by source policy",
+    "2025-10-23 - Monetary policy assessment of September 2025: Summary of discussion: publication time derived from updated time by source policy",
+    "2025-10-01 - Quarterly Bulletin 3/2025: publication time derived from updated time by source policy",
+    "2025-09-25 - Monetary policy assessment of 25 September 2025: publication time derived from updated time by source policy",
+    "2025-06-25 - Quarterly Bulletin 2/2025: publication time derived from updated time by source policy",
+    "2025-06-19 - Monetary policy assessment of 19 June 2025: publication time derived from updated time by source policy",
+    "2025-03-26 - Quarterly Bulletin 1/2025: publication time derived from updated time by source policy",
+    "2025-03-20 - Monetary policy assessment of 20 March 2025: publication time derived from updated time by source policy"
+  ]
+}

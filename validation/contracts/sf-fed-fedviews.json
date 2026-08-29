@@ -1,0 +1,49 @@
+{
+  "contract_version": 1,
+  "source_id": "sf-fed-fedviews",
+  "review": {
+    "status": "reviewed",
+    "reviewer": "Codex Milestone 2 source-contract review, 2026-08-29",
+    "reviewed_at": "2026-08-29T06:59:15.483776+00:00"
+  },
+  "newest_entry": {
+    "title": "SF FedViews: Labor Market in Balance but Inflation Elevated and Uncertain",
+    "url": "https://www.frbsf.org/research-and-insights/publications/fedviews/2026/07/sf-fedviews-july-16-2026/",
+    "original_url": "https://www.frbsf.org/research-and-insights/publications/fedviews/2026/07/sf-fedviews-july-16-2026/",
+    "published_at": "2026-07-17T02:00:00+00:00",
+    "updated_at": null,
+    "raw_published": "Thu, 16 Jul 2026 19:00:00 -0700",
+    "raw_updated": null,
+    "guid": "https://www.frbsf.org/research-and-insights/publications/fedviews/2026/07/sf-fedviews-july-16-2026/",
+    "media_url": null,
+    "media_type": null,
+    "timestamp_warning": null
+  },
+  "representative_entry": {
+    "title": "SF FedViews: Labor Market in Balance but Inflation Elevated and Uncertain",
+    "url": "https://www.frbsf.org/research-and-insights/publications/fedviews/2026/07/sf-fedviews-july-16-2026/",
+    "original_url": "https://www.frbsf.org/research-and-insights/publications/fedviews/2026/07/sf-fedviews-july-16-2026/",
+    "published_at": "2026-07-17T02:00:00+00:00",
+    "updated_at": null,
+    "raw_published": "Thu, 16 Jul 2026 19:00:00 -0700",
+    "raw_updated": null,
+    "guid": "https://www.frbsf.org/research-and-insights/publications/fedviews/2026/07/sf-fedviews-july-16-2026/",
+    "media_url": null,
+    "media_type": null,
+    "timestamp_warning": null
+  },
+  "extraction_attempts": [
+    {
+      "title": "SF FedViews: Labor Market in Balance but Inflation Elevated and Uncertain",
+      "url": "https://www.frbsf.org/research-and-insights/publications/fedviews/2026/07/sf-fedviews-july-16-2026/",
+      "status": "passed"
+    }
+  ],
+  "resolved_content_url": "https://www.frbsf.org/research-and-insights/publications/fedviews/2026/07/sf-fedviews-july-16-2026/",
+  "extraction_method": "full_html",
+  "content_type": "text/html",
+  "content_length": 7434,
+  "content_sha256": "807a60e33b5e2ffd161b29120200ed2be97cfd38acea77d0bad5d15d802d6bee",
+  "revision_id": "99b2845ae8ccdf045f8af0c1",
+  "warnings": []
+}

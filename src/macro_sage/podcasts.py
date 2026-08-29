@@ -1,10 +1,11 @@
 from __future__ import annotations
 
+import hashlib
 import shutil
 import subprocess
 import tempfile
 from dataclasses import dataclass
-from datetime import date
+from datetime import date, datetime, timezone
 from pathlib import Path
 from urllib.parse import urlsplit
 
@@ -13,6 +14,7 @@ from openai import OpenAI
 from macro_sage.feeds import discover
 from macro_sage.http import HttpClient
 from macro_sage.models import (
+    AcquisitionMode,
     CollectionReport,
     Document,
     ItemOutcome,
@@ -24,6 +26,7 @@ from macro_sage.models import (
 from macro_sage.pipeline import is_on_date
 from macro_sage.run_state import redact_text
 from macro_sage.storage import DocumentStore
+from macro_sage.versions import EXTRACTOR_VERSION
 
 MAX_UPLOAD_BYTES = 24 * 1024 * 1024
 SEGMENT_SECONDS = 15 * 60
@@ -166,39 +169,39 @@ def collect_podcasts(
         try:
             items = discover(source, http)
         except Exception as exc:
-            report.outcomes.append(
-                SourceOutcome(
-                    source.id,
-                    source.name,
-                    source.kind,
-                    SourceState.FAILED,
-                    stage="feed discovery",
-                    detail=redact_text(str(exc)),
-                )
+            outcome = SourceOutcome(
+                source.id,
+                source.name,
+                source.kind,
+                SourceState.FAILED,
+                stage="feed discovery",
+                detail=redact_text(str(exc)),
             )
+            report.outcomes.append(outcome)
+            store.record_source_health(outcome)
             continue
         matching = [
             entry
             for entry in items
             if is_on_date(entry.published_at, target, timezone_name)
-        ]
+        ][: source.daily_limit]
         if not matching:
-            report.outcomes.append(
-                SourceOutcome(
-                    source.id,
-                    source.name,
-                    source.kind,
-                    SourceState.NO_ITEMS,
-                    detail=f"no items on {target.isoformat()}",
-                )
+            outcome = SourceOutcome(
+                source.id,
+                source.name,
+                source.kind,
+                SourceState.QUIET_EXPECTED,
+                detail=f"no publication expected or observed on {target.isoformat()}",
             )
+            report.outcomes.append(outcome)
+            store.record_source_health(outcome)
             continue
 
         collected = 0
         failures: list[str] = []
         policy_skips: list[str] = []
         for item in matching:
-            cached = store.get(item.document_id)
+            cached = store.get_for_item(item)
             if cached:
                 report.documents.append(cached)
                 report.item_outcomes.append(
@@ -253,6 +256,8 @@ def collect_podcasts(
                     item.media_url or "",
                     max_seconds=remaining_seconds,
                 )
+                content_sha256 = hashlib.sha256(transcript.text.encode()).hexdigest()
+                fetched_at = datetime.now(timezone.utc)
                 document = Document(
                     id=item.document_id,
                     source_id=source.id,
@@ -265,8 +270,20 @@ def collect_podcasts(
                     body=transcript.text,
                     author=item.author,
                     media_type="audio/transcript",
+                    original_url=item.original_url or item.url,
+                    canonical_url=item.url,
+                    resolved_content_url=item.media_url,
+                    updated_at=item.updated_at,
+                    raw_published=item.raw_published,
+                    raw_updated=item.raw_updated,
+                    fetched_at=fetched_at,
+                    language=source.language,
+                    content_sha256=content_sha256,
+                    extractor_version=EXTRACTOR_VERSION,
+                    acquisition_method=AcquisitionMode.MACHINE_TRANSCRIPT,
+                    discovery_source_ids=(source.id,),
                 )
-                store.save(document)
+                document = store.save(document, item=item)
                 report.documents.append(document)
                 report.item_outcomes.append(
                     ItemOutcome(
@@ -315,15 +332,15 @@ def collect_podcasts(
         else:
             state = SourceState.COLLECTED
             stage = None
-        report.outcomes.append(
-            SourceOutcome(
-                source.id,
-                source.name,
-                source.kind,
-                state,
-                document_count=collected,
-                stage=stage,
-                detail="; ".join(details) if details else None,
-            )
+        outcome = SourceOutcome(
+            source.id,
+            source.name,
+            source.kind,
+            state,
+            document_count=collected,
+            stage=stage,
+            detail="; ".join(details) if details else None,
         )
+        report.outcomes.append(outcome)
+        store.record_source_health(outcome)
     return report

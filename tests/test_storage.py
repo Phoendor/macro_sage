@@ -1,12 +1,16 @@
+import hashlib
+import sqlite3
+from dataclasses import replace
 from datetime import datetime, timezone
 
-from macro_sage.models import Document
+from macro_sage.models import Document, FeedItem, SourceDefinition
 from macro_sage.storage import DocumentStore
+from macro_sage.versions import DATABASE_SCHEMA_VERSION, EXTRACTOR_VERSION
 
 
-def test_document_round_trip():
-    document = Document(
-        id="source:abc",
+def document(body="Body", revision="revision-1"):
+    return Document(
+        id="doc:abc",
         source_id="source",
         source_name="Source",
         publisher="Publisher",
@@ -14,11 +18,121 @@ def test_document_round_trip():
         title="Title",
         url="https://example.com/title",
         published_at=datetime(2026, 7, 27, tzinfo=timezone.utc),
-        body="Body",
+        body=body,
+        canonical_url="https://example.com/title",
+        content_sha256=hashlib.sha256(body.encode()).hexdigest(),
+        extractor_version=EXTRACTOR_VERSION,
+        revision_id=revision,
+    )
+
+
+def test_document_round_trip_records_provenance_defaults():
+    value = document()
+
+    with DocumentStore(":memory:") as store:
+        saved = store.save(value)
+        loaded = store.get(saved.id)
+
+    assert loaded.body == value.body
+    assert loaded.canonical_url == value.canonical_url
+    assert loaded.content_sha256 == value.content_sha256
+    assert loaded.revision_id == value.revision_id
+    assert loaded.fetched_at is not None
+
+
+def test_changed_content_creates_a_revision_instead_of_overwriting():
+    first = document()
+    second = replace(
+        first,
+        body="Corrected body",
+        content_sha256=hashlib.sha256(b"Corrected body").hexdigest(),
+        revision_id="revision-2",
     )
 
     with DocumentStore(":memory:") as store:
-        store.save(document)
-        loaded = store.get(document.id)
+        store.save(first)
+        store.save(second)
 
-    assert loaded == document
+        assert store.revision_count(first.id) == 2
+        assert store.get(first.id).body == "Corrected body"
+
+
+def test_discovery_origins_are_many_to_many():
+    first_source = SourceDefinition(
+        "one", "One", "Publisher", "https://example.com/one.xml", "research"
+    )
+    second_source = replace(first_source, id="two", name="Two")
+    first_item = FeedItem(
+        first_source,
+        "Title",
+        "https://example.com/title",
+        datetime(2026, 7, 27, tzinfo=timezone.utc),
+    )
+    second_item = replace(first_item, source=second_source)
+
+    with DocumentStore(":memory:") as store:
+        store.save(document(), item=first_item)
+        store.save(document(), item=second_item)
+        loaded = store.get("doc:abc")
+
+    assert set(loaded.discovery_source_ids) == {"one", "two"}
+
+
+def test_similar_titles_are_proposed_for_review_not_merged():
+    first = replace(
+        document(body="First body"),
+        title="Quarterly monetary policy report June 2026",
+    )
+    second = replace(
+        document(body="Second body", revision="revision-2"),
+        id="doc:def",
+        title="Quarterly Monetary Policy Report — June 2026",
+        url="https://example.com/second",
+        canonical_url="https://example.com/second",
+    )
+
+    with DocumentStore(":memory:") as store:
+        first_saved = store.save(first)
+        second_saved = store.save(second)
+        candidates = store.duplicate_candidates()
+
+    assert first_saved.id != second_saved.id
+    assert len(candidates) == 1
+
+
+def test_legacy_database_is_migrated_without_losing_the_document(tmp_path):
+    path = tmp_path / "legacy.sqlite3"
+    connection = sqlite3.connect(path)
+    connection.execute(
+        """
+        CREATE TABLE documents (
+            id TEXT PRIMARY KEY, source_id TEXT NOT NULL, source_name TEXT NOT NULL,
+            publisher TEXT NOT NULL, category TEXT NOT NULL, title TEXT NOT NULL,
+            url TEXT NOT NULL, published_at TEXT, body TEXT NOT NULL, author TEXT,
+            media_type TEXT NOT NULL, fetched_at TEXT NOT NULL
+        )
+        """
+    )
+    connection.execute(
+        "INSERT INTO documents VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+        (
+            "legacy:id",
+            "source",
+            "Source",
+            "Publisher",
+            "research",
+            "Title",
+            "https://example.com/title",
+            "2026-07-27T00:00:00+00:00",
+            "Legacy body",
+            None,
+            "text/html",
+            "2026-07-27T01:00:00+00:00",
+        ),
+    )
+    connection.commit()
+    connection.close()
+
+    with DocumentStore(path) as store:
+        assert store.schema_version == DATABASE_SCHEMA_VERSION
+        assert store.get("legacy:id").body == "Legacy body"

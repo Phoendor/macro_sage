@@ -1,0 +1,31 @@
+{
+  "contract_version": 1,
+  "source_id": "pod-bofa-research",
+  "review": {
+    "status": "reviewed",
+    "reviewer": "Codex Milestone 2 source-contract review, 2026-08-29",
+    "reviewed_at": "2026-08-29T06:59:15.483776+00:00"
+  },
+  "newest_entry": {
+    "title": "Must Read Research: Fund Manager Survey; Our New AI Tracker; Gold’s Rally and K-shape Convergence",
+    "url": "https://bofaglobalresearch.podbean.com/e/must-read-research-fund-manager-survey-our-new-ai-tracker-gold-s-rally-and-k-shape-convergence/",
+    "original_url": "https://bofaglobalresearch.podbean.com/e/must-read-research-fund-manager-survey-our-new-ai-tracker-gold-s-rally-and-k-shape-convergence/",
+    "published_at": "2026-08-24T20:34:28+00:00",
+    "updated_at": null,
+    "raw_published": "Mon, 24 Aug 2026 16:34:28 -0400",
+    "raw_updated": null,
+    "guid": "bofaglobalresearch.podbean.com/60715937-619d-34ec-abc8-4ae9c1124209",
+    "media_url": "https://mcdn.podbean.com/mf/web/phqnpf4yhpcdx9tk/Must_Read_Research_2026_08_2497huu.mp3",
+    "media_type": "audio/mpeg",
+    "timestamp_warning": null
+  },
+  "representative_entry": null,
+  "extraction_attempts": null,
+  "resolved_content_url": "https://s336.podbean.com/pb/a1cd11a86ad66971aff4a68ece697c2c/6a91f601/data1/fs136/11340151/uploads/Must_Read_Research_2026_08_2497huu.mp3?pbss=752d21d4-c9c4-5f15-a7dc-216088d65c51",
+  "extraction_method": "audio_enclosure_probe",
+  "content_type": "audio/mpeg",
+  "content_length": 12191126,
+  "content_sha256": null,
+  "revision_id": null,
+  "warnings": []
+}
