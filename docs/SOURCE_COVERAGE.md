@@ -45,8 +45,8 @@ The initial corpus-balance benchmark is 2026-08-25: 13 collected documents, of w
 
 | Value | Sources |
 |---|---:|
-| `full_html` | 27 |
-| `full_pdf` | 4 |
+| `full_html` | 26 |
+| `full_pdf` | 5 |
 | `machine_transcript` | 16 |
 
 ## Geography

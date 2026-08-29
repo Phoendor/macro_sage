@@ -10,6 +10,9 @@
   validation timestamp and committed code revision.
 - Added an ignored private review bundle for inspecting bounded article
   excerpts without committing or uploading source bodies.
+- Corrected UTF-8 HTML decoding, removed ephemeral media query parameters from
+  review evidence, made Norges Bank monetary-policy reports follow the complete
+  PDF, and excluded multimedia summaries from the Bank of Canada speech feed.
 - Reopened the Milestone 2 review gate until a fresh baseline, complete manual
   decision set and hosted end-to-end run are recorded.
 

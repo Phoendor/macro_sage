@@ -6,6 +6,7 @@ from concurrent.futures import ThreadPoolExecutor, as_completed
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
+from urllib.parse import urlsplit, urlunsplit
 
 from macro_sage.extraction import extract
 from macro_sage.feeds import discover_with_diagnostics
@@ -21,6 +22,13 @@ REVIEW_DECISIONS_VERSION = 1
 REVIEW_STATES = {"approved", "approved_with_limitations", "rejected"}
 
 
+def _audit_media_url(url: str | None) -> str | None:
+    if not url:
+        return None
+    parts = urlsplit(url)
+    return urlunsplit((parts.scheme, parts.netloc, parts.path, "", ""))
+
+
 def _entry(item) -> dict[str, object]:
     return {
         "title": item.title,
@@ -31,7 +39,7 @@ def _entry(item) -> dict[str, object]:
         "raw_published": item.raw_published,
         "raw_updated": item.raw_updated,
         "guid": item.guid,
-        "media_url": item.media_url,
+        "media_url": _audit_media_url(item.media_url),
         "media_type": item.media_type,
         "timestamp_warning": item.timestamp_warning,
     }
@@ -106,7 +114,7 @@ def validate_source(
             base.update(
                 status="passed" if declared_audio or probed_audio else "degraded",
                 extraction_method="audio_enclosure_probe",
-                resolved_content_url=str(response.url),
+                resolved_content_url=_audit_media_url(str(response.url)),
                 content_type=content_type,
                 content_length=int(content_length) if content_length else None,
                 declared_media_type=newest.media_type,

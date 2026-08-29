@@ -393,6 +393,7 @@ critical_coverage_role = "policy:canada"
 scan_depth = 50
 daily_limit = 10
 publisher_cap = 5
+include_url_pattern = "^https://www\\.bankofcanada\\.ca/20\\d{2}/"
 
 [[sources]]
 id = "boc-sparks"
@@ -617,12 +618,13 @@ cadence_basis = "implicit"
 max_gap_days = 120
 active_weekdays = [0, 1, 2, 3, 4]
 event_driven = true
-acquisition_mode = "full_html"
+acquisition_mode = "full_pdf"
 priority = 90
 critical_coverage_role = "policy:norway"
 scan_depth = 50
 daily_limit = 4
 publisher_cap = 5
+pdf_link_pattern = "(?i)(download report|mpr[-_ ].*\\.pdf|monetary policy report)"
 
 [[sources]]
 id = "norges-regional-network"

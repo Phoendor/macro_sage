@@ -32,6 +32,9 @@ extractor version produces a new immutable revision. Publisher corrections,
 changed canonical URLs, extraction improvements and prior degraded fallbacks
 therefore cannot be hidden by an apparently successful cache hit.
 
+Extractor version 3 corrects HTML character decoding from publisher bytes and
+therefore invalidates older HTML revisions that may contain mojibake.
+
 Changing `SOURCE_CONFIG_VERSION`, `EXTRACTOR_VERSION`, corpus/prompt/schema,
 transcription prompt or renderer versions must be deliberate. The exact version
 set, application version, Git commit, selected models and reasoning setting are

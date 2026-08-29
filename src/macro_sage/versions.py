@@ -7,7 +7,7 @@ from pathlib import Path
 from macro_sage import __version__
 
 SOURCE_CONFIG_VERSION = 2
-EXTRACTOR_VERSION = "2"
+EXTRACTOR_VERSION = "3"
 CORPUS_VERSION = "2"
 SYNTHESIS_PROMPT_VERSION = "1"
 BRIEF_SCHEMA_VERSION = "1"

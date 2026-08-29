@@ -89,6 +89,7 @@ def test_declared_audio_enclosure_survives_generic_probe_content_type():
 
     assert result["status"] == "passed"
     assert result["declared_media_type"] == "audio/mpeg"
+    assert result["resolved_content_url"] == "https://example.com/audio.mp3"
     assert "feed declares audio/mpeg" in result["warnings"][0]
 
 

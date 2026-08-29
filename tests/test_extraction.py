@@ -6,6 +6,7 @@ import pytest
 from macro_sage.extraction import (
     ExtractionError,
     _boilerplate_extraction_is_suspicious,
+    _decoded_html,
     _pdf_reading_order_is_suspicious,
     _preferred_pdf_url,
     extract,
@@ -139,3 +140,14 @@ def test_pdf_tables_do_not_look_like_broken_reading_order_until_dominant():
 
     assert not _pdf_reading_order_is_suspicious(report_lines)
     assert _pdf_reading_order_is_suspicious(broken_lines)
+
+
+def test_html_bytes_are_decoded_from_document_metadata_not_requests_default():
+    class MislabeledResponse:
+        content = '<html><meta charset="utf-8"><p>It’s clear</p></html>'.encode()
+        text = content.decode("latin-1")
+
+    decoded = _decoded_html(MislabeledResponse())
+
+    assert "It’s clear" in decoded
+    assert "â" not in decoded

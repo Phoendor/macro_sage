@@ -10,7 +10,7 @@ from io import BytesIO
 from urllib.parse import urljoin, urlsplit
 
 import trafilatura
-from bs4 import BeautifulSoup
+from bs4 import BeautifulSoup, UnicodeDammit
 from pypdf import PdfReader
 
 from macro_sage.feeds import canonicalize_url
@@ -174,6 +174,11 @@ def _get(
     return client.get(url, headers=headers) if headers else client.get(url)
 
 
+def _decoded_html(response) -> str:
+    decoded = UnicodeDammit(response.content, is_html=True).unicode_markup
+    return decoded if decoded is not None else response.text
+
+
 def extract(
     item: FeedItem,
     client: HttpClient,
@@ -212,7 +217,7 @@ def extract(
     is_pdf = "application/pdf" in content_type or landing_url.lower().endswith(".pdf")
     if item.source.acquisition_mode is AcquisitionMode.FULL_PDF and not is_pdf:
         pdf_url = _preferred_pdf_url(
-            response.text,
+            _decoded_html(response),
             str(getattr(response, "url", item.url)),
             item.source.pdf_link_pattern,
         )
@@ -253,7 +258,7 @@ def extract(
         media_type = "application/pdf"
         canonical_url = canonicalize_url(landing_url)
     else:
-        html = response.text
+        html = _decoded_html(response)
         lowered = BeautifulSoup(html, "html.parser").get_text(" ", strip=True).lower()
         if any(marker in lowered[:5_000] for marker in BLOCK_PAGE_MARKERS):
             raise ExtractionError(f"{item.source.id}: access-control or error page detected")
