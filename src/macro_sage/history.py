@@ -212,6 +212,25 @@ _CURRENCY_CODES = {
     "nzd",
     "usd",
 }
+_CURRENCY_NAMES = {
+    "australiandollar": "aud",
+    "canadiandollar": "cad",
+    "euro": "eur",
+    "newzealanddollar": "nzd",
+    "nzdollar": "nzd",
+    "poundsterling": "gbp",
+    "sterling": "gbp",
+    "swissfranc": "chf",
+    "usdollar": "usd",
+    "yen": "jpy",
+}
+_RATE_REGIONS = (
+    (("poland", "polish"), "poland"),
+    (("united states", "u.s.", "us ", "treasur", "ust"), "us"),
+    (("euro area", "eurozone", "euro ", "bund"), "euro-area"),
+    (("united kingdom", "uk ", "gilt"), "uk"),
+    (("japan", "japanese", "jgb"), "japan"),
+)
 
 
 def canonical_asset(value: str) -> tuple[str, str]:
@@ -219,19 +238,39 @@ def canonical_asset(value: str) -> tuple[str, str]:
     compact = "".join(re.findall(r"[a-z]+", value.casefold()))
     if len(compact) == 6 and compact[:3] in _CURRENCY_CODES and compact[3:] in _CURRENCY_CODES:
         return f"fx:{compact[:3]}-{compact[3:]}", "fx"
+    if compact in _CURRENCY_CODES:
+        return f"fx:{compact}", "fx"
+    if compact in _CURRENCY_NAMES:
+        return f"fx:{_CURRENCY_NAMES[compact]}", "fx"
+    lowered = value.casefold()
+    rate_markers = ("bond", "yield", "rate", "treasur", "bund", "gilt", "jgb")
+    if any(marker in lowered for marker in rate_markers):
+        region = next(
+            (
+                key
+                for labels, key in _RATE_REGIONS
+                if any(label in lowered for label in labels)
+            ),
+            "global",
+        )
+        segment = (
+            "front-end"
+            if any(term in lowered for term in ("front end", "front-end", "short duration"))
+            else "long-end"
+            if any(term in lowered for term in ("long duration", "long-end", "long end"))
+            else "curve"
+        )
+        return f"rates:{region}:{segment}", "rates"
     aliases = (
         (("dollar index", "dxy", "us dollar"), "fx:usd-basket", "fx"),
-        (("treasur", "ust", "us rates"), "rates:us", "rates"),
-        (("bund", "euro rates", "euro area rates"), "rates:euro-area", "rates"),
-        (("gilt", "uk rates"), "rates:uk", "rates"),
-        (("jgb", "japan rates"), "rates:japan", "rates"),
         (("s&p", "sp 500", "s&p 500", "us equities"), "equities:us", "equities"),
         (("stoxx", "european equities", "euro equities"), "equities:europe", "equities"),
         (("credit", "spread"), "credit:global", "credit"),
         (("brent", "wti", "crude", "oil"), "commodities:oil", "commodities"),
         (("gold",), "commodities:gold", "commodities"),
+        (("copper",), "commodities:copper", "commodities"),
+        (("agricultur", "grain", "wheat", "corn"), "commodities:agriculture", "commodities"),
     )
-    lowered = value.casefold()
     for labels, key, family in aliases:
         if any(label in lowered for label in labels):
             return key, family
@@ -250,7 +289,10 @@ def canonical_horizon(value: str) -> str:
     lowered = value.casefold()
     if any(term in lowered for term in ("intraday", "overnight", "one day", "1 day", "24 hour")):
         return "immediate"
-    if any(term in lowered for term in ("day", "week", "short", "tactical", "1w", "2w")):
+    if any(
+        term in lowered
+        for term in ("day", "week", "short", "near term", "near-term", "tactical", "1w", "2w")
+    ):
         return "short_term"
     if any(term in lowered for term in ("month", "quarter", "medium", "1m", "3m", "6m")):
         return "medium_term"
@@ -347,7 +389,17 @@ def _compare_assets(
     target: date,
     baseline: BriefHistoryRecord | None,
 ) -> tuple[list[TrackedAssetView], list[AssetViewChange]]:
-    prior = {view.key: view for view in baseline.asset_views} if baseline else {}
+    prior: dict[str, TrackedAssetView] = {}
+    for view in baseline.asset_views if baseline else []:
+        asset_key, family = canonical_asset(view.asset)
+        horizon_key = canonical_horizon(view.horizon)
+        key = f"asset-view:{asset_key}:{horizon_key}"
+        normalized = view.model_copy(
+            update={"key": key, "family": family, "horizon_key": horizon_key}
+        )
+        existing = prior.get(key)
+        if existing is None or normalized.confidence > existing.confidence:
+            prior[key] = normalized
     current: list[TrackedAssetView] = []
     changes: list[AssetViewChange] = []
     seen: set[str] = set()
@@ -457,7 +509,12 @@ def _compare_themes(
     target: date,
     baseline: BriefHistoryRecord | None,
 ) -> tuple[list[TrackedTheme], list[ThemeChange]]:
-    prior = {theme.key: theme for theme in baseline.themes} if baseline else {}
+    prior: dict[str, TrackedTheme] = {}
+    for theme in baseline.themes if baseline else []:
+        key, entity_type = canonical_theme(theme.title)
+        prior[key] = theme.model_copy(
+            update={"key": key, "entity_type": entity_type}
+        )
     current: list[TrackedTheme] = []
     changes: list[ThemeChange] = []
     seen: set[str] = set()

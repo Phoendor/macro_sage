@@ -18,6 +18,7 @@ HISTORY_STORE_VERSION = 1
 HISTORY_RECORD_VERSION = 1
 DATE_RESOLUTION_VERSION = 2
 ACQUISITION_WINDOW_VERSION = 1
+COMPARISON_KEY_VERSION = 1
 
 
 def git_revision(root: Path | None = None) -> str | None:
@@ -53,4 +54,5 @@ def transformation_versions(root: Path | None = None) -> dict[str, object]:
         "history_record": HISTORY_RECORD_VERSION,
         "date_resolution": DATE_RESOLUTION_VERSION,
         "acquisition_window": ACQUISITION_WINDOW_VERSION,
+        "comparison_keys": COMPARISON_KEY_VERSION,
     }

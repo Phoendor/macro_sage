@@ -2,8 +2,8 @@
 
 Status: approved; Milestones 1 through 3 are code-complete. Milestone 1 is still
 awaiting its scheduled-run observation gate. Milestone 2 passed its closure
-audit. Milestone 3 awaits its hosted fixed-date canary and first scheduled
-cutoff-window observation before closure.
+audit. Milestone 3 passed its hosted fixed-date canary and awaits the first
+scheduled cutoff-window observation before closure.
 
 Baseline date: 2026-08-29.
 
@@ -1254,7 +1254,8 @@ Acceptance criteria:
   changes that alter behavior.
 - [x] Maintain a concise changelog.
 - [ ] Use schema and database migrations for breaking changes.
-- [ ] Run a fixed-date canary before enabling each major change on the schedule.
+- [x] Run a fixed-date canary before enabling each major change on the schedule;
+  Milestone 3 canary `33274205799` passed before its first scheduled window.
 - [ ] Observe at least five consecutive scheduled runs after the reliability
   release before stacking another major operational change.
 
@@ -1376,8 +1377,19 @@ branch, not Actions cache. Reports expose baseline health plus deterministic
 one-day and one-week regime, thesis, event and asset-view changes. Scheduled
 collection uses persisted half-open cutoff windows; manual dates remain
 calendar replays and cannot advance the scheduled cutoff chain. Closure still
-requires the fixed-date hosted canary and first live scheduled-window
-observation.
+requires the first live scheduled-window observation.
+
+Hosted canary status: passed on 2026-08-29. Run
+[`33274205799`](https://github.com/Phoendor/macro_sage/actions/runs/33274205799)
+used commit `532d8ae` and a deterministic 2026-08-28 calendar replay without
+podcasts. It collected 20 documents, retained nine explicit source
+limitations, synthesized with `gpt-5.6-luna`, rendered a 10-page PDF, uploaded
+a body-free artifact and remained `history_sync_pending` until history commit
+`8735886` reached the dedicated branch. The record correctly reported
+`first_run`, contained 20 document references and 12 cited references, and no
+source body. Artifact and per-run PDF hashes matched. The canary also identified
+and drove fixture coverage for single-currency, commodity, sovereign-rate and
+near-term canonical labels before the first scheduled comparison.
 
 Exit gate:
 

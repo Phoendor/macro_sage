@@ -40,7 +40,9 @@ Asset labels are mapped to canonical families (`rates`, `fx`, `equities`,
 `credit`, `commodities`, or `other`) and horizons (`immediate`, `short_term`,
 `medium_term`, `long_term`, or `unspecified`). Theme labels are normalized into
 regime, event or thesis keys. Cosmetic punctuation, articles and common aliases
-therefore do not create false changes.
+therefore do not create false changes. Stored labels are re-normalized when
+read, so a later key-contract improvement does not require rewriting immutable
+records or create a false change by itself.
 
 Current asset views are classified as new, strengthened, weakened, unchanged
 or reversed. A prior view missing from today's model output is carried as

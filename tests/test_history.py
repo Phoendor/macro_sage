@@ -89,6 +89,25 @@ def test_canonical_keys_ignore_common_cosmetic_wording():
     assert canonical_theme("Central-bank meeting decision")[1] == "event"
 
 
+def test_canonical_keys_cover_asset_labels_observed_in_the_hosted_canary():
+    assert canonical_asset("Euro") == ("fx:eur", "fx")
+    assert canonical_asset("NZD") == ("fx:nzd", "fx")
+    assert canonical_asset("Copper") == ("commodities:copper", "commodities")
+    assert canonical_asset("Agricultural commodities") == (
+        "commodities:agriculture",
+        "commodities",
+    )
+    assert canonical_asset("Polish government bonds") == (
+        "rates:poland:curve",
+        "rates",
+    )
+    assert canonical_asset("US front-end rates") == (
+        "rates:us:front-end",
+        "rates",
+    )
+    assert canonical_horizon("near term") == "short_term"
+
+
 def test_missing_hosted_store_is_not_silently_called_a_first_run(tmp_path):
     local = DirectoryBriefHistory(tmp_path / "local")
     hosted = DirectoryBriefHistory(tmp_path / "hosted", expect_initialized=True)
@@ -173,6 +192,30 @@ def test_asset_comparison_is_stable_across_cosmetic_labels_and_detects_reversal(
         ChangeStatus.NEW,
         ChangeStatus.REVERSED,
     ]
+
+
+def test_prior_record_keys_are_renormalized_under_the_current_contract():
+    previous = record(value=brief(asset="Euro", horizon="near term"))
+    previous.asset_views[0].key = "asset-view:other:euro:unspecified"
+    previous.asset_views[0].family = "other"
+    previous.asset_views[0].horizon_key = "unspecified"
+    context = HistoryContext(
+        BaselineStatus.AVAILABLE,
+        "Loaded.",
+        previous,
+        None,
+    )
+
+    current = record(
+        run_id="run-two",
+        target=date(2026, 8, 25),
+        value=brief(asset="EUR", horizon="short term"),
+        context=context,
+    )
+
+    [change] = current.comparison.asset_view_changes
+    assert change.key == "asset-view:fx:eur:short_term"
+    assert change.status is ChangeStatus.UNCHANGED
 
 
 def test_absent_current_view_is_carried_until_expiry_not_called_a_reversal():

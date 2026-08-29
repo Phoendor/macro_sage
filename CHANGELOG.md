@@ -28,7 +28,9 @@
   plus a visible seven-day recovery window when expected history is unavailable.
 - Kept hosted runs in `history_sync_pending` until their body-free history commit
   reaches GitHub, while retaining Actions cache only for documents/transcripts.
-- Expanded the bounded offline suite from 90 to 108 tests.
+- Passed hosted canary `33274205799`: 20 documents, nine explicit limitations,
+  a 10-page PDF, matching artifact hashes and body-free history commit `8735886`.
+- Expanded the bounded offline suite from 90 to 110 tests.
 
 ## 0.4.6 - 2026-08-29
 
