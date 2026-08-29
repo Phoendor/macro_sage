@@ -1,0 +1,1141 @@
+{
+  "record_schema_version": 1,
+  "run_id": "github-33274205799-1",
+  "target_date": "2026-08-28",
+  "intended_cutoff": "2026-08-29T00:00:00+02:00",
+  "acquisition_start": "2026-08-27T22:00:00Z",
+  "acquisition_end": "2026-08-28T22:00:00Z",
+  "acquisition_rule": "explicit_calendar_day",
+  "completed_at": "2026-08-29T20:44:19.836371Z",
+  "health": "degraded",
+  "versions": {
+    "application": "0.4.7",
+    "git_commit": "532d8aecb2c137a6b5a47ecb796d42914dc528cc",
+    "source_config": 2,
+    "extractor": "3",
+    "corpus": "2",
+    "synthesis_prompt": "2",
+    "brief_schema": "1",
+    "transcription_prompt": "1",
+    "renderer": "2",
+    "database_schema": 2,
+    "history_store": 1,
+    "history_record": 1,
+    "date_resolution": 2,
+    "acquisition_window": 1
+  },
+  "brief_schema_version": "1",
+  "synthesis_prompt_version": "2",
+  "model": "gpt-5.6-luna",
+  "reasoning_effort": "low",
+  "document_ids": [
+    "ing-think:f794be3d163c7904",
+    "ing-think:f4a3e8c99eb0bb6a",
+    "ing-think:04bb5ddb8042339f",
+    "ing-think:e939f4aa5d9760d9",
+    "ing-think:2073eb754d427e83",
+    "ing-think:9e964ddf64c8e174",
+    "ing-think:a026a8b97ccd506b",
+    "ing-think:c96e7ddf78685fd1",
+    "ing-think:7bd26430a495467e",
+    "ing-think:6c401d00dc57e909",
+    "saxo-articles:5f6ae3360b50a06d",
+    "saxo-articles:a683468044eb9dca",
+    "saxo-articles:0ae1fee6712bf2b2",
+    "saxo-articles:13e8be22220d5e52",
+    "ecb-press:2ed90d59ca1fb0e6",
+    "fed-speeches:2c51127ee15af4b4",
+    "doc:03f6288e97a337f0",
+    "boe-publications:a429297b84d365cb",
+    "boe-publications:0b992257f96d7f6d",
+    "boj-policy-research:3d2fa2286461e5fe"
+  ],
+  "cited_document_ids": [
+    "ecb-press:2ed90d59ca1fb0e6",
+    "ing-think:f794be3d163c7904",
+    "fed-speeches:2c51127ee15af4b4",
+    "saxo-articles:5f6ae3360b50a06d",
+    "ing-think:f4a3e8c99eb0bb6a",
+    "saxo-articles:a683468044eb9dca",
+    "ing-think:04bb5ddb8042339f",
+    "ing-think:e939f4aa5d9760d9",
+    "saxo-articles:13e8be22220d5e52",
+    "ing-think:a026a8b97ccd506b",
+    "ing-think:c96e7ddf78685fd1",
+    "ing-think:7bd26430a495467e"
+  ],
+  "brief": {
+    "as_of_date": "2026-08-28",
+    "executive_summary": [
+      "Fed communication turned more hawkish, lifting near-term hike risk while flattening the US curve.",
+      "Growth resilience contrasts with persistent inflation and fiscal/geopolitical risks.",
+      "Commodity strength is broadening beyond energy into precious metals and agriculture.",
+      "European sentiment is improving, but France’s weak activity and Poland’s fiscal imbalance remain material regional divergences.",
+      "AI investment remains strong, though monetisation and concentration risks are increasing."
+    ],
+    "macro_themes": [
+      {
+        "theme": "Hawkish Fed repricing",
+        "market_implication": "Higher front-end yields and a flatter curve; September policy pricing is more balanced.",
+        "source_ids": [
+          "ing-think:f794be3d163c7904",
+          "fed-speeches:2c51127ee15af4b4"
+        ]
+      },
+      {
+        "theme": "Tokenised finance and central-bank infrastructure",
+        "market_implication": "The ECB favours native on-chain central-bank money, while interoperability, governance and resilience remain unresolved.",
+        "source_ids": [
+          "ecb-press:2ed90d59ca1fb0e6"
+        ]
+      },
+      {
+        "theme": "Broadening commodity scarcity",
+        "market_implication": "Precious metals and agriculture are strengthening, while improving Gulf crude flows temper the oil premium.",
+        "source_ids": [
+          "saxo-articles:5f6ae3360b50a06d",
+          "saxo-articles:13e8be22220d5e52"
+        ]
+      },
+      {
+        "theme": "Resilient but uneven Europe",
+        "market_implication": "Improving eurozone and Italian confidence contrasts with French stagnation and fiscal pressure.",
+        "source_ids": [
+          "ing-think:e939f4aa5d9760d9",
+          "ing-think:a026a8b97ccd506b",
+          "ing-think:7bd26430a495467e"
+        ]
+      },
+      {
+        "theme": "AI investment broadens across the value chain",
+        "market_implication": "Compute, context and security beneficiaries may expand, but delayed ramps and weak monetisation are key risks.",
+        "source_ids": [
+          "fed-speeches:2c51127ee15af4b4",
+          "saxo-articles:a683468044eb9dca"
+        ]
+      },
+      {
+        "theme": "Fiscal constraints remain market-relevant",
+        "market_implication": "Poland’s delayed consolidation and France’s weak growth increase sensitivity to sovereign spreads and budget negotiations.",
+        "source_ids": [
+          "ing-think:04bb5ddb8042339f",
+          "ing-think:7bd26430a495467e"
+        ]
+      }
+    ],
+    "asset_views": [
+      {
+        "asset": "US front-end rates",
+        "bias": "bearish",
+        "horizon": "near term",
+        "confidence": 4,
+        "drivers": [
+          "Warsh stressed inflation above target and the need to deliver price stability.",
+          "Financial conditions were described as not restrictive.",
+          "September hike pricing rose to 54% in ING’s market read."
+        ],
+        "risks": [
+          "ING remains more constructive on disinflation through 2027.",
+          "Incoming data could challenge the hawkish interpretation."
+        ],
+        "source_ids": [
+          "ing-think:f794be3d163c7904",
+          "fed-speeches:2c51127ee15af4b4"
+        ]
+      },
+      {
+        "asset": "US long-duration Treasuries",
+        "bias": "mixed",
+        "horizon": "near term",
+        "confidence": 3,
+        "drivers": [
+          "The post-speech reaction was flatter, with the back end somewhat supported.",
+          "Fiscal sustainability and debt absorption concerns remain relevant."
+        ],
+        "risks": [
+          "Persistent inflation could extend upward pressure on yields.",
+          "AI-led investment and strong activity may support term-premium concerns."
+        ],
+        "source_ids": [
+          "ing-think:f794be3d163c7904",
+          "fed-speeches:2c51127ee15af4b4",
+          "saxo-articles:5f6ae3360b50a06d"
+        ]
+      },
+      {
+        "asset": "US equities",
+        "bias": "mixed",
+        "horizon": "near term",
+        "confidence": 3,
+        "drivers": [
+          "Technology earnings and AI investment remain strong.",
+          "S&P 500 profits and capital expenditure growth are elevated.",
+          "Credit spreads and equity volatility remain low."
+        ],
+        "risks": [
+          "The rally is narrow and concentrated in technology.",
+          "Valuations and expectations may outrun realised AI cash flows.",
+          "Tighter rate expectations could pressure duration-sensitive growth stocks."
+        ],
+        "source_ids": [
+          "fed-speeches:2c51127ee15af4b4",
+          "saxo-articles:a683468044eb9dca",
+          "saxo-articles:13e8be22220d5e52"
+        ]
+      },
+      {
+        "asset": "Gold",
+        "bias": "bullish",
+        "horizon": "medium term",
+        "confidence": 4,
+        "drivers": [
+          "Fiscal sustainability and currency-debasement concerns support hard-asset demand.",
+          "ETF demand, futures positioning and technical momentum improved.",
+          "Gold has held up despite elevated yields and inflation."
+        ],
+        "risks": [
+          "A stronger dollar or higher real yields could trigger profit-taking.",
+          "A diplomatic improvement could reduce broader risk premia."
+        ],
+        "source_ids": [
+          "saxo-articles:5f6ae3360b50a06d",
+          "saxo-articles:13e8be22220d5e52"
+        ]
+      },
+      {
+        "asset": "Crude oil",
+        "bias": "mixed",
+        "horizon": "near term",
+        "confidence": 4,
+        "drivers": [
+          "Flows through the Strait of Hormuz are recovering toward two-thirds of pre-war levels.",
+          "Brent fell below USD 90 as traders priced improved supply.",
+          "Refined-product inventories remain exceptionally tight."
+        ],
+        "risks": [
+          "Further geopolitical disruption could quickly restore the crude premium.",
+          "Refinery outages and low gasoline/distillate stocks leave products vulnerable."
+        ],
+        "source_ids": [
+          "saxo-articles:5f6ae3360b50a06d",
+          "saxo-articles:13e8be22220d5e52"
+        ]
+      },
+      {
+        "asset": "Agricultural commodities",
+        "bias": "bullish",
+        "horizon": "near term",
+        "confidence": 4,
+        "drivers": [
+          "Black Sea disruption and logistics constraints support grains.",
+          "Weather volatility and El Niño are lifting supply uncertainty.",
+          "Inventories are relatively tight across several markets."
+        ],
+        "risks": [
+          "Improved weather could reverse risk premia quickly.",
+          "Forecast scarcity may not translate into realised harvest shortfalls."
+        ],
+        "source_ids": [
+          "saxo-articles:5f6ae3360b50a06d"
+        ]
+      },
+      {
+        "asset": "Copper",
+        "bias": "bullish",
+        "horizon": "medium term",
+        "confidence": 3,
+        "drivers": [
+          "Copper remains near record levels in an established uptrend.",
+          "Mine disruptions, smelter constraints and energy-transition demand support prices.",
+          "Regional inventory distortions have tightened availability outside the US."
+        ],
+        "risks": [
+          "Some forecasts still indicate a global refined-metal surplus.",
+          "Slower global growth would weaken industrial demand.",
+          "Trade-policy changes could unwind regional tightness."
+        ],
+        "source_ids": [
+          "saxo-articles:5f6ae3360b50a06d"
+        ]
+      },
+      {
+        "asset": "Euro",
+        "bias": "neutral",
+        "horizon": "near term",
+        "confidence": 3,
+        "drivers": [
+          "Eurozone sentiment improved materially in August.",
+          "ING still expects an ECB hike in September.",
+          "Core price pressures appear relatively contained."
+        ],
+        "risks": [
+          "Higher energy prices may lift headline inflation.",
+          "Further hikes could become restrictive amid weak French activity.",
+          "Geopolitical and drought risks remain."
+        ],
+        "source_ids": [
+          "ing-think:a026a8b97ccd506b",
+          "ing-think:c96e7ddf78685fd1",
+          "ing-think:7bd26430a495467e"
+        ]
+      },
+      {
+        "asset": "NZD",
+        "bias": "bearish",
+        "horizon": "near term",
+        "confidence": 3,
+        "drivers": [
+          "A 25bp RBNZ hike is expected and fully priced.",
+          "The market prices more tightening than ING expects.",
+          "Lower projected inflation and growth concerns create dovish risks."
+        ],
+        "risks": [
+          "A stronger-than-expected hawkish message could support NZD.",
+          "Persistent inflation may require more tightening."
+        ],
+        "source_ids": [
+          "ing-think:f4a3e8c99eb0bb6a"
+        ]
+      },
+      {
+        "asset": "Polish government bonds",
+        "bias": "mixed",
+        "horizon": "medium term",
+        "confidence": 3,
+        "drivers": [
+          "The 2027 deficit is projected at 7.1% of GDP.",
+          "Net borrowing needs are close to the current-year outturn.",
+          "Fiscal risks are already reflected in elevated spreads."
+        ],
+        "risks": [
+          "Debt may approach domestic statutory thresholds in 2028–29.",
+          "Election-year politics could delay consolidation further.",
+          "Financing structure details may unsettle markets."
+        ],
+        "source_ids": [
+          "ing-think:04bb5ddb8042339f"
+        ]
+      }
+    ],
+    "top_risks": [
+      "A renewed inflation impulse could force additional Fed tightening.",
+      "Geopolitical escalation could reverse improving Gulf energy flows.",
+      "Tight refined-product and agricultural supply chains could broaden inflation.",
+      "Fiscal deterioration or political shocks could widen European sovereign spreads.",
+      "AI investment may generate weaker monetisation than current expectations imply.",
+      "Fragmented tokenised settlement infrastructure could increase liquidity and operational risks."
+    ],
+    "source_ids_used": [
+      "ecb-press:2ed90d59ca1fb0e6",
+      "ing-think:f794be3d163c7904",
+      "fed-speeches:2c51127ee15af4b4",
+      "saxo-articles:5f6ae3360b50a06d",
+      "ing-think:f4a3e8c99eb0bb6a",
+      "saxo-articles:a683468044eb9dca",
+      "ing-think:04bb5ddb8042339f",
+      "ing-think:e939f4aa5d9760d9",
+      "saxo-articles:13e8be22220d5e52",
+      "ing-think:a026a8b97ccd506b",
+      "ing-think:c96e7ddf78685fd1",
+      "ing-think:7bd26430a495467e"
+    ]
+  },
+  "asset_views": [
+    {
+      "key": "asset-view:rates:us-front-end-rates:unspecified",
+      "family": "rates",
+      "horizon_key": "unspecified",
+      "asset": "US front-end rates",
+      "horizon": "near term",
+      "bias": "bearish",
+      "confidence": 4,
+      "supporting_evidence": [
+        "Warsh stressed inflation above target and the need to deliver price stability.",
+        "Financial conditions were described as not restrictive.",
+        "September hike pricing rose to 54% in ING’s market read."
+      ],
+      "contradicting_evidence": [
+        "ING remains more constructive on disinflation through 2027.",
+        "Incoming data could challenge the hawkish interpretation."
+      ],
+      "source_document_ids": [
+        "ing-think:f794be3d163c7904",
+        "fed-speeches:2c51127ee15af4b4"
+      ],
+      "first_seen_date": "2026-08-28",
+      "last_updated_date": "2026-08-28",
+      "expected_expiry_date": "2026-09-27",
+      "freshness": "current",
+      "status_history": [
+        {
+          "as_of_date": "2026-08-28",
+          "status": "new",
+          "bias": "bearish",
+          "confidence": 4,
+          "current_source_document_ids": [
+            "ing-think:f794be3d163c7904",
+            "fed-speeches:2c51127ee15af4b4"
+          ],
+          "freshness": "current"
+        }
+      ]
+    },
+    {
+      "key": "asset-view:rates:us:unspecified",
+      "family": "rates",
+      "horizon_key": "unspecified",
+      "asset": "US long-duration Treasuries",
+      "horizon": "near term",
+      "bias": "mixed",
+      "confidence": 3,
+      "supporting_evidence": [
+        "The post-speech reaction was flatter, with the back end somewhat supported.",
+        "Fiscal sustainability and debt absorption concerns remain relevant."
+      ],
+      "contradicting_evidence": [
+        "Persistent inflation could extend upward pressure on yields.",
+        "AI-led investment and strong activity may support term-premium concerns."
+      ],
+      "source_document_ids": [
+        "ing-think:f794be3d163c7904",
+        "fed-speeches:2c51127ee15af4b4",
+        "saxo-articles:5f6ae3360b50a06d"
+      ],
+      "first_seen_date": "2026-08-28",
+      "last_updated_date": "2026-08-28",
+      "expected_expiry_date": "2026-09-27",
+      "freshness": "current",
+      "status_history": [
+        {
+          "as_of_date": "2026-08-28",
+          "status": "new",
+          "bias": "mixed",
+          "confidence": 3,
+          "current_source_document_ids": [
+            "ing-think:f794be3d163c7904",
+            "fed-speeches:2c51127ee15af4b4",
+            "saxo-articles:5f6ae3360b50a06d"
+          ],
+          "freshness": "current"
+        }
+      ]
+    },
+    {
+      "key": "asset-view:equities:us:unspecified",
+      "family": "equities",
+      "horizon_key": "unspecified",
+      "asset": "US equities",
+      "horizon": "near term",
+      "bias": "mixed",
+      "confidence": 3,
+      "supporting_evidence": [
+        "Technology earnings and AI investment remain strong.",
+        "S&P 500 profits and capital expenditure growth are elevated.",
+        "Credit spreads and equity volatility remain low."
+      ],
+      "contradicting_evidence": [
+        "The rally is narrow and concentrated in technology.",
+        "Valuations and expectations may outrun realised AI cash flows.",
+        "Tighter rate expectations could pressure duration-sensitive growth stocks."
+      ],
+      "source_document_ids": [
+        "fed-speeches:2c51127ee15af4b4",
+        "saxo-articles:a683468044eb9dca",
+        "saxo-articles:13e8be22220d5e52"
+      ],
+      "first_seen_date": "2026-08-28",
+      "last_updated_date": "2026-08-28",
+      "expected_expiry_date": "2026-09-27",
+      "freshness": "current",
+      "status_history": [
+        {
+          "as_of_date": "2026-08-28",
+          "status": "new",
+          "bias": "mixed",
+          "confidence": 3,
+          "current_source_document_ids": [
+            "fed-speeches:2c51127ee15af4b4",
+            "saxo-articles:a683468044eb9dca",
+            "saxo-articles:13e8be22220d5e52"
+          ],
+          "freshness": "current"
+        }
+      ]
+    },
+    {
+      "key": "asset-view:commodities:gold:medium_term",
+      "family": "commodities",
+      "horizon_key": "medium_term",
+      "asset": "Gold",
+      "horizon": "medium term",
+      "bias": "bullish",
+      "confidence": 4,
+      "supporting_evidence": [
+        "Fiscal sustainability and currency-debasement concerns support hard-asset demand.",
+        "ETF demand, futures positioning and technical momentum improved.",
+        "Gold has held up despite elevated yields and inflation."
+      ],
+      "contradicting_evidence": [
+        "A stronger dollar or higher real yields could trigger profit-taking.",
+        "A diplomatic improvement could reduce broader risk premia."
+      ],
+      "source_document_ids": [
+        "saxo-articles:5f6ae3360b50a06d",
+        "saxo-articles:13e8be22220d5e52"
+      ],
+      "first_seen_date": "2026-08-28",
+      "last_updated_date": "2026-08-28",
+      "expected_expiry_date": "2026-11-26",
+      "freshness": "current",
+      "status_history": [
+        {
+          "as_of_date": "2026-08-28",
+          "status": "new",
+          "bias": "bullish",
+          "confidence": 4,
+          "current_source_document_ids": [
+            "saxo-articles:5f6ae3360b50a06d",
+            "saxo-articles:13e8be22220d5e52"
+          ],
+          "freshness": "current"
+        }
+      ]
+    },
+    {
+      "key": "asset-view:commodities:oil:unspecified",
+      "family": "commodities",
+      "horizon_key": "unspecified",
+      "asset": "Crude oil",
+      "horizon": "near term",
+      "bias": "mixed",
+      "confidence": 4,
+      "supporting_evidence": [
+        "Flows through the Strait of Hormuz are recovering toward two-thirds of pre-war levels.",
+        "Brent fell below USD 90 as traders priced improved supply.",
+        "Refined-product inventories remain exceptionally tight."
+      ],
+      "contradicting_evidence": [
+        "Further geopolitical disruption could quickly restore the crude premium.",
+        "Refinery outages and low gasoline/distillate stocks leave products vulnerable."
+      ],
+      "source_document_ids": [
+        "saxo-articles:5f6ae3360b50a06d",
+        "saxo-articles:13e8be22220d5e52"
+      ],
+      "first_seen_date": "2026-08-28",
+      "last_updated_date": "2026-08-28",
+      "expected_expiry_date": "2026-09-27",
+      "freshness": "current",
+      "status_history": [
+        {
+          "as_of_date": "2026-08-28",
+          "status": "new",
+          "bias": "mixed",
+          "confidence": 4,
+          "current_source_document_ids": [
+            "saxo-articles:5f6ae3360b50a06d",
+            "saxo-articles:13e8be22220d5e52"
+          ],
+          "freshness": "current"
+        }
+      ]
+    },
+    {
+      "key": "asset-view:commodities:agricultural-commodities:unspecified",
+      "family": "commodities",
+      "horizon_key": "unspecified",
+      "asset": "Agricultural commodities",
+      "horizon": "near term",
+      "bias": "bullish",
+      "confidence": 4,
+      "supporting_evidence": [
+        "Black Sea disruption and logistics constraints support grains.",
+        "Weather volatility and El Niño are lifting supply uncertainty.",
+        "Inventories are relatively tight across several markets."
+      ],
+      "contradicting_evidence": [
+        "Improved weather could reverse risk premia quickly.",
+        "Forecast scarcity may not translate into realised harvest shortfalls."
+      ],
+      "source_document_ids": [
+        "saxo-articles:5f6ae3360b50a06d"
+      ],
+      "first_seen_date": "2026-08-28",
+      "last_updated_date": "2026-08-28",
+      "expected_expiry_date": "2026-09-27",
+      "freshness": "current",
+      "status_history": [
+        {
+          "as_of_date": "2026-08-28",
+          "status": "new",
+          "bias": "bullish",
+          "confidence": 4,
+          "current_source_document_ids": [
+            "saxo-articles:5f6ae3360b50a06d"
+          ],
+          "freshness": "current"
+        }
+      ]
+    },
+    {
+      "key": "asset-view:other:copper:medium_term",
+      "family": "other",
+      "horizon_key": "medium_term",
+      "asset": "Copper",
+      "horizon": "medium term",
+      "bias": "bullish",
+      "confidence": 3,
+      "supporting_evidence": [
+        "Copper remains near record levels in an established uptrend.",
+        "Mine disruptions, smelter constraints and energy-transition demand support prices.",
+        "Regional inventory distortions have tightened availability outside the US."
+      ],
+      "contradicting_evidence": [
+        "Some forecasts still indicate a global refined-metal surplus.",
+        "Slower global growth would weaken industrial demand.",
+        "Trade-policy changes could unwind regional tightness."
+      ],
+      "source_document_ids": [
+        "saxo-articles:5f6ae3360b50a06d"
+      ],
+      "first_seen_date": "2026-08-28",
+      "last_updated_date": "2026-08-28",
+      "expected_expiry_date": "2026-11-26",
+      "freshness": "current",
+      "status_history": [
+        {
+          "as_of_date": "2026-08-28",
+          "status": "new",
+          "bias": "bullish",
+          "confidence": 3,
+          "current_source_document_ids": [
+            "saxo-articles:5f6ae3360b50a06d"
+          ],
+          "freshness": "current"
+        }
+      ]
+    },
+    {
+      "key": "asset-view:other:euro:unspecified",
+      "family": "other",
+      "horizon_key": "unspecified",
+      "asset": "Euro",
+      "horizon": "near term",
+      "bias": "neutral",
+      "confidence": 3,
+      "supporting_evidence": [
+        "Eurozone sentiment improved materially in August.",
+        "ING still expects an ECB hike in September.",
+        "Core price pressures appear relatively contained."
+      ],
+      "contradicting_evidence": [
+        "Higher energy prices may lift headline inflation.",
+        "Further hikes could become restrictive amid weak French activity.",
+        "Geopolitical and drought risks remain."
+      ],
+      "source_document_ids": [
+        "ing-think:a026a8b97ccd506b",
+        "ing-think:c96e7ddf78685fd1",
+        "ing-think:7bd26430a495467e"
+      ],
+      "first_seen_date": "2026-08-28",
+      "last_updated_date": "2026-08-28",
+      "expected_expiry_date": "2026-09-27",
+      "freshness": "current",
+      "status_history": [
+        {
+          "as_of_date": "2026-08-28",
+          "status": "new",
+          "bias": "neutral",
+          "confidence": 3,
+          "current_source_document_ids": [
+            "ing-think:a026a8b97ccd506b",
+            "ing-think:c96e7ddf78685fd1",
+            "ing-think:7bd26430a495467e"
+          ],
+          "freshness": "current"
+        }
+      ]
+    },
+    {
+      "key": "asset-view:other:nzd:unspecified",
+      "family": "other",
+      "horizon_key": "unspecified",
+      "asset": "NZD",
+      "horizon": "near term",
+      "bias": "bearish",
+      "confidence": 3,
+      "supporting_evidence": [
+        "A 25bp RBNZ hike is expected and fully priced.",
+        "The market prices more tightening than ING expects.",
+        "Lower projected inflation and growth concerns create dovish risks."
+      ],
+      "contradicting_evidence": [
+        "A stronger-than-expected hawkish message could support NZD.",
+        "Persistent inflation may require more tightening."
+      ],
+      "source_document_ids": [
+        "ing-think:f4a3e8c99eb0bb6a"
+      ],
+      "first_seen_date": "2026-08-28",
+      "last_updated_date": "2026-08-28",
+      "expected_expiry_date": "2026-09-27",
+      "freshness": "current",
+      "status_history": [
+        {
+          "as_of_date": "2026-08-28",
+          "status": "new",
+          "bias": "bearish",
+          "confidence": 3,
+          "current_source_document_ids": [
+            "ing-think:f4a3e8c99eb0bb6a"
+          ],
+          "freshness": "current"
+        }
+      ]
+    },
+    {
+      "key": "asset-view:other:polish-government-bonds:medium_term",
+      "family": "other",
+      "horizon_key": "medium_term",
+      "asset": "Polish government bonds",
+      "horizon": "medium term",
+      "bias": "mixed",
+      "confidence": 3,
+      "supporting_evidence": [
+        "The 2027 deficit is projected at 7.1% of GDP.",
+        "Net borrowing needs are close to the current-year outturn.",
+        "Fiscal risks are already reflected in elevated spreads."
+      ],
+      "contradicting_evidence": [
+        "Debt may approach domestic statutory thresholds in 2028–29.",
+        "Election-year politics could delay consolidation further.",
+        "Financing structure details may unsettle markets."
+      ],
+      "source_document_ids": [
+        "ing-think:04bb5ddb8042339f"
+      ],
+      "first_seen_date": "2026-08-28",
+      "last_updated_date": "2026-08-28",
+      "expected_expiry_date": "2026-11-26",
+      "freshness": "current",
+      "status_history": [
+        {
+          "as_of_date": "2026-08-28",
+          "status": "new",
+          "bias": "mixed",
+          "confidence": 3,
+          "current_source_document_ids": [
+            "ing-think:04bb5ddb8042339f"
+          ],
+          "freshness": "current"
+        }
+      ]
+    }
+  ],
+  "themes": [
+    {
+      "key": "thesis:hawkish-fed-repricing",
+      "entity_type": "thesis",
+      "title": "Hawkish Fed repricing",
+      "implication": "Higher front-end yields and a flatter curve; September policy pricing is more balanced.",
+      "source_document_ids": [
+        "ing-think:f794be3d163c7904",
+        "fed-speeches:2c51127ee15af4b4"
+      ],
+      "first_seen_date": "2026-08-28",
+      "last_updated_date": "2026-08-28",
+      "expected_expiry_date": "2026-09-11",
+      "freshness": "current"
+    },
+    {
+      "key": "regime:monetary-policy",
+      "entity_type": "regime",
+      "title": "Tokenised finance and central-bank infrastructure",
+      "implication": "The ECB favours native on-chain central-bank money, while interoperability, governance and resilience remain unresolved.",
+      "source_document_ids": [
+        "ecb-press:2ed90d59ca1fb0e6"
+      ],
+      "first_seen_date": "2026-08-28",
+      "last_updated_date": "2026-08-28",
+      "expected_expiry_date": "2026-09-11",
+      "freshness": "current"
+    },
+    {
+      "key": "thesis:broadening-commodity-scarcity",
+      "entity_type": "thesis",
+      "title": "Broadening commodity scarcity",
+      "implication": "Precious metals and agriculture are strengthening, while improving Gulf crude flows temper the oil premium.",
+      "source_document_ids": [
+        "saxo-articles:5f6ae3360b50a06d",
+        "saxo-articles:13e8be22220d5e52"
+      ],
+      "first_seen_date": "2026-08-28",
+      "last_updated_date": "2026-08-28",
+      "expected_expiry_date": "2026-09-11",
+      "freshness": "current"
+    },
+    {
+      "key": "thesis:resilient-but-uneven-europe",
+      "entity_type": "thesis",
+      "title": "Resilient but uneven Europe",
+      "implication": "Improving eurozone and Italian confidence contrasts with French stagnation and fiscal pressure.",
+      "source_document_ids": [
+        "ing-think:e939f4aa5d9760d9",
+        "ing-think:a026a8b97ccd506b",
+        "ing-think:7bd26430a495467e"
+      ],
+      "first_seen_date": "2026-08-28",
+      "last_updated_date": "2026-08-28",
+      "expected_expiry_date": "2026-09-11",
+      "freshness": "current"
+    },
+    {
+      "key": "thesis:ai-investment-broadens-across-value-chain",
+      "entity_type": "thesis",
+      "title": "AI investment broadens across the value chain",
+      "implication": "Compute, context and security beneficiaries may expand, but delayed ramps and weak monetisation are key risks.",
+      "source_document_ids": [
+        "fed-speeches:2c51127ee15af4b4",
+        "saxo-articles:a683468044eb9dca"
+      ],
+      "first_seen_date": "2026-08-28",
+      "last_updated_date": "2026-08-28",
+      "expected_expiry_date": "2026-09-11",
+      "freshness": "current"
+    },
+    {
+      "key": "regime:fiscal-policy",
+      "entity_type": "regime",
+      "title": "Fiscal constraints remain market-relevant",
+      "implication": "Poland’s delayed consolidation and France’s weak growth increase sensitivity to sovereign spreads and budget negotiations.",
+      "source_document_ids": [
+        "ing-think:04bb5ddb8042339f",
+        "ing-think:7bd26430a495467e"
+      ],
+      "first_seen_date": "2026-08-28",
+      "last_updated_date": "2026-08-28",
+      "expected_expiry_date": "2026-09-11",
+      "freshness": "current"
+    }
+  ],
+  "comparison": {
+    "baseline_status": "first_run",
+    "baseline_detail": "The durable history store is initialized but contains no earlier brief.",
+    "previous_run_id": null,
+    "previous_date": null,
+    "week_run_id": null,
+    "week_date": null,
+    "asset_view_changes": [
+      {
+        "key": "asset-view:commodities:agricultural-commodities:unspecified",
+        "status": "new",
+        "asset": "Agricultural commodities",
+        "horizon": "near term",
+        "previous_bias": null,
+        "current_bias": "bullish",
+        "previous_confidence": null,
+        "current_confidence": 4,
+        "current_source_document_ids": [
+          "saxo-articles:5f6ae3360b50a06d"
+        ],
+        "historical_source_document_ids": [],
+        "first_seen_date": "2026-08-28",
+        "last_updated_date": "2026-08-28",
+        "expected_expiry_date": "2026-09-27",
+        "resolved_date": null,
+        "carried_forward": false,
+        "explanation": "No comparable view appeared in the previous successful brief."
+      },
+      {
+        "key": "asset-view:commodities:gold:medium_term",
+        "status": "new",
+        "asset": "Gold",
+        "horizon": "medium term",
+        "previous_bias": null,
+        "current_bias": "bullish",
+        "previous_confidence": null,
+        "current_confidence": 4,
+        "current_source_document_ids": [
+          "saxo-articles:5f6ae3360b50a06d",
+          "saxo-articles:13e8be22220d5e52"
+        ],
+        "historical_source_document_ids": [],
+        "first_seen_date": "2026-08-28",
+        "last_updated_date": "2026-08-28",
+        "expected_expiry_date": "2026-11-26",
+        "resolved_date": null,
+        "carried_forward": false,
+        "explanation": "No comparable view appeared in the previous successful brief."
+      },
+      {
+        "key": "asset-view:commodities:oil:unspecified",
+        "status": "new",
+        "asset": "Crude oil",
+        "horizon": "near term",
+        "previous_bias": null,
+        "current_bias": "mixed",
+        "previous_confidence": null,
+        "current_confidence": 4,
+        "current_source_document_ids": [
+          "saxo-articles:5f6ae3360b50a06d",
+          "saxo-articles:13e8be22220d5e52"
+        ],
+        "historical_source_document_ids": [],
+        "first_seen_date": "2026-08-28",
+        "last_updated_date": "2026-08-28",
+        "expected_expiry_date": "2026-09-27",
+        "resolved_date": null,
+        "carried_forward": false,
+        "explanation": "No comparable view appeared in the previous successful brief."
+      },
+      {
+        "key": "asset-view:equities:us:unspecified",
+        "status": "new",
+        "asset": "US equities",
+        "horizon": "near term",
+        "previous_bias": null,
+        "current_bias": "mixed",
+        "previous_confidence": null,
+        "current_confidence": 3,
+        "current_source_document_ids": [
+          "fed-speeches:2c51127ee15af4b4",
+          "saxo-articles:a683468044eb9dca",
+          "saxo-articles:13e8be22220d5e52"
+        ],
+        "historical_source_document_ids": [],
+        "first_seen_date": "2026-08-28",
+        "last_updated_date": "2026-08-28",
+        "expected_expiry_date": "2026-09-27",
+        "resolved_date": null,
+        "carried_forward": false,
+        "explanation": "No comparable view appeared in the previous successful brief."
+      },
+      {
+        "key": "asset-view:other:copper:medium_term",
+        "status": "new",
+        "asset": "Copper",
+        "horizon": "medium term",
+        "previous_bias": null,
+        "current_bias": "bullish",
+        "previous_confidence": null,
+        "current_confidence": 3,
+        "current_source_document_ids": [
+          "saxo-articles:5f6ae3360b50a06d"
+        ],
+        "historical_source_document_ids": [],
+        "first_seen_date": "2026-08-28",
+        "last_updated_date": "2026-08-28",
+        "expected_expiry_date": "2026-11-26",
+        "resolved_date": null,
+        "carried_forward": false,
+        "explanation": "No comparable view appeared in the previous successful brief."
+      },
+      {
+        "key": "asset-view:other:euro:unspecified",
+        "status": "new",
+        "asset": "Euro",
+        "horizon": "near term",
+        "previous_bias": null,
+        "current_bias": "neutral",
+        "previous_confidence": null,
+        "current_confidence": 3,
+        "current_source_document_ids": [
+          "ing-think:a026a8b97ccd506b",
+          "ing-think:c96e7ddf78685fd1",
+          "ing-think:7bd26430a495467e"
+        ],
+        "historical_source_document_ids": [],
+        "first_seen_date": "2026-08-28",
+        "last_updated_date": "2026-08-28",
+        "expected_expiry_date": "2026-09-27",
+        "resolved_date": null,
+        "carried_forward": false,
+        "explanation": "No comparable view appeared in the previous successful brief."
+      },
+      {
+        "key": "asset-view:other:nzd:unspecified",
+        "status": "new",
+        "asset": "NZD",
+        "horizon": "near term",
+        "previous_bias": null,
+        "current_bias": "bearish",
+        "previous_confidence": null,
+        "current_confidence": 3,
+        "current_source_document_ids": [
+          "ing-think:f4a3e8c99eb0bb6a"
+        ],
+        "historical_source_document_ids": [],
+        "first_seen_date": "2026-08-28",
+        "last_updated_date": "2026-08-28",
+        "expected_expiry_date": "2026-09-27",
+        "resolved_date": null,
+        "carried_forward": false,
+        "explanation": "No comparable view appeared in the previous successful brief."
+      },
+      {
+        "key": "asset-view:other:polish-government-bonds:medium_term",
+        "status": "new",
+        "asset": "Polish government bonds",
+        "horizon": "medium term",
+        "previous_bias": null,
+        "current_bias": "mixed",
+        "previous_confidence": null,
+        "current_confidence": 3,
+        "current_source_document_ids": [
+          "ing-think:04bb5ddb8042339f"
+        ],
+        "historical_source_document_ids": [],
+        "first_seen_date": "2026-08-28",
+        "last_updated_date": "2026-08-28",
+        "expected_expiry_date": "2026-11-26",
+        "resolved_date": null,
+        "carried_forward": false,
+        "explanation": "No comparable view appeared in the previous successful brief."
+      },
+      {
+        "key": "asset-view:rates:us-front-end-rates:unspecified",
+        "status": "new",
+        "asset": "US front-end rates",
+        "horizon": "near term",
+        "previous_bias": null,
+        "current_bias": "bearish",
+        "previous_confidence": null,
+        "current_confidence": 4,
+        "current_source_document_ids": [
+          "ing-think:f794be3d163c7904",
+          "fed-speeches:2c51127ee15af4b4"
+        ],
+        "historical_source_document_ids": [],
+        "first_seen_date": "2026-08-28",
+        "last_updated_date": "2026-08-28",
+        "expected_expiry_date": "2026-09-27",
+        "resolved_date": null,
+        "carried_forward": false,
+        "explanation": "No comparable view appeared in the previous successful brief."
+      },
+      {
+        "key": "asset-view:rates:us:unspecified",
+        "status": "new",
+        "asset": "US long-duration Treasuries",
+        "horizon": "near term",
+        "previous_bias": null,
+        "current_bias": "mixed",
+        "previous_confidence": null,
+        "current_confidence": 3,
+        "current_source_document_ids": [
+          "ing-think:f794be3d163c7904",
+          "fed-speeches:2c51127ee15af4b4",
+          "saxo-articles:5f6ae3360b50a06d"
+        ],
+        "historical_source_document_ids": [],
+        "first_seen_date": "2026-08-28",
+        "last_updated_date": "2026-08-28",
+        "expected_expiry_date": "2026-09-27",
+        "resolved_date": null,
+        "carried_forward": false,
+        "explanation": "No comparable view appeared in the previous successful brief."
+      }
+    ],
+    "theme_changes": [
+      {
+        "key": "regime:fiscal-policy",
+        "entity_type": "regime",
+        "status": "new",
+        "title": "Fiscal constraints remain market-relevant",
+        "current_source_document_ids": [
+          "ing-think:04bb5ddb8042339f",
+          "ing-think:7bd26430a495467e"
+        ],
+        "historical_source_document_ids": [],
+        "first_seen_date": "2026-08-28",
+        "last_updated_date": "2026-08-28",
+        "expected_expiry_date": "2026-09-11",
+        "resolved_date": null,
+        "carried_forward": false
+      },
+      {
+        "key": "regime:monetary-policy",
+        "entity_type": "regime",
+        "status": "new",
+        "title": "Tokenised finance and central-bank infrastructure",
+        "current_source_document_ids": [
+          "ecb-press:2ed90d59ca1fb0e6"
+        ],
+        "historical_source_document_ids": [],
+        "first_seen_date": "2026-08-28",
+        "last_updated_date": "2026-08-28",
+        "expected_expiry_date": "2026-09-11",
+        "resolved_date": null,
+        "carried_forward": false
+      },
+      {
+        "key": "thesis:ai-investment-broadens-across-value-chain",
+        "entity_type": "thesis",
+        "status": "new",
+        "title": "AI investment broadens across the value chain",
+        "current_source_document_ids": [
+          "fed-speeches:2c51127ee15af4b4",
+          "saxo-articles:a683468044eb9dca"
+        ],
+        "historical_source_document_ids": [],
+        "first_seen_date": "2026-08-28",
+        "last_updated_date": "2026-08-28",
+        "expected_expiry_date": "2026-09-11",
+        "resolved_date": null,
+        "carried_forward": false
+      },
+      {
+        "key": "thesis:broadening-commodity-scarcity",
+        "entity_type": "thesis",
+        "status": "new",
+        "title": "Broadening commodity scarcity",
+        "current_source_document_ids": [
+          "saxo-articles:5f6ae3360b50a06d",
+          "saxo-articles:13e8be22220d5e52"
+        ],
+        "historical_source_document_ids": [],
+        "first_seen_date": "2026-08-28",
+        "last_updated_date": "2026-08-28",
+        "expected_expiry_date": "2026-09-11",
+        "resolved_date": null,
+        "carried_forward": false
+      },
+      {
+        "key": "thesis:hawkish-fed-repricing",
+        "entity_type": "thesis",
+        "status": "new",
+        "title": "Hawkish Fed repricing",
+        "current_source_document_ids": [
+          "ing-think:f794be3d163c7904",
+          "fed-speeches:2c51127ee15af4b4"
+        ],
+        "historical_source_document_ids": [],
+        "first_seen_date": "2026-08-28",
+        "last_updated_date": "2026-08-28",
+        "expected_expiry_date": "2026-09-11",
+        "resolved_date": null,
+        "carried_forward": false
+      },
+      {
+        "key": "thesis:resilient-but-uneven-europe",
+        "entity_type": "thesis",
+        "status": "new",
+        "title": "Resilient but uneven Europe",
+        "current_source_document_ids": [
+          "ing-think:e939f4aa5d9760d9",
+          "ing-think:a026a8b97ccd506b",
+          "ing-think:7bd26430a495467e"
+        ],
+        "historical_source_document_ids": [],
+        "first_seen_date": "2026-08-28",
+        "last_updated_date": "2026-08-28",
+        "expected_expiry_date": "2026-09-11",
+        "resolved_date": null,
+        "carried_forward": false
+      }
+    ],
+    "week_asset_view_changes": [],
+    "warnings": []
+  }
+}
