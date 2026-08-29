@@ -51,10 +51,13 @@ def test_repository_inventory_has_complete_structured_metadata():
         assert source.owner
         assert source.scan_depth >= source.daily_limit
         if source.participation is not Participation.UNAVAILABLE:
-            assert source.validation_status in {
-                ValidationStatus.VALIDATED,
-                ValidationStatus.DEGRADED,
-            }
+                assert source.validation_status in {
+                    ValidationStatus.VALIDATED,
+                    ValidationStatus.DEGRADED,
+                    ValidationStatus.FAILED,
+                }
+                if source.validation_status is ValidationStatus.FAILED:
+                    assert source.validation_note
 
 
 def test_duplicate_source_ids_are_rejected(tmp_path):

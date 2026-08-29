@@ -1,10 +1,14 @@
 {
-  "contract_version": 1,
+  "contract_version": 2,
   "source_id": "saxo-articles",
+  "automated_status": "passed",
+  "failure_stage": null,
+  "error": null,
   "review": {
-    "status": "reviewed",
-    "reviewer": "Codex Milestone 2 source-contract review, 2026-08-29",
-    "reviewed_at": "2026-08-29T06:59:15.483776+00:00"
+    "status": "approved",
+    "reviewer": "Codex manual source-contract review, 2026-08-29",
+    "reviewed_at": "2026-08-29T16:15:00+00:00",
+    "notes": "Title, URL, opening and closing excerpts, length and warnings were inspected; extraction is coherent for the declared source scope."
   },
   "newest_entry": {
     "title": "Commodity weekly: From barrels to bushels and bullion as scarcity broadens the commodity rally",
@@ -44,6 +48,7 @@
   "content_type": "text/html",
   "content_length": 14491,
   "content_sha256": "39796fc90b120d6c29f3ae3e1076dceb462869543c787633b09bb4241d64f343",
-  "revision_id": "6f1e5e53eff6585752c78b6a",
-  "warnings": []
+  "revision_id": "aded8b1904cf8583f736b143",
+  "warnings": [],
+  "contract_fingerprint": "1d8f2839dff946de48a34360a07e3dddb7bbc8e1d8fd555e8e127de737177936"
 }

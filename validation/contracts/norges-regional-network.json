@@ -1,10 +1,14 @@
 {
-  "contract_version": 1,
+  "contract_version": 2,
   "source_id": "norges-regional-network",
+  "automated_status": "degraded",
+  "failure_stage": null,
+  "error": null,
   "review": {
-    "status": "reviewed",
-    "reviewer": "Codex Milestone 2 source-contract review, 2026-08-29",
-    "reviewed_at": "2026-08-29T06:59:15.483776+00:00"
+    "status": "approved_with_limitations",
+    "reviewer": "Codex manual source-contract review, 2026-08-29",
+    "reviewed_at": "2026-08-29T16:15:00+00:00",
+    "notes": "Prose is complete and ordered, but chart labels and numeric series lose table structure; the existing PDF warning remains required."
   },
   "newest_entry": {
     "title": "Recruitment difficulties have eased somewhat",
@@ -44,8 +48,9 @@
   "content_type": "application/pdf",
   "content_length": 36080,
   "content_sha256": "fb4781a6db8ddb56d420115ba5b99fbfed7a2fb0f6d451a2bfeb8ca013fa5670",
-  "revision_id": "7786ddd07581e124829e6594",
+  "revision_id": "ff7a4c127a2320c96fd1fa7a",
   "warnings": [
     "pdf_reading_order_warning"
-  ]
+  ],
+  "contract_fingerprint": "904091e0aaceb89c18c7c29557d4d82b91ad6e621ffe4644b29b0067de977886"
 }

@@ -1,10 +1,14 @@
 {
-  "contract_version": 1,
+  "contract_version": 2,
   "source_id": "boe-publications",
+  "automated_status": "passed",
+  "failure_stage": null,
+  "error": null,
   "review": {
-    "status": "reviewed",
-    "reviewer": "Codex Milestone 2 source-contract review, 2026-08-29",
-    "reviewed_at": "2026-08-29T06:59:15.483776+00:00"
+    "status": "approved",
+    "reviewer": "Codex manual source-contract review, 2026-08-29",
+    "reviewed_at": "2026-08-29T16:15:00+00:00",
+    "notes": "The complete official working-paper PDF, title, page text, ending and extraction length were inspected."
   },
   "newest_entry": {
     "title": "How do firms cope with economic shocks in real time?",
@@ -44,6 +48,7 @@
   "content_type": "application/pdf",
   "content_length": 112228,
   "content_sha256": "2c977fae89ae3521f28087cf0da99fe3994e78914bcc929e82f218889699a30d",
-  "revision_id": "8ec7f75dbaef52aafb91d8aa",
-  "warnings": []
+  "revision_id": "55c069e7a644bca201ad364f",
+  "warnings": [],
+  "contract_fingerprint": "2a32ac908dcb96d3dee07fe7c0be6fc1599ebe013f2eac3f3bea68bde6376d16"
 }

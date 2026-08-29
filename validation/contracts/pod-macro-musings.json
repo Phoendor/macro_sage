@@ -1,10 +1,14 @@
 {
-  "contract_version": 1,
+  "contract_version": 2,
   "source_id": "pod-macro-musings",
+  "automated_status": "passed",
+  "failure_stage": null,
+  "error": null,
   "review": {
-    "status": "reviewed",
-    "reviewer": "Codex Milestone 2 source-contract review, 2026-08-29",
-    "reviewed_at": "2026-08-29T06:59:15.483776+00:00"
+    "status": "approved",
+    "reviewer": "Codex manual source-contract review, 2026-08-29",
+    "reviewed_at": "2026-08-29T16:15:00+00:00",
+    "notes": "Episode title, timestamp, declared media type, sanitized host URL and probe response were inspected; transcript content is outside this milestone."
   },
   "newest_entry": {
     "title": "Ben Harris on AI, Fiscal Sustainability, and the Resilience of the U.S. Economy",
@@ -15,17 +19,18 @@
     "raw_published": "Mon, 24 Aug 2026 09:00:00 +0000",
     "raw_updated": null,
     "guid": "b1b87220-4b3b-4d8f-b66b-4af5f5352721",
-    "media_url": "https://traffic.libsyn.com/secure/macromusings/MM-557-BenHarris-Podcast_mixdown.mp3?dest-id=865793",
+    "media_url": "https://traffic.libsyn.com/secure/macromusings/MM-557-BenHarris-Podcast_mixdown.mp3",
     "media_type": "audio/mpeg",
     "timestamp_warning": null
   },
   "representative_entry": null,
   "extraction_attempts": null,
-  "resolved_content_url": "https://content.libsyn.com/p/1/6/d/16de658855e8f33c/MM-557-BenHarris-Podcast_mixdown.mp3?c_id=205332205&cs_id=205332205&destination_id=865793&response-content-type=audio%2Fmpeg&Expires=1787991172&Signature=bq67zrCFYKrV83s-ToLxmhty~eJKcJsAimkjXP1XWxZiOQmFxglza~IUM9Ft6ss7V4fHsTWrAwVhiSYSMTVbvX~OiuerljC2GkZDJjrwTQ5SRKYBeJaJXrYcS2B~r-5s1ipx64RVWVqny9-hwQDbVkdZhu2aC-s08eS3E0n7XznZu6olBImdzujxThf0dvgumhm8PPh3vm0Cmg1hR2Xkw90uXZPw-RSOx9kj3DmgVsrs-lUH~E9SmEynwcN3UIXfmIRdHysyp8~JpRlz1co9642MTGEXUJjrNfMZq7UVCV92ue6L8wW9uka4-GrgT6PgxF34vs87G0CVI6F-mtnBfA__&Key-Pair-Id=K1YS7LZGUP96OI",
+  "resolved_content_url": "https://content.libsyn.com/p/1/6/d/16de658855e8f33c/MM-557-BenHarris-Podcast_mixdown.mp3",
   "extraction_method": "audio_enclosure_probe",
   "content_type": "audio/mpeg",
   "content_length": 49586230,
   "content_sha256": null,
   "revision_id": null,
-  "warnings": []
+  "warnings": [],
+  "contract_fingerprint": "697bdc09e0e6beac3881c2281f26d4216cfcccf724a7928c49d323339ae3e9bd"
 }

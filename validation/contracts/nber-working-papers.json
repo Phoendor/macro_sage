@@ -1,10 +1,14 @@
 {
-  "contract_version": 1,
+  "contract_version": 2,
   "source_id": "nber-working-papers",
+  "automated_status": "passed",
+  "failure_stage": null,
+  "error": null,
   "review": {
-    "status": "reviewed",
-    "reviewer": "Codex Milestone 2 source-contract review, 2026-08-29",
-    "reviewed_at": "2026-08-29T06:59:15.483776+00:00"
+    "status": "approved",
+    "reviewer": "Codex manual source-contract review, 2026-08-29",
+    "reviewed_at": "2026-08-29T16:15:00+00:00",
+    "notes": "The complete abstract and citation page was inspected; abstract-only acquisition is explicit in the source catalog and configuration."
   },
   "newest_entry": {
     "title": "Instrument Hacking -- by Michael P. Keane, Timothy Neal, Patrick Vu",
@@ -44,7 +48,7 @@
   "content_type": "text/html",
   "content_length": 1193,
   "content_sha256": "e7325687e4ccbef2066958704a83e473415cd82aeaf9ca9d3d718ee0c9b3ec6d",
-  "revision_id": "f939c3949ee3eead2caccaa0",
+  "revision_id": "e7d17a7a64e548daa3290503",
   "warnings": [
     "Instrument Hacking -- by Michael P. Keane, Timothy Neal, Patrick Vu: publication time derived from feed Last-Modified by source policy",
     "The Yeoman's Portfolio: Measuring Historical Risk Preferences Using Crop Choice -- by Remy Levin, Daniela Vidart: publication time derived from feed Last-Modified by source policy",
@@ -72,5 +76,6 @@
     "The Data Revolution, and Its Uses, in International Trade -- by David Atkin, Benjamin Faber: publication time derived from feed Last-Modified by source policy",
     "Measuring the Welfare Gains from Cardinal-Preference Mechanisms in School Choice -- by Hülya Eraslan, Jeremy T. Fox, YingHua He: publication time derived from feed Last-Modified by source policy",
     "The Effects of SNAP Sugary Drink Restrictions on Consumption and Welfare -- by Hunt Allcott, Amy Finkelstein, Anna Grummon, Matthew J. Notowidigdo: publication time derived from feed Last-Modified by source policy"
-  ]
+  ],
+  "contract_fingerprint": "aae44e364c2ef1e8e6da6c19b50028d5b68eb0018ac09e858b652843dac98641"
 }

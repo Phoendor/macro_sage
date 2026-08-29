@@ -1,10 +1,14 @@
 {
-  "contract_version": 1,
+  "contract_version": 2,
   "source_id": "snb-speeches",
+  "automated_status": "passed",
+  "failure_stage": null,
+  "error": null,
   "review": {
-    "status": "reviewed",
-    "reviewer": "Codex Milestone 2 source-contract review, 2026-08-29",
-    "reviewed_at": "2026-08-29T06:59:15.483776+00:00"
+    "status": "approved",
+    "reviewer": "Codex manual source-contract review, 2026-08-29",
+    "reviewed_at": "2026-08-29T16:15:00+00:00",
+    "notes": "Title, URL, opening and closing excerpts, length and warnings were inspected; extraction is coherent for the declared source scope."
   },
   "newest_entry": {
     "title": "2026-08-26 - Antoine Martin: Monetary policy and financial stability at the SNB: the role of macroprudential tools",
@@ -44,7 +48,7 @@
   "content_type": "text/html",
   "content_length": 36112,
   "content_sha256": "7fd5def93e946be98f53835262e4bb8292a4d8799fbe4a7842f79dc038d89a14",
-  "revision_id": "f4644149380db120aecbaf97",
+  "revision_id": "004913243d9f3fe35d50b3ad",
   "warnings": [
     "2026-08-26 - Antoine Martin: Monetary policy and financial stability at the SNB: the role of macroprudential tools: publication time derived from updated time by source policy",
     "2026-06-18 - Martin Schlegel / Antoine Martin / Petra Tschudin: Introductory remarks, news conference: publication time derived from updated time by source policy",
@@ -56,5 +60,6 @@
     "2025-12-11 - Martin Schlegel / Antoine Martin / Petra Tschudin: Introductory remarks, news conference: publication time derived from updated time by source policy",
     "2025-11-21 - Martin Schlegel: The path to the monetary policy decision at the SNB: publication time derived from updated time by source policy",
     "2025-11-13 - Petra Tschudin / Thomas Moser: Bank funding costs: latest developments from a monetary policy perspective: publication time derived from updated time by source policy"
-  ]
+  ],
+  "contract_fingerprint": "0887ff96063f4135951246e66c29a356808d47a3feab444f9060a44526874700"
 }

@@ -1,10 +1,14 @@
 {
-  "contract_version": 1,
+  "contract_version": 2,
   "source_id": "bnp-eco-week",
+  "automated_status": "passed",
+  "failure_stage": null,
+  "error": null,
   "review": {
-    "status": "reviewed",
-    "reviewer": "Codex Milestone 2 source-contract review, 2026-08-29",
-    "reviewed_at": "2026-08-29T06:59:15.483776+00:00"
+    "status": "approved",
+    "reviewer": "Codex manual source-contract review, 2026-08-29",
+    "reviewed_at": "2026-08-29T16:15:00+00:00",
+    "notes": "Title, URL, opening and closing excerpts, length and warnings were inspected; extraction is coherent for the declared source scope."
   },
   "newest_entry": {
     "title": "Is the energy crisis accelerating the low-carbon transition? A nuanced response for advanced economies — Part 2*",
@@ -44,6 +48,7 @@
   "content_type": "text/html",
   "content_length": 10047,
   "content_sha256": "30a8b6c21203237e553983b5943466e66bb14cb71da85d6e96eddb4ce556b000",
-  "revision_id": "96a057ddf2e2b83ffe8eba38",
-  "warnings": []
+  "revision_id": "1de5feccafa2290931502e05",
+  "warnings": [],
+  "contract_fingerprint": "ca0e8415bfa2e965e2542037d8eed38410951637e7517ca74fd401465812d0d0"
 }

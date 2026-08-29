@@ -68,7 +68,7 @@ allowed after a timestamped market-data source has been integrated.
 - [x] Made the same CLI operate locally and in GitHub Actions.
 - [x] Added model preflight selection and recorded the selected models.
 - [x] Added bounded offline compilation, generated-catalog validation, lint and
-  regression checks; version 0.4.5 is verified from a clean editable
+  regression checks; version 0.4.6 is verified from a clean editable
   installation.
 
 ### Current operating state
@@ -94,10 +94,10 @@ allowed after a timestamped market-data source has been integrated.
   preflight compatibility fallback; request-time fallback is not implemented.
 - The proposed gpt-transcribe migration has not been implemented.
 - The current live source baseline is 2026-08-29: all 47 participating sources
-  have reviewed contract records; 45 passed, BIS Research Hub is degraded by
-  two explicit Kansas City Fed timeouts while a current BOJ paper passed, and
-  Norges Regional Network is degraded because charts lose tabular structure
-  even though its prose extracts completely.
+  have reviewed contract records; 45 passed, Norges Regional Network is
+  degraded because charts lose tabular structure even though its prose extracts
+  completely, and BIS Research Hub failed because its official RSS endpoint
+  returned HTTP 404 on two bounded checks.
 - The 2026-08-25 run collected 13 documents from six sources; ING and Saxo
   supplied nine of them. The configured inventory is broad, but daily input can
   still be concentrated in a few prolific publishers.
@@ -774,7 +774,7 @@ selection quality and portfolio expansion after that foundation is stable.
   redirect results, newest entry, parseable-entry count, resolved URL,
   extraction method, content type, content length, warnings and exact failure
   stage.
-- [ ] Retain one manually reviewed representative contract sample per active
+- [x] Retain one manually reviewed representative contract sample per active
   source.
 - [x] Build a coverage matrix by geography, institution type, topic, asset
   class, evidence tier, language, cadence and acquisition method.
@@ -1322,15 +1322,18 @@ Includes G1–G5, including the G2 live validation baseline, B1 storage and
 version migrations, and the relevant J1/J2 fixtures.
 
 Implementation status: code-complete on 2026-08-29 in application version
-0.4.5. The dated baseline contains 45 passing and two visibly degraded
-contracts, with no completely failed participating source. Publisher-transcript,
+0.4.6. The dated baseline contains 45 passing, one visibly degraded and one
+failed contract. Publisher-transcript,
 advertisement and rich podcast-programme metadata items explicitly remain in
 Milestone 5; ongoing cadence monitoring, selection balancing and source
 expansion remain G6–G9.
 
-Closure audit status: in progress. Automated validation and manual approval are
-now separate, fingerprint-bound operations. A fresh baseline, explicit review
-decisions, exact committed-code provenance and one complete hosted run are
+Closure audit status: source review complete; hosted run pending. Automated
+validation and manual approval are separate, fingerprint-bound operations. All
+47 contracts were inspected and explicitly decided against extractor-version-3
+evidence from commit `0848e6f`: 44 approved, Norges Regional Network and HSBC
+Macro Brief approved with limitations, and BIS Research Hub rejected after its
+official RSS endpoint returned HTTP 404 twice. One complete hosted run is still
 required before closure is recorded.
 
 Exit gate:

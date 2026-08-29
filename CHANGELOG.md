@@ -13,6 +13,10 @@
 - Corrected UTF-8 HTML decoding, removed ephemeral media query parameters from
   review evidence, made Norges Bank monetary-policy reports follow the complete
   PDF, and excluded multimedia summaries from the Bank of Canada speech feed.
+- Recorded a committed-code live baseline with 45 automated passes, one
+  degradation and one failure, followed by 44 explicit approvals, two approvals
+  with limitations and one rejection across all 47 contracts.
+- Expanded the bounded offline suite to 90 tests.
 - Reopened the Milestone 2 review gate until a fresh baseline, complete manual
   decision set and hosted end-to-end run are recorded.
 

@@ -1,10 +1,14 @@
 {
-  "contract_version": 1,
+  "contract_version": 2,
   "source_id": "boe-speeches",
+  "automated_status": "passed",
+  "failure_stage": null,
+  "error": null,
   "review": {
-    "status": "reviewed",
-    "reviewer": "Codex Milestone 2 source-contract review, 2026-08-29",
-    "reviewed_at": "2026-08-29T06:59:15.483776+00:00"
+    "status": "approved",
+    "reviewer": "Codex manual source-contract review, 2026-08-29",
+    "reviewed_at": "2026-08-29T16:15:00+00:00",
+    "notes": "Title, URL, opening and closing excerpts, length and warnings were inspected; extraction is coherent for the declared source scope."
   },
   "newest_entry": {
     "title": "It’s all about the role of money - speech by Nathanaël Benjamin",
@@ -44,6 +48,7 @@
   "content_type": "text/html",
   "content_length": 36769,
   "content_sha256": "5a5b3915b0055c03a0c6a54cd5375d31d71337a051e4b97685e8c4468022ab75",
-  "revision_id": "3c21089dbf315241d08c23e1",
-  "warnings": []
+  "revision_id": "6ee71eb5ffbb78a1d57f320a",
+  "warnings": [],
+  "contract_fingerprint": "80d008daf8e9170303fb8ad11bc4a9ab06ab9f6b1a5f67c0109ecb13fa828713"
 }

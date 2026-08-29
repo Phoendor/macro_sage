@@ -1,10 +1,14 @@
 {
-  "contract_version": 1,
+  "contract_version": 2,
   "source_id": "fed-press",
+  "automated_status": "passed",
+  "failure_stage": null,
+  "error": null,
   "review": {
-    "status": "reviewed",
-    "reviewer": "Codex Milestone 2 source-contract review, 2026-08-29",
-    "reviewed_at": "2026-08-29T06:59:15.483776+00:00"
+    "status": "approved",
+    "reviewer": "Codex manual source-contract review, 2026-08-29",
+    "reviewed_at": "2026-08-29T16:15:00+00:00",
+    "notes": "The short official release is complete; title, release details, action and closing contact text were inspected."
   },
   "newest_entry": {
     "title": "Federal Reserve Board issues enforcement action with former employee of Banco Popular de Puerto Rico",
@@ -44,6 +48,7 @@
   "content_type": "text/html",
   "content_length": 554,
   "content_sha256": "9fa65160b17642ffcea2cb3cd1777dbf702a6f0375298476dc90cf104579e7ed",
-  "revision_id": "9e0be528cec03c396c2540c0",
-  "warnings": []
+  "revision_id": "d588ce34c89112c0520d4074",
+  "warnings": [],
+  "contract_fingerprint": "84c9a42c61c460622c699a60e2aa7560f2a87e7e844afab19df9ecd08b345123"
 }

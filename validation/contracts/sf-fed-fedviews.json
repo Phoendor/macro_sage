@@ -1,10 +1,14 @@
 {
-  "contract_version": 1,
+  "contract_version": 2,
   "source_id": "sf-fed-fedviews",
+  "automated_status": "passed",
+  "failure_stage": null,
+  "error": null,
   "review": {
-    "status": "reviewed",
-    "reviewer": "Codex Milestone 2 source-contract review, 2026-08-29",
-    "reviewed_at": "2026-08-29T06:59:15.483776+00:00"
+    "status": "approved",
+    "reviewer": "Codex manual source-contract review, 2026-08-29",
+    "reviewed_at": "2026-08-29T16:15:00+00:00",
+    "notes": "Title, URL, opening and closing excerpts, length and warnings were inspected; extraction is coherent for the declared source scope."
   },
   "newest_entry": {
     "title": "SF FedViews: Labor Market in Balance but Inflation Elevated and Uncertain",
@@ -44,6 +48,7 @@
   "content_type": "text/html",
   "content_length": 7434,
   "content_sha256": "807a60e33b5e2ffd161b29120200ed2be97cfd38acea77d0bad5d15d802d6bee",
-  "revision_id": "99b2845ae8ccdf045f8af0c1",
-  "warnings": []
+  "revision_id": "aa858cdad96738b0d722f8a4",
+  "warnings": [],
+  "contract_fingerprint": "321d753c2018e653b7d98f656c6f6bdbc9cf81f18248d44d56c012e7a9207d9a"
 }

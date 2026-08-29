@@ -33,18 +33,20 @@ decision matches the exact contract fingerprint and baseline Git commit.
 The current baseline is
 [`validation/source-validation-2026-08-29.json`](../validation/source-validation-2026-08-29.json).
 It checked all 31 default text sources and all 16 optional podcast feeds under
-application version 0.4.5: 45 passed and two were degraded, with no completely
-failed source contract. BIS Research Hub remained usable through a current BOJ
-paper, but two newer Kansas City Fed links timed out. The Norges Regional
-Network report's prose extracted completely, while its charts lost tabular
-structure and are therefore explicitly degraded. One reviewed, body-free
-representative contract record is retained per participating source under
+application version 0.4.6 and extractor version 3: 45 passed, Norges Regional
+Network was degraded, and BIS Research Hub failed. The official BIS Research
+Hub RSS endpoint returned HTTP 404 on two bounded checks. The Norges report's
+prose extracted completely, while its charts lost tabular structure. All 47
+body-free contract records were explicitly reviewed: 44 approved, two approved
+with limitations, and the BIS failure rejected. Decisions are retained in
+`validation/source-review-2026-08-29.json` and exact samples under
 `validation/contracts/`.
 
-That pass also corrected the Norges Monetary Policy Report contract from an old
-PDF assumption to its current complete web report, accepted Acast's generic
-range-probe response only because the HSBC feed explicitly declares
-`audio/mpeg`, and documented explicit timestamp policies for feeds that do not
+That pass made Norges Monetary Policy Report follow its complete official PDF,
+excluded multimedia summaries from the Bank of Canada speech contract,
+corrected UTF-8 decoding, accepted Acast's generic range-probe response only
+because the HSBC feed explicitly declares `audio/mpeg`, and documented explicit
+timestamp policies for feeds that do not
 publish a conventional item publication field. A malformed 2035 BIS date and a
 future Bank of Canada event entry are retained as warnings but are not eligible
 for daily collection.

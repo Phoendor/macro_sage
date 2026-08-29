@@ -1,10 +1,14 @@
 {
-  "contract_version": 1,
+  "contract_version": 2,
   "source_id": "bnp-eco-insight",
+  "automated_status": "passed",
+  "failure_stage": null,
+  "error": null,
   "review": {
-    "status": "reviewed",
-    "reviewer": "Codex Milestone 2 source-contract review, 2026-08-29",
-    "reviewed_at": "2026-08-29T06:59:15.483776+00:00"
+    "status": "approved",
+    "reviewer": "Codex manual source-contract review, 2026-08-29",
+    "reviewed_at": "2026-08-29T16:15:00+00:00",
+    "notes": "Title, URL, opening and closing excerpts, length and warnings were inspected; extraction is coherent for the declared source scope."
   },
   "newest_entry": {
     "title": "United States: A drop of oil in the Treasuries market’s gears",
@@ -44,6 +48,7 @@
   "content_type": "text/html",
   "content_length": 4173,
   "content_sha256": "1655410ad0bc7bce271a5853c8ec328e4d4d658f2dc38b29134dabe57aec5b2e",
-  "revision_id": "6143cf4a63eac7fafab906cd",
-  "warnings": []
+  "revision_id": "0e7fda629549d9fabd3d598f",
+  "warnings": [],
+  "contract_fingerprint": "d331723cc1426e64b281ff8c1b2df131f6c02d53df32b2db6b81f1542797c1c9"
 }

@@ -1,10 +1,14 @@
 {
-  "contract_version": 1,
+  "contract_version": 2,
   "source_id": "ecb-blog",
+  "automated_status": "passed",
+  "failure_stage": null,
+  "error": null,
   "review": {
-    "status": "reviewed",
-    "reviewer": "Codex Milestone 2 source-contract review, 2026-08-29",
-    "reviewed_at": "2026-08-29T06:59:15.483776+00:00"
+    "status": "approved",
+    "reviewer": "Codex manual source-contract review, 2026-08-29",
+    "reviewed_at": "2026-08-29T16:15:00+00:00",
+    "notes": "Title, URL, opening and closing excerpts, length and warnings were inspected; extraction is coherent for the declared source scope."
   },
   "newest_entry": {
     "title": "AI adoption and the productivity promise: what workers report",
@@ -44,6 +48,7 @@
   "content_type": "text/html",
   "content_length": 9738,
   "content_sha256": "ca556b20c6c403e0cb75a4e276066c6cad45f76bdacb6e4e86225905d7b230f7",
-  "revision_id": "54ccc9b3860595b6080a88b3",
-  "warnings": []
+  "revision_id": "e652aadbbd341f0c39c57ce8",
+  "warnings": [],
+  "contract_fingerprint": "6bf5925eead4a7bcfa753ea872393702a3bed5b8259b49dea874fb66b009b5cd"
 }

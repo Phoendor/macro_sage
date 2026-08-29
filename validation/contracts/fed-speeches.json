@@ -1,10 +1,14 @@
 {
-  "contract_version": 1,
+  "contract_version": 2,
   "source_id": "fed-speeches",
+  "automated_status": "passed",
+  "failure_stage": null,
+  "error": null,
   "review": {
-    "status": "reviewed",
-    "reviewer": "Codex Milestone 2 source-contract review, 2026-08-29",
-    "reviewed_at": "2026-08-29T06:59:15.483776+00:00"
+    "status": "approved",
+    "reviewer": "Codex manual source-contract review, 2026-08-29",
+    "reviewed_at": "2026-08-29T16:15:00+00:00",
+    "notes": "The complete speech excerpts were inspected after UTF-8 correction; punctuation is now decoded correctly and no mojibake remains."
   },
   "newest_entry": {
     "title": "Warsh, In Our Time",
@@ -43,7 +47,8 @@
   "extraction_method": "full_html",
   "content_type": "text/html",
   "content_length": 27327,
-  "content_sha256": "53932d0b119b1deb79e58098df69a0d7397814ebee6dd8903dc00237b9c3daf2",
-  "revision_id": "a5f7e9eee0c6b6186d181e4a",
-  "warnings": []
+  "content_sha256": "9f75db78cf033f0d55c5f5f0996b84b5502b8520b733e68acd53e210b7914a27",
+  "revision_id": "73e9ce3d73dc569d77d08b9a",
+  "warnings": [],
+  "contract_fingerprint": "7f9311eb6e4ec52c2bba52f49cc9c28530fe8d9a61332a7bf163b287ff73b340"
 }

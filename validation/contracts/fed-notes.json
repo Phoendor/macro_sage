@@ -1,10 +1,14 @@
 {
-  "contract_version": 1,
+  "contract_version": 2,
   "source_id": "fed-notes",
+  "automated_status": "passed",
+  "failure_stage": null,
+  "error": null,
   "review": {
-    "status": "reviewed",
-    "reviewer": "Codex Milestone 2 source-contract review, 2026-08-29",
-    "reviewed_at": "2026-08-29T06:59:15.483776+00:00"
+    "status": "approved",
+    "reviewer": "Codex manual source-contract review, 2026-08-29",
+    "reviewed_at": "2026-08-29T16:15:00+00:00",
+    "notes": "Title, URL, opening and closing excerpts, length and warnings were inspected; extraction is coherent for the declared source scope."
   },
   "newest_entry": {
     "title": "FEDS Note: A Decade of U.S. Cross-Border Payments Efforts",
@@ -43,7 +47,8 @@
   "extraction_method": "full_html",
   "content_type": "text/html",
   "content_length": 37240,
-  "content_sha256": "2eaede3f2c88b6de805d6558e184ef31b85ca6d939db3632eda7c002656cd67c",
-  "revision_id": "7d6509bcbcd3037ccaa738e8",
-  "warnings": []
+  "content_sha256": "b7d5a9713243e47a392ae0f8f4485c8e60557f1b4a83f9f55a22855749568138",
+  "revision_id": "30ed132fb4efd377b5a918f3",
+  "warnings": [],
+  "contract_fingerprint": "3a80ff3bf4cb620676e0597cc72efa414e5fb83c9e65f325c41a527beef2b758"
 }

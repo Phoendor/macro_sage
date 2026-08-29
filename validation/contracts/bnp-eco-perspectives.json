@@ -1,10 +1,14 @@
 {
-  "contract_version": 1,
+  "contract_version": 2,
   "source_id": "bnp-eco-perspectives",
+  "automated_status": "passed",
+  "failure_stage": null,
+  "error": null,
   "review": {
-    "status": "reviewed",
-    "reviewer": "Codex Milestone 2 source-contract review, 2026-08-29",
-    "reviewed_at": "2026-08-29T06:59:15.483776+00:00"
+    "status": "approved",
+    "reviewer": "Codex manual source-contract review, 2026-08-29",
+    "reviewed_at": "2026-08-29T16:15:00+00:00",
+    "notes": "Title, URL, opening and closing excerpts, length and warnings were inspected; extraction is coherent for the declared source scope."
   },
   "newest_entry": {
     "title": "Emerging Economies: So far weathering the energy shock well",
@@ -44,6 +48,7 @@
   "content_type": "text/html",
   "content_length": 1558,
   "content_sha256": "c9918fdc2c51f5dd9a839a84f4ee591da76c9afb02ee7035fae85ac1aa7f1e5d",
-  "revision_id": "11f9ba93a75962efdb219dfb",
-  "warnings": []
+  "revision_id": "da5ba416056a9e2ae89c5653",
+  "warnings": [],
+  "contract_fingerprint": "57cc3d0771ed58e2562558fc94f9f2f10b1d42aa8f3ceb160dde78d3bc3cafee"
 }

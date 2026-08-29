@@ -1,10 +1,14 @@
 {
-  "contract_version": 1,
+  "contract_version": 2,
   "source_id": "pod-hsbc-macro",
+  "automated_status": "passed",
+  "failure_stage": null,
+  "error": null,
   "review": {
-    "status": "reviewed",
-    "reviewer": "Codex Milestone 2 source-contract review, 2026-08-29",
-    "reviewed_at": "2026-08-29T06:59:15.483776+00:00"
+    "status": "approved_with_limitations",
+    "reviewer": "Codex manual source-contract review, 2026-08-29",
+    "reviewed_at": "2026-08-29T16:15:00+00:00",
+    "notes": "Feed declares audio/mpeg and the media endpoint responds, but its range probe reports generic text/plain; this warning remains explicit."
   },
   "newest_entry": {
     "title": "The AI ascendency",
@@ -29,5 +33,6 @@
   "revision_id": null,
   "warnings": [
     "probe returned text/plain; charset=utf-8; feed declares audio/mpeg"
-  ]
+  ],
+  "contract_fingerprint": "79d15664be204f6acc2e6fb0cd7dda7a5fe5363c5a77b3518056dd59a3c754ac"
 }

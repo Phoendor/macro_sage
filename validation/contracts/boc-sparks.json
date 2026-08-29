@@ -1,10 +1,14 @@
 {
-  "contract_version": 1,
+  "contract_version": 2,
   "source_id": "boc-sparks",
+  "automated_status": "passed",
+  "failure_stage": null,
+  "error": null,
   "review": {
-    "status": "reviewed",
-    "reviewer": "Codex Milestone 2 source-contract review, 2026-08-29",
-    "reviewed_at": "2026-08-29T06:59:15.483776+00:00"
+    "status": "approved",
+    "reviewer": "Codex manual source-contract review, 2026-08-29",
+    "reviewed_at": "2026-08-29T16:15:00+00:00",
+    "notes": "Title, URL, opening and closing excerpts, length and warnings were inspected; extraction is coherent for the declared source scope."
   },
   "newest_entry": {
     "title": "Canadian businesses’ use of AI: What the evidence shows",
@@ -44,7 +48,7 @@
   "content_type": "text/html",
   "content_length": 6946,
   "content_sha256": "a4f956f9056016dd305c8d5d6b47731fb725105f03f75550bbfc8c1ce52d5a15",
-  "revision_id": "61d88632b8926d28b243e502",
+  "revision_id": "25a5ab06311e9d613dad0d11",
   "warnings": [
     "Canadian businesses’ use of AI: What the evidence shows: publication time derived from updated time by source policy",
     "Early signs of AI-driven adjustments in Canada’s labour market: publication time derived from updated time by source policy",
@@ -56,5 +60,6 @@
     "How Canada’s counter-tariffs impacted consumer prices: publication time derived from updated time by source policy",
     "​​Canada’s shifting position in global maritime trade​: publication time derived from updated time by source policy",
     "When parents co‑sign a mortgage to help their adult children buy their first home: publication time derived from updated time by source policy"
-  ]
+  ],
+  "contract_fingerprint": "7b90a6be29e34459d8918a8ebbb8dd016a7b85d61e314b48928612ced292c0ad"
 }

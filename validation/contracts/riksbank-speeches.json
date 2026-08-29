@@ -1,10 +1,14 @@
 {
-  "contract_version": 1,
+  "contract_version": 2,
   "source_id": "riksbank-speeches",
+  "automated_status": "passed",
+  "failure_stage": null,
+  "error": null,
   "review": {
-    "status": "reviewed",
-    "reviewer": "Codex Milestone 2 source-contract review, 2026-08-29",
-    "reviewed_at": "2026-08-29T06:59:15.483776+00:00"
+    "status": "approved",
+    "reviewer": "Codex manual source-contract review, 2026-08-29",
+    "reviewed_at": "2026-08-29T16:15:00+00:00",
+    "notes": "Title, URL, opening and closing excerpts, length and warnings were inspected; extraction is coherent for the declared source scope."
   },
   "newest_entry": {
     "title": "Göran Hjelm: Signs of stronger economic activity, but the risks of inflation being too high remain",
@@ -44,6 +48,7 @@
   "content_type": "text/html",
   "content_length": 3036,
   "content_sha256": "17b8050d588fc332c79dc74211d33874c2263c3a12f3a6ac4948e532b1567a3d",
-  "revision_id": "e2bb6699cec78d70f2601380",
-  "warnings": []
+  "revision_id": "714d32994f1befe1ad67ae83",
+  "warnings": [],
+  "contract_fingerprint": "64301aa9e830e8d2d36d2f6726224c3af22013cce260f897217316f7f80706e9"
 }

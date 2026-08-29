@@ -1,10 +1,14 @@
 {
-  "contract_version": 1,
+  "contract_version": 2,
   "source_id": "norges-speeches",
+  "automated_status": "passed",
+  "failure_stage": null,
+  "error": null,
   "review": {
-    "status": "reviewed",
-    "reviewer": "Codex Milestone 2 source-contract review, 2026-08-29",
-    "reviewed_at": "2026-08-29T06:59:15.483776+00:00"
+    "status": "approved",
+    "reviewer": "Codex manual source-contract review, 2026-08-29",
+    "reviewed_at": "2026-08-29T16:15:00+00:00",
+    "notes": "Title, URL, opening and closing excerpts, length and warnings were inspected; extraction is coherent for the declared source scope."
   },
   "newest_entry": {
     "title": "Schweigaard lecture: Ten questions and answers about monetary policy",
@@ -44,6 +48,7 @@
   "content_type": "text/html",
   "content_length": 25256,
   "content_sha256": "b9e246e4dea8a04dc8c9dfd9d8b70474780689f1a213dedbc99ffc0631c19369",
-  "revision_id": "fff0e3ed04551bab8e3e239e",
-  "warnings": []
+  "revision_id": "885ada8bb58d224a99d9e129",
+  "warnings": [],
+  "contract_fingerprint": "3c153f5c0fd46243f463027987c00c9416e5cbb1792170911157530bf3d2b455"
 }

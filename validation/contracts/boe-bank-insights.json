@@ -1,10 +1,14 @@
 {
-  "contract_version": 1,
+  "contract_version": 2,
   "source_id": "boe-bank-insights",
+  "automated_status": "passed",
+  "failure_stage": null,
+  "error": null,
   "review": {
-    "status": "reviewed",
-    "reviewer": "Codex Milestone 2 source-contract review, 2026-08-29",
-    "reviewed_at": "2026-08-29T06:59:15.483776+00:00"
+    "status": "approved",
+    "reviewer": "Codex manual source-contract review, 2026-08-29",
+    "reviewed_at": "2026-08-29T16:15:00+00:00",
+    "notes": "Title, URL, opening and closing excerpts, length and warnings were inspected; extraction is coherent for the declared source scope."
   },
   "newest_entry": {
     "title": "Bank Rate expectations in the UK curve following the war in Iran",
@@ -44,6 +48,7 @@
   "content_type": "text/html",
   "content_length": 18770,
   "content_sha256": "b12651bcf1715e6d9afe27d12f1567b0e1f05ce73062395cef2d4295b415646c",
-  "revision_id": "feb284af414adbd4cc20e263",
-  "warnings": []
+  "revision_id": "2b24b88519d57496c46bd8ad",
+  "warnings": [],
+  "contract_fingerprint": "08491e6ef9e44eb852867e5fab84dc8911d898f32826b4f1079f51578a61c37f"
 }

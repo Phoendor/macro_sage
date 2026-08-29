@@ -1,10 +1,14 @@
 {
-  "contract_version": 1,
+  "contract_version": 2,
   "source_id": "ing-think",
+  "automated_status": "passed",
+  "failure_stage": null,
+  "error": null,
   "review": {
-    "status": "reviewed",
-    "reviewer": "Codex Milestone 2 source-contract review, 2026-08-29",
-    "reviewed_at": "2026-08-29T06:59:15.483776+00:00"
+    "status": "approved",
+    "reviewer": "Codex manual source-contract review, 2026-08-29",
+    "reviewed_at": "2026-08-29T16:15:00+00:00",
+    "notes": "Title, URL, opening and closing excerpts, length and warnings were inspected; extraction is coherent for the declared source scope."
   },
   "newest_entry": {
     "title": "Warsh guides forward without forward guidance",
@@ -44,7 +48,7 @@
   "content_type": "text/html",
   "content_length": 3501,
   "content_sha256": "0b27b9f1dad8f8ae7f11627bbd92264027e26048f03208ba236ce981c2cecb5e",
-  "revision_id": "a82ac63490357bca98abed0b",
+  "revision_id": "5625e86090923a324fc847fd",
   "warnings": [
     "Warsh guides forward without forward guidance: publication time derived from updated time by source policy",
     "RBNZ preview: A 25bp hike, with some dovish risks: publication time derived from updated time by source policy",
@@ -56,5 +60,6 @@
     "THINK Ahead: Six months of the Iran War in six charts: publication time derived from updated time by source policy",
     "French economy grinds to a halt: publication time derived from updated time by source policy",
     "Asia week ahead: Key data on Australia, China, India, Japan, Korea, Philippines: publication time derived from updated time by source policy"
-  ]
+  ],
+  "contract_fingerprint": "0edde6400091cc8211c57924a2aeabfb6acf1564ca315f5b3c9074bf369652e7"
 }

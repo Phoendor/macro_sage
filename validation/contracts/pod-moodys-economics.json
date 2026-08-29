@@ -1,10 +1,14 @@
 {
-  "contract_version": 1,
+  "contract_version": 2,
   "source_id": "pod-moodys-economics",
+  "automated_status": "passed",
+  "failure_stage": null,
+  "error": null,
   "review": {
-    "status": "reviewed",
-    "reviewer": "Codex Milestone 2 source-contract review, 2026-08-29",
-    "reviewed_at": "2026-08-29T06:59:15.483776+00:00"
+    "status": "approved",
+    "reviewer": "Codex manual source-contract review, 2026-08-29",
+    "reviewed_at": "2026-08-29T16:15:00+00:00",
+    "notes": "Episode title, timestamp, declared media type, sanitized host URL and probe response were inspected; transcript content is outside this milestone."
   },
   "newest_entry": {
     "title": "More Science Than Fiction",
@@ -15,17 +19,18 @@
     "raw_published": "Fri, 28 Aug 2026 21:00:00 +0000",
     "raw_updated": null,
     "guid": "b6bd1dec-0269-43cd-9767-c793e2d92713",
-    "media_url": "https://afp-922722-injected.calisto.simplecastaudio.com/411a7612-6f84-4cde-a10a-44f7817d62ef/episodes/186f5034-9802-4fba-96f9-4b375a37001c/audio/128/default.mp3?aid=rss_feed&awCollectionId=411a7612-6f84-4cde-a10a-44f7817d62ef&awEpisodeId=186f5034-9802-4fba-96f9-4b375a37001c&feed=4LZRim3c",
+    "media_url": "https://afp-922722-injected.calisto.simplecastaudio.com/411a7612-6f84-4cde-a10a-44f7817d62ef/episodes/186f5034-9802-4fba-96f9-4b375a37001c/audio/128/default.mp3",
     "media_type": "audio/mpeg",
     "timestamp_warning": null
   },
   "representative_entry": null,
   "extraction_attempts": null,
-  "resolved_content_url": "https://afp-922722-injected.calisto.simplecastaudio.com/411a7612-6f84-4cde-a10a-44f7817d62ef/episodes/186f5034-9802-4fba-96f9-4b375a37001c/audio/128/default.mp3/default.mp3_ywr3ahjkcgo_499dfc41418a541f184e690629bb906e_64041609.mp3?aid=rss_feed&awCollectionId=411a7612-6f84-4cde-a10a-44f7817d62ef&awEpisodeId=186f5034-9802-4fba-96f9-4b375a37001c&feed=4LZRim3c&hash_redirect=1&x-total-bytes=64041609&x-ais-classified=unclassified&listeningSessionID=0CD_382_240__3de143b33efb4ae14d2cf3ed7dd71ff3fca4fe22",
+  "resolved_content_url": "https://afp-922722-injected.calisto.simplecastaudio.com/411a7612-6f84-4cde-a10a-44f7817d62ef/episodes/186f5034-9802-4fba-96f9-4b375a37001c/audio/128/default.mp3/default.mp3_ywr3ahjkcgo_499dfc41418a541f184e690629bb906e_64041609.mp3",
   "extraction_method": "audio_enclosure_probe",
   "content_type": "audio/mpeg",
   "content_length": 64041609,
   "content_sha256": null,
   "revision_id": null,
-  "warnings": []
+  "warnings": [],
+  "contract_fingerprint": "5f4015bcd53d9e33b8c2b9f92a6a649ec01ba51faf00136822c17a7866e01ea7"
 }

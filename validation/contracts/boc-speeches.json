@@ -1,60 +1,59 @@
 {
-  "contract_version": 1,
+  "contract_version": 2,
   "source_id": "boc-speeches",
+  "automated_status": "passed",
+  "failure_stage": null,
+  "error": null,
   "review": {
-    "status": "reviewed",
-    "reviewer": "Codex Milestone 2 source-contract review, 2026-08-29",
-    "reviewed_at": "2026-08-29T06:59:15.483776+00:00"
+    "status": "approved",
+    "reviewer": "Codex manual source-contract review, 2026-08-29",
+    "reviewed_at": "2026-08-29T16:15:00+00:00",
+    "notes": "The filtered representative is a complete official opening statement rather than a multimedia summary; excerpts and warnings were inspected."
   },
   "newest_entry": {
-    "title": "Press Conference: Monetary Policy Report – July 2026",
-    "url": "https://www.bankofcanada.ca/multimedia/press-conference-monetary-policy-report-july-2026/",
-    "original_url": "https://www.bankofcanada.ca/multimedia/press-conference-monetary-policy-report-july-2026/",
-    "published_at": "2026-07-15T10:45:13+00:00",
-    "updated_at": "2026-07-15T10:45:13+00:00",
+    "title": "Monetary Policy Report Press Conference Opening Statement",
+    "url": "https://www.bankofcanada.ca/2026/07/opening-statement-2026-07-15/",
+    "original_url": "https://www.bankofcanada.ca/2026/07/opening-statement-2026-07-15/",
+    "published_at": "2026-07-15T09:45:04+00:00",
+    "updated_at": "2026-07-15T09:45:04+00:00",
     "raw_published": null,
-    "raw_updated": "2026-07-15T10:45:13+00:00",
-    "guid": "https://www.bankofcanada.ca/multimedia/press-conference-monetary-policy-report-july-2026/",
+    "raw_updated": "2026-07-15T09:45:04+00:00",
+    "guid": "https://www.bankofcanada.ca/2026/07/opening-statement-2026-07-15/",
     "media_url": null,
     "media_type": null,
     "timestamp_warning": "publication time derived from updated time by source policy"
   },
   "representative_entry": {
-    "title": "Press Conference: Monetary Policy Report – July 2026",
-    "url": "https://www.bankofcanada.ca/multimedia/press-conference-monetary-policy-report-july-2026/",
-    "original_url": "https://www.bankofcanada.ca/multimedia/press-conference-monetary-policy-report-july-2026/",
-    "published_at": "2026-07-15T10:45:13+00:00",
-    "updated_at": "2026-07-15T10:45:13+00:00",
+    "title": "Monetary Policy Report Press Conference Opening Statement",
+    "url": "https://www.bankofcanada.ca/2026/07/opening-statement-2026-07-15/",
+    "original_url": "https://www.bankofcanada.ca/2026/07/opening-statement-2026-07-15/",
+    "published_at": "2026-07-15T09:45:04+00:00",
+    "updated_at": "2026-07-15T09:45:04+00:00",
     "raw_published": null,
-    "raw_updated": "2026-07-15T10:45:13+00:00",
-    "guid": "https://www.bankofcanada.ca/multimedia/press-conference-monetary-policy-report-july-2026/",
+    "raw_updated": "2026-07-15T09:45:04+00:00",
+    "guid": "https://www.bankofcanada.ca/2026/07/opening-statement-2026-07-15/",
     "media_url": null,
     "media_type": null,
     "timestamp_warning": "publication time derived from updated time by source policy"
   },
   "extraction_attempts": [
     {
-      "title": "Press Conference: Monetary Policy Report – July 2026",
-      "url": "https://www.bankofcanada.ca/multimedia/press-conference-monetary-policy-report-july-2026/",
+      "title": "Monetary Policy Report Press Conference Opening Statement",
+      "url": "https://www.bankofcanada.ca/2026/07/opening-statement-2026-07-15/",
       "status": "passed"
     }
   ],
-  "resolved_content_url": "https://www.bankofcanada.ca/multimedia/press-conference-monetary-policy-report-july-2026/",
+  "resolved_content_url": "https://www.bankofcanada.ca/2026/07/opening-statement-2026-07-15/",
   "extraction_method": "full_html",
   "content_type": "text/html",
-  "content_length": 736,
-  "content_sha256": "feb1fc665fecc3f2246502ed19d4093f8eb486b3cf5ce897590749247ca04521",
-  "revision_id": "623ac54fb94721dcb17bd2d0",
+  "content_length": 5135,
+  "content_sha256": "3e00ea67d908692f3ac58f2a67bbd6660452899773a6abc2a94e1faf9bcfc465",
+  "revision_id": "9f039938938bc5c208074bd8",
   "warnings": [
-    "Press Conference: Policy Rate Announcement — September 2026: publication time derived from updated time by source policy; implausible future publication timestamp: 2026-09-02T10:30:19+00:00",
-    "Press Conference: Monetary Policy Report – July 2026: publication time derived from updated time by source policy",
     "Monetary Policy Report Press Conference Opening Statement: publication time derived from updated time by source policy",
-    "Media Availability: France-Canada Chamber of commerce and Paris Europlace: publication time derived from updated time by source policy",
-    "Speech: France-Canada Chamber of commerce and Paris Europlace: publication time derived from updated time by source policy",
     "Adjusting for growth and resilience: publication time derived from updated time by source policy",
     "Global imbalances, growth and stability: publication time derived from updated time by source policy",
-    "Press Conference: Policy Rate Announcement – June 2026: publication time derived from updated time by source policy",
-    "Monetary Policy Decision Press Conference Opening Statement: publication time derived from updated time by source policy",
-    "Press Conference: Financial Stability Report—2026: publication time derived from updated time by source policy"
-  ]
+    "Monetary Policy Decision Press Conference Opening Statement: publication time derived from updated time by source policy"
+  ],
+  "contract_fingerprint": "a171e5ca435791e9851de44a85f237b29e56ba8760dff652a0d912a7795ff5ef"
 }

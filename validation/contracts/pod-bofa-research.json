@@ -1,10 +1,14 @@
 {
-  "contract_version": 1,
+  "contract_version": 2,
   "source_id": "pod-bofa-research",
+  "automated_status": "passed",
+  "failure_stage": null,
+  "error": null,
   "review": {
-    "status": "reviewed",
-    "reviewer": "Codex Milestone 2 source-contract review, 2026-08-29",
-    "reviewed_at": "2026-08-29T06:59:15.483776+00:00"
+    "status": "approved",
+    "reviewer": "Codex manual source-contract review, 2026-08-29",
+    "reviewed_at": "2026-08-29T16:15:00+00:00",
+    "notes": "Episode title, timestamp, declared media type, sanitized host URL and probe response were inspected; transcript content is outside this milestone."
   },
   "newest_entry": {
     "title": "Must Read Research: Fund Manager Survey; Our New AI Tracker; Gold’s Rally and K-shape Convergence",
@@ -21,11 +25,12 @@
   },
   "representative_entry": null,
   "extraction_attempts": null,
-  "resolved_content_url": "https://s336.podbean.com/pb/a1cd11a86ad66971aff4a68ece697c2c/6a91f601/data1/fs136/11340151/uploads/Must_Read_Research_2026_08_2497huu.mp3?pbss=752d21d4-c9c4-5f15-a7dc-216088d65c51",
+  "resolved_content_url": "https://s373.podbean.com/pb/a98d78304bff2c67232c1983098dc79f/6a92744f/data1/fs136/11340151/uploads/Must_Read_Research_2026_08_2497huu.mp3",
   "extraction_method": "audio_enclosure_probe",
   "content_type": "audio/mpeg",
   "content_length": 12191126,
   "content_sha256": null,
   "revision_id": null,
-  "warnings": []
+  "warnings": [],
+  "contract_fingerprint": "aa2adf1b91df1866ba61f8e226001f7686f3552c111a72ae616c74e28a9b9140"
 }

@@ -1,10 +1,14 @@
 {
-  "contract_version": 1,
+  "contract_version": 2,
   "source_id": "norges-monetary-policy",
+  "automated_status": "passed",
+  "failure_stage": null,
+  "error": null,
   "review": {
-    "status": "reviewed",
-    "reviewer": "Codex Milestone 2 source-contract review, 2026-08-29",
-    "reviewed_at": "2026-08-29T06:59:15.483776+00:00"
+    "status": "approved",
+    "reviewer": "Codex manual source-contract review, 2026-08-29",
+    "reviewed_at": "2026-08-29T16:15:00+00:00",
+    "notes": "The collector now follows the complete 133,166-character official report PDF; contents, report opening and ending were inspected."
   },
   "newest_entry": {
     "title": "Monetary Policy Report 2/2026",
@@ -39,11 +43,12 @@
       "status": "passed"
     }
   ],
-  "resolved_content_url": "https://www.norges-bank.no/en/news-events/publications/Monetary-Policy-Report/2026/mpr-22026/",
-  "extraction_method": "full_html",
-  "content_type": "text/html",
-  "content_length": 467,
-  "content_sha256": "3573e63e46aa6bd6d000783ff985249ab935eed0ff346fad8d5ab6f068e0bf81",
-  "revision_id": "4b341383820ac709f4a25192",
-  "warnings": []
+  "resolved_content_url": "https://www.norges-bank.no/contentassets/c1ae1dbac64d43c898f234aa2744eb4b/mpr-2-26.pdf?v=19062026160250",
+  "extraction_method": "full_pdf",
+  "content_type": "application/pdf",
+  "content_length": 133166,
+  "content_sha256": "f7d0d89afcea41db10e89147e57afabda984bff250e41f82efe27227a10f88bd",
+  "revision_id": "42b2cc95eee7b2d7bb31fdf1",
+  "warnings": [],
+  "contract_fingerprint": "f2cc499501d7d6895c198e80dd277a22440657a2c172675e2c2cbd14b190261c"
 }

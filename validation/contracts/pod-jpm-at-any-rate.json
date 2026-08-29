@@ -1,10 +1,14 @@
 {
-  "contract_version": 1,
+  "contract_version": 2,
   "source_id": "pod-jpm-at-any-rate",
+  "automated_status": "passed",
+  "failure_stage": null,
+  "error": null,
   "review": {
-    "status": "reviewed",
-    "reviewer": "Codex Milestone 2 source-contract review, 2026-08-29",
-    "reviewed_at": "2026-08-29T06:59:15.483776+00:00"
+    "status": "approved",
+    "reviewer": "Codex manual source-contract review, 2026-08-29",
+    "reviewed_at": "2026-08-29T16:15:00+00:00",
+    "notes": "Episode title, timestamp, declared media type, sanitized host URL and probe response were inspected; transcript content is outside this milestone."
   },
   "newest_entry": {
     "title": "Global FX: EU deep dive, US roundup, back to school themes",
@@ -21,11 +25,12 @@
   },
   "representative_entry": null,
   "extraction_attempts": null,
-  "resolved_content_url": "https://s335.podbean.com/pb/fe634a70bb42e4ac5630c99b6a155abe/6a91ee7d/data1/fs140/6141678/uploads/AARFX260828_KAL-1-D0C29JLX.mp3?pbss=745e03fb-d753-5e22-a8a7-b58264520cf5",
+  "resolved_content_url": "https://s337.podbean.com/pb/1d90b05d1778bcddc5f404832f84a6be/6a926e91/data1/fs140/6141678/uploads/AARFX260828_KAL-1-D0C29JLX.mp3",
   "extraction_method": "audio_enclosure_probe",
   "content_type": "audio/mpeg",
   "content_length": 30899719,
   "content_sha256": null,
   "revision_id": null,
-  "warnings": []
+  "warnings": [],
+  "contract_fingerprint": "1bd10221b54346bc8e011266a7aa3cf84237481d7c80f78b7f3428fbf3249e06"
 }

@@ -1,10 +1,14 @@
 {
-  "contract_version": 1,
+  "contract_version": 2,
   "source_id": "snb-monetary-policy",
+  "automated_status": "passed",
+  "failure_stage": null,
+  "error": null,
   "review": {
-    "status": "reviewed",
-    "reviewer": "Codex Milestone 2 source-contract review, 2026-08-29",
-    "reviewed_at": "2026-08-29T06:59:15.483776+00:00"
+    "status": "approved",
+    "reviewer": "Codex manual source-contract review, 2026-08-29",
+    "reviewed_at": "2026-08-29T16:15:00+00:00",
+    "notes": "The complete official quarterly bulletin PDF, contents, report opening and publication ending were inspected."
   },
   "newest_entry": {
     "title": "2026-06-24 - Quarterly Bulletin 2/2026",
@@ -44,7 +48,7 @@
   "content_type": "application/pdf",
   "content_length": 110710,
   "content_sha256": "250c641cdc9e56a9562100f3e3e3e9c1ef4902530e2cfd3f2e449f0d49a2d252",
-  "revision_id": "ddbd8c19e7b616f8d9d3351e",
+  "revision_id": "d0aa4308f926d4a8400eed85",
   "warnings": [
     "2026-06-24 - Quarterly Bulletin 2/2026: publication time derived from updated time by source policy",
     "2026-06-18 - Monetary policy assessment of 18 June 2026: publication time derived from updated time by source policy",
@@ -59,5 +63,6 @@
     "2025-06-19 - Monetary policy assessment of 19 June 2025: publication time derived from updated time by source policy",
     "2025-03-26 - Quarterly Bulletin 1/2025: publication time derived from updated time by source policy",
     "2025-03-20 - Monetary policy assessment of 20 March 2025: publication time derived from updated time by source policy"
-  ]
+  ],
+  "contract_fingerprint": "5867ce27842afd96d47245f2cf7ebde201a22d72ddd4f1c9279bf001886135a3"
 }

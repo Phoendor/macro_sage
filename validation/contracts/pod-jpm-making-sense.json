@@ -1,10 +1,14 @@
 {
-  "contract_version": 1,
+  "contract_version": 2,
   "source_id": "pod-jpm-making-sense",
+  "automated_status": "passed",
+  "failure_stage": null,
+  "error": null,
   "review": {
-    "status": "reviewed",
-    "reviewer": "Codex Milestone 2 source-contract review, 2026-08-29",
-    "reviewed_at": "2026-08-29T06:59:15.483776+00:00"
+    "status": "approved",
+    "reviewer": "Codex manual source-contract review, 2026-08-29",
+    "reviewed_at": "2026-08-29T16:15:00+00:00",
+    "notes": "Episode title, timestamp, declared media type, sanitized host URL and probe response were inspected; transcript content is outside this milestone."
   },
   "newest_entry": {
     "title": "The capital required for critical supply chains",
@@ -21,11 +25,12 @@
   },
   "representative_entry": null,
   "extraction_attempts": null,
-  "resolved_content_url": "https://s387.podbean.com/pb/b3bc449a10be57ba2ba284c0fdf930e7/6a91ea94/data1/fs73/4665031/uploads/JPM_MS_SRI_Supply_Chain_Assets_V188esn.mp3?pbss=15187a01-6bbb-5f25-8be0-32f82057245b",
+  "resolved_content_url": "https://s387.podbean.com/pb/96bd331abfd926cacc51c0bc68615163/6a9269b4/data1/fs73/4665031/uploads/JPM_MS_SRI_Supply_Chain_Assets_V188esn.mp3",
   "extraction_method": "audio_enclosure_probe",
   "content_type": "audio/mpeg",
   "content_length": 27808112,
   "content_sha256": null,
   "revision_id": null,
-  "warnings": []
+  "warnings": [],
+  "contract_fingerprint": "d80e70f320b0c1b8166045e56e2f0b7a7f4b55330eaecaeaefcf243dadad5da9"
 }

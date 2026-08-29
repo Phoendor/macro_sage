@@ -1,10 +1,14 @@
 {
-  "contract_version": 1,
+  "contract_version": 2,
   "source_id": "pod-jpm-week-ahead",
+  "automated_status": "passed",
+  "failure_stage": null,
+  "error": null,
   "review": {
-    "status": "reviewed",
-    "reviewer": "Codex Milestone 2 source-contract review, 2026-08-29",
-    "reviewed_at": "2026-08-29T06:59:15.483776+00:00"
+    "status": "approved",
+    "reviewer": "Codex manual source-contract review, 2026-08-29",
+    "reviewed_at": "2026-08-29T16:15:00+00:00",
+    "notes": "Episode title, timestamp, declared media type, sanitized host URL and probe response were inspected; transcript content is outside this milestone."
   },
   "newest_entry": {
     "title": "The Road to $40 Trillion",
@@ -21,11 +25,12 @@
   },
   "representative_entry": null,
   "extraction_attempts": null,
-  "resolved_content_url": "https://s323.podbean.com/pb/78b5399832cb1141f1ddcafd29d7f9e0/6a91ee0c/data1/fs142/4666493/uploads/audio_notwa_024269zzcs.mp3?pbss=ba52e3d5-5322-56b5-bcc8-6ec4e1d82aeb",
+  "resolved_content_url": "https://s323.podbean.com/pb/3dd1b27e98645f292630dffcdee6baa0/6a926a97/data1/fs142/4666493/uploads/audio_notwa_024269zzcs.mp3",
   "extraction_method": "audio_enclosure_probe",
   "content_type": "audio/mpeg",
   "content_length": 13212859,
   "content_sha256": null,
   "revision_id": null,
-  "warnings": []
+  "warnings": [],
+  "contract_fingerprint": "8979cb2052ad3df3fe1674effae3058168ef7a5fd5d217fc97029db941d48f21"
 }

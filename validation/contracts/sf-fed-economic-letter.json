@@ -1,10 +1,14 @@
 {
-  "contract_version": 1,
+  "contract_version": 2,
   "source_id": "sf-fed-economic-letter",
+  "automated_status": "passed",
+  "failure_stage": null,
+  "error": null,
   "review": {
-    "status": "reviewed",
-    "reviewer": "Codex Milestone 2 source-contract review, 2026-08-29",
-    "reviewed_at": "2026-08-29T06:59:15.483776+00:00"
+    "status": "approved",
+    "reviewer": "Codex manual source-contract review, 2026-08-29",
+    "reviewed_at": "2026-08-29T16:15:00+00:00",
+    "notes": "Title, URL, opening and closing excerpts, length and warnings were inspected; extraction is coherent for the declared source scope."
   },
   "newest_entry": {
     "title": "What’s Behind the Declining Trend Unemployment Rate?",
@@ -44,6 +48,7 @@
   "content_type": "text/html",
   "content_length": 12562,
   "content_sha256": "acbb2c49e4f03ebc2dcf088a8483a37f4938be265ae47edf2b0d42bb449011a6",
-  "revision_id": "d22b910f810a86dce6c2429b",
-  "warnings": []
+  "revision_id": "adee8bd5672863003c56bf1f",
+  "warnings": [],
+  "contract_fingerprint": "1ab6a5bd32e860ac5c0201cd3de37e2ead5dcbcf663fb4ae8e39d9f51ff7612c"
 }
