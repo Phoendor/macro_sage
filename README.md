@@ -50,6 +50,15 @@ macro-sage validate-sources
 # Also probe every optional podcast enclosure without transcription.
 macro-sage validate-sources --include-podcasts
 
+# Create private excerpts for an explicit human/Codex contract review.
+macro-sage validate-sources --include-podcasts \
+  --review-bundle output/source-review.private.json
+
+# After inspection, apply a complete fingerprint-bound decision file.
+macro-sage review-source-contracts \
+  --validation validation/source-validation-YYYY-MM-DD.json \
+  --decisions validation/source-review-YYYY-MM-DD.json
+
 # Run today's article pipeline.
 macro-sage run
 
@@ -121,6 +130,11 @@ that publish only an update field or a feed-level `Last-Modified` value have an
 explicit per-source publication policy; implausible future dates are rejected.
 Missing dates and every acquisition failure remain visible rather than becoming
 a false quiet day.
+
+Automated validation never labels its own output as manually reviewed. It emits
+pending contract samples and can optionally write a private, ignored review
+bundle containing bounded source excerpts. An explicit decision file must cover
+every sample and match its fingerprint before review status can become complete.
 
 SQLite schema migrations preserve existing cached material. Documents use a
 source-independent canonical identity, retain every discovery origin and keep

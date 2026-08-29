@@ -1,7 +1,8 @@
 # Macro Sage action plan
 
 Status: approved; Milestones 1 and 2 are code-complete. Milestone 1 is still
-awaiting its scheduled-run observation gate; Milestone 3 is next.
+awaiting its scheduled-run observation gate. Milestone 2 closure is being
+re-audited before Milestone 3 begins.
 
 Baseline date: 2026-08-29.
 
@@ -773,7 +774,7 @@ selection quality and portfolio expansion after that foundation is stable.
   redirect results, newest entry, parseable-entry count, resolved URL,
   extraction method, content type, content length, warnings and exact failure
   stage.
-- [x] Retain one manually reviewed representative contract sample per active
+- [ ] Retain one manually reviewed representative contract sample per active
   source.
 - [x] Build a coverage matrix by geography, institution type, topic, asset
   class, evidence tier, language, cadence and acquisition method.
@@ -1326,6 +1327,11 @@ contracts, with no completely failed participating source. Publisher-transcript,
 advertisement and rich podcast-programme metadata items explicitly remain in
 Milestone 5; ongoing cadence monitoring, selection balancing and source
 expansion remain G6–G9.
+
+Closure audit status: in progress. Automated validation and manual approval are
+now separate, fingerprint-bound operations. A fresh baseline, explicit review
+decisions, exact committed-code provenance and one complete hosted run are
+required before closure is recorded.
 
 Exit gate:
 

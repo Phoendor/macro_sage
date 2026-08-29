@@ -51,7 +51,7 @@ from macro_sage.scheduling import DateResolution, resolve_target_date
 from macro_sage.settings import Settings
 from macro_sage.storage import DocumentStore
 from macro_sage.synthesis import synthesize
-from macro_sage.validation import run_validation
+from macro_sage.validation import apply_manual_reviews, run_validation
 from macro_sage.versions import transformation_versions
 
 DEFAULT_CONFIG = Path("config/sources.toml")
@@ -628,7 +628,8 @@ def _validate(args: argparse.Namespace) -> int:
         settings,
         output=output,
         samples_dir=args.samples_dir,
-        reviewer=args.reviewer,
+        validation_operator=args.operator,
+        review_bundle=args.review_bundle,
         workers=args.workers,
     )
     print(
@@ -636,6 +637,22 @@ def _validate(args: argparse.Namespace) -> int:
         f"{record['failed']} failed. Saved {output}."
     )
     return 1 if record["failed"] else 0
+
+
+def _review_source_contracts(args: argparse.Namespace) -> int:
+    summary = apply_manual_reviews(
+        validation_path=args.validation,
+        samples_dir=args.samples_dir,
+        decisions_path=args.decisions,
+    )
+    counts = summary["counts"]
+    print(
+        "Manual source review recorded: "
+        f"{counts['approved']} approved, "
+        f"{counts['approved_with_limitations']} approved with limitations, "
+        f"{counts['rejected']} rejected."
+    )
+    return 0
 
 
 def _list_sources(args: argparse.Namespace) -> int:
@@ -723,10 +740,30 @@ def build_parser() -> argparse.ArgumentParser:
         "--samples-dir", type=Path, default=Path("validation/contracts")
     )
     validate.add_argument(
-        "--reviewer", default="Codex acquisition-contract review"
+        "--operator",
+        "--reviewer",
+        dest="operator",
+        default="Macro Sage source validator",
+        help="identity of the validation operator; this does not mark manual review",
+    )
+    validate.add_argument(
+        "--review-bundle",
+        type=Path,
+        help="write private excerpts for manual inspection; keep this under output/",
     )
     validate.add_argument("--workers", type=_positive_int, default=6)
     validate.set_defaults(handler=_validate)
+
+    review = subparsers.add_parser(
+        "review-source-contracts",
+        help="apply explicit, fingerprint-bound manual source review decisions",
+    )
+    review.add_argument("--validation", type=Path, required=True)
+    review.add_argument(
+        "--samples-dir", type=Path, default=Path("validation/contracts")
+    )
+    review.add_argument("--decisions", type=Path, required=True)
+    review.set_defaults(handler=_review_source_contracts)
 
     source_list = subparsers.add_parser("list-sources", help="print configured sources")
     source_list.add_argument("--all", action="store_true")

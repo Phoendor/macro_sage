@@ -1,5 +1,18 @@
 # Changelog
 
+## 0.4.6 - 2026-08-29
+
+### Validation audit integrity
+
+- Separated automated source checks from manual contract review; generated
+  samples now remain pending until explicit decisions are applied.
+- Bound every review decision to the exact source-contract fingerprint,
+  validation timestamp and committed code revision.
+- Added an ignored private review bundle for inspecting bounded article
+  excerpts without committing or uploading source bodies.
+- Reopened the Milestone 2 review gate until a fresh baseline, complete manual
+  decision set and hosted end-to-end run are recorded.
+
 ## 0.4.5 - 2026-08-29
 
 ### Source contracts

@@ -21,6 +21,13 @@ availability is external and changes over time.
 [SOURCE_COVERAGE.md](SOURCE_COVERAGE.md); offline checks compare the complete
 generated documents rather than only checking that IDs appear.
 
+Automated validation and manual review are separate operations. Validation
+always writes `pending_review` contract samples. Supplying `--review-bundle`
+writes bounded excerpts under ignored `output/` storage for inspection; those
+excerpts must never be committed or uploaded. After inspection, `macro-sage
+review-source-contracts` accepts a complete decision file only when every
+decision matches the exact contract fingerprint and baseline Git commit.
+
 ## Verification record
 
 The current baseline is

@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "macro-sage"
-version = "0.4.5"
+version = "0.4.6"
 description = "A source-attributed daily macro research brief."
 readme = "README.md"
 requires-python = ">=3.11"

@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+import hashlib
+import json
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from datetime import datetime, timezone
 from pathlib import Path
@@ -15,6 +17,8 @@ from macro_sage.settings import Settings
 from macro_sage.versions import SOURCE_CONFIG_VERSION, transformation_versions
 
 VALIDATION_RECORD_VERSION = 1
+REVIEW_DECISIONS_VERSION = 1
+REVIEW_STATES = {"approved", "approved_with_limitations", "rejected"}
 
 
 def _entry(item) -> dict[str, object]:
@@ -33,7 +37,12 @@ def _entry(item) -> dict[str, object]:
     }
 
 
-def validate_source(source: SourceDefinition, client: HttpClient) -> dict[str, Any]:
+def validate_source(
+    source: SourceDefinition,
+    client: HttpClient,
+    *,
+    include_private_excerpt: bool = False,
+) -> dict[str, Any]:
     checked_at = datetime.now(timezone.utc)
     base: dict[str, Any] = {
         "source_id": source.id,
@@ -160,12 +169,66 @@ def validate_source(source: SourceDefinition, client: HttpClient) -> dict[str, A
         quality_flags=list(document.quality_flags),
         warnings=warnings,
     )
+    if include_private_excerpt:
+        base["_private_review"] = {
+            "opening_excerpt": document.body[:1_200],
+            "closing_excerpt": document.body[-600:],
+            "body_chars": len(document.body),
+        }
     return base
 
 
-def _live(source: SourceDefinition, settings: Settings) -> dict[str, Any]:
+def _live(
+    source: SourceDefinition,
+    settings: Settings,
+    include_private_excerpt: bool,
+) -> dict[str, Any]:
     with HttpClient(settings) as client:
-        return validate_source(source, client)
+        return validate_source(
+            source,
+            client,
+            include_private_excerpt=include_private_excerpt,
+        )
+
+
+def contract_fingerprint(sample: dict[str, Any]) -> str:
+    payload = {
+        key: value
+        for key, value in sample.items()
+        if key not in {"contract_fingerprint", "review"}
+    }
+    encoded = json.dumps(
+        payload,
+        ensure_ascii=False,
+        separators=(",", ":"),
+        sort_keys=True,
+    ).encode("utf-8")
+    return hashlib.sha256(encoded).hexdigest()
+
+
+def _contract_sample(result: dict[str, Any]) -> dict[str, Any]:
+    sample = {
+        "contract_version": 2,
+        "source_id": result["source_id"],
+        "review": {
+            "status": "pending_review",
+            "reviewer": None,
+            "reviewed_at": None,
+            "notes": None,
+        },
+        "newest_entry": result.get("newest_entry"),
+        "representative_entry": result.get("representative_entry"),
+        "extraction_attempts": result.get("extraction_attempts"),
+        "resolved_content_url": result.get("resolved_content_url"),
+        "extraction_method": result.get("extraction_method"),
+        "content_type": result.get("content_type"),
+        "content_length": result.get("content_length"),
+        "content_sha256": result.get("content_sha256"),
+        "revision_id": result.get("revision_id"),
+        "warnings": result.get("warnings", []),
+    }
+    sample["contract_fingerprint"] = contract_fingerprint(sample)
+    return sample
 
 
 def run_validation(
@@ -174,13 +237,18 @@ def run_validation(
     *,
     output: Path,
     samples_dir: Path,
-    reviewer: str,
+    validation_operator: str,
+    review_bundle: Path | None = None,
     workers: int = 6,
 ) -> dict[str, Any]:
     started = datetime.now(timezone.utc)
     results: list[dict[str, Any]] = []
+    private_review: dict[str, dict[str, Any]] = {}
     with ThreadPoolExecutor(max_workers=workers) as executor:
-        futures = {executor.submit(_live, source, settings): source for source in sources}
+        futures = {
+            executor.submit(_live, source, settings, review_bundle is not None): source
+            for source in sources
+        }
         for future in as_completed(futures):
             source = futures[future]
             try:
@@ -197,6 +265,9 @@ def run_validation(
                     "error": sanitized_error(exc),
                     "warnings": [],
                 }
+            private = result.pop("_private_review", None)
+            if isinstance(private, dict):
+                private_review[source.id] = private
             results.append(result)
             print(
                 f"{result['status'].upper():8} {source.id:<28} "
@@ -211,7 +282,8 @@ def run_validation(
         "transformation_versions": transformation_versions(),
         "started_at": started.isoformat(),
         "completed_at": completed.isoformat(),
-        "reviewer": reviewer,
+        "validation_operator": validation_operator,
+        "manual_review": {"status": "pending_review"},
         "source_count": len(results),
         "passed": sum(result["status"] == "passed" for result in results),
         "degraded": sum(result["status"] == "degraded" for result in results),
@@ -224,28 +296,126 @@ def run_validation(
     for stale_sample in samples_dir.glob("*.json"):
         if stale_sample.stem not in current_ids:
             stale_sample.unlink()
+    samples: dict[str, dict[str, Any]] = {}
     for result in results:
         if result["status"] == "failed":
             (samples_dir / f"{result['source_id']}.json").unlink(missing_ok=True)
             continue
-        sample = {
-            "contract_version": 1,
-            "source_id": result["source_id"],
-            "review": {
-                "status": "reviewed",
-                "reviewer": reviewer,
-                "reviewed_at": completed.isoformat(),
-            },
-            "newest_entry": result.get("newest_entry"),
-            "representative_entry": result.get("representative_entry"),
-            "extraction_attempts": result.get("extraction_attempts"),
-            "resolved_content_url": result.get("resolved_content_url"),
-            "extraction_method": result.get("extraction_method"),
-            "content_type": result.get("content_type"),
-            "content_length": result.get("content_length"),
-            "content_sha256": result.get("content_sha256"),
-            "revision_id": result.get("revision_id"),
-            "warnings": result.get("warnings", []),
-        }
+        sample = _contract_sample(result)
+        samples[str(result["source_id"])] = sample
         write_json_atomic(samples_dir / f"{result['source_id']}.json", sample)
+    if review_bundle is not None:
+        bundle_entries = []
+        for result in results:
+            source_id = str(result["source_id"])
+            sample = samples.get(source_id)
+            bundle_entries.append(
+                {
+                    "source_id": source_id,
+                    "source_name": result["source_name"],
+                    "kind": result["kind"],
+                    "automated_status": result["status"],
+                    "contract_fingerprint": (
+                        sample.get("contract_fingerprint") if sample else None
+                    ),
+                    "newest_entry": result.get("newest_entry"),
+                    "representative_entry": result.get("representative_entry"),
+                    "resolved_content_url": result.get("resolved_content_url"),
+                    "extraction_method": result.get("extraction_method"),
+                    "content_type": result.get("content_type"),
+                    "content_length": result.get("content_length"),
+                    "warnings": result.get("warnings", []),
+                    "private_review": private_review.get(source_id),
+                }
+            )
+        write_json_atomic(
+            review_bundle,
+            {
+                "notice": (
+                    "PRIVATE REVIEW MATERIAL: may contain copyrighted excerpts; "
+                    "do not commit or upload."
+                ),
+                "baseline_completed_at": record["completed_at"],
+                "baseline_git_commit": record["transformation_versions"]["git_commit"],
+                "entries": bundle_entries,
+            },
+        )
     return record
+
+
+def apply_manual_reviews(
+    *,
+    validation_path: Path,
+    samples_dir: Path,
+    decisions_path: Path,
+) -> dict[str, Any]:
+    record = json.loads(validation_path.read_text(encoding="utf-8"))
+    decisions = json.loads(decisions_path.read_text(encoding="utf-8"))
+    if decisions.get("review_version") != REVIEW_DECISIONS_VERSION:
+        raise ValueError("Unsupported or missing review_version")
+    if decisions.get("baseline_completed_at") != record.get("completed_at"):
+        raise ValueError("Review decisions do not match the validation baseline")
+    baseline_commit = record.get("transformation_versions", {}).get("git_commit")
+    if decisions.get("baseline_git_commit") != baseline_commit:
+        raise ValueError("Review decisions do not match the baseline Git commit")
+    reviewer = str(decisions.get("reviewer") or "").strip()
+    reviewed_at = str(decisions.get("reviewed_at") or "").strip()
+    if not reviewer or not reviewed_at:
+        raise ValueError("Review decisions require reviewer and reviewed_at")
+    datetime.fromisoformat(reviewed_at.replace("Z", "+00:00"))
+
+    sample_paths = {path.stem: path for path in samples_dir.glob("*.json")}
+    raw_decisions = decisions.get("decisions")
+    if not isinstance(raw_decisions, list):
+        raise ValueError("Review decisions must contain a decisions list")
+    indexed: dict[str, dict[str, Any]] = {}
+    for decision in raw_decisions:
+        if not isinstance(decision, dict):
+            raise ValueError("Every review decision must be an object")
+        source_id = str(decision.get("source_id") or "")
+        if not source_id or source_id in indexed:
+            raise ValueError(f"Missing or duplicate review decision: {source_id!r}")
+        indexed[source_id] = decision
+    if set(indexed) != set(sample_paths):
+        missing = sorted(set(sample_paths) - set(indexed))
+        extra = sorted(set(indexed) - set(sample_paths))
+        raise ValueError(f"Review decision coverage mismatch; missing={missing}, extra={extra}")
+
+    automated_status = {
+        str(source["source_id"]): str(source["status"])
+        for source in record.get("sources", [])
+    }
+    counts = {state: 0 for state in REVIEW_STATES}
+    for source_id, path in sample_paths.items():
+        sample = json.loads(path.read_text(encoding="utf-8"))
+        decision = indexed[source_id]
+        fingerprint = str(decision.get("contract_fingerprint") or "")
+        if fingerprint != sample.get("contract_fingerprint"):
+            raise ValueError(f"Stale review decision for {source_id}")
+        state = str(decision.get("status") or "")
+        if state not in REVIEW_STATES:
+            raise ValueError(f"Invalid review status for {source_id}: {state!r}")
+        if automated_status.get(source_id) == "degraded" and state == "approved":
+            raise ValueError(
+                f"Degraded source {source_id} must retain limitations or be rejected"
+            )
+        notes = str(decision.get("notes") or "").strip()
+        if not notes:
+            raise ValueError(f"Review notes are required for {source_id}")
+        sample["review"] = {
+            "status": state,
+            "reviewer": reviewer,
+            "reviewed_at": reviewed_at,
+            "notes": notes,
+        }
+        write_json_atomic(path, sample)
+        counts[state] += 1
+    record["manual_review"] = {
+        "status": "complete",
+        "reviewer": reviewer,
+        "reviewed_at": reviewed_at,
+        "decisions_file": decisions_path.name,
+        "counts": counts,
+    }
+    write_json_atomic(validation_path, record)
+    return record["manual_review"]

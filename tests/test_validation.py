@@ -1,5 +1,13 @@
+import json
+
+import pytest
+
 from macro_sage.models import Participation, SourceDefinition, SourceKind
-from macro_sage.validation import validate_source
+from macro_sage.validation import (
+    _contract_sample,
+    apply_manual_reviews,
+    validate_source,
+)
 
 
 class Response:
@@ -82,3 +90,78 @@ def test_declared_audio_enclosure_survives_generic_probe_content_type():
     assert result["status"] == "passed"
     assert result["declared_media_type"] == "audio/mpeg"
     assert "feed declares audio/mpeg" in result["warnings"][0]
+
+
+def test_generated_contract_is_pending_until_a_bound_manual_decision():
+    sample = _contract_sample(
+        {
+            "source_id": "source",
+            "newest_entry": {"title": "Newest"},
+            "representative_entry": {"title": "Representative"},
+            "warnings": [],
+        }
+    )
+
+    assert sample["review"]["status"] == "pending_review"
+    assert sample["review"]["reviewer"] is None
+    assert len(sample["contract_fingerprint"]) == 64
+
+
+def test_manual_review_requires_exact_contract_fingerprint(tmp_path):
+    validation = tmp_path / "validation.json"
+    samples = tmp_path / "contracts"
+    decisions = tmp_path / "decisions.json"
+    samples.mkdir()
+    sample = _contract_sample(
+        {
+            "source_id": "source",
+            "newest_entry": {"title": "Newest"},
+            "representative_entry": {"title": "Representative"},
+            "warnings": [],
+        }
+    )
+    (samples / "source.json").write_text(json.dumps(sample), encoding="utf-8")
+    validation.write_text(
+        json.dumps(
+            {
+                "completed_at": "2026-08-29T10:00:00+00:00",
+                "transformation_versions": {"git_commit": "abc123"},
+                "sources": [{"source_id": "source", "status": "passed"}],
+            }
+        ),
+        encoding="utf-8",
+    )
+    decision = {
+        "review_version": 1,
+        "baseline_completed_at": "2026-08-29T10:00:00+00:00",
+        "baseline_git_commit": "abc123",
+        "reviewer": "A human reviewer",
+        "reviewed_at": "2026-08-29T11:00:00+00:00",
+        "decisions": [
+            {
+                "source_id": "source",
+                "contract_fingerprint": sample["contract_fingerprint"],
+                "status": "approved",
+                "notes": "Representative title and extracted content were inspected.",
+            }
+        ],
+    }
+    decisions.write_text(json.dumps(decision), encoding="utf-8")
+
+    summary = apply_manual_reviews(
+        validation_path=validation,
+        samples_dir=samples,
+        decisions_path=decisions,
+    )
+
+    reviewed = json.loads((samples / "source.json").read_text(encoding="utf-8"))
+    assert summary["status"] == "complete"
+    assert reviewed["review"]["status"] == "approved"
+    decision["decisions"][0]["contract_fingerprint"] = "stale"
+    decisions.write_text(json.dumps(decision), encoding="utf-8")
+    with pytest.raises(ValueError, match="Stale review decision"):
+        apply_manual_reviews(
+            validation_path=validation,
+            samples_dir=samples,
+            decisions_path=decisions,
+        )
