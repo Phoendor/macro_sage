@@ -17,8 +17,9 @@
   degradation and one failure, followed by 44 explicit approvals, two approvals
   with limitations and one rejection across all 47 contracts.
 - Expanded the bounded offline suite to 90 tests.
-- Reopened the Milestone 2 review gate until a fresh baseline, complete manual
-  decision set and hosted end-to-end run are recorded.
+- Closed the Milestone 2 audit with green Python 3.11/3.12 CI and a successful
+  hosted end-to-end run that collected 26 documents, transcribed six podcast
+  episodes, rendered an 11-page PDF and retained all nine coverage limitations.
 
 ## 0.4.5 - 2026-08-29
 

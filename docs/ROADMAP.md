@@ -1,8 +1,8 @@
 # Macro Sage action plan
 
 Status: approved; Milestones 1 and 2 are code-complete. Milestone 1 is still
-awaiting its scheduled-run observation gate. Milestone 2 closure is being
-re-audited before Milestone 3 begins.
+awaiting its scheduled-run observation gate. Milestone 2 passed its closure
+audit; Milestone 3 is next.
 
 Baseline date: 2026-08-29.
 
@@ -98,6 +98,19 @@ allowed after a timestamped market-data source has been integrated.
   degraded because charts lose tabular structure even though its prose extracts
   completely, and BIS Research Hub failed because its official RSS endpoint
   returned HTTP 404 on two bounded checks.
+- Hosted closure run
+  [33262329610](https://github.com/Phoendor/macro_sage/actions/runs/33262329610)
+  completed successfully on commit `91ed76b` for 2026-08-28 with podcasts
+  enabled. It collected 26 documents, including six newly transcribed podcast
+  episodes, synthesized with `gpt-5.6-luna`, transcribed with
+  `gpt-4o-mini-transcribe`, and produced an 11-page PDF. The report health was
+  correctly degraded and all nine failed, stale or expected-but-absent sources
+  remained explicit.
+- The nine closure-run limitations were: stale EcoWeek, EcoInsight, Central
+  Bank Speeches, Bank of England Speeches and Bank Insights feeds; failed BIS
+  Research Hub discovery; and expected-but-absent Bank of Canada, Norges Bank
+  and Riksbank speech publications. Odd Lots and The Macro Trading Floor were
+  separately shown as skipped after the six-episode run limit, not failures.
 - The 2026-08-25 run collected 13 documents from six sources; ING and Saxo
   supplied nine of them. The configured inventory is broad, but daily input can
   still be concentrated in a few prolific publishers.
@@ -1328,13 +1341,14 @@ advertisement and rich podcast-programme metadata items explicitly remain in
 Milestone 5; ongoing cadence monitoring, selection balancing and source
 expansion remain G6–G9.
 
-Closure audit status: source review complete; hosted run pending. Automated
-validation and manual approval are separate, fingerprint-bound operations. All
-47 contracts were inspected and explicitly decided against extractor-version-3
-evidence from commit `0848e6f`: 44 approved, Norges Regional Network and HSBC
-Macro Brief approved with limitations, and BIS Research Hub rejected after its
-official RSS endpoint returned HTTP 404 twice. One complete hosted run is still
-required before closure is recorded.
+Closure audit status: complete on 2026-08-29. Automated validation and manual
+approval are separate, fingerprint-bound operations. All 47 contracts were
+inspected and explicitly decided against extractor-version-3 evidence from
+commit `0848e6f`: 44 approved, Norges Regional Network and HSBC Macro Brief
+approved with limitations, and BIS Research Hub rejected after its official RSS
+endpoint returned HTTP 404 twice. CI passed on Python 3.11 and 3.12, and hosted
+run `33262329610` exercised article collection, six podcast transcriptions,
+synthesis, PDF rendering and sanitized artifact upload on commit `91ed76b`.
 
 Exit gate:
 
