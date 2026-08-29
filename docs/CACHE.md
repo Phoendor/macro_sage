@@ -42,4 +42,6 @@ written to `run.json`. A future transcription-contract change must also bump the
 hosted data-cache namespace before old transcripts can be treated as equivalent.
 
 GitHub Actions cache is only a performance accelerator. It is not the durable
-brief-history store planned for Milestone 3.
+brief-history store. Successful brief history uses an append-only local
+directory and the dedicated hosted `macro-sage-history` branch described in
+[the history contract](HISTORY.md).

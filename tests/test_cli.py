@@ -3,7 +3,7 @@ from argparse import Namespace
 from datetime import date
 from pathlib import Path
 
-from macro_sage.cli import _collect, _synthesize
+from macro_sage.cli import _collect, _confirm_history, _synthesize
 from macro_sage.models import CollectionReport, SourceKind, SourceOutcome, SourceState
 
 
@@ -68,3 +68,36 @@ def test_systemic_empty_collection_returns_failure(monkeypatch, tmp_path):
     monkeypatch.setattr("macro_sage.cli._collect_corpus", lambda *_args: report)
 
     assert _collect(arguments(tmp_path)) == 1
+
+
+def test_hosted_history_confirmation_is_explicit(monkeypatch, tmp_path):
+    history_record = tmp_path / "history.json"
+    history_record.write_text("{}", encoding="utf-8")
+    run_record = tmp_path / "run.json"
+    run_record.write_text(
+        json.dumps(
+            {
+                "run_id": "github-123-1",
+                "stage": "history_sync_pending",
+                "history_record": str(history_record),
+            }
+        ),
+        encoding="utf-8",
+    )
+    monkeypatch.setattr(
+        "macro_sage.cli.BriefHistoryRecord.model_validate_json",
+        lambda _value: Namespace(run_id="github-123-1"),
+    )
+
+    result = _confirm_history(
+        Namespace(
+            run_record=run_record,
+            backend="github-branch:macro-sage-history",
+        )
+    )
+
+    run = json.loads(run_record.read_text(encoding="utf-8"))
+    assert result == 0
+    assert run["stage"] == "complete"
+    assert run["hosted_history_backend"] == "github-branch:macro-sage-history"
+    assert "hosted_history_synced_at" in run

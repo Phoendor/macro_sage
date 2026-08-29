@@ -19,3 +19,22 @@ def test_workflow_uses_shared_date_resolution_and_locked_dependencies():
     assert "python -m macro_sage resolve-date" in text
     assert text.count("--date-resolution output/date-resolution.json") == 2
     assert "--constraint constraints.txt" in text
+
+
+def test_workflow_uses_a_durable_history_branch_not_actions_cache():
+    text = WORKFLOW.read_text(encoding="utf-8")
+    cache_sections = "\n".join(
+        section
+        for section in text.split("- name:")
+        if "cache" in section.splitlines()[0].casefold()
+    )
+
+    assert "ref: macro-sage-history" in text
+    assert "path: .history-store" in text
+    assert text.count("--history .history-store") == 2
+    assert text.count("--require-history") == 2
+    assert "push origin HEAD:macro-sage-history" in text
+    assert "jq -r '.history_record // empty'" in text
+    assert "python -m macro_sage confirm-history" in text
+    assert "contents: write" in text
+    assert ".history-store" not in cache_sections

@@ -4,13 +4,19 @@ import argparse
 import json
 import os
 from dataclasses import replace
-from datetime import date
+from datetime import date, datetime, timezone
 from pathlib import Path
 
 from openai import OpenAI
 
 from macro_sage.config import load_inventory, load_sources
 from macro_sage.files import copy_atomic, write_json_atomic, write_text_atomic
+from macro_sage.history import (
+    BriefHistoryRecord,
+    DirectoryBriefHistory,
+    HistoryContext,
+    build_history_record,
+)
 from macro_sage.http import HttpClient
 from macro_sage.models import (
     CollectionReport,
@@ -47,7 +53,12 @@ from macro_sage.run_state import (
     sanitized_error,
     update_run_record,
 )
-from macro_sage.scheduling import DateResolution, resolve_target_date
+from macro_sage.scheduling import (
+    AcquisitionWindow,
+    DateResolution,
+    resolve_acquisition_window,
+    resolve_target_date,
+)
 from macro_sage.settings import Settings
 from macro_sage.storage import DocumentStore
 from macro_sage.synthesis import synthesize
@@ -56,6 +67,7 @@ from macro_sage.versions import transformation_versions
 
 DEFAULT_CONFIG = Path("config/sources.toml")
 DEFAULT_DATABASE = Path("data/macro_sage.sqlite3")
+DEFAULT_HISTORY = Path("data/brief-history")
 DEFAULT_OUTPUT = Path("output")
 
 
@@ -98,6 +110,63 @@ def _paths(args: argparse.Namespace, target: date, *, create_local: bool) -> Run
         configured,
         create_run_id=create_local or hosted,
     )
+
+
+def _history_context(
+    args: argparse.Namespace,
+    resolution: DateResolution,
+) -> tuple[DirectoryBriefHistory, HistoryContext]:
+    store = DirectoryBriefHistory(
+        getattr(args, "history", DEFAULT_HISTORY),
+        expect_initialized=getattr(args, "require_history", False),
+    )
+    context = store.context(
+        resolution.target_date,
+        resolution.intended_cutoff,
+    )
+    print(f"History baseline: {context.status.value} — {context.detail}")
+    append_github_summary(
+        "## Durable history\n\n"
+        f"- Status: `{context.status.value}`\n"
+        f"- Detail: {context.detail}\n"
+        f"- Previous brief: `{context.previous.run_id if context.previous else 'none'}`\n"
+        f"- One-week brief: `{context.week_ago.run_id if context.week_ago else 'none'}`\n\n"
+    )
+    return store, context
+
+
+def _acquisition_window(
+    resolution: DateResolution,
+    context: HistoryContext,
+) -> AcquisitionWindow:
+    window = resolve_acquisition_window(
+        resolution,
+        previous_successful_cutoff=context.previous_cutoff,
+        history_available=context.history_available,
+    )
+    print(
+        f"Acquisition window: [{window.start.isoformat()}, {window.end.isoformat()}) "
+        f"using {window.rule}"
+    )
+    append_github_summary(
+        "## Acquisition window\n\n"
+        f"- Interval: `[{window.start.isoformat()}, {window.end.isoformat()})`\n"
+        f"- Rule: `{window.rule}`\n\n"
+    )
+    return window
+
+
+def _recorded_acquisition_window(
+    paths: RunPaths,
+    resolution: DateResolution,
+    context: HistoryContext,
+) -> AcquisitionWindow:
+    if paths.run_record.exists():
+        run = json.loads(paths.run_record.read_text(encoding="utf-8"))
+        value = run.get("acquisition_window")
+        if isinstance(value, dict):
+            return AcquisitionWindow.from_dict(value)
+    return _acquisition_window(resolution, context)
 
 
 def _require_api_key(reason: str) -> None:
@@ -220,6 +289,7 @@ def _collect_corpus(
     args: argparse.Namespace,
     settings: Settings,
     target: date,
+    window: AcquisitionWindow,
 ) -> CollectionReport:
     sources = load_sources(args.config)
     with HttpClient(settings) as http, DocumentStore(args.database) as store:
@@ -229,6 +299,7 @@ def _collect_corpus(
             http,
             store,
             timezone_name=settings.timezone_name,
+            window=window,
         )
         if args.include_podcasts:
             podcast_sources = [
@@ -250,6 +321,7 @@ def _collect_corpus(
                 timezone_name=settings.timezone_name,
                 max_episodes=settings.max_podcast_episodes,
                 max_minutes=settings.max_podcast_minutes,
+                window=window,
             )
             report.documents.extend(podcast_report.documents)
             report.outcomes.extend(podcast_report.outcomes)
@@ -261,6 +333,7 @@ def _save_collection(
     target: date,
     report: CollectionReport,
     resolution: DateResolution,
+    window: AcquisitionWindow,
     selection: ModelSelection | None,
 ) -> tuple[ContentResult, RunHealth]:
     paths.directory.mkdir(parents=True, exist_ok=True)
@@ -279,6 +352,7 @@ def _save_collection(
         "run_id": paths.run_id,
         "target_date": target.isoformat(),
         "date_resolution": resolution.as_dict(),
+        "acquisition_window": window.as_dict(),
         "stage": "collection_complete",
         "content_result": content_result.value,
         "health": health.value,
@@ -316,11 +390,14 @@ def _collect(args: argparse.Namespace) -> int:
         settings = selection.apply(settings)
     resolution = _resolution(args, settings)
     target = resolution.target_date
+    _, history_context = _history_context(args, resolution)
+    window = _acquisition_window(resolution, history_context)
     paths = _paths(args, target, create_local=False)
     run_updates: dict[str, object] = {
         "run_id": paths.run_id,
         "target_date": target.isoformat(),
         "date_resolution": resolution.as_dict(),
+        "acquisition_window": window.as_dict(),
         "stage": "collection_started",
         "content_result": ContentResult.NOT_PRODUCED.value,
         "health": RunHealth.HEALTHY.value,
@@ -330,8 +407,15 @@ def _collect(args: argparse.Namespace) -> int:
         run_updates["model_selection"] = selection.as_dict()
     update_run_record(paths.run_record, **run_updates)
     try:
-        report = _collect_corpus(args, settings, target)
-        _, health = _save_collection(paths, target, report, resolution, selection)
+        report = _collect_corpus(args, settings, target, window)
+        _, health = _save_collection(
+            paths,
+            target,
+            report,
+            resolution,
+            window,
+            selection,
+        )
     except Exception as exc:
         update_run_record(
             paths.run_record,
@@ -358,6 +442,10 @@ def _synthesize_report(
     report: CollectionReport,
     settings: Settings,
     selection: ModelSelection,
+    resolution: DateResolution,
+    history_store: DirectoryBriefHistory,
+    history_context: HistoryContext,
+    window: AcquisitionWindow,
 ) -> Path:
     _, collection_health = classify_collection(report)
     update_run_record(
@@ -369,7 +457,12 @@ def _synthesize_report(
         regeneration_used=False,
     )
     try:
-        result = synthesize(report.documents, target, settings)
+        result = synthesize(
+            report.documents,
+            target,
+            settings,
+            history=history_context,
+        )
     except Exception as exc:
         update_run_record(
             paths.run_record,
@@ -389,6 +482,23 @@ def _synthesize_report(
         )
         raise
 
+    history_record = build_history_record(
+        run_id=paths.run_id,
+        target=target,
+        intended_cutoff=resolution.intended_cutoff,
+        acquisition_window=window,
+        health=collection_health.value,
+        versions=transformation_versions(),
+        model=result.model,
+        reasoning_effort=(
+            settings.reasoning_effort
+            if result.model.startswith("gpt-5.6")
+            else None
+        ),
+        document_ids=[document.id for document in report.documents],
+        brief=result.brief,
+        context=history_context,
+    )
     paths.directory.mkdir(parents=True, exist_ok=True)
     write_text_atomic(
         paths.brief_json,
@@ -396,7 +506,12 @@ def _synthesize_report(
     )
     write_text_atomic(
         paths.brief_markdown,
-        render_markdown(result.brief, report.documents, report.outcomes),
+        render_markdown(
+            result.brief,
+            report.documents,
+            report.outcomes,
+            history_record.comparison,
+        ),
     )
     metadata = {
         "model": result.model,
@@ -421,6 +536,7 @@ def _synthesize_report(
         "attempted_models": {
             "synthesis": [result.model],
         },
+        "comparison": history_record.comparison.model_dump(mode="json"),
     }
     update_run_record(
         paths.run_record,
@@ -438,7 +554,6 @@ def _synthesize_report(
             temporary_pdf,
         )
         temporary_pdf.replace(paths.report_pdf)
-        copy_atomic(paths.report_pdf, paths.latest_pdf)
     except Exception as exc:
         temporary_pdf.unlink(missing_ok=True)
         update_run_record(
@@ -456,13 +571,34 @@ def _synthesize_report(
             f"- Error: `{sanitized_error(exc)}`\n\n"
         )
         raise
+    update_run_record(paths.run_record, stage="history_persistence_started")
+    try:
+        history_path = history_store.save(history_record)
+        copy_atomic(paths.report_pdf, paths.latest_pdf)
+    except Exception as exc:
+        update_run_record(
+            paths.run_record,
+            stage="history_persistence_failed",
+            content_result=ContentResult.REPORT.value,
+            health=RunHealth.FAILED.value,
+            error_category=error_category(exc),
+            error=sanitized_error(exc),
+        )
+        append_github_summary(
+            "## Durable history persistence failed\n\n"
+            f"- Run ID: `{paths.run_id}`\n"
+            f"- Error: `{sanitized_error(exc)}`\n\n"
+        )
+        raise
+    hosted = bool(os.getenv("GITHUB_RUN_ID"))
     update_run_record(
         paths.run_record,
-        stage="complete",
+        stage="history_sync_pending" if hosted else "complete",
         content_result=ContentResult.REPORT.value,
         health=collection_health.value,
         report_pdf=str(paths.report_pdf),
         latest_pdf=str(paths.latest_pdf),
+        history_record=str(history_path),
     )
     print(f"Saved brief to {paths.brief_markdown}")
     print(f"Saved PDF to {paths.report_pdf}")
@@ -473,16 +609,52 @@ def _synthesize_report(
         f"- Model: `{result.model}`\n"
         f"- Input tokens: {result.input_tokens or 'n/a'}\n"
         f"- Output tokens: {result.output_tokens or 'n/a'}\n"
+        f"- Comparison baseline: `{history_record.comparison.baseline_status.value}`\n"
+        f"- Previous brief: `{history_record.comparison.previous_run_id or 'none'}`\n"
         f"- PDF: `{paths.report_pdf}`\n\n"
     )
     return paths.report_pdf
+
+
+def _confirm_history(args: argparse.Namespace) -> int:
+    if not args.run_record.exists():
+        raise SystemExit(f"Run record does not exist: {args.run_record}")
+    run = json.loads(args.run_record.read_text(encoding="utf-8"))
+    history_value = run.get("history_record")
+    if not history_value:
+        raise SystemExit(f"Run record has no prepared history record: {args.run_record}")
+    history_path = Path(str(history_value))
+    if not history_path.exists():
+        raise SystemExit(f"Prepared history record does not exist: {history_path}")
+    history_record = BriefHistoryRecord.model_validate_json(
+        history_path.read_text(encoding="utf-8")
+    )
+    if history_record.run_id != run.get("run_id"):
+        raise SystemExit(
+            f"History run ID {history_record.run_id} does not match {run.get('run_id')}"
+        )
+    update_run_record(
+        args.run_record,
+        stage="complete",
+        hosted_history_backend=args.backend,
+        hosted_history_synced_at=datetime.now(timezone.utc).isoformat(),
+    )
+    append_github_summary(
+        "## Durable history persisted\n\n"
+        f"- Backend: `{args.backend}`\n"
+        f"- Record: `{history_path}`\n\n"
+    )
+    print(f"Confirmed durable history record {history_path}")
+    return 0
 
 
 def _synthesize(args: argparse.Namespace) -> int:
     settings = Settings.from_env()
     resolution = _resolution(args, settings)
     target = resolution.target_date
+    history_store, history_context = _history_context(args, resolution)
     paths = _paths(args, target, create_local=False)
+    window = _recorded_acquisition_window(paths, resolution, history_context)
     legacy_manifest = paths.directory / "documents.json"
     manifest_path = (
         paths.private_manifest if paths.private_manifest.exists() else legacy_manifest
@@ -532,6 +704,10 @@ def _synthesize(args: argparse.Namespace) -> int:
         report=report,
         settings=settings,
         selection=selection,
+        resolution=resolution,
+        history_store=history_store,
+        history_context=history_context,
+        window=window,
     )
     return 0
 
@@ -555,6 +731,8 @@ def _run(args: argparse.Namespace) -> int:
     settings = selection.apply(settings)
     resolution = _resolution(args, settings)
     target = resolution.target_date
+    history_store, history_context = _history_context(args, resolution)
+    window = _acquisition_window(resolution, history_context)
     paths = _paths(args, target, create_local=True)
     _write_model_selection(paths.model_selection, selection)
     update_run_record(
@@ -562,6 +740,7 @@ def _run(args: argparse.Namespace) -> int:
         run_id=paths.run_id,
         target_date=target.isoformat(),
         date_resolution=resolution.as_dict(),
+        acquisition_window=window.as_dict(),
         stage="collection_started",
         content_result=ContentResult.NOT_PRODUCED.value,
         health=RunHealth.HEALTHY.value,
@@ -569,8 +748,15 @@ def _run(args: argparse.Namespace) -> int:
         versions=transformation_versions(),
     )
     try:
-        report = _collect_corpus(args, settings, target)
-        _, health = _save_collection(paths, target, report, resolution, selection)
+        report = _collect_corpus(args, settings, target, window)
+        _, health = _save_collection(
+            paths,
+            target,
+            report,
+            resolution,
+            window,
+            selection,
+        )
     except Exception as exc:
         update_run_record(
             paths.run_record,
@@ -597,6 +783,10 @@ def _run(args: argparse.Namespace) -> int:
         report=report,
         settings=settings,
         selection=selection,
+        resolution=resolution,
+        history_store=history_store,
+        history_context=history_context,
+        window=window,
     )
     return 0
 
@@ -668,6 +858,12 @@ def _add_collection_arguments(parser: argparse.ArgumentParser) -> None:
     parser.add_argument("--date-resolution", type=Path)
     parser.add_argument("--run-id")
     parser.add_argument("--database", type=Path, default=DEFAULT_DATABASE)
+    parser.add_argument("--history", type=Path, default=DEFAULT_HISTORY)
+    parser.add_argument(
+        "--require-history",
+        action="store_true",
+        help="label an absent durable history marker as missing instead of first run",
+    )
     parser.add_argument("--output", type=Path, default=DEFAULT_OUTPUT)
     parser.add_argument("--model-selection", type=Path)
     parser.add_argument("--include-podcasts", action="store_true")
@@ -700,6 +896,8 @@ def build_parser() -> argparse.ArgumentParser:
     synthesize_parser.add_argument("--date-resolution", type=Path)
     synthesize_parser.add_argument("--run-id")
     synthesize_parser.add_argument("--output", type=Path, default=DEFAULT_OUTPUT)
+    synthesize_parser.add_argument("--history", type=Path, default=DEFAULT_HISTORY)
+    synthesize_parser.add_argument("--require-history", action="store_true")
     synthesize_parser.add_argument("--model-selection", type=Path)
     synthesize_parser.set_defaults(handler=_synthesize)
 
@@ -724,6 +922,14 @@ def build_parser() -> argparse.ArgumentParser:
     models.add_argument("--run-record", type=Path)
     models.add_argument("--run-id")
     models.set_defaults(handler=_models)
+
+    confirm_history = subparsers.add_parser(
+        "confirm-history",
+        help="confirm that a prepared history record reached its hosted backend",
+    )
+    confirm_history.add_argument("--run-record", type=Path, required=True)
+    confirm_history.add_argument("--backend", required=True)
+    confirm_history.set_defaults(handler=_confirm_history)
 
     validate = subparsers.add_parser(
         "validate-sources",

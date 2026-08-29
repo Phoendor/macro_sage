@@ -16,6 +16,7 @@ from macro_sage.models import (
     SourceState,
 )
 from macro_sage.run_state import redact_text
+from macro_sage.scheduling import AcquisitionWindow
 from macro_sage.storage import DocumentStore
 
 
@@ -61,6 +62,7 @@ def collect_articles(
     store: DocumentStore,
     *,
     timezone_name: str,
+    window: AcquisitionWindow | None = None,
 ) -> CollectionReport:
     report = CollectionReport()
     collected_ids: set[str] = set()
@@ -98,18 +100,34 @@ def collect_articles(
         matching_all = [
             item
             for item in dated_items
-            if is_on_date(item.published_at, target, timezone_name)
+            if (
+                window.contains(item.published_at)
+                if window
+                else is_on_date(item.published_at, target, timezone_name)
+            )
         ]
-        matching = matching_all[: source.daily_limit]
-        for item in matching_all[source.daily_limit :]:
+        matching = []
+        filtered = []
+        counts_by_day: dict[date, int] = {}
+        for item in matching_all:
+            publication_day = item.published_at.astimezone(
+                ZoneInfo(timezone_name)
+            ).date()
+            count = counts_by_day.get(publication_day, 0)
+            if count >= source.daily_limit:
+                filtered.append(item)
+                continue
+            matching.append(item)
+            counts_by_day[publication_day] = count + 1
+        for item in filtered:
             report.item_outcomes.append(
                 ItemOutcome(
                     source.id,
                     item.title,
                     item.url,
                     ItemState.FILTERED,
-                    stage="daily inclusion limit",
-                    detail=f"daily limit is {source.daily_limit}",
+                    stage="per-publication-day inclusion limit",
+                    detail=f"per-day limit is {source.daily_limit}",
                 )
             )
         if not matching:

@@ -1,8 +1,9 @@
 # Macro Sage action plan
 
-Status: approved; Milestones 1 and 2 are code-complete. Milestone 1 is still
+Status: approved; Milestones 1 through 3 are code-complete. Milestone 1 is still
 awaiting its scheduled-run observation gate. Milestone 2 passed its closure
-audit; Milestone 3 is next.
+audit. Milestone 3 awaits its hosted fixed-date canary and first scheduled
+cutoff-window observation before closure.
 
 Baseline date: 2026-08-29.
 
@@ -221,14 +222,14 @@ Phase 1, implemented in Milestone 1:
 
 Phase 2, implemented only after durable history in Milestone 3:
 
-- [ ] After durable run history exists, replace scheduled calendar-day-only
+- [x] After durable run history exists, replace scheduled calendar-day-only
   collection with a half-open acquisition window from the previous successful
   cutoff to the current intended cutoff.
-- [ ] Keep explicit manual `--date` behavior available for reproducible
+- [x] Keep explicit manual `--date` behavior available for reproducible
   calendar-day replays.
-- [ ] Include Friday-evening and weekend publications in Monday's scheduled
+- [x] Include Friday-evening and weekend publications in Monday's scheduled
   window without duplicating previously processed items.
-- [ ] Persist the intended cutoff independently of the actual runner start so a
+- [x] Persist the intended cutoff independently of the actual runner start so a
   delayed rerun resolves the same window.
 
 Acceptance criteria:
@@ -340,41 +341,46 @@ Acceptance criteria:
 
 ### B2. Store successful brief history
 
-- [ ] Add a versioned brief-history table or equivalent durable local store.
-- [ ] Save structured briefs, run dates, schema versions and document
+- [x] Add a versioned brief-history table or equivalent durable local store.
+- [x] Save structured briefs, run dates, schema versions and document
   references.
-- [ ] Load the most recent comparable successful brief when producing a new
+- [x] Load the most recent comparable successful brief when producing a new
   one.
-- [ ] Treat prior model output as historical context, never as current factual
+- [x] Treat prior model output as historical context, never as current factual
   evidence.
-- [ ] Define first-run behavior when no prior brief exists.
-- [ ] Define one history-storage interface with a durable local implementation
+- [x] Define first-run behavior when no prior brief exists.
+- [x] Define one history-storage interface with a durable local implementation
   and a durable hosted implementation.
-- [ ] Choose a genuinely durable hosted store for brief history; do not claim
+- [x] Choose a genuinely durable hosted store for brief history; do not claim
   reliable comparison when the only copy is an evictable GitHub Actions cache.
-- [ ] Detect missing hosted history explicitly and label the report as having
+- [x] Detect missing hosted history explicitly and label the report as having
   no comparison baseline rather than silently treating it as a first-ever run.
-- [ ] Define backup, migration and recovery behavior for the selected store.
-- [ ] Treat GitHub Actions cache only as an optional performance accelerator,
+- [x] Define backup, migration and recovery behavior for the selected store.
+- [x] Treat GitHub Actions cache only as an optional performance accelerator,
   never as the authoritative history store.
 
 ### B3. Track view evolution
 
-- [ ] Define canonical asset families and standard horizons.
-- [ ] Give comparable regimes, theses, events and asset views deterministic
+- [x] Define canonical asset families and standard horizons.
+- [x] Give comparable regimes, theses, events and asset views deterministic
   keys independent of prose.
-- [ ] Record first-seen, last-updated, expected-expiry and resolved dates.
-- [ ] Retain supporting evidence, contradicting evidence and status history.
-- [ ] Classify each current view as new, strengthened, weakened, unchanged,
+- [x] Record first-seen, last-updated, expected-expiry and resolved dates.
+- [x] Retain supporting evidence, contradicting evidence and status history.
+- [x] Classify each current view as new, strengthened, weakened, unchanged,
   reversed or retired relative to the prior successful brief.
-- [ ] Retain the previous stance, current stance, change explanation and current
+- [x] Retain the previous stance, current stance, change explanation and current
   evidence.
-- [ ] Prevent a missing source or empty day from being interpreted as a genuine
+- [x] Prevent a missing source or empty day from being interpreted as a genuine
   reversal.
-- [ ] Expire short-horizon views after their catalyst or stated horizon instead
+- [x] Expire short-horizon views after their catalyst or stated horizon instead
   of carrying them indefinitely.
-- [ ] Provide both one-day and one-week context without presenting carried
+- [x] Provide both one-day and one-week context without presenting carried
   material as newly published.
+
+Implementation note: version 0.4.7 stores the current schema's cited drivers
+and risks as supporting and contrary context. Claim-level counterevidence and
+explicit catalyst dates remain part of the DailyBriefV2 work in Milestone 4;
+history does not invent precision that the current schema does not contain.
 
 Acceptance criteria for Workstream B:
 
@@ -1284,8 +1290,8 @@ Acceptance criteria for Workstream J:
 ### Decisions deliberately left for evidence or owner approval
 
 - Promote gpt-transcribe only after the saved-audio comparison in Workstream F.
-- Select a durable hosted history store before enabling historical comparison
-  on scheduled runs.
+- The dedicated `macro-sage-history` Git branch is the durable hosted history
+  store; it contains body-free append-only JSON records and Git-native backup.
 - Select and license market-data providers, and choose delayed intraday versus
   completed-close timing, before making current-market claims.
 - Confirm the Telegram channel identifier, its public/private visibility,
@@ -1362,6 +1368,16 @@ Exit gate:
 ### Milestone 3 — durable history and comparison v0.46
 
 Includes B2–B3, phase 2 of A3 and their storage/replay tests.
+
+Implementation status: code-complete in application version 0.4.7 on
+2026-08-29. Local and hosted execution share an append-only, versioned JSON
+history interface. The hosted backend is the dedicated `macro-sage-history`
+branch, not Actions cache. Reports expose baseline health plus deterministic
+one-day and one-week regime, thesis, event and asset-view changes. Scheduled
+collection uses persisted half-open cutoff windows; manual dates remain
+calendar replays and cannot advance the scheduled cutoff chain. Closure still
+requires the fixed-date hosted canary and first live scheduled-window
+observation.
 
 Exit gate:
 

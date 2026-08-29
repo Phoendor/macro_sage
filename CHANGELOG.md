@@ -1,5 +1,35 @@
 # Changelog
 
+## 0.4.7 - 2026-08-29
+
+### Durable history and comparison
+
+- Added one versioned, append-only brief-history format used locally under
+  `data/brief-history/` and on the dedicated `macro-sage-history` Git branch.
+- Persisted structured briefs, exact acquisition intervals, transformation
+  versions, document references, normalized views and comparison provenance
+  without source bodies or transcripts.
+- Added deterministic regime, thesis, event and asset-view keys, standard asset
+  families/horizons, first/updated/expiry/resolution dates and status history.
+- Added one-day and one-week comparison output with new, strengthened,
+  weakened, unchanged, reversed and retired asset-view states; missing current
+  evidence is carried explicitly and never treated as a reversal.
+- Marked historical model output as non-evidence in the synthesis contract and
+  kept all current theme/view citations bound to current documents.
+
+### Gap-free scheduling and hosted integrity
+
+- Replaced scheduled calendar-day filtering with persisted half-open intervals
+  from the prior successful scheduled cutoff to the current intended cutoff.
+- Preserved explicit-date calendar replays and prevented them from advancing
+  the scheduled cutoff chain; per-source limits now apply per publication day
+  in multi-day windows.
+- Added explicit first-run, missing, incompatible and degraded history states,
+  plus a visible seven-day recovery window when expected history is unavailable.
+- Kept hosted runs in `history_sync_pending` until their body-free history commit
+  reaches GitHub, while retaining Actions cache only for documents/transcripts.
+- Expanded the bounded offline suite from 90 to 108 tests.
+
 ## 0.4.6 - 2026-08-29
 
 ### Validation audit integrity

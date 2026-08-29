@@ -8,6 +8,7 @@ from dataclasses import dataclass
 from datetime import date, datetime, timezone
 from pathlib import Path
 from urllib.parse import urlsplit
+from zoneinfo import ZoneInfo
 
 from openai import OpenAI
 
@@ -25,6 +26,7 @@ from macro_sage.models import (
 )
 from macro_sage.pipeline import is_on_date
 from macro_sage.run_state import redact_text
+from macro_sage.scheduling import AcquisitionWindow
 from macro_sage.storage import DocumentStore
 from macro_sage.versions import EXTRACTOR_VERSION
 
@@ -161,6 +163,7 @@ def collect_podcasts(
     timezone_name: str,
     max_episodes: int,
     max_minutes: int,
+    window: AcquisitionWindow | None = None,
 ) -> CollectionReport:
     report = CollectionReport()
     remaining_seconds = max_minutes * 60
@@ -180,11 +183,26 @@ def collect_podcasts(
             report.outcomes.append(outcome)
             store.record_source_health(outcome)
             continue
-        matching = [
+        matching_all = [
             entry
             for entry in items
-            if is_on_date(entry.published_at, target, timezone_name)
-        ][: source.daily_limit]
+            if (
+                window.contains(entry.published_at)
+                if window
+                else is_on_date(entry.published_at, target, timezone_name)
+            )
+        ]
+        matching = []
+        counts_by_day: dict[date, int] = {}
+        for entry in matching_all:
+            publication_day = entry.published_at.astimezone(
+                ZoneInfo(timezone_name)
+            ).date()
+            count = counts_by_day.get(publication_day, 0)
+            if count >= source.daily_limit:
+                continue
+            matching.append(entry)
+            counts_by_day[publication_day] = count + 1
         if not matching:
             outcome = SourceOutcome(
                 source.id,

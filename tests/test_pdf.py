@@ -9,21 +9,20 @@ def _write_json(path, value):
     path.write_text(json.dumps(value), encoding="utf-8")
 
 
-def _render(tmp_path, brief, documents):
+def _render(tmp_path, brief, documents, *, run_extra=None):
     brief_path = tmp_path / "brief.json"
     documents_path = tmp_path / "documents.json"
     run_path = tmp_path / "run.json"
     output_path = tmp_path / "brief.pdf"
     _write_json(brief_path, brief)
     _write_json(documents_path, {"documents": documents, "errors": [], "skipped": []})
-    _write_json(
-        run_path,
-        {
-            "model": "gpt-5.6-luna",
-            "input_tokens": 100,
-            "output_tokens": 50,
-        },
-    )
+    run = {
+        "model": "gpt-5.6-luna",
+        "input_tokens": 100,
+        "output_tokens": 50,
+    }
+    run.update(run_extra or {})
+    _write_json(run_path, run)
     render(brief_path, documents_path, run_path, output_path)
     return [page.extract_text() for page in PdfReader(output_path).pages]
 
@@ -110,3 +109,37 @@ def test_source_register_entries_do_not_split_across_pages(tmp_path):
         title = f"Unique title marker {index}"
         url = f"https://example.com/research/{index}/a-deliberately-long-path"
         assert any(title in text and url in text for text in pages)
+
+
+def test_pdf_renders_comparison_baseline_and_carried_history(tmp_path):
+    pages = _render(
+        tmp_path,
+        {
+            "as_of_date": "2026-07-27",
+            "executive_summary": [],
+            "macro_themes": [],
+            "asset_views": [],
+            "top_risks": [],
+            "source_ids_used": [],
+        },
+        [],
+        run_extra={
+            "comparison": {
+                "baseline_status": "available",
+                "previous_date": "2026-07-24",
+                "asset_view_changes": [
+                    {
+                        "status": "unchanged",
+                        "asset": "EUR/USD",
+                        "previous_bias": "bullish",
+                        "current_bias": "bullish",
+                        "carried_forward": True,
+                    }
+                ],
+            }
+        },
+    )
+
+    text = "\n".join(pages)
+    assert "Previous successful brief: 2026-07-24" in text
+    assert "historical carry, no current evidence" in text

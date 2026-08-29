@@ -29,6 +29,7 @@ venv/
 audio_sources/
 data/
 output/
+.history-store/
 downloads/
 tmp/
 *.db

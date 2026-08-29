@@ -312,6 +312,38 @@ def render(
     story.append(_paragraph("Executive summary", styles["section"]))
     story.append(_bullets(brief.get("executive_summary", []), styles["body"]))
 
+    comparison = run.get("comparison")
+    if isinstance(comparison, dict):
+        baseline = str(comparison.get("baseline_status", "unknown"))
+        previous_date = comparison.get("previous_date") or "none"
+        story.append(_paragraph("What changed", styles["section"]))
+        story.append(
+            _paragraph(
+                f"Baseline: {baseline}. Previous successful brief: {previous_date}.",
+                styles["meta"],
+            )
+        )
+        material_changes = [
+            change
+            for change in comparison.get("asset_view_changes", [])
+            if change.get("status") != "unchanged" or change.get("carried_forward")
+        ]
+        change_lines = []
+        for change in material_changes:
+            previous = change.get("previous_bias") or "none"
+            current = change.get("current_bias") or "none"
+            carried = "; historical carry, no current evidence" if change.get("carried_forward") else ""
+            change_lines.append(
+                f"{str(change.get('status', 'changed')).upper()}: "
+                f"{change.get('asset', 'Asset')} — {previous} to {current}{carried}."
+            )
+        story.append(
+            _bullets(
+                change_lines or ["No material asset-view change was identified."],
+                styles["body"],
+            )
+        )
+
     story.append(_paragraph("Macro themes", styles["section"]))
     for theme in brief.get("macro_themes", []):
         content = [

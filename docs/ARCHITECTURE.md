@@ -22,6 +22,8 @@ Macro Sage is intentionally a small batch application, not a framework.
    content and health outcomes.
 9. The local private corpus is separated from a body-free audit manifest used
    by PDF rendering and GitHub artifact upload.
+10. Successful structured briefs are appended to a versioned history store;
+    deterministic one-day and one-week comparisons are rendered from it.
 
 ## Main decisions
 
@@ -71,6 +73,16 @@ deduplicate; title similarity alone never merges evidence. ETag and
 Last-Modified validators are used only while the extractor version and quality
 contract still match. Local runs reuse the database directly; GitHub Actions
 restores the same data directory as a performance cache.
+
+### Durable brief history is not a cache
+
+The append-only history format has one implementation used from a local
+directory and from the dedicated `macro-sage-history` Git branch. It contains
+structured briefs, acquisition intervals, comparison state and document IDs,
+but no source bodies. Manual calendar replays never advance the scheduled
+cutoff chain. A hosted run remains pending until its history commit is pushed;
+cache eviction therefore cannot silently erase comparison state. See
+[the history contract](HISTORY.md).
 
 ### Podcasts are opt-in and cloud-first
 

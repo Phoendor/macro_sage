@@ -3,6 +3,7 @@ from datetime import date, datetime, timezone
 import pytest
 from pydantic import ValidationError
 
+from macro_sage.history import BaselineStatus, HistoryContext
 from macro_sage.models import Bias, DailyBrief, Document, MacroTheme
 from macro_sage.settings import Settings
 from macro_sage.synthesis import _assert_known_sources, prepare_corpus, synthesize
@@ -164,6 +165,52 @@ def test_synthesize_uses_structured_responses_api():
     assert client.responses.arguments["store"] is False
     assert result.input_tokens == 100
     assert result.brief.source_ids_used == ["known"]
+
+
+def test_synthesize_labels_history_as_non_evidence():
+    brief = DailyBrief(
+        as_of_date="2026-07-27",
+        executive_summary=[],
+        macro_themes=[],
+        asset_views=[],
+        top_risks=[],
+        source_ids_used=[],
+    )
+
+    class Response:
+        output_parsed = brief
+        usage = None
+
+    class Responses:
+        arguments = None
+
+        def parse(self, **kwargs):
+            self.arguments = kwargs
+            return Response()
+
+    class Client:
+        responses = Responses()
+
+    context = HistoryContext(
+        BaselineStatus.MISSING,
+        "Expected hosted history was unavailable.",
+        None,
+        None,
+    )
+    client = Client()
+
+    synthesize(
+        [document("known")],
+        date(2026, 7, 27),
+        Settings(),
+        client=client,
+        history=context,
+    )
+
+    user_content = client.responses.arguments["input"][1]["content"]
+    assert "prior model output; never current evidence" in user_content
+    assert "Expected hosted history was unavailable" in user_content
+    assert "id='S001'" in user_content
 
 
 def test_synthesize_resolves_short_citations_in_every_section():

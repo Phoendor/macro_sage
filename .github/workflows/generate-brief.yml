@@ -22,7 +22,7 @@ on:
       timezone: Europe/Amsterdam
 
 permissions:
-  contents: read
+  contents: write
 
 concurrency:
   group: macro-sage-${{ github.ref }}
@@ -44,6 +44,12 @@ jobs:
 
     steps:
       - uses: actions/checkout@v6
+      - name: Check out durable brief history
+        uses: actions/checkout@v6
+        with:
+          ref: macro-sage-history
+          path: .history-store
+          fetch-depth: 1
       - uses: actions/setup-python@v6
         with:
           python-version: "3.12"
@@ -128,6 +134,8 @@ jobs:
             --date-resolution output/date-resolution.json \
             --run-id "$MACRO_SAGE_RUN_ID" \
             --database data/macro_sage.sqlite3 \
+            --history .history-store \
+            --require-history \
             --output output \
             --model-selection "output/runs/$MACRO_SAGE_RUN_ID/model-selection.json" \
             "${args[@]}"
@@ -146,7 +154,33 @@ jobs:
             --date-resolution output/date-resolution.json \
             --run-id "$MACRO_SAGE_RUN_ID" \
             --output output \
+            --history .history-store \
+            --require-history \
             --model-selection "output/runs/$MACRO_SAGE_RUN_ID/model-selection.json"
+
+      - name: Persist durable brief history
+        run: |
+          run_record="output/runs/$MACRO_SAGE_RUN_ID/run.json"
+          history_record="$(jq -r '.history_record // empty' "$run_record")"
+          if [ -z "$history_record" ]; then
+            echo "No report history record was prepared (for example, a no-data run)."
+            exit 0
+          fi
+          git -C .history-store config user.name "github-actions[bot]"
+          git -C .history-store config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git -C .history-store add store.json
+          if [ -d .history-store/records ]; then
+            git -C .history-store add records
+          fi
+          if git -C .history-store diff --cached --quiet; then
+            echo "No new history record to persist."
+          else
+            git -C .history-store commit -m "history: save $TARGET_DATE brief"
+            git -C .history-store push origin HEAD:macro-sage-history
+          fi
+          python -m macro_sage confirm-history \
+            --run-record "$run_record" \
+            --backend github-branch:macro-sage-history
 
       - name: Link run and artifacts
         if: always()

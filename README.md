@@ -41,6 +41,11 @@ Each full run receives an immutable attempt ID and writes to
 `output/pdf/macro-sage-<date>.pdf`. Staged `collect`/`synthesize` commands without
 a run ID retain the convenient `output/<date>/` directory.
 
+Successful local briefs are also appended to `data/brief-history/`. Each new
+report states whether a trustworthy previous baseline exists and shows
+deterministic one-day and one-week view changes. Historical model output is
+labelled as context and cannot replace current cited evidence.
+
 ## Commands
 
 ```bash
@@ -97,12 +102,21 @@ Podcast inclusion and the audio-duration ceiling are explicit inputs.
 
 The workflow also runs automatically at 19:30 Amsterdam time on weekdays. Date
 resolution is handled in tested Python code, so a runner delayed past midnight
-still selects the intended Amsterdam publication day. It persists the SQLite
-document/transcript cache between runs, synthesizes the brief, renders a PDF,
-and uploads the PDF plus a sanitized audit trail for 14 days. Raw article bodies
-and transcripts are never included in the uploaded artifact. Standard
+still selects the intended Amsterdam publication day. Scheduled collection uses
+the half-open interval from the last successful scheduled cutoff to the current
+intended cutoff, so Monday includes Friday-evening and weekend publications.
+Explicit dates remain deterministic calendar-day replays. The workflow persists
+the SQLite document/transcript cache between runs, synthesizes the brief, renders
+a PDF, and uploads the PDF plus a sanitized audit trail for 14 days. Raw article
+bodies and transcripts are never included in the uploaded artifact. Standard
 GitHub-hosted runners are free for this public repository; OpenAI API
 transcription and synthesis remain paid usage.
+
+Brief history does not use the evictable Actions cache. The same body-free,
+append-only history directory is committed to the dedicated
+`macro-sage-history` branch, and a hosted run is not marked complete until that
+push succeeds. The workflow token therefore has repository-contents write
+permission limited to this persistence step.
 
 Every run writes `source-status.md` and lists failed or partially acquired
 sources in terminal output, GitHub's run summary, Markdown, JSON, and the PDF.
@@ -174,7 +188,8 @@ material for synthesis and must never be added to a hosted artifact; the safe
 no source bodies.
 
 See [the architecture notes](docs/ARCHITECTURE.md),
-[model and cost policy](docs/MODELS.md), and
+[model and cost policy](docs/MODELS.md),
+[history and collection-window contract](docs/HISTORY.md), and
 [source policy](docs/SOURCES.md) for the main design decisions. The full
 [source catalog](docs/SOURCE_CATALOG.md) records cadence, links, descriptions,
 and why each source belongs. The current implementation sequence and acceptance

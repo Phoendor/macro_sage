@@ -16,6 +16,7 @@ from macro_sage.podcasts import (
     PodcastTranscript,
     collect_podcasts,
 )
+from macro_sage.scheduling import AcquisitionWindow
 
 
 class Store:
@@ -178,6 +179,77 @@ def test_expected_but_absent_source_is_visibly_degraded(monkeypatch):
 
     assert report.outcomes[0].state is SourceState.EXPECTED_ABSENT
     assert report.failures
+
+
+def test_collection_window_covers_weekend_and_applies_limit_per_publication_day(
+    monkeypatch,
+):
+    article_source = SourceDefinition(
+        "windowed",
+        "Windowed",
+        "Publisher",
+        "https://example.com/feed.xml",
+        "research",
+        daily_limit=1,
+    )
+    items = [
+        FeedItem(
+            source=article_source,
+            title=title,
+            url=f"https://example.com/{title}",
+            published_at=published,
+        )
+        for title, published in (
+            ("friday", datetime(2026, 8, 28, 18, tzinfo=timezone.utc)),
+            ("saturday-one", datetime(2026, 8, 29, 8, tzinfo=timezone.utc)),
+            ("saturday-two", datetime(2026, 8, 29, 9, tzinfo=timezone.utc)),
+            ("monday", datetime(2026, 8, 31, 16, tzinfo=timezone.utc)),
+        )
+    ]
+    monkeypatch.setattr(
+        "macro_sage.pipeline.discover_with_diagnostics",
+        lambda *_args: SimpleNamespace(items=items),
+    )
+
+    def extracted(item, _client, *, cached=None):
+        return Document(
+            id=item.document_id,
+            source_id=article_source.id,
+            source_name=article_source.name,
+            publisher=article_source.publisher,
+            category=article_source.category,
+            title=item.title,
+            url=item.url,
+            published_at=item.published_at,
+            body="Body",
+        )
+
+    monkeypatch.setattr("macro_sage.pipeline.extract", extracted)
+    window = AcquisitionWindow(
+        datetime(2026, 8, 28, 17, 30, tzinfo=timezone.utc),
+        datetime(2026, 8, 31, 17, 30, tzinfo=timezone.utc),
+        "test",
+    )
+
+    report = collect_articles(
+        [article_source],
+        date(2026, 8, 31),
+        object(),
+        Store(),
+        timezone_name="UTC",
+        window=window,
+    )
+
+    assert [document.title for document in report.documents] == [
+        "friday",
+        "saturday-one",
+        "monday",
+    ]
+    assert any(
+        outcome.title == "saturday-two"
+        and outcome.stage == "per-publication-day inclusion limit"
+        for outcome in report.item_outcomes
+    )
 
 
 def test_podcast_duration_budget_skips_before_paid_transcription(monkeypatch):
