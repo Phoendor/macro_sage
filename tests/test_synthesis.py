@@ -4,9 +4,15 @@ import pytest
 from pydantic import ValidationError
 
 from macro_sage.history import BaselineStatus, HistoryContext
-from macro_sage.models import Bias, DailyBrief, Document, MacroTheme
+from macro_sage.models import DailyBriefV2Draft, Document, EvidenceClaim
 from macro_sage.settings import Settings
-from macro_sage.synthesis import _assert_known_sources, prepare_corpus, synthesize
+from macro_sage.synthesis import (
+    _assert_known_sources,
+    _confidence_score,
+    prepare_corpus,
+    synthesize,
+)
+from tests.helpers import v2_draft
 
 
 def document(
@@ -57,30 +63,7 @@ def test_prepare_corpus_balances_publishers_before_taking_second_item():
 
 
 def test_unknown_model_citation_is_rejected():
-    brief = DailyBrief(
-        as_of_date="2026-07-27",
-        executive_summary=["Summary"],
-        macro_themes=[
-            {
-                "theme": "Inflation",
-                "market_implication": "Rates stay volatile.",
-                "source_ids": ["invented"],
-            }
-        ],
-        asset_views=[
-            {
-                "asset": "EUR/USD",
-                "bias": Bias.NEUTRAL,
-                "horizon": "one week",
-                "confidence": 3,
-                "drivers": ["Policy"],
-                "risks": ["Data"],
-                "source_ids": ["known"],
-            }
-        ],
-        top_risks=["Inflation"],
-        source_ids_used=["known"],
-    )
+    brief = DailyBriefV2Draft.model_validate(v2_draft("invented"))
 
     with pytest.raises(ValueError, match="unknown source"):
         _assert_known_sources(brief, {"known"})
@@ -101,33 +84,40 @@ def test_unknown_model_citation_is_rejected():
     ],
 )
 def test_legacy_or_malformed_citation_is_rejected(legacy_identifier):
-    brief = DailyBrief(
-        as_of_date="2026-07-27",
-        executive_summary=[],
-        macro_themes=[],
-        asset_views=[],
-        top_risks=[],
-        source_ids_used=[legacy_identifier],
-    )
+    brief = DailyBriefV2Draft.model_validate(v2_draft(legacy_identifier))
 
     with pytest.raises(ValueError, match="unknown source"):
         _assert_known_sources(brief, {"S001"})
 
 
-def test_theme_cannot_omit_citations():
+def test_claim_cannot_omit_citations():
     with pytest.raises(ValidationError):
-        MacroTheme(theme="Growth", market_implication="Slower.", source_ids=[])
+        EvidenceClaim(
+            text="Growth slowed.",
+            claim_type="observed_fact",
+            source_ids=[],
+            evidence_family="release",
+        )
+
+
+def test_model_family_labels_cannot_inflate_single_publisher_confidence():
+    item = document("one")
+
+    score, rationale = _confidence_score(
+        [item.id],
+        {item.id: item},
+        {},
+        {"model-family-a", "model-family-b", "model-family-c"},
+        has_counterevidence=False,
+        has_carried_evidence=False,
+    )
+
+    assert score == 3
+    assert "1 conservatively independent" in rationale
 
 
 def test_synthesize_uses_structured_responses_api():
-    brief = DailyBrief(
-        as_of_date="2026-07-27",
-        executive_summary=["Summary"],
-        macro_themes=[],
-        asset_views=[],
-        top_risks=[],
-        source_ids_used=["S001"],
-    )
+    brief = DailyBriefV2Draft.model_validate(v2_draft("S001"))
 
     class Usage:
         input_tokens = 100
@@ -160,22 +150,15 @@ def test_synthesize_uses_structured_responses_api():
     assert client.responses.arguments["model"] == "gpt-5.6-luna"
     assert client.responses.arguments["reasoning"] == {"effort": "low"}
     assert client.responses.arguments["text"] == {"verbosity": "low"}
-    assert client.responses.arguments["text_format"] is DailyBrief
-    assert client.responses.arguments["max_output_tokens"] == 8_000
+    assert client.responses.arguments["text_format"] is DailyBriefV2Draft
+    assert client.responses.arguments["max_output_tokens"] == 16_000
     assert client.responses.arguments["store"] is False
     assert result.input_tokens == 100
     assert result.brief.source_ids_used == ["known"]
 
 
 def test_synthesize_labels_history_as_non_evidence():
-    brief = DailyBrief(
-        as_of_date="2026-07-27",
-        executive_summary=[],
-        macro_themes=[],
-        asset_views=[],
-        top_risks=[],
-        source_ids_used=[],
-    )
+    brief = DailyBriefV2Draft.model_validate(v2_draft("S001"))
 
     class Response:
         output_parsed = brief
@@ -214,30 +197,7 @@ def test_synthesize_labels_history_as_non_evidence():
 
 
 def test_synthesize_resolves_short_citations_in_every_section():
-    brief = DailyBrief(
-        as_of_date="2026-07-27",
-        executive_summary=["Summary"],
-        macro_themes=[
-            {
-                "theme": "Growth",
-                "market_implication": "Growth slows.",
-                "source_ids": ["S001", "S001"],
-            }
-        ],
-        asset_views=[
-            {
-                "asset": "EUR/USD",
-                "bias": Bias.NEUTRAL,
-                "horizon": "one week",
-                "confidence": 3,
-                "drivers": ["Policy"],
-                "risks": ["Data"],
-                "source_ids": ["S001"],
-            }
-        ],
-        top_risks=[],
-        source_ids_used=[],
-    )
+    brief = DailyBriefV2Draft.model_validate(v2_draft("S001"))
 
     class Response:
         output_parsed = brief

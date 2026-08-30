@@ -11,7 +11,7 @@ from typing import Protocol
 from pydantic import BaseModel, Field, ValidationError, field_validator
 
 from macro_sage.files import write_json_atomic
-from macro_sage.models import Bias, DailyBrief
+from macro_sage.models import Bias, DailyBriefV1, DailyBriefV2
 from macro_sage.scheduling import AcquisitionWindow
 from macro_sage.versions import (
     BRIEF_SCHEMA_VERSION,
@@ -146,7 +146,7 @@ class BriefHistoryRecord(BaseModel):
     reasoning_effort: str | None = None
     document_ids: list[str]
     cited_document_ids: list[str]
-    brief: DailyBrief
+    brief: DailyBriefV2 | DailyBriefV1
     asset_views: list[TrackedAssetView]
     themes: list[TrackedTheme]
     comparison: BriefComparison
@@ -385,7 +385,7 @@ def _explanation(
 
 
 def _compare_assets(
-    brief: DailyBrief,
+    brief: DailyBriefV1 | DailyBriefV2,
     target: date,
     baseline: BriefHistoryRecord | None,
 ) -> tuple[list[TrackedAssetView], list[AssetViewChange]]:
@@ -505,7 +505,7 @@ def _compare_assets(
 
 
 def _compare_themes(
-    brief: DailyBrief,
+    brief: DailyBriefV1 | DailyBriefV2,
     target: date,
     baseline: BriefHistoryRecord | None,
 ) -> tuple[list[TrackedTheme], list[ThemeChange]]:
@@ -582,7 +582,7 @@ def build_history_record(
     model: str,
     reasoning_effort: str | None,
     document_ids: list[str],
-    brief: DailyBrief,
+    brief: DailyBriefV2,
     context: HistoryContext,
 ) -> BriefHistoryRecord:
     asset_views, asset_changes = _compare_assets(brief, target, context.previous)
@@ -714,11 +714,12 @@ class DirectoryBriefHistory:
         }:
             return HistoryContext(status, detail, None, None)
         records, warnings = self._records()
+        comparable_schema_versions = {"1", BRIEF_SCHEMA_VERSION}
         compatible = [
             record
             for record in records
             if record.target_date < target
-            and record.brief_schema_version == BRIEF_SCHEMA_VERSION
+            and record.brief_schema_version in comparable_schema_versions
         ]
         compatible.sort(key=lambda record: (record.intended_cutoff, record.completed_at))
         previous = compatible[-1] if compatible else None
@@ -752,7 +753,7 @@ class DirectoryBriefHistory:
             status = BaselineStatus.AVAILABLE
             detail = f"Compared with successful brief {previous.run_id}."
         elif records and not any(
-            record.brief_schema_version == BRIEF_SCHEMA_VERSION for record in records
+            record.brief_schema_version in comparable_schema_versions for record in records
         ):
             status = BaselineStatus.INCOMPATIBLE
             detail = "History exists, but no earlier brief has a compatible schema."

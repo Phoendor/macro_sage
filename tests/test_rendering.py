@@ -6,8 +6,16 @@ from macro_sage.history import (
     BriefComparison,
     ChangeStatus,
 )
-from macro_sage.models import DailyBrief, Document
+from macro_sage.models import (
+    DailyBrief,
+    DailyBriefV2,
+    Document,
+    SourceKind,
+    SourceOutcome,
+    SourceState,
+)
 from macro_sage.rendering import render_markdown
+from tests.helpers import v2_brief
 
 
 def test_markdown_contains_linked_attribution():
@@ -93,3 +101,48 @@ def test_markdown_distinguishes_current_change_evidence_from_history():
     assert "**reversed: EUR/USD**" in output
     assert "Current evidence: [Source: Current note]" in output
     assert "historical:one" not in output
+
+
+def test_v2_markdown_contains_every_decision_section_and_failures():
+    document = Document(
+        id="doc:one",
+        source_id="source",
+        source_name="Source",
+        publisher="Publisher",
+        category="research",
+        title="Current note",
+        url="https://example.com/current",
+        published_at=datetime(2026, 7, 27, tzinfo=timezone.utc),
+        body="Body",
+    )
+    brief = DailyBriefV2.model_validate(v2_brief(failed=1))
+    outcomes = [
+        SourceOutcome(
+            "broken",
+            "Broken Source",
+            SourceKind.ARTICLE,
+            SourceState.FAILED,
+            detail="HTTP 404",
+        )
+    ]
+
+    output = render_markdown(brief, [document], outcomes)
+
+    for heading in (
+        "## What changed",
+        "## Executive decision summary",
+        "## Macro regime dashboard",
+        "## Candidate research expressions",
+        "## Theme analysis",
+        "## Cross-asset map",
+        "## Scenario map",
+        "## Disagreement map",
+        "## Catalysts and monitoring",
+        "## Top risks and blind spots",
+        "## Source acquisition status",
+        "## Source register",
+    ):
+        assert heading in output
+    assert "Broken Source" in output
+    assert "No timestamped market data" in output
+    assert "[Publisher: Current note](https://example.com/current)" in output

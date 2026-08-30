@@ -1,0 +1,115 @@
+{
+  "schema_version": 1,
+  "frozen_at": "2026-08-30",
+  "minimum_same_corpus_pairs_required_for_promotion": 10,
+  "cases": [
+    {
+      "id": "local-2026-07-27",
+      "date": "2026-07-27",
+      "kind": "complete_local_corpus",
+      "tags": ["normal_report", "broad_source_register"],
+      "brief_sha256": "fbadfcbc960bf2539a0ed32883baa5d34fb49458537a865d05485e39dff0bacf",
+      "corpus_sha256": "bb10f8710d842986ed5594e83cf8db41c727c37454df716edbda0705ff761a5f"
+    },
+    {
+      "id": "local-2026-07-28",
+      "date": "2026-07-28",
+      "kind": "complete_local_corpus",
+      "tags": ["normal_report", "smaller_corpus"],
+      "brief_sha256": "d28f436a28f152baaef8e01d30859f86130cc2ec6f95fd9e129641bf7a3f3c9b",
+      "corpus_sha256": "394e996207111705dc355ac75515fc4dcc986ac101b3c25f6f432d7d6b44ae61"
+    },
+    {
+      "id": "hosted-2026-08-28-canary",
+      "date": "2026-08-28",
+      "kind": "body_free_history",
+      "tags": ["history_first_run", "source_degradation", "pdf"],
+      "run_id": 33274205799,
+      "record_sha256": "af322010dd890ad087074d8889eac0a8b9cd370762b0450011af8c39af1d8340"
+    },
+    {
+      "id": "hosted-2026-08-28-podcasts",
+      "date": "2026-08-28",
+      "kind": "body_free_artifact",
+      "tags": ["podcasts", "six_transcripts", "degraded_coverage"],
+      "run_id": 33262329610
+    },
+    {
+      "id": "hosted-2026-08-29-no-data",
+      "date": "2026-08-29",
+      "kind": "body_free_artifact",
+      "tags": ["weekend", "no_data", "source_failure_visible"],
+      "run_id": 33275595429
+    },
+    {
+      "id": "scheduled-2026-08-25-concentration",
+      "date": "2026-08-25",
+      "kind": "run_metadata_only",
+      "tags": ["publisher_concentration", "normal_report"],
+      "run_id": 32880797563
+    },
+    {
+      "id": "scheduled-2026-08-28-delayed-empty",
+      "date": "2026-08-28",
+      "kind": "run_metadata_only",
+      "tags": ["delayed_runner", "wrong_date_regression", "no_data"],
+      "run_id": 33133346054
+    },
+    {
+      "id": "scheduled-2026-08-26-citation",
+      "date": "2026-08-26",
+      "kind": "run_metadata_only",
+      "tags": ["historical_citation_failure"],
+      "run_id": 33004955855
+    },
+    {
+      "id": "scheduled-2026-08-24-citation",
+      "date": "2026-08-24",
+      "kind": "run_metadata_only",
+      "tags": ["historical_citation_failure"],
+      "run_id": 32759642961
+    },
+    {
+      "id": "scheduled-2026-08-21-citation",
+      "date": "2026-08-21",
+      "kind": "run_metadata_only",
+      "tags": ["historical_citation_failure"],
+      "run_id": 32510756319
+    },
+    {
+      "id": "scheduled-2026-08-19-citation",
+      "date": "2026-08-19",
+      "kind": "run_metadata_only",
+      "tags": ["historical_citation_failure"],
+      "run_id": 32283945648
+    },
+    {
+      "id": "scheduled-2026-08-17-citation",
+      "date": "2026-08-17",
+      "kind": "run_metadata_only",
+      "tags": ["historical_citation_failure"],
+      "run_id": 32052545234
+    },
+    {
+      "id": "scheduled-2026-08-14-citation",
+      "date": "2026-08-14",
+      "kind": "run_metadata_only",
+      "tags": ["historical_citation_failure"],
+      "run_id": 31828515091
+    },
+    {
+      "id": "scheduled-2026-08-06-citation",
+      "date": "2026-08-06",
+      "kind": "run_metadata_only",
+      "tags": ["historical_citation_failure"],
+      "run_id": 31126401707
+    },
+    {
+      "id": "contract-synthetic-shock",
+      "date": null,
+      "kind": "synthetic_contract_fixture",
+      "tags": ["major_data", "central_bank", "geopolitical_shock", "disagreement", "zero_setup_allowed"],
+      "note": "Synthetic evidence is required because no lawful complete historical corpus with all content categories is committed."
+    }
+  ]
+}

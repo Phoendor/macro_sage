@@ -41,6 +41,8 @@ jobs:
       MACRO_SAGE_TRANSCRIPTION_MODEL_FALLBACKS: ${{ vars.MACRO_SAGE_TRANSCRIPTION_MODEL_FALLBACKS }}
       MACRO_SAGE_REASONING_EFFORT: ${{ vars.MACRO_SAGE_REASONING_EFFORT }}
       MACRO_SAGE_RUN_ID: github-${{ github.run_id }}-${{ github.run_attempt }}
+      TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+      TELEGRAM_CHAT_ID: ${{ vars.TELEGRAM_CHAT_ID }}
 
     steps:
       - uses: actions/checkout@v6
@@ -148,6 +150,7 @@ jobs:
           key: macro-sage-data-v2-${{ runner.os }}-${{ github.run_id }}
 
       - name: Synthesize and render PDF
+        id: synthesize
         run: |
           python -m macro_sage synthesize \
             --date "$TARGET_DATE" \
@@ -158,29 +161,43 @@ jobs:
             --require-history \
             --model-selection "output/runs/$MACRO_SAGE_RUN_ID/model-selection.json"
 
+      - name: Deliver report or no-data status to Telegram
+        if: steps.synthesize.outcome == 'success' && env.TELEGRAM_BOT_TOKEN != '' && env.TELEGRAM_CHAT_ID != ''
+        continue-on-error: true
+        run: |
+          python -m macro_sage deliver \
+            --run-record "output/runs/$MACRO_SAGE_RUN_ID/run.json" \
+            --state .history-store/delivery/telegram.json \
+            --github-run-url "$GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID"
+
       - name: Persist durable brief history
         run: |
           run_record="output/runs/$MACRO_SAGE_RUN_ID/run.json"
           history_record="$(jq -r '.history_record // empty' "$run_record")"
-          if [ -z "$history_record" ]; then
-            echo "No report history record was prepared (for example, a no-data run)."
-            exit 0
-          fi
           git -C .history-store config user.name "github-actions[bot]"
           git -C .history-store config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git -C .history-store add store.json
+          if [ -f .history-store/store.json ]; then
+            git -C .history-store add store.json
+          fi
           if [ -d .history-store/records ]; then
             git -C .history-store add records
           fi
+          if [ -d .history-store/delivery ]; then
+            git -C .history-store add delivery
+          fi
           if git -C .history-store diff --cached --quiet; then
-            echo "No new history record to persist."
+            echo "No new history or delivery state to persist."
           else
-            git -C .history-store commit -m "history: save $TARGET_DATE brief"
+            git -C .history-store commit -m "history: save $TARGET_DATE run state"
             git -C .history-store push origin HEAD:macro-sage-history
           fi
-          python -m macro_sage confirm-history \
-            --run-record "$run_record" \
-            --backend github-branch:macro-sage-history
+          if [ -n "$history_record" ]; then
+            python -m macro_sage confirm-history \
+              --run-record "$run_record" \
+              --backend github-branch:macro-sage-history
+          else
+            echo "No report history record was prepared (for example, a no-data run)."
+          fi
 
       - name: Link run and artifacts
         if: always()
@@ -191,6 +208,7 @@ jobs:
             echo "- Run ID: \`$MACRO_SAGE_RUN_ID\`"
             echo "- [Open this GitHub run]($GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID)"
             echo "- Safe artifact name: \`macro-sage-$TARGET_DATE-$MACRO_SAGE_RUN_ID\`"
+            echo "- Download it from the **Artifacts** section at the bottom of this run page."
             echo
           } >> "$GITHUB_STEP_SUMMARY"
 
@@ -210,4 +228,4 @@ jobs:
             output/runs/${{ env.MACRO_SAGE_RUN_ID }}/model-selection.json
             output/date-resolution.json
           if-no-files-found: warn
-          retention-days: 14
+          retention-days: 30

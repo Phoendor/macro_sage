@@ -7,6 +7,16 @@ structured output and low reasoning effort. This is a daily, cost-sensitive
 synthesis workload rather than a frontier-quality coding or agent task. OpenAI
 describes Luna as the cost-sensitive, high-volume member of the GPT-5.6 family.
 
+Synthesis prompt version 3 targets `DailyBriefV2`. The model supplies decision
+content while code supplies cutoffs, source counts, market-data availability,
+schema version and the complete resolved source register. The prompt explicitly
+separates facts, source forecasts, source opinions and synthesis inference;
+forbids invented prices, calendars, consensus and unsupported precision; and
+allows no material change or zero candidate expressions. Displayed confidence
+is recalibrated in code from evidence authority, independent evidence families,
+freshness, contradiction and missing market context rather than trusting a raw
+model score.
+
 The default compatibility preference order after the requested model is
 `gpt-5.6-terra`, then `gpt-4.1-mini`. Before any
 paid model-backed run, Macro Sage calls the Models API once and selects the first

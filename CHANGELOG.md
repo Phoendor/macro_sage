@@ -1,5 +1,46 @@
 # Changelog
 
+## 0.5.0 - 2026-08-30
+
+### Decision brief v2
+
+- Replaced the summary-first schema with a versioned decision brief that
+  separates fact, source forecast, source opinion and synthesis inference.
+- Added ranked changes and developments, six macro-regime assessments,
+  evidence/counterevidence, cross-asset transmission, candidate research
+  expressions, scenarios, disagreements, catalysts, invalidations and blind
+  spots.
+- Added a hard market-data limitation: unsupported current-price or “priced
+  in” language is rejected, market confirmation remains unavailable, and an
+  expression cannot be marked ready for review without verified market data.
+- Recalibrated confidence in code from source tiers, independent evidence
+  families, freshness, disagreement and missing market context; confidence is
+  evidence strength, not probability of profit or a position-size signal.
+- Kept V1 history records readable while all new synthesis writes schema 2.
+
+### Evaluation and reporting
+
+- Froze a body-free 15-case evaluation inventory, V1 defect log, quality rubric
+  and deterministic schema, citation, source-register, coverage, duplication
+  and unsupported-language graders.
+- Redesigned Markdown and PDF from the same V2 object. The first page now
+  foregrounds limitations, changes, regimes and at most three conditional
+  expressions, while model/token metadata and the complete source register move
+  to a technical appendix.
+- Added source links beside regime evidence, disagreement sides, catalysts and
+  risks, plus cross-format parity and rendered-PDF regression tests.
+
+### Delivery and daily usability
+
+- Added optional Telegram PDF/no-data delivery with strict configuration,
+  content-based duplicate suppression, explicit force resend, one bounded 429
+  retry, sanitized errors and durable message state.
+- Kept delivery separate from report success so Telegram failure cannot destroy
+  or hide an otherwise valid artifact.
+- Increased GitHub artifact retention from 14 to 30 days, added a workflow badge
+  and clearer artifact instructions, and added `evaluate` and `latest-report`
+  CLI commands.
+
 ## 0.4.7 - 2026-08-29
 
 ### Durable history and comparison

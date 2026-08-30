@@ -3,6 +3,7 @@ import json
 from pypdf import PdfReader
 
 from macro_sage.pdf import render
+from tests.helpers import v2_brief
 
 
 def _write_json(path, value):
@@ -143,3 +144,41 @@ def test_pdf_renders_comparison_baseline_and_carried_history(tmp_path):
     text = "\n".join(pages)
     assert "Previous successful brief: 2026-07-24" in text
     assert "historical carry, no current evidence" in text
+
+
+def test_v2_pdf_puts_decision_content_first_and_technical_metadata_last(tmp_path):
+    brief = v2_brief()
+    documents = [
+        {
+            "id": "doc:one",
+            "publisher": "Fixture Publisher",
+            "source_name": "Fixture Source",
+            "title": "Fixture evidence",
+            "url": "https://example.com/evidence",
+            "media_type": "text/html",
+        }
+    ]
+
+    pages = _render(tmp_path, brief, documents)
+
+    assert "What changed" in pages[0]
+    assert "Regime dashboard" in pages[0]
+    assert "Highest-priority research expressions" in pages[0]
+    assert "Next event risks" in pages[0]
+    assert "report/unknown" in pages[0]
+    assert "Technical audit" not in pages[0]
+    full_text = "\n".join(pages)
+    for heading in (
+        "Executive decision summary",
+        "Theme analysis",
+        "Cross-asset map",
+        "Scenario map",
+        "Disagreement map",
+        "Catalysts and monitoring",
+        "Top risks and blind spots",
+        "Technical audit",
+        "Source register",
+        "Failed or partial sources",
+    ):
+        assert heading in full_text
+    assert "Fixture Publisher: Fixture evidence" in full_text

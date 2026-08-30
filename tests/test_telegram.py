@@ -1,0 +1,255 @@
+import json
+
+import pytest
+import requests
+
+from macro_sage.telegram import (
+    TELEGRAM_MAX_DOCUMENT_BYTES,
+    TelegramConfig,
+    TelegramDeliveryError,
+    send_pdf,
+    send_status,
+)
+
+
+class Response:
+    def __init__(self, status_code=200, value=None):
+        self.status_code = status_code
+        self.value = value or {"ok": True, "result": {"message_id": 42}}
+
+    def json(self):
+        return self.value
+
+
+class Client:
+    def __init__(self, responses):
+        self.responses = list(responses)
+        self.calls = []
+
+    def post(self, url, **kwargs):
+        self.calls.append((url, kwargs))
+        response = self.responses.pop(0)
+        if isinstance(response, Exception):
+            raise response
+        return response
+
+
+def pdf(path):
+    path.write_bytes(b"%PDF-1.4\nfixture\n%%EOF\n")
+    return path
+
+
+def test_telegram_configuration_is_disabled_only_when_both_values_absent(monkeypatch):
+    monkeypatch.delenv("TELEGRAM_BOT_TOKEN", raising=False)
+    monkeypatch.delenv("TELEGRAM_CHAT_ID", raising=False)
+    assert TelegramConfig.from_env() is None
+
+    monkeypatch.setenv("TELEGRAM_BOT_TOKEN", "secret")
+    with pytest.raises(TelegramDeliveryError, match="TELEGRAM_CHAT_ID"):
+        TelegramConfig.from_env()
+
+
+def test_send_pdf_records_success_without_formatting_mode(tmp_path):
+    client = Client([Response()])
+    state = tmp_path / "telegram.json"
+
+    result = send_pdf(
+        TelegramConfig("secret-token", "@channel"),
+        pdf_path=pdf(tmp_path / "brief.pdf"),
+        target_date="2026-08-30",
+        run_id="run-one",
+        caption="Macro Sage *plain* caption",
+        state_path=state,
+        client=client,
+    )
+
+    assert result.status == "sent"
+    assert result.message_id == 42
+    assert "secret-token" in client.calls[0][0]
+    assert "parse_mode" not in client.calls[0][1]["data"]
+    text = state.read_text(encoding="utf-8")
+    assert "secret-token" not in text
+    assert json.loads(text)["deliveries"][0]["message_id"] == 42
+
+
+def test_same_date_and_pdf_is_suppressed_across_different_run_ids(tmp_path):
+    client = Client([Response()])
+    state = tmp_path / "telegram.json"
+    report = pdf(tmp_path / "brief.pdf")
+    config = TelegramConfig("secret", "chat")
+
+    send_pdf(
+        config,
+        pdf_path=report,
+        target_date="2026-08-30",
+        run_id="run-one",
+        caption="First",
+        state_path=state,
+        client=client,
+    )
+    duplicate = send_pdf(
+        config,
+        pdf_path=report,
+        target_date="2026-08-30",
+        run_id="run-two",
+        caption="Retry",
+        state_path=state,
+        client=client,
+    )
+
+    assert duplicate.status == "duplicate_suppressed"
+    assert len(client.calls) == 1
+
+
+def test_same_date_and_status_is_suppressed_across_different_run_ids(tmp_path):
+    client = Client([Response()])
+    state = tmp_path / "telegram.json"
+    config = TelegramConfig("secret", "chat")
+
+    send_status(
+        config,
+        target_date="2026-08-30",
+        run_id="run-one",
+        text="No publications today.",
+        state_path=state,
+        status_kind="no_data",
+        client=client,
+    )
+    duplicate = send_status(
+        config,
+        target_date="2026-08-30",
+        run_id="run-two",
+        text="No publications today. A different rerun link follows.",
+        state_path=state,
+        status_kind="no_data",
+        client=client,
+    )
+
+    assert duplicate.status == "duplicate_suppressed"
+    assert len(client.calls) == 1
+
+
+def test_force_resend_bypasses_duplicate_suppression(tmp_path):
+    client = Client([Response(), Response(value={"ok": True, "result": {"message_id": 43}})])
+    state = tmp_path / "telegram.json"
+    report = pdf(tmp_path / "brief.pdf")
+    config = TelegramConfig("secret", "chat")
+
+    send_pdf(
+        config,
+        pdf_path=report,
+        target_date="2026-08-30",
+        run_id="run-one",
+        caption="First",
+        state_path=state,
+        client=client,
+    )
+    resent = send_pdf(
+        config,
+        pdf_path=report,
+        target_date="2026-08-30",
+        run_id="run-one",
+        caption="Intentional resend",
+        state_path=state,
+        client=client,
+        force=True,
+    )
+
+    assert resent.status == "sent"
+    assert resent.message_id == 43
+    assert len(client.calls) == 2
+
+
+def test_permission_error_is_sanitized(tmp_path):
+    client = Client(
+        [
+            Response(
+                403,
+                {
+                    "ok": False,
+                    "description": "bot secret-token is not an administrator",
+                },
+            )
+        ]
+    )
+
+    with pytest.raises(TelegramDeliveryError, match=r"\[REDACTED\]") as error:
+        send_pdf(
+            TelegramConfig("secret-token", "chat"),
+            pdf_path=pdf(tmp_path / "brief.pdf"),
+            target_date="2026-08-30",
+            run_id="run-one",
+            caption="Caption",
+            state_path=tmp_path / "state.json",
+            client=client,
+        )
+
+    assert "secret-token" not in str(error.value)
+
+
+def test_explicit_rate_limit_is_retried_once(tmp_path):
+    client = Client(
+        [
+            Response(
+                429,
+                {"ok": False, "parameters": {"retry_after": 3}, "description": "wait"},
+            ),
+            Response(),
+        ]
+    )
+    waits = []
+
+    result = send_pdf(
+        TelegramConfig("secret", "chat"),
+        pdf_path=pdf(tmp_path / "brief.pdf"),
+        target_date="2026-08-30",
+        run_id="run-one",
+        caption="Caption",
+        state_path=tmp_path / "state.json",
+        client=client,
+        sleep=waits.append,
+    )
+
+    assert result.status == "sent"
+    assert waits == [3]
+    assert len(client.calls) == 2
+
+
+def test_ambiguous_transport_error_is_not_retried_or_leaked(tmp_path):
+    client = Client([requests.Timeout("https://api.telegram.org/botsecret/sendDocument")])
+
+    with pytest.raises(TelegramDeliveryError, match="automatic retry disabled") as error:
+        send_pdf(
+            TelegramConfig("secret", "chat"),
+            pdf_path=pdf(tmp_path / "brief.pdf"),
+            target_date="2026-08-30",
+            run_id="run-one",
+            caption="Caption",
+            state_path=tmp_path / "state.json",
+            client=client,
+        )
+
+    assert "secret" not in str(error.value)
+    assert len(client.calls) == 1
+
+
+def test_oversized_pdf_is_rejected_before_network(tmp_path):
+    report = tmp_path / "large.pdf"
+    with report.open("wb") as stream:
+        stream.write(b"%PDF-")
+        stream.seek(TELEGRAM_MAX_DOCUMENT_BYTES)
+        stream.write(b"x")
+    client = Client([])
+
+    with pytest.raises(TelegramDeliveryError, match="limit"):
+        send_pdf(
+            TelegramConfig("secret", "chat"),
+            pdf_path=report,
+            target_date="2026-08-30",
+            run_id="run-one",
+            caption="Caption",
+            state_path=tmp_path / "state.json",
+            client=client,
+        )
+
+    assert client.calls == []

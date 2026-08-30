@@ -1,11 +1,13 @@
 # Macro Sage action plan
 
-Status: approved; Milestones 1 through 3 are code-complete. Milestone 1 is still
+Status: approved; Milestones 1 through 3 are code-complete. Milestone 4 is
+code-complete in version 0.5.0 and awaiting its same-corpus human evaluation,
+owner approval and first configured Telegram delivery. Milestone 1 is still
 awaiting its scheduled-run observation gate. Milestone 2 passed its closure
 audit. Milestone 3 passed its hosted fixed-date canary and awaits the first
 scheduled cutoff-window observation before closure.
 
-Baseline date: 2026-08-29.
+Baseline date: 2026-08-30.
 
 This is the authoritative implementation roadmap for turning Macro Sage from a
 working source-attributed research reader into a reliable daily macro
@@ -69,7 +71,7 @@ allowed after a timestamped market-data source has been integrated.
 - [x] Made the same CLI operate locally and in GitHub Actions.
 - [x] Added model preflight selection and recorded the selected models.
 - [x] Added bounded offline compilation, generated-catalog validation, lint and
-  regression checks; version 0.4.6 is verified from a clean editable
+  regression checks; version 0.5.0 is verified from a clean editable
   installation.
 
 ### Current operating state
@@ -115,8 +117,8 @@ allowed after a timestamped market-data source has been integrated.
 - The 2026-08-25 run collected 13 documents from six sources; ING and Saxo
   supplied nine of them. The configured inventory is broad, but daily input can
   still be concentrated in a few prolific publishers.
-- Local saved reports cover 2026-07-27 and 2026-07-28; hosted artifacts currently
-  expire after 14 days.
+- Local saved reports cover 2026-07-27 and 2026-07-28; hosted artifacts now
+  retain sanitized reports and audits for 30 days.
 - The local virtual environment was rebuilt from the exact dependency
   constraints and imports this checkout correctly.
 
@@ -377,10 +379,10 @@ Acceptance criteria:
 - [x] Provide both one-day and one-week context without presenting carried
   material as newly published.
 
-Implementation note: version 0.4.7 stores the current schema's cited drivers
-and risks as supporting and contrary context. Claim-level counterevidence and
-explicit catalyst dates remain part of the DailyBriefV2 work in Milestone 4;
-history does not invent precision that the current schema does not contain.
+Implementation note: version 0.4.7 stored the V1 schema's cited drivers and
+risks as supporting and contrary context. Version 0.5.0 adds claim-level
+counterevidence and sourced catalyst timing in DailyBriefV2; history still does
+not invent precision that current evidence does not contain.
 
 Acceptance criteria for Workstream B:
 
@@ -493,46 +495,46 @@ DailyBriefV2 containing:
 
 ### C2. Rewrite synthesis instructions
 
-- [ ] State the hierarchy: source fact, attributed source opinion, disagreement,
+- [x] State the hierarchy: source fact, attributed source opinion, disagreement,
   and Macro Sage inference.
-- [ ] Require citations next to every material fact, numerical claim, theme,
+- [x] Require citations next to every material fact, numerical claim, theme,
   scenario assumption and trade thesis.
-- [ ] Forbid unsupported numerical precision, invented consensus, fabricated
+- [x] Forbid unsupported numerical precision, invented consensus, fabricated
   calendars and fabricated market prices.
-- [ ] Require the model to return fewer views rather than fill sections with
+- [x] Require the model to return fewer views rather than fill sections with
   weak material.
-- [ ] Prevent duplicated themes and trade expressions.
-- [ ] Require causal transmission language rather than unexplained bullish or
+- [x] Prevent duplicated themes and trade expressions.
+- [x] Require causal transmission language rather than unexplained bullish or
   bearish labels.
-- [ ] Require a concrete instrument or relative-value expression, standardized
+- [x] Require a concrete instrument or relative-value expression, standardized
   horizon, why-now, trigger, catalyst, transmission path, invalidation and
   counterevidence for each candidate setup.
-- [ ] Allow zero setups and “no material change” without forcing the model to
+- [x] Allow zero setups and “no material change” without forcing the model to
   manufacture novelty.
-- [ ] Standardize horizons so daily reports can be compared.
-- [ ] Define a confidence rubric based on source directness, freshness, breadth,
+- [x] Standardize horizons so daily reports can be compared.
+- [x] Define a confidence rubric based on source directness, freshness, breadth,
   agreement and missing evidence.
-- [ ] Treat article and transcript text as untrusted data, not instructions.
-- [ ] Prohibit “priced in,” “crowded,” “confirmed by markets,” live-price or
+- [x] Treat article and transcript text as untrusted data, not instructions.
+- [x] Prohibit “priced in,” “crowded,” “confirmed by markets,” live-price or
   target language unless it is backed by a timestamped market-data input.
-- [ ] Derive the final source register and aggregate source IDs in code from
+- [x] Derive the final source register and aggregate source IDs in code from
   resolved claim citations rather than asking the model to reproduce them.
-- [ ] Keep the brief compact enough to read daily despite the richer schema.
+- [x] Keep the brief compact enough to read daily despite the richer schema.
 
 ### C3. Define confidence and evidence rubrics
 
-- [ ] Use confidence 1–5 with written definitions and a required rationale.
-- [ ] Separate confidence in the macro thesis from confidence in the chosen
+- [x] Use confidence 1–5 with written definitions and a required rationale.
+- [x] Separate confidence in the macro thesis from confidence in the chosen
   market expression.
-- [ ] Label evidence as primary policy/data, institutional research, market
+- [x] Label evidence as primary policy/data, institutional research, market
   commentary or practitioner interpretation.
-- [ ] Penalize single-source views, stale sources, source disagreement and
+- [x] Penalize single-source views, stale sources, source disagreement and
   missing market context.
-- [ ] Calculate the displayed tier in code from source authority, independent
+- [x] Calculate the displayed tier in code from source authority, independent
   evidence-family count, freshness, corroboration, contradiction and verified
   market confirmation; do not accept an unconstrained model score.
-- [ ] Define confidence as evidence strength, not probability of profit.
-- [ ] Never translate a high confidence score into an automatic position size.
+- [x] Define confidence as evidence strength, not probability of profit.
+- [x] Never translate a high confidence score into an automatic position size.
 
 Acceptance criteria for Workstream C:
 
@@ -553,12 +555,12 @@ Acceptance criteria for Workstream C:
 
 ### D1. Build a representative evaluation set
 
-- [ ] Freeze the present output and defect log as the baseline before changing
+- [x] Freeze the present output and defect log as the baseline before changing
   the synthesis schema or prompt.
-- [ ] Select at least 10–15 historical run dates covering quiet days,
+- [x] Select at least 10–15 historical run dates covering quiet days,
   central-bank days, major data days, geopolitical shocks, disagreement,
   podcasts, source failures, holidays/weekends and no-data.
-- [ ] Preserve lawful minimal fixtures and document links rather than embedding
+- [x] Preserve lawful minimal fixtures and document links rather than embedding
   unnecessary copyrighted source text.
 - [ ] Include the eight historical citation-failure patterns.
 - [ ] Define expected facts, critical numbers, important disagreements and
@@ -603,7 +605,7 @@ Evaluate four distinct layers:
 - [ ] Record section-level scores and concrete defects.
 - [ ] Revise prompt or schema only in response to an observed failure class.
 - [ ] Keep an evaluation changelog tied to prompt/schema versions.
-- [ ] Add deterministic structural graders and optional model-assisted semantic
+- [x] Add deterministic structural graders and optional model-assisted semantic
   grading, with human review remaining authoritative.
 
 Acceptance criteria:
@@ -627,29 +629,29 @@ Acceptance criteria:
 
 ### E1. Keep all formats semantically equivalent
 
-- [ ] Update JSON, Markdown and PDF from the same DailyBriefV2 object.
-- [ ] Test that every section, citation, warning and source status appears in
+- [x] Update JSON, Markdown and PDF from the same DailyBriefV2 object.
+- [x] Test that every section, citation, warning and source status appears in
   all applicable formats.
-- [ ] Keep machine-readable fields stable and versioned.
+- [x] Keep machine-readable fields stable and versioned.
 
 ### E2. Redesign the PDF for daily use
 
-- [ ] Make the first page readable in roughly two minutes.
-- [ ] Begin with data and market-data cutoffs, the previous comparison brief,
+- [x] Make the first page readable in roughly two minutes.
+- [x] Begin with data and market-data cutoffs, the previous comparison brief,
   source-failure/coverage warnings, three to five ranked changes, a compact
   regime panel, at most three highest-priority setups or an explicit no-setup
   result, and the next event risks.
-- [ ] Follow with theme detail, cross-asset map, candidate expressions,
+- [x] Follow with theme detail, cross-asset map, candidate expressions,
   scenarios, disagreements and monitoring list.
-- [ ] Keep source links adjacent to the claims they support.
-- [ ] Preserve a complete source register and explicit failed/partial source
+- [x] Keep source links adjacent to the claims they support.
+- [x] Preserve a complete source register and explicit failed/partial source
   section.
-- [ ] Display comparison date, data cutoff, model, schema version and run
+- [x] Display comparison date, data cutoff, model, schema version and run
   outcome.
-- [ ] Move model names, token usage and the full source register to a technical
+- [x] Move model names, token usage and the full source register to a technical
   audit appendix rather than consuming first-page attention.
-- [ ] Handle empty and degraded reports gracefully.
-- [ ] Add visual regression fixtures and render every changed PDF to images for
+- [x] Handle empty and degraded reports gracefully.
+- [x] Add visual regression fixtures and render every changed PDF to images for
   inspection before acceptance.
 
 Acceptance criteria:
@@ -1094,45 +1096,45 @@ market-data enrichment in Workstream H.
 
 ### I1. Make successful reports discoverable
 
-- [ ] Increase hosted artifact retention from the current 14 days to an agreed
+- [x] Increase hosted artifact retention from the current 14 days to an agreed
   useful period.
-- [ ] Put a direct artifact link and concise outcome summary on the run page.
-- [ ] Add a repository workflow-status badge and clear instructions for finding
+- [x] Put a direct artifact link and concise outcome summary on the run page.
+- [x] Add a repository workflow-status badge and clear instructions for finding
   the latest report.
-- [ ] Do not publish personal research outputs permanently in the public source
+- [x] Do not publish personal research outputs permanently in the public source
   repository by accident.
 
 ### I2. Deliver reports to a Telegram channel
 
-- [ ] Add a small Telegram delivery adapter that sends the completed PDF as a
+- [x] Add a small Telegram delivery adapter that sends the completed PDF as a
   document through the official Telegram Bot API.
-- [ ] Configure the destination with `TELEGRAM_BOT_TOKEN` as a GitHub/local
+- [x] Configure the destination with `TELEGRAM_BOT_TOKEN` as a GitHub/local
   secret and `TELEGRAM_CHAT_ID` as an explicit environment or repository
   variable; never place either value in source, artifacts or logs.
-- [ ] Document how to create the bot, add it to the selected channel and grant
+- [x] Document how to create the bot, add it to the selected channel and grant
   only the permission needed to publish messages.
-- [ ] Keep delivery disabled when configuration is absent. A local run sends
+- [x] Keep delivery disabled when configuration is absent. A local run sends
   only when explicitly requested, while a scheduled GitHub run sends
   automatically after a successful render when Telegram is configured.
-- [ ] Send successful and degraded PDFs with a concise caption containing the
+- [x] Send successful and degraded PDFs with a concise caption containing the
   report date, run outcome, coverage warning, failed-source count and GitHub run
   link.
-- [ ] Send a short status message rather than inventing a PDF for a normal
+- [x] Send a short status message rather than inventing a PDF for a normal
   no-data outcome; make failure notifications a separately configurable option.
-- [ ] Validate the PDF against the Bot API's current document-size and file-type
+- [x] Validate the PDF against the Bot API's current document-size and file-type
   requirements before attempting delivery.
-- [ ] Use report run ID plus PDF content hash as an idempotency key, store the
+- [x] Use report run ID plus PDF content hash as an idempotency key, store the
   returned Telegram message ID, and prevent automatic retries or workflow
   reruns from posting duplicate reports.
-- [ ] Provide an explicit force-resend command for intentional redelivery.
-- [ ] Use bounded retries only for safe transient failures and respect Telegram
+- [x] Provide an explicit force-resend command for intentional redelivery.
+- [x] Use bounded retries only for safe transient failures and respect Telegram
   retry guidance; do not loop indefinitely.
-- [ ] Preserve the generated artifact when delivery fails. Record delivery as a
+- [x] Preserve the generated artifact when delivery fails. Record delivery as a
   separate failed stage with the sanitized API error and a link for manual
   download.
-- [ ] Escape or constrain captions so report/source text cannot inject Telegram
+- [x] Escape or constrain captions so report/source text cannot inject Telegram
   formatting or commands.
-- [ ] Test the adapter with a fake HTTP client for success, missing
+- [x] Test the adapter with a fake HTTP client for success, missing
   configuration, permission errors, rate limits, oversized files, duplicate
   suppression, force-resend and sanitized logging. Routine tests must not send
   live Telegram messages.
@@ -1149,21 +1151,21 @@ Acceptance criteria:
 
 ### I3. Improve notifications
 
-- [ ] Make application failure summaries state the exact failed stage and
+- [x] Make application failure summaries state the exact failed stage and
   whether a usable partial artifact exists.
-- [ ] Distinguish source degradation, no-data, application failure and GitHub
+- [x] Distinguish source degradation, no-data, application failure and GitHub
   infrastructure failure.
-- [ ] Provide a useful success notification or delivery link once the delivery
+- [x] Provide a useful success notification or delivery link once the delivery
   channel is selected.
-- [ ] Avoid notification noise from normal no-publication days.
+- [x] Avoid notification noise from normal no-publication days.
 
 ### I4. Preserve local usability
 
-- [ ] Rebuild the local virtual environment from the current pyproject.
-- [ ] Verify documented commands from a clean checkout.
-- [ ] Keep podcast dependencies optional.
-- [ ] Add a simple command for locating/opening the latest local PDF.
-- [ ] Keep remote-only behavior out of application logic.
+- [x] Rebuild the local virtual environment from the current pyproject.
+- [x] Verify documented commands from a clean checkout.
+- [x] Keep podcast dependencies optional.
+- [x] Add a simple command for locating/opening the latest local PDF.
+- [x] Keep remote-only behavior out of application logic.
 
 Acceptance criteria for Workstream I:
 
@@ -1190,7 +1192,7 @@ the release-candidate milestone.
   degraded paths.
 - [ ] Add fake OpenAI clients for synthesis and transcription payload contracts.
 - [ ] Add storage migration tests from the current database schema.
-- [ ] Add Markdown/JSON parity tests and PDF content assertions.
+- [x] Add Markdown/JSON parity tests and PDF content assertions.
 - [x] Keep all routine CI tests offline and free of live publisher/API
   dependencies.
 
@@ -1295,9 +1297,9 @@ Acceptance criteria for Workstream J:
   store; it contains body-free append-only JSON records and Git-native backup.
 - Select and license market-data providers, and choose delayed intraday versus
   completed-close timing, before making current-market claims.
-- Confirm the Telegram channel identifier, its public/private visibility,
-  whether failure/no-data messages should be posted, and the hosted artifact
-  retention period before enabling automated delivery.
+- Confirm the Telegram channel identifier and its public/private visibility
+  before adding live delivery configuration. No-data messages are enabled;
+  failure messages remain separately opt-in; artifact retention is 30 days.
 - Enable new sources only after the Workstream G admission gate, even when the
   institution is reputable.
 - Promote DailyBriefV2 only after the evaluation gates, shadow comparison and
@@ -1403,6 +1405,18 @@ Exit gate:
 
 Freeze D1 first, then implement C1–C3, D2–D3, E1–E2 and I1–I4 with their
 contract, evidence, temporal and visual tests.
+
+Implementation status: code-complete in application version 0.5.0 on
+2026-08-30. DailyBriefV2, deterministic evidence-confidence calibration,
+grounding evaluation, semantically equivalent JSON/Markdown/PDF output, the
+decision-first PDF, 30-day hosted artifacts, latest-report discovery and
+optional idempotent Telegram delivery are implemented and covered by offline
+tests. The 15-case body-free evaluation inventory is frozen, but only the two
+retained local dates currently have complete lawful corpora. The milestone exit
+gate therefore remains open for at least ten same-corpus V1/V2 comparisons,
+manual evidence/usefulness scoring, owner approval, and one live configured
+Telegram delivery. Those evidence gates are not represented as complete by the
+code release.
 
 Exit gate:
 

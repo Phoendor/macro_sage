@@ -9,16 +9,18 @@ from macro_sage import __version__
 SOURCE_CONFIG_VERSION = 2
 EXTRACTOR_VERSION = "3"
 CORPUS_VERSION = "2"
-SYNTHESIS_PROMPT_VERSION = "2"
-BRIEF_SCHEMA_VERSION = "1"
+SYNTHESIS_PROMPT_VERSION = "3"
+BRIEF_SCHEMA_VERSION = "2"
 TRANSCRIPTION_PROMPT_VERSION = "1"
-RENDERER_VERSION = "2"
+RENDERER_VERSION = "3"
 DATABASE_SCHEMA_VERSION = 2
 HISTORY_STORE_VERSION = 1
 HISTORY_RECORD_VERSION = 1
 DATE_RESOLUTION_VERSION = 2
 ACQUISITION_WINDOW_VERSION = 1
 COMPARISON_KEY_VERSION = 1
+EVALUATION_CONTRACT_VERSION = 1
+DELIVERY_CONTRACT_VERSION = 1
 
 
 def git_revision(root: Path | None = None) -> str | None:
@@ -55,4 +57,6 @@ def transformation_versions(root: Path | None = None) -> dict[str, object]:
         "date_resolution": DATE_RESOLUTION_VERSION,
         "acquisition_window": ACQUISITION_WINDOW_VERSION,
         "comparison_keys": COMPARISON_KEY_VERSION,
+        "evaluation_contract": EVALUATION_CONTRACT_VERSION,
+        "delivery_contract": DELIVERY_CONTRACT_VERSION,
     }

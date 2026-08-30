@@ -1,8 +1,10 @@
 # Macro Sage
 
+[![Generate Macro Brief](https://github.com/Phoendor/macro_sage/actions/workflows/generate-brief.yml/badge.svg)](https://github.com/Phoendor/macro_sage/actions/workflows/generate-brief.yml)
+
 Macro Sage collects a structured, curated set of macro and central-bank feeds,
 verifies and versions the original article or PDF text, deduplicates it in
-SQLite, and creates a source-attributed daily market brief.
+SQLite, and creates a source-attributed daily macro decision brief.
 
 The old collection of one-off scripts has been replaced by an installable `src/`
 package and a deterministic CLI. Article synthesis is one structured OpenAI
@@ -76,7 +78,22 @@ macro-sage synthesize
 
 # See configured sources without network access.
 macro-sage list-sources --all
+
+# Check a saved brief against the deterministic grounding contract.
+macro-sage evaluate --brief output/runs/RUN_ID/brief.json \
+  --manifest output/runs/RUN_ID/manifest.json
+
+# Print the latest local PDF path, or open it in the default viewer.
+macro-sage latest-report
+macro-sage latest-report --open
 ```
+
+DailyBriefV2 separates observed facts, source forecasts, source opinions and
+Macro Sage inference. It ranks material changes, shows six macro regimes,
+cross-asset transmission, scenarios, disagreement, catalysts, invalidations and
+at most three conditional research expressions. Without timestamped market
+data, the brief says so prominently and cannot label an expression ready for
+review.
 
 Every model-backed run checks the models available to the OpenAI project once
 before doing paid work, then passes that immutable selection through later
@@ -107,7 +124,7 @@ the half-open interval from the last successful scheduled cutoff to the current
 intended cutoff, so Monday includes Friday-evening and weekend publications.
 Explicit dates remain deterministic calendar-day replays. The workflow persists
 the SQLite document/transcript cache between runs, synthesizes the brief, renders
-a PDF, and uploads the PDF plus a sanitized audit trail for 14 days. Raw article
+a PDF, and uploads the PDF plus a sanitized audit trail for 30 days. Raw article
 bodies and transcripts are never included in the uploaded artifact. Standard
 GitHub-hosted runners are free for this public repository; OpenAI API
 transcription and synthesis remain paid usage.
@@ -124,6 +141,14 @@ Sources with no same-day publication are listed separately and are not treated
 as failures. A healthy no-data day completes successfully without making a
 synthesis request; collection health is recorded separately as healthy,
 degraded, or failed.
+
+Optional Telegram delivery uses the same application locally and on GitHub.
+When `TELEGRAM_BOT_TOKEN` and `TELEGRAM_CHAT_ID` are configured, scheduled
+GitHub runs send the completed PDF automatically, or a short status message on
+a normal no-data day. Local runs send only with `--deliver`. Delivery state is
+durable and suppresses duplicate rerun posts; use the explicit `deliver
+--force` command for intentional redelivery. A delivery outage does not remove
+the PDF or fail report generation. See [Telegram delivery](docs/TELEGRAM.md).
 
 The input budget is intentionally bounded by article count and characters. This
 controls cost without splitting the corpus into many model calls. Sources are
@@ -189,7 +214,8 @@ no source bodies.
 
 See [the architecture notes](docs/ARCHITECTURE.md),
 [model and cost policy](docs/MODELS.md),
-[history and collection-window contract](docs/HISTORY.md), and
+[history and collection-window contract](docs/HISTORY.md),
+[Telegram delivery](docs/TELEGRAM.md), and
 [source policy](docs/SOURCES.md) for the main design decisions. The full
 [source catalog](docs/SOURCE_CATALOG.md) records cadence, links, descriptions,
 and why each source belongs. The current implementation sequence and acceptance

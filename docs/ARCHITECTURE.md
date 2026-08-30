@@ -16,14 +16,19 @@ Macro Sage is intentionally a small batch application, not a framework.
    filter, duplicate, quiet period and failure remains auditable.
 6. Documents selected for synthesis receive short run-scoped citation keys such
    as `S001`; opaque canonical IDs remain internal.
-7. The OpenAI Responses API returns a Pydantic-validated `DailyBrief`, and the
-   short keys are strictly resolved back to canonical document IDs.
+7. The OpenAI Responses API returns the model-authored portion of a
+   Pydantic-validated `DailyBriefV2`; operational coverage fields and the final
+   source register are calculated in code, and short keys are strictly resolved
+   back to canonical document IDs.
 8. Each attempt writes atomically to `output/runs/<run-id>/`, with separate
    content and health outcomes.
 9. The local private corpus is separated from a body-free audit manifest used
    by PDF rendering and GitHub artifact upload.
 10. Successful structured briefs are appended to a versioned history store;
     deterministic one-day and one-week comparisons are rendered from it.
+11. JSON, Markdown and PDF are rendered from the same final brief object. An
+    optional Telegram adapter sends the PDF after rendering and records its
+    idempotency key separately from report success.
 
 ## Main decisions
 
@@ -41,6 +46,12 @@ The model emits a schema rather than free-form prose. Every theme and asset view
 must contain supplied short citation keys, and unknown or missing keys make the
 run fail. The application resolves them to canonical document IDs before JSON,
 Markdown, or PDF output, avoiding fragile reproduction of opaque hashes.
+
+DailyBriefV2 makes evidence type explicit, calculates confidence from source
+tier, independent evidence families, freshness, contradiction and market-data
+availability, and permits zero research expressions. It cannot claim that an
+idea is confirmed by markets or ready for review while timestamped market data
+is absent. The old V1 model remains readable only for history compatibility.
 
 ### Generic extraction before source-specific code
 
@@ -101,6 +112,16 @@ pipeline; `collect` and `synthesize` are first-class recovery and inspection
 stages. GitHub adds only scheduling, secrets, cache persistence, and artifact
 upload. The workflow resolves the target date and selects accessible models once,
 then passes those immutable records to collection and synthesis.
+
+### Delivery is a separate stage
+
+Telegram configuration is optional. Local delivery requires `--deliver` or an
+explicit `macro-sage deliver` command; GitHub sends after a successful render
+when both configuration values exist. The adapter validates PDF type and size,
+uses a run/content idempotency key, retries only an explicit rate-limit response
+once, and records the returned message ID in durable history state. Ambiguous
+network failures are not automatically retried because the first request may
+already have posted. Report artifacts remain available when delivery fails.
 
 ### Failures are output, not log noise
 

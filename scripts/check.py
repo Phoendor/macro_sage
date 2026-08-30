@@ -4,6 +4,7 @@ import os
 import subprocess
 import sys
 import time
+from importlib.metadata import PackageNotFoundError, version
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -21,7 +22,13 @@ def _timeout_seconds() -> int:
 
 
 def _verify_import() -> None:
-    import macro_sage
+    source_root = str(ROOT / "src")
+    if source_root not in sys.path:
+        sys.path.insert(0, source_root)
+    try:
+        import macro_sage
+    except ModuleNotFoundError as exc:
+        raise RuntimeError("macro_sage is not importable from this checkout's src directory") from exc
 
     actual = Path(macro_sage.__file__).resolve()
     expected = (ROOT / "src" / "macro_sage").resolve()
@@ -29,14 +36,39 @@ def _verify_import() -> None:
         raise RuntimeError(
             f"macro_sage imports from {actual}, expected this checkout at {expected}"
         )
+    try:
+        installed_version = version("macro-sage")
+    except PackageNotFoundError as exc:
+        raise RuntimeError(
+            "macro-sage is not installed; run `python -m pip install --no-deps -e .`"
+        ) from exc
+    if installed_version != macro_sage.__version__:
+        raise RuntimeError(
+            f"Installed macro-sage metadata is {installed_version}, but this checkout is "
+            f"{macro_sage.__version__}; reinstall the editable package"
+        )
     print(f"Environment imports {actual}", flush=True)
 
 
 def _run(label: str, arguments: list[str], timeout: int) -> None:
     print(f"\n[{label}] {' '.join(arguments)}", flush=True)
     started = time.monotonic()
+    environment = os.environ.copy()
+    source_root = str(ROOT / "src")
+    current_pythonpath = environment.get("PYTHONPATH", "").strip()
+    environment["PYTHONPATH"] = (
+        f"{source_root}{os.pathsep}{current_pythonpath}"
+        if current_pythonpath
+        else source_root
+    )
     try:
-        subprocess.run(arguments, cwd=ROOT, check=True, timeout=timeout)
+        subprocess.run(
+            arguments,
+            cwd=ROOT,
+            check=True,
+            timeout=timeout,
+            env=environment,
+        )
     except subprocess.TimeoutExpired as exc:
         raise SystemExit(f"{label} exceeded the {timeout}s safety timeout") from exc
     elapsed = time.monotonic() - started

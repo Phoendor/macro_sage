@@ -3,6 +3,7 @@ from __future__ import annotations
 import argparse
 import json
 import os
+import webbrowser
 from dataclasses import replace
 from datetime import date, datetime, timezone
 from pathlib import Path
@@ -10,6 +11,7 @@ from pathlib import Path
 from openai import OpenAI
 
 from macro_sage.config import load_inventory, load_sources
+from macro_sage.evaluation import evaluate_files
 from macro_sage.files import copy_atomic, write_json_atomic, write_text_atomic
 from macro_sage.history import (
     BriefHistoryRecord,
@@ -23,6 +25,7 @@ from macro_sage.models import (
     ContentResult,
     Participation,
     RunHealth,
+    SourceDefinition,
     SourceKind,
 )
 from macro_sage.openai_models import (
@@ -62,6 +65,12 @@ from macro_sage.scheduling import (
 from macro_sage.settings import Settings
 from macro_sage.storage import DocumentStore
 from macro_sage.synthesis import synthesize
+from macro_sage.telegram import (
+    TelegramConfig,
+    TelegramDeliveryError,
+    send_pdf,
+    send_status,
+)
 from macro_sage.validation import apply_manual_reviews, run_validation
 from macro_sage.versions import transformation_versions
 
@@ -446,6 +455,7 @@ def _synthesize_report(
     history_store: DirectoryBriefHistory,
     history_context: HistoryContext,
     window: AcquisitionWindow,
+    source_definitions: list[SourceDefinition],
 ) -> Path:
     _, collection_health = classify_collection(report)
     update_run_record(
@@ -462,6 +472,9 @@ def _synthesize_report(
             target,
             settings,
             history=history_context,
+            report=report,
+            sources=source_definitions,
+            data_cutoff=window.end,
         )
     except Exception as exc:
         update_run_record(
@@ -685,6 +698,16 @@ def _synthesize(args: argparse.Namespace) -> int:
             f"- Outcome: `{content_result.value}/{health.value}`\n"
             "- No synthesis request was made.\n\n"
         )
+        if getattr(args, "deliver", False):
+            delivery_result = _deliver_run_record(
+                paths.run_record,
+                state_path=args.history / "delivery" / "telegram.json",
+                force=False,
+                github_run_url=None,
+                notify_failure=False,
+            )
+            if delivery_result:
+                return delivery_result
         return 1 if health is RunHealth.FAILED else 0
 
     _require_api_key("brief synthesis")
@@ -708,7 +731,16 @@ def _synthesize(args: argparse.Namespace) -> int:
         history_store=history_store,
         history_context=history_context,
         window=window,
+        source_definitions=load_sources(args.config, include_disabled=True),
     )
+    if getattr(args, "deliver", False):
+        return _deliver_run_record(
+            paths.run_record,
+            state_path=args.history / "delivery" / "telegram.json",
+            force=False,
+            github_run_url=None,
+            notify_failure=False,
+        )
     return 0
 
 
@@ -776,6 +808,16 @@ def _run(args: argparse.Namespace) -> int:
             f"- Outcome: `no_data/{health.value}`\n"
             "- No synthesis request was made.\n\n"
         )
+        if getattr(args, "deliver", False):
+            delivery_result = _deliver_run_record(
+                paths.run_record,
+                state_path=args.history / "delivery" / "telegram.json",
+                force=False,
+                github_run_url=None,
+                notify_failure=False,
+            )
+            if delivery_result:
+                return delivery_result
         return 1 if health is RunHealth.FAILED else 0
     _synthesize_report(
         paths=paths,
@@ -787,7 +829,16 @@ def _run(args: argparse.Namespace) -> int:
         history_store=history_store,
         history_context=history_context,
         window=window,
+        source_definitions=load_sources(args.config, include_disabled=True),
     )
+    if getattr(args, "deliver", False):
+        return _deliver_run_record(
+            paths.run_record,
+            state_path=args.history / "delivery" / "telegram.json",
+            force=False,
+            github_run_url=None,
+            notify_failure=False,
+        )
     return 0
 
 
@@ -852,6 +903,149 @@ def _list_sources(args: argparse.Namespace) -> int:
     return 0
 
 
+def _evaluate(args: argparse.Namespace) -> int:
+    result = evaluate_files(args.brief, args.manifest)
+    value = result.as_dict()
+    if args.output:
+        write_json_atomic(args.output, value)
+    print(
+        f"Evaluation {'passed' if result.passed else 'failed'}: "
+        f"{result.material_claim_count} material claims, "
+        f"{result.cited_document_count} cited documents, "
+        f"{len(result.issues)} issue(s)."
+    )
+    for issue in result.issues:
+        print(f"- {issue.severity.upper()} {issue.code}: {issue.detail}")
+    return 0 if result.passed else 1
+
+
+def _latest_report(args: argparse.Namespace) -> int:
+    pdf_directory = args.output / "pdf"
+    candidates = sorted(
+        pdf_directory.glob("macro-sage-*.pdf"),
+        key=lambda path: (path.stat().st_mtime, path.name),
+    )
+    if not candidates:
+        raise SystemExit(f"No completed report PDF found under {pdf_directory}")
+    latest = candidates[-1].resolve()
+    print(latest)
+    if args.open and not webbrowser.open(latest.as_uri()):
+        raise SystemExit(f"Could not open {latest}; its path was printed above")
+    return 0
+
+
+def _deliver_run_record(
+    run_record: Path,
+    *,
+    state_path: Path,
+    force: bool,
+    github_run_url: str | None,
+    notify_failure: bool,
+) -> int:
+    config = TelegramConfig.from_env()
+    if config is None:
+        print("Telegram delivery disabled: configuration is absent.")
+        return 0
+    run = json.loads(run_record.read_text(encoding="utf-8"))
+    target_date = str(run.get("target_date", "unknown"))
+    run_id = str(run.get("run_id", "unknown"))
+    content_result = str(run.get("content_result", "not_produced"))
+    health = str(run.get("health", "failed"))
+    failed_count = int(run.get("failed_or_partial_source_count", 0))
+    link = github_run_url or ""
+    try:
+        if content_result == ContentResult.REPORT.value and run.get("report_pdf"):
+            warning = (
+                f" Coverage warning: {failed_count} failed or partial source(s)."
+                if failed_count
+                else ""
+            )
+            caption = (
+                f"Macro Sage {target_date} - {content_result}/{health}."
+                f"{warning} {link}"
+            ).strip()
+            result = send_pdf(
+                config,
+                pdf_path=Path(str(run["report_pdf"])),
+                target_date=target_date,
+                run_id=run_id,
+                caption=caption,
+                state_path=state_path,
+                force=force,
+            )
+        elif content_result == ContentResult.NO_DATA.value:
+            result = send_status(
+                config,
+                target_date=target_date,
+                run_id=run_id,
+                text=(
+                    f"Macro Sage {target_date}: no report was generated because no "
+                    f"matching publications were collected. Health: {health}. "
+                    f"Failed or partial sources: {failed_count}. {link}"
+                ).strip(),
+                state_path=state_path,
+                status_kind="no_data",
+                force=force,
+            )
+        elif notify_failure:
+            result = send_status(
+                config,
+                target_date=target_date,
+                run_id=run_id,
+                text=(
+                    f"Macro Sage {target_date}: report production failed at "
+                    f"{run.get('stage', 'unknown stage')}. A partial audit may be "
+                    f"available. {link}"
+                ).strip(),
+                state_path=state_path,
+                status_kind="failure",
+                force=force,
+            )
+        else:
+            print("Telegram failure notification disabled; nothing was sent.")
+            return 0
+    except TelegramDeliveryError as exc:
+        safe_error = sanitized_error(exc)
+        update_run_record(
+            run_record,
+            delivery_stage="telegram_failed",
+            telegram_delivery={"status": "failed", "error": safe_error},
+        )
+        append_github_summary(
+            "## Telegram delivery failed\n\n"
+            f"- Error: `{safe_error}`\n"
+            "- The generated report and audit artifact remain available.\n\n"
+        )
+        print(f"Telegram delivery failed: {safe_error}")
+        return 1
+    update_run_record(
+        run_record,
+        delivery_stage=(
+            "telegram_duplicate_suppressed"
+            if result.status == "duplicate_suppressed"
+            else "telegram_complete"
+        ),
+        telegram_delivery=result.as_dict(),
+    )
+    append_github_summary(
+        "## Telegram delivery\n\n"
+        f"- Status: `{result.status}`\n"
+        f"- Message ID: `{result.message_id or 'none'}`\n\n"
+    )
+    print(f"Telegram delivery: {result.status}")
+    return 0
+
+
+def _deliver(args: argparse.Namespace) -> int:
+    return _deliver_run_record(
+        args.run_record,
+        state_path=args.state,
+        force=args.force,
+        github_run_url=args.github_run_url,
+        notify_failure=args.notify_failure,
+    )
+
+
 def _add_collection_arguments(parser: argparse.ArgumentParser) -> None:
     parser.add_argument("--date", type=_date)
     parser.add_argument("--scheduled", action="store_true")
@@ -878,6 +1072,11 @@ def build_parser() -> argparse.ArgumentParser:
 
     run = subparsers.add_parser("run", help="collect, synthesize, and render one day")
     _add_collection_arguments(run)
+    run.add_argument(
+        "--deliver",
+        action="store_true",
+        help="send the completed result through configured Telegram delivery",
+    )
     run.set_defaults(handler=_run)
 
     collect = subparsers.add_parser(
@@ -899,6 +1098,7 @@ def build_parser() -> argparse.ArgumentParser:
     synthesize_parser.add_argument("--history", type=Path, default=DEFAULT_HISTORY)
     synthesize_parser.add_argument("--require-history", action="store_true")
     synthesize_parser.add_argument("--model-selection", type=Path)
+    synthesize_parser.add_argument("--deliver", action="store_true")
     synthesize_parser.set_defaults(handler=_synthesize)
 
     resolve_date = subparsers.add_parser(
@@ -974,6 +1174,38 @@ def build_parser() -> argparse.ArgumentParser:
     source_list = subparsers.add_parser("list-sources", help="print configured sources")
     source_list.add_argument("--all", action="store_true")
     source_list.set_defaults(handler=_list_sources)
+
+    evaluate = subparsers.add_parser(
+        "evaluate",
+        help="run deterministic grounding and decision-contract checks",
+    )
+    evaluate.add_argument("--brief", type=Path, required=True)
+    evaluate.add_argument("--manifest", type=Path, required=True)
+    evaluate.add_argument("--output", type=Path)
+    evaluate.set_defaults(handler=_evaluate)
+
+    latest = subparsers.add_parser(
+        "latest-report",
+        help="print or open the latest completed local PDF",
+    )
+    latest.add_argument("--output", type=Path, default=DEFAULT_OUTPUT)
+    latest.add_argument("--open", action="store_true")
+    latest.set_defaults(handler=_latest_report)
+
+    deliver = subparsers.add_parser(
+        "deliver",
+        help="deliver an existing run result through configured Telegram",
+    )
+    deliver.add_argument("--run-record", type=Path, required=True)
+    deliver.add_argument(
+        "--state",
+        type=Path,
+        default=DEFAULT_HISTORY / "delivery" / "telegram.json",
+    )
+    deliver.add_argument("--github-run-url")
+    deliver.add_argument("--force", action="store_true")
+    deliver.add_argument("--notify-failure", action="store_true")
+    deliver.set_defaults(handler=_deliver)
     return parser
 
 

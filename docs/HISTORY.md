@@ -19,7 +19,8 @@ successful brief adds one immutable file under
 - run ID, target date, completion time, health, model and transformation
   versions;
 - the exact half-open acquisition interval and the rule that selected it;
-- the structured `DailyBrief` and referenced/cited document IDs;
+- the structured `DailyBriefV1` or `DailyBriefV2` and referenced/cited document
+  IDs;
 - canonical theme, regime, event and asset-view keys;
 - one-day and one-week comparison records;
 - first-seen, last-updated, expected-expiry and resolved dates;
@@ -76,7 +77,9 @@ is idle. Hosted history is backed up by the full Git commit history of the
 without relying on Actions artifact retention.
 
 Writers use atomic file replacement and never edit an existing record. Readers
-validate every record against its versioned Pydantic schema. An unreadable file
+validate V1 and V2 records against their versioned Pydantic schema. V2 readers
+remain compatible with existing V1 history long enough to establish the first
+comparison baseline; new synthesis always writes V2. An unreadable file
 is reported as a history warning; an unsupported store version is marked
 incompatible. Schema changes require a version bump and an explicit migration
 that writes new records alongside the originals. Recovery is complete only
