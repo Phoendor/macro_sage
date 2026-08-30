@@ -1,11 +1,13 @@
 # Macro Sage action plan
 
 Status: approved; Milestones 1 through 3 are code-complete. Milestone 4 is
-code-complete in version 0.5.0 and awaiting its same-corpus human evaluation,
-owner approval and first configured Telegram delivery. Milestone 1 is still
-awaiting its scheduled-run observation gate. Milestone 2 passed its closure
-audit. Milestone 3 passed its hosted fixed-date canary and awaits the first
-scheduled cutoff-window observation before closure.
+code-complete in version 0.5.0, its report hierarchy and output quality received
+a positive owner review on 2026-08-30, and its prospective evidence audit and
+first configured Telegram delivery remain open. Milestone 1 is still awaiting
+its scheduled-run observation gate. Milestone 2 passed its closure audit.
+Milestone 3 passed its hosted fixed-date canary and awaits the first scheduled
+cutoff-window observation before closure. Milestone 5 is the next implementation
+priority.
 
 Baseline date: 2026-08-30.
 
@@ -121,6 +123,11 @@ allowed after a timestamped market-data source has been integrated.
   retain sanitized reports and audits for 30 days.
 - The local virtual environment was rebuilt from the exact dependency
   constraints and imports this checkout correctly.
+- The owner reviewed the hosted Decision Brief V2 PDF on 2026-08-30 and gave a
+  positive assessment of its usefulness and presentation. The information
+  hierarchy is therefore accepted as the production baseline; future prompt or
+  layout changes should answer an observed defect rather than restart the
+  redesign.
 
 ## 3. Priority and dependency map
 
@@ -132,16 +139,27 @@ allowed after a timestamped market-data source has been integrated.
 | 4 | Evaluation baseline and acceptance harness | P1 | Validated corpus and history | Frozen benchmark |
 | 5 | Trading-oriented synthesis v2 | P1 | Provenance, history and baseline rubric | Decision brief v0.5 |
 | 6 | Report redesign, delivery and retention | P1 | Approved v2 schema | Usable daily service |
-| 7 | Podcast modernization | P1 | Reliable transcript/cache provenance | GPT-Transcribe rollout |
-| 8 | Source health, balancing and expansion | P1 | Stable acquisition contracts | Verified catalog |
-| 9 | Market-context enrichment | P2 | Approved data-provider boundary | Quantified context layer |
-| 10 | Cross-cutting tests and release closure | Every milestone; P2 final closure | Each changed behavior | Release candidate |
+| 7 | Source health, material coverage and corpus balancing | P1 | Stable acquisition contracts | Trustworthy daily corpus |
+| 8 | Market-context enrichment | P1 | Approved data-provider boundary | Quantified context layer |
+| 9 | Podcast modernization | P1 | Reliable transcript/cache provenance | GPT-Transcribe rollout |
+| 10 | Selective source expansion | P2 | Health and balancing controls | Verified expanded catalog |
+| 11 | Cross-cutting tests and release closure | Every milestone; P2 final closure | Each changed behavior | Release candidate |
 
 P0 items repair known failures, unsafe artifacts and foundational data identity
 and must be implemented first. P1 items create the intended product. P2 items
-add quantified context and close the final release. Tests, replay fixtures,
-documentation and artifact checks are part of every milestone, not a final
-cleanup phase.
+add selectively admitted coverage and close the final release. Tests, replay
+fixtures, documentation and artifact checks are part of every milestone, not a
+final cleanup phase.
+
+The Decision Brief V2 canary and owner review changed the order of the remaining
+work. Report layout is no longer the binding constraint. Corpus concentration,
+material coverage classification and unsafe document-boundary serialization
+can still distort the evidence supplied to an otherwise good synthesis, so they
+come next. Timestamped market context then has greater marginal value for
+trading decisions than improving an already usable cloud transcription path.
+Podcast modernization remains important, but source expansion waits until
+selection controls can prevent additional volume from reducing evidence
+quality.
 
 ## 4. Workstream A — run and citation reliability
 
@@ -593,12 +611,17 @@ Evaluate four distinct layers:
 - human usefulness for novelty, clarity, prioritization, actionability,
   invalidation quality, uncertainty and two-minute scan value.
 
-### D3. Compare current and proposed synthesis
+### D3. Validate and tune the production synthesis
 
-- [ ] Produce baseline and v2 outputs from exactly the same corpora.
+- [ ] Produce frozen-baseline and V2 outputs from the two complete lawful
+  corpora retained locally; do not weaken artifact privacy or retain publisher
+  bodies in GitHub merely to manufacture more historical replays.
+- [ ] Audit at least ten prospective V2 reports as scheduled runs create them,
+  recording material-claim support and human usefulness without requiring an
+  obsolete V1 report for every date.
 - [ ] Compare the current economical synthesis model with at least one stronger
-  eligible model on the frozen set, then keep the least expensive model that
-  clears all grounding and usefulness gates.
+  eligible model on the retained same-corpus cases, then keep the least
+  expensive model that clears all grounding and usefulness gates.
 - [ ] Record model snapshot, reasoning setting, latency and token usage for the
   evaluation; this is model-selection evidence, not a spending-control system.
 - [ ] Review them blind where practical.
@@ -621,8 +644,9 @@ Acceptance criteria:
 - High confidence cannot result from one non-primary evidence family without
   independent confirmation.
 - The report may return zero actionable setups.
-- In a blinded comparison over at least ten dates, V2 is preferred for decision
-  usefulness on at least 70% of dates without a grounding regression.
+- V2 is preferred on both retained same-corpus cases without a grounding
+  regression, and at least eight of ten prospective production reports pass the
+  human usefulness rubric.
 - The approved prompt/schema version is recorded and regression-tested.
 
 ## 8. Workstream E — report and renderer redesign
@@ -928,6 +952,10 @@ Acceptance criteria:
 
 Keep everything lawfully acquired in the internal manifest, but select a
 deterministic, relevant and diverse synthesis subset.
+
+This is the first implementation work after Decision Brief V2. The current
+round-robin ordering is a safe baseline, but it does not enforce the configured
+publisher caps, reserve primary-evidence capacity or rank macro relevance.
 
 - [ ] Rank by evidence tier, macro relevance, freshness and source diversity.
 - [ ] Reserve room for primary policy/data evidence before commentary.
@@ -1283,6 +1311,9 @@ Acceptance criteria for Workstream J:
 - Podcast speech recognition remains cloud-based; the Intel Mac will not run a
   local neural model.
 - A report may say “no material change” or provide no actionable setup.
+- DailyBriefV2 is the production report baseline after a successful hosted
+  canary and positive owner review; future prompt, schema or layout changes must
+  answer an observed defect and pass the evaluation contract.
 - Telegram is the selected external delivery channel for completed PDFs; the
   same delivery adapter must work from GitHub and from an explicitly enabled
   local run.
@@ -1302,8 +1333,6 @@ Acceptance criteria for Workstream J:
   failure messages remain separately opt-in; artifact retention is 30 days.
 - Enable new sources only after the Workstream G admission gate, even when the
   institution is reputable.
-- Promote DailyBriefV2 only after the evaluation gates, shadow comparison and
-  owner review.
 
 ## 15. Implementation milestones
 
@@ -1413,10 +1442,12 @@ decision-first PDF, 30-day hosted artifacts, latest-report discovery and
 optional idempotent Telegram delivery are implemented and covered by offline
 tests. The 15-case body-free evaluation inventory is frozen, but only the two
 retained local dates currently have complete lawful corpora. The milestone exit
-gate therefore remains open for at least ten same-corpus V1/V2 comparisons,
-manual evidence/usefulness scoring, owner approval, and one live configured
-Telegram delivery. Those evidence gates are not represented as complete by the
-code release.
+gate therefore uses same-corpus V1/V2 comparison only on those two lawful
+corpora and accumulates claim and usefulness audits prospectively across ten V2
+reports. The owner positively reviewed the canary's information hierarchy and
+output quality on 2026-08-30. The evidence audit and one live configured
+Telegram delivery remain open; they are not represented as complete by the code
+release.
 
 Hosted canary
 [33319046110](https://github.com/Phoendor/macro_sage/actions/runs/33319046110)
@@ -1431,14 +1462,43 @@ correctly skipped because live channel configuration is absent.
 
 Exit gate:
 
-- V2 beats the current format on the documented evaluation set;
+- V2 beats the frozen baseline on both retained same-corpus cases and passes
+  the prospective production-report usefulness gate;
 - all formats agree and the first page is useful in roughly two minutes;
 - source failures and market-data limitations remain prominent;
 - the latest successful report is immediately discoverable and, when Telegram
   configuration is present, delivered exactly once to the selected channel;
-- the owner approves the information hierarchy and output quality.
+- the owner has approved the information hierarchy and output quality.
 
-### Milestone 5 — modern podcasts
+### Milestone 5 — trustworthy daily corpus
+
+Includes the remaining critical-coverage rule from A2, G6–G7, safe corpus
+serialization, cadence-aware health, deterministic relevance and authority
+ranking, enforceable publisher/product-line caps and the associated J1/J2
+fixtures. Source admission does not expand yet.
+
+Exit gate:
+
+- source participation and cadence-aware health are reported separately;
+- material coverage failures use configured critical roles and explicit rules;
+- primary evidence receives reserved capacity and prolific publishers cannot
+  dominate merely through volume;
+- relevance filters and every omission remain deterministic and auditable;
+- document text cannot alter model-facing document boundaries or instructions.
+
+### Milestone 6 — quantified market context
+
+Includes H1–H3. Provider selection and the report's delayed-intraday versus
+completed-close convention must be decided before implementation is enabled.
+
+Exit gate:
+
+- the brief can place narratives against timestamped market context;
+- the intraday-versus-completed-close convention is explicit;
+- every value has provider and transformation provenance;
+- missing market data cannot become an implied model estimate.
+
+### Milestone 7 — modern podcasts
 
 Includes F0–F5 and the podcast-specific portions of G4/G5.
 
@@ -1450,29 +1510,18 @@ Exit gate:
 - transcript variants, provenance, long-form selection and cache behavior are
   correct.
 
-### Milestone 6 — source health and expanded coverage
+### Milestone 8 — selective source expansion
 
-Includes G6–G9 and their live/offline evidence.
-
-Exit gate:
-
-- source health and daily participation are reported separately;
-- publisher concentration and relevance controls meet their gates;
-- broken candidates are accurately documented;
-- approved coverage gaps have working sources and fixtures.
-
-### Milestone 7 — quantified market context
-
-Includes H1–H3.
+Includes G8–G9 after Milestone 5 selection and health controls are operating.
 
 Exit gate:
 
-- the brief can place narratives against timestamped market context;
-- the intraday-versus-completed-close convention is explicit;
-- every value has provider and transformation provenance;
-- missing market data cannot become an implied model estimate.
+- broken candidates are accurately documented and retested on a bounded
+  cadence rather than during every daily run;
+- approved coverage gaps have working sources and fixtures;
+- every enabled addition passes the admission gate and adds distinct coverage.
 
-### Milestone 8 — release candidate
+### Milestone 9 — release candidate
 
 Includes remaining J3/J5 work and cross-workstream documentation.
 
