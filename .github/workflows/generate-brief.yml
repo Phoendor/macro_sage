@@ -120,9 +120,9 @@ jobs:
         uses: actions/cache/restore@v5
         with:
           path: data
-          key: macro-sage-data-v2-${{ runner.os }}-${{ github.run_id }}
+          key: macro-sage-data-v3-${{ runner.os }}-${{ github.run_id }}
           restore-keys: |
-            macro-sage-data-v2-${{ runner.os }}-
+            macro-sage-data-v3-${{ runner.os }}-
 
       - name: Collect sources
         id: collect
@@ -147,7 +147,7 @@ jobs:
         uses: actions/cache/save@v5
         with:
           path: data
-          key: macro-sage-data-v2-${{ runner.os }}-${{ github.run_id }}
+          key: macro-sage-data-v3-${{ runner.os }}-${{ github.run_id }}
 
       - name: Synthesize and render PDF
         id: synthesize

@@ -118,7 +118,9 @@ def _source(row: dict[str, Any], *, strict: bool) -> SourceDefinition:
             ),
             scan_depth=int(row.get("scan_depth", max(50, daily_limit))),
             daily_limit=daily_limit,
+            selection_cap=int(row.get("selection_cap", 3)),
             publisher_cap=int(row.get("publisher_cap", 5)),
+            failure_threshold=int(row.get("failure_threshold", 3)),
             validation_status=ValidationStatus(
                 row.get("validation_status", ValidationStatus.NEEDS_VALIDATION)
             ),
@@ -131,6 +133,12 @@ def _source(row: dict[str, Any], *, strict: bool) -> SourceDefinition:
             owner=str(row.get("owner", row["publisher"])),
             include_url_pattern=row.get("include_url_pattern"),
             exclude_title_pattern=row.get("exclude_title_pattern"),
+            selection_include_title_pattern=row.get(
+                "selection_include_title_pattern"
+            ),
+            selection_exclude_title_pattern=row.get(
+                "selection_exclude_title_pattern"
+            ),
             pdf_link_pattern=row.get("pdf_link_pattern"),
             published_from_updated=bool(row.get("published_from_updated", False)),
             published_from_feed_last_modified=bool(
@@ -151,7 +159,9 @@ def _source(row: dict[str, Any], *, strict: bool) -> SourceDefinition:
     for name, value in (
         ("scan_depth", source.scan_depth),
         ("daily_limit", source.daily_limit),
+        ("selection_cap", source.selection_cap),
         ("publisher_cap", source.publisher_cap),
+        ("failure_threshold", source.failure_threshold),
         ("max_gap_days", source.max_gap_days),
         ("max_future_days", source.max_future_days),
     ):
@@ -175,6 +185,14 @@ def _source(row: dict[str, Any], *, strict: bool) -> SourceDefinition:
     for field_name, pattern in (
         ("include_url_pattern", source.include_url_pattern),
         ("exclude_title_pattern", source.exclude_title_pattern),
+        (
+            "selection_include_title_pattern",
+            source.selection_include_title_pattern,
+        ),
+        (
+            "selection_exclude_title_pattern",
+            source.selection_exclude_title_pattern,
+        ),
         ("pdf_link_pattern", source.pdf_link_pattern),
     ):
         if pattern is not None:

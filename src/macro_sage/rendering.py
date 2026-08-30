@@ -124,6 +124,11 @@ def _render_v1_markdown(
             for outcome in outcomes
             if outcome.state is SourceState.SKIPPED
         ]
+        unavailable = [
+            outcome
+            for outcome in outcomes
+            if outcome.state is SourceState.UNAVAILABLE
+        ]
         lines.extend(["", "## Source acquisition status", ""])
         lines.append(
             f"**Failed or partial sources: {len(failures)}.** "
@@ -135,8 +140,11 @@ def _render_v1_markdown(
         else:
             lines.append("- None.")
         if skipped:
-            lines.extend(["", "### Skipped by run limits", ""])
+            lines.extend(["", "### Skipped by policy or run limits", ""])
             lines.extend(f"- {outcome.summary()}" for outcome in skipped)
+        if unavailable:
+            lines.extend(["", "### Configured but unavailable", ""])
+            lines.extend(f"- {outcome.summary()}" for outcome in unavailable)
     return "\n".join(lines).rstrip() + "\n"
 
 
@@ -152,6 +160,9 @@ def _source_status_lines(outcomes: list[SourceOutcome] | None) -> list[str]:
         return []
     failures = [outcome for outcome in outcomes if outcome.is_failure]
     skipped = [outcome for outcome in outcomes if outcome.state is SourceState.SKIPPED]
+    unavailable = [
+        outcome for outcome in outcomes if outcome.state is SourceState.UNAVAILABLE
+    ]
     lines = [
         "## Source acquisition status",
         "",
@@ -164,8 +175,11 @@ def _source_status_lines(outcomes: list[SourceOutcome] | None) -> list[str]:
     if not failures:
         lines.append("- None.")
     if skipped:
-        lines.extend(["", "### Skipped by run limits", ""])
+        lines.extend(["", "### Skipped by policy or run limits", ""])
         lines.extend(f"- {outcome.summary()}" for outcome in skipped)
+    if unavailable:
+        lines.extend(["", "### Configured but unavailable", ""])
+        lines.extend(f"- {outcome.summary()}" for outcome in unavailable)
     return lines
 
 

@@ -14,19 +14,23 @@ Macro Sage is intentionally a small batch application, not a framework.
    identity in a migrated, revision-preserving SQLite schema.
 5. Every discovery origin, content revision, source-health event, invalid date,
    filter, duplicate, quiet period and failure remains auditable.
-6. Documents selected for synthesis receive short run-scoped citation keys such
-   as `S001`; opaque canonical IDs remain internal.
-7. The OpenAI Responses API returns the model-authored portion of a
+6. A deterministic corpus contract reserves primary evidence, applies explicit
+   relevance filters, enforces source/publisher caps, balances publishers and
+   records every inclusion, truncation and omission.
+7. Selected documents receive short run-scoped citation keys such as `S001` and
+   are serialized as one JSON evidence array; opaque canonical IDs remain
+   internal and source text cannot forge document boundaries.
+8. The OpenAI Responses API returns the model-authored portion of a
    Pydantic-validated `DailyBriefV2`; operational coverage fields and the final
    source register are calculated in code, and short keys are strictly resolved
    back to canonical document IDs.
-8. Each attempt writes atomically to `output/runs/<run-id>/`, with separate
+9. Each attempt writes atomically to `output/runs/<run-id>/`, with separate
    content and health outcomes.
-9. The local private corpus is separated from a body-free audit manifest used
+10. The local private corpus is separated from a body-free audit manifest used
    by PDF rendering and GitHub artifact upload.
-10. Successful structured briefs are appended to a versioned history store;
+11. Successful structured briefs are appended to a versioned history store;
     deterministic one-day and one-week comparisons are rendered from it.
-11. JSON, Markdown and PDF are rendered from the same final brief object. An
+12. JSON, Markdown and PDF are rendered from the same final brief object. An
     optional Telegram adapter sends the PDF after rendering and records its
     idempotency key separately from report success.
 
@@ -39,6 +43,21 @@ this workload. One request also avoids compounding summary loss and repeated
 output-token cost. Inputs still have deterministic article-count, per-article,
 and total-character caps. That is a cost and failure guard, not a second
 summarization layer.
+
+### Deterministic corpus admission
+
+Acquisition and synthesis admission are separate. Lawfully acquired documents
+remain in the private manifest even when they do not enter the bounded model
+context. Corpus version 3 ranks evidence by configured authority and priority,
+macro relevance, freshness and publisher diversity; reserves up to one third of
+the article capacity for available primary evidence; and enforces both
+per-product-line and per-publisher caps. Source-specific title filters are
+declarative and versioned in `sources.toml` rather than hidden in model prompts.
+
+Every decision and reason is written to `run.json`. The selected records are a
+JSON array, not pseudo-XML assembled around publisher text. JSON escaping keeps
+closing tags, quotes and instruction-like source content inside the content
+field instead of allowing them to alter citation or document boundaries.
 
 Feed requests keep a short 30-second network bound. The single, richer V2
 synthesis request has a separate 180-second read bound so model generation is
@@ -135,6 +154,22 @@ manifest records a structured outcome for every attempted source. Failed and
 partial sources are repeated in the terminal, `source-status.md`, the brief,
 the PDF, and the GitHub job summary. A source with no same-day item is reported
 separately because absence is normal for lower-frequency publishers.
+
+### Source health is cadence-aware and model-free
+
+Daily collection and the independent `Source Health` workflow append discovery
+events to SQLite schema 3. The accumulated snapshot records last check, last
+success, last failure, latest publication, expected publication boundary and
+consecutive adverse observations. Event-driven silence is quiet, not failure;
+a source becomes `failing` only after its configured threshold (three by
+default), and no source is automatically disabled.
+
+The weekday check performs feed discovery only. A Sunday canary runs full
+extraction separately from synthesis and transcription. Both produce body-free
+artifacts and need no OpenAI credentials. Critical coverage is calculated from
+configured role groups: a role is materially missing only when no active source
+in the role supplied content and at least one role source had an adverse
+outcome. Quiet role sources alone do not turn a normal empty day into a failure.
 
 ### Content and health are separate outcomes
 

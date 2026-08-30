@@ -1,6 +1,7 @@
 # Macro Sage
 
 [![Generate Macro Brief](https://github.com/Phoendor/macro_sage/actions/workflows/generate-brief.yml/badge.svg)](https://github.com/Phoendor/macro_sage/actions/workflows/generate-brief.yml)
+[![Source Health](https://github.com/Phoendor/macro_sage/actions/workflows/source-health.yml/badge.svg)](https://github.com/Phoendor/macro_sage/actions/workflows/source-health.yml)
 
 Macro Sage collects a structured, curated set of macro and central-bank feeds,
 verifies and versions the original article or PDF text, deduplicates it in
@@ -79,6 +80,9 @@ macro-sage synthesize
 # See configured sources without network access.
 macro-sage list-sources --all
 
+# Check feed discovery and accumulated cadence health without OpenAI or extraction.
+macro-sage source-health
+
 # Check a saved brief against the deterministic grounding contract.
 macro-sage evaluate --brief output/runs/RUN_ID/brief.json \
   --manifest output/runs/RUN_ID/manifest.json
@@ -135,6 +139,13 @@ append-only history directory is committed to the dedicated
 push succeeds. The workflow token therefore has repository-contents write
 permission limited to this persistence step.
 
+The separate `Source Health` workflow runs a model-free discovery check on
+weekday mornings and a full extraction canary each Sunday. It records latest
+publication, last success/failure and consecutive adverse observations in the
+same migrated SQLite store. One transient failure is a warning; the configured
+threshold must be reached before the source is labelled failing. This workflow
+does not need an OpenAI key and never downloads podcast audio.
+
 Every run writes `source-status.md` and lists failed or partially acquired
 sources in terminal output, GitHub's run summary, Markdown, JSON, and the PDF.
 Sources with no same-day publication are listed separately and are not treated
@@ -151,10 +162,14 @@ durable and suppresses duplicate rerun posts; use the explicit `deliver
 the PDF or fail report generation. See [Telegram delivery](docs/TELEGRAM.md).
 
 The input budget is intentionally bounded by article count and characters. This
-controls cost without splitting the corpus into many model calls. Sources are
-round-robined by publisher before the article limit is applied, so one prolific
-feed cannot crowd out the rest. The selected documents and any omissions are
-saved alongside every brief.
+controls cost without splitting the corpus into many model calls. Corpus
+selection reserves capacity for primary evidence, ranks by evidence tier,
+configured priority, title relevance and freshness, balances publishers, and
+enforces per-source and per-publisher caps. Explicit title filters keep known
+single-security or off-topic material out of synthesis without deleting it from
+the private collection manifest. Every inclusion, truncation and omission is
+saved in `run.json`. The model receives a JSON evidence array, so source text
+cannot forge document boundaries or citation headers.
 
 ## Source and cache contracts
 
@@ -201,7 +216,8 @@ The check command verifies that the active environment imports this checkout,
 checks the generated catalog and coverage matrix, then runs compilation, Ruff,
 and the offline test suite with a two-minute limit per subprocess. Tests must be
 deterministic and must not call live feeds or paid APIs. Use `macro-sage
-validate-sources` separately when feed health needs checking.
+source-health` for routine discovery checks and `macro-sage validate-sources`
+when full live extraction needs checking.
 
 ## Security
 

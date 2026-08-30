@@ -16,10 +16,21 @@ audio source. Podcast media is probed without transcription or a complete
 download. Live validation intentionally does not run in CI because publisher
 availability is external and changes over time.
 
+Routine health is lighter: `macro-sage source-health` checks discovery and
+publication cadence without extraction, audio download or OpenAI. GitHub runs
+that check on weekday mornings and runs the complete extraction canary weekly.
+The event log retains last success/failure, latest publication and consecutive
+adverse observations; a source is labelled failing at its configured threshold
+but is never silently disabled.
+
 `config/sources.toml` is authoritative. It generates
 [SOURCE_CATALOG.md](SOURCE_CATALOG.md) and
 [SOURCE_COVERAGE.md](SOURCE_COVERAGE.md); offline checks compare the complete
 generated documents rather than only checking that IDs appear.
+The same inventory controls synthesis admission separately from acquisition:
+evidence tier, priority, `selection_cap`, `publisher_cap` and explicit title
+include/exclude patterns are deterministic, and every omitted document remains
+auditable in `run.json`.
 
 Automated validation and manual review are separate operations. Validation
 always writes `pending_review` contract samples. Supplying `--review-bundle`

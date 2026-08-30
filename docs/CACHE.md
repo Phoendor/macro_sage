@@ -5,17 +5,22 @@ Schema migrations run automatically and transactionally when `DocumentStore`
 opens the database; the application never deletes or recreates the database to
 upgrade it.
 
-## Schema 2
+## Schema 3
 
 - `documents` owns source-independent canonical identities.
 - `document_revisions` preserves immutable bodies and extraction provenance.
 - `discovery_origins` records every source/feed path that exposed a document.
-- `source_health_events` records acquisition health separately from content.
+- `source_health_events` records acquisition health, check time and the newest
+  observed publication separately from content. Accumulated snapshots derive
+  last success/failure and consecutive adverse observations without mutating
+  past events.
 - `duplicate_candidates` records similar-title review suggestions without
   merging them.
 
 Legacy schema-1 rows migrate to a preserved `legacy-v1` revision with a quality
 flag. Their IDs remain valid so older manifests and caches continue to resolve.
+Schema-2 databases migrate in place by adding the nullable newest-publication
+field; existing health history and document revisions remain intact.
 
 ## Reuse and invalidation
 

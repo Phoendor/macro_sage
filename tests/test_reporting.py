@@ -4,6 +4,8 @@ from datetime import date, datetime, timezone
 from macro_sage.models import (
     CollectionReport,
     Document,
+    SourceHealthSnapshot,
+    SourceHealthStatus,
     SourceKind,
     SourceOutcome,
     SourceState,
@@ -39,6 +41,23 @@ def test_manifest_round_trip_preserves_explicit_source_failures(tmp_path):
                 SourceState.FAILED,
                 stage="feed discovery",
                 detail="HTTP 403",
+                checked_at=datetime(2026, 7, 27, 8, tzinfo=timezone.utc),
+                latest_publication_at=datetime(2026, 7, 26, 8, tzinfo=timezone.utc),
+            )
+        ],
+        health_snapshots=[
+            SourceHealthSnapshot(
+                "broken",
+                "Broken Source",
+                SourceHealthStatus.WARNING,
+                datetime(2026, 7, 27, 8, tzinfo=timezone.utc),
+                None,
+                datetime(2026, 7, 27, 8, tzinfo=timezone.utc),
+                datetime(2026, 7, 26, 8, tzinfo=timezone.utc),
+                None,
+                1,
+                3,
+                "One adverse observation.",
             )
         ],
     )
@@ -50,6 +69,8 @@ def test_manifest_round_trip_preserves_explicit_source_failures(tmp_path):
     assert target == date(2026, 7, 27)
     assert loaded.documents == report.documents
     assert loaded.failures[0].source_id == "broken"
+    assert loaded.failures[0].checked_at == report.outcomes[0].checked_at
+    assert loaded.health_snapshots == report.health_snapshots
     assert "HTTP 403" in status_markdown(target, loaded)
 
 

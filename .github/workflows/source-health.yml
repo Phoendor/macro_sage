@@ -1,0 +1,91 @@
+name: Source Health
+
+on:
+  workflow_dispatch:
+    inputs:
+      full_validation:
+        description: Also run full extraction canaries
+        required: true
+        default: false
+        type: boolean
+      include_podcasts:
+        description: Include podcast-feed discovery without downloading audio
+        required: true
+        default: false
+        type: boolean
+  schedule:
+    - cron: "15 7 * * 1-5"
+      timezone: Europe/Amsterdam
+    - cron: "30 8 * * 0"
+      timezone: Europe/Amsterdam
+
+permissions:
+  contents: read
+
+concurrency:
+  group: macro-sage-source-health-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  health:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"
+          cache: pip
+      - name: Install locked application dependencies
+        run: python -m pip install --constraint constraints.txt -e .
+
+      - name: Restore source-health history and document cache
+        uses: actions/cache/restore@v5
+        with:
+          path: data
+          key: macro-sage-data-v3-${{ runner.os }}-health-${{ github.run_id }}
+          restore-keys: |
+            macro-sage-data-v3-${{ runner.os }}-
+
+      - name: Run discovery-only source health
+        env:
+          INCLUDE_PODCASTS: ${{ inputs.include_podcasts }}
+        run: |
+          args=()
+          if [ "$INCLUDE_PODCASTS" = "true" ]; then
+            args+=(--include-podcasts)
+          fi
+          python -m macro_sage source-health \
+            --database data/macro_sage.sqlite3 \
+            --output output/source-health/latest.json \
+            --markdown output/source-health/latest.md \
+            "${args[@]}"
+
+      - name: Save source-health history and document cache
+        if: always()
+        uses: actions/cache/save@v5
+        with:
+          path: data
+          key: macro-sage-data-v3-${{ runner.os }}-health-${{ github.run_id }}
+
+      - name: Run weekly full extraction canaries
+        if: github.event.schedule == '30 8 * * 0' || inputs.full_validation == true
+        run: |
+          python -m macro_sage validate-sources \
+            --limit 1 \
+            --workers 6 \
+            --output output/source-validation.json \
+            --samples-dir output/source-validation-contracts
+
+      - name: Upload body-free health evidence
+        if: always()
+        uses: actions/upload-artifact@v6
+        with:
+          name: source-health-${{ github.run_id }}
+          path: |
+            output/source-health/latest.json
+            output/source-health/latest.md
+            output/source-validation.json
+            output/source-validation-contracts
+          if-no-files-found: warn
+          retention-days: 30

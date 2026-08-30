@@ -4,12 +4,22 @@ import hashlib
 import json
 import re
 import sqlite3
-from datetime import datetime, timezone
+from datetime import date, datetime, timedelta, timezone
 from difflib import SequenceMatcher
 from pathlib import Path
+from zoneinfo import ZoneInfo
 
 from macro_sage.feeds import canonicalize_url
-from macro_sage.models import AcquisitionMode, Document, FeedItem, SourceOutcome
+from macro_sage.models import (
+    AcquisitionMode,
+    Document,
+    FeedItem,
+    SourceDefinition,
+    SourceHealthSnapshot,
+    SourceHealthStatus,
+    SourceOutcome,
+    SourceState,
+)
 from macro_sage.versions import DATABASE_SCHEMA_VERSION, EXTRACTOR_VERSION
 
 
@@ -100,8 +110,11 @@ class DocumentStore:
                 state TEXT NOT NULL,
                 stage TEXT,
                 detail TEXT,
-                document_count INTEGER NOT NULL
+                document_count INTEGER NOT NULL,
+                latest_publication_at TEXT
             );
+            CREATE INDEX IF NOT EXISTS idx_source_health_source_checked
+                ON source_health_events(source_id, checked_at DESC);
             CREATE TABLE IF NOT EXISTS duplicate_candidates (
                 left_document_id TEXT NOT NULL REFERENCES documents(id),
                 right_document_id TEXT NOT NULL REFERENCES documents(id),
@@ -119,6 +132,10 @@ class DocumentStore:
             "INSERT OR REPLACE INTO schema_metadata(key, value) VALUES('version', ?)",
             (str(DATABASE_SCHEMA_VERSION),),
         )
+        if "latest_publication_at" not in self._table_columns("source_health_events"):
+            self.connection.execute(
+                "ALTER TABLE source_health_events ADD COLUMN latest_publication_at TEXT"
+            )
         self.connection.commit()
 
     def _migrate_legacy(self, row: sqlite3.Row) -> None:
@@ -410,18 +427,131 @@ class DocumentStore:
             """
             INSERT INTO source_health_events (
                 source_id, checked_at, state, stage, detail, document_count
-            ) VALUES (?, ?, ?, ?, ?, ?)
+                , latest_publication_at
+            ) VALUES (?, ?, ?, ?, ?, ?, ?)
             """,
             (
                 outcome.source_id,
-                datetime.now(timezone.utc).isoformat(),
+                (outcome.checked_at or datetime.now(timezone.utc)).isoformat(),
                 outcome.state.value,
                 outcome.stage,
                 outcome.detail,
                 outcome.document_count,
+                (
+                    outcome.latest_publication_at.isoformat()
+                    if outcome.latest_publication_at
+                    else None
+                ),
             ),
         )
         self.connection.commit()
+
+    def source_health_snapshots(
+        self,
+        sources: list[SourceDefinition],
+        *,
+        target: date,
+        timezone_name: str,
+    ) -> list[SourceHealthSnapshot]:
+        failure_states = {
+            SourceState.FAILED,
+            SourceState.PARTIAL,
+            SourceState.EXPECTED_ABSENT,
+            SourceState.STALE,
+            SourceState.INVALID_DATES,
+            SourceState.DEGRADED,
+        }
+        snapshots: list[SourceHealthSnapshot] = []
+        local_zone = ZoneInfo(timezone_name)
+        for source in sources:
+            rows = list(
+                self.connection.execute(
+                    """
+                    SELECT checked_at, state, latest_publication_at
+                    FROM source_health_events
+                    WHERE source_id = ?
+                    ORDER BY checked_at DESC, id DESC
+                    """,
+                    (source.id,),
+                )
+            )
+            if not rows:
+                snapshots.append(
+                    SourceHealthSnapshot(
+                        source.id,
+                        source.name,
+                        SourceHealthStatus.UNKNOWN,
+                        None,
+                        None,
+                        None,
+                        None,
+                        None,
+                        0,
+                        source.failure_threshold,
+                        "No source-health observation has been recorded.",
+                    )
+                )
+                continue
+            states = [SourceState(str(row["state"])) for row in rows]
+            checks = [datetime.fromisoformat(str(row["checked_at"])) for row in rows]
+            consecutive_failures = 0
+            for state in states:
+                if state not in failure_states:
+                    break
+                consecutive_failures += 1
+            success_at = next(
+                (checked for checked, state in zip(checks, states) if state not in failure_states),
+                None,
+            )
+            failure_at = next(
+                (checked for checked, state in zip(checks, states) if state in failure_states),
+                None,
+            )
+            publications = [
+                datetime.fromisoformat(str(row["latest_publication_at"]))
+                for row in rows
+                if row["latest_publication_at"]
+            ]
+            latest_publication = max(publications) if publications else None
+            expected_next = None
+            if not source.event_driven and latest_publication is not None:
+                latest_day = latest_publication.astimezone(local_zone).date()
+                expected_next = latest_day + timedelta(days=source.max_gap_days)
+            current = states[0]
+            if current in {SourceState.QUIET_EXPECTED, SourceState.NO_ITEMS}:
+                status = SourceHealthStatus.QUIET
+                detail = "No publication was expected; discovery remained healthy."
+            elif current in failure_states:
+                status = (
+                    SourceHealthStatus.FAILING
+                    if consecutive_failures >= source.failure_threshold
+                    else SourceHealthStatus.WARNING
+                )
+                detail = (
+                    f"{consecutive_failures} consecutive adverse observation(s); "
+                    f"attention threshold is {source.failure_threshold}."
+                )
+            else:
+                status = SourceHealthStatus.HEALTHY
+                detail = "Latest source-health observation passed."
+            if expected_next and target > expected_next:
+                detail += f" Expected publication boundary was {expected_next.isoformat()}."
+            snapshots.append(
+                SourceHealthSnapshot(
+                    source.id,
+                    source.name,
+                    status,
+                    checks[0],
+                    success_at,
+                    failure_at,
+                    latest_publication,
+                    expected_next,
+                    consecutive_failures,
+                    source.failure_threshold,
+                    detail,
+                )
+            )
+        return snapshots
 
     def revision_count(self, document_id: str) -> int:
         row = self.connection.execute(

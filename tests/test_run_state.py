@@ -3,11 +3,17 @@ from macro_sage.models import (
     ContentResult,
     Document,
     RunHealth,
+    SourceDefinition,
     SourceKind,
     SourceOutcome,
     SourceState,
 )
-from macro_sage.run_state import classify_collection, normalize_run_id, sanitized_error
+from macro_sage.run_state import (
+    assess_coverage,
+    classify_collection,
+    normalize_run_id,
+    sanitized_error,
+)
 
 
 def outcome(state):
@@ -53,6 +59,48 @@ def test_report_with_source_failure_is_degraded():
     )
 
     assert classify_collection(report) == (ContentResult.REPORT, RunHealth.DEGRADED)
+
+
+def test_critical_role_failure_makes_empty_collection_failed():
+    sources = [
+        SourceDefinition(
+            "source",
+            "Source",
+            "Publisher",
+            "https://example.com/feed.xml",
+            "central-bank",
+            critical_coverage_role="policy:test",
+        )
+    ]
+    report = CollectionReport(outcomes=[outcome(SourceState.FAILED)])
+
+    assert assess_coverage(report, sources).material_gaps == (
+        "policy:test: Source=failed",
+    )
+    assert classify_collection(report, sources) == (
+        ContentResult.NO_DATA,
+        RunHealth.FAILED,
+    )
+
+
+def test_quiet_critical_role_does_not_create_material_gap():
+    sources = [
+        SourceDefinition(
+            "source",
+            "Source",
+            "Publisher",
+            "https://example.com/feed.xml",
+            "central-bank",
+            critical_coverage_role="policy:test",
+        )
+    ]
+    report = CollectionReport(outcomes=[outcome(SourceState.QUIET_EXPECTED)])
+
+    assert not assess_coverage(report, sources).material_gaps
+    assert classify_collection(report, sources) == (
+        ContentResult.NO_DATA,
+        RunHealth.HEALTHY,
+    )
 
 
 def test_run_id_is_safely_normalized():

@@ -1,5 +1,40 @@
 # Changelog
 
+## 0.6.0 - 2026-08-30
+
+### Trustworthy daily corpus
+
+- Replaced recency-only publisher round-robin with deterministic evidence-tier,
+  configured-priority, macro-title-relevance, freshness and diversity ranking.
+- Reserved corpus capacity for primary evidence and enforced configured
+  per-source product-line and per-publisher caps before the global article and
+  character budgets.
+- Added explicit synthesis title filters for known single-security/off-topic ING
+  and Saxo material and for NBER's broad weekly batch; acquisition still retains
+  omitted documents privately.
+- Recorded the reason for every inclusion, truncation and omission in
+  `run.json`.
+- Replaced breakable pseudo-XML prompt framing with a JSON evidence array and
+  regression-tested closing tags, quotes and forged citation keys as inert
+  source content.
+
+### Coverage and source health
+
+- Added deterministic critical-role coverage rule v1. A role is materially
+  missing only when none of its active sources supplied content and at least one
+  role source had an adverse outcome; quiet event-driven sources alone do not
+  create a gap.
+- Migrated SQLite to schema 3 and accumulated last check, last success/failure,
+  latest publication, expected publication boundary and consecutive adverse
+  observations without rewriting prior health events.
+- Added `macro-sage source-health` plus a model-free weekday GitHub check and a
+  weekly full extraction canary. One transient failure remains a warning until
+  the configured threshold is reached; sources are never disabled silently.
+- Made default, optional-skipped and configured-unavailable participation states
+  explicit in the safe run manifest and fixed podcast item outcomes so they are
+  no longer dropped when article and audio reports are combined.
+- Expanded the bounded offline suite from 130 to 141 tests.
+
 ## 0.5.0 - 2026-08-30
 
 ### Decision brief v2

@@ -1,6 +1,7 @@
 from pathlib import Path
 
 WORKFLOW = Path(".github/workflows/generate-brief.yml")
+HEALTH_WORKFLOW = Path(".github/workflows/source-health.yml")
 
 
 def test_workflow_selects_models_once_and_never_uploads_private_corpus():
@@ -50,3 +51,16 @@ def test_workflow_delivers_optionally_and_persists_idempotency_state():
     assert "continue-on-error: true" in text
     assert "git -C .history-store add delivery" in text
     assert "retention-days: 30" in text
+
+
+def test_source_health_workflow_is_model_free_and_runs_full_canaries_weekly():
+    text = HEALTH_WORKFLOW.read_text(encoding="utf-8")
+
+    assert "python -m macro_sage source-health" in text
+    assert "python -m macro_sage validate-sources" in text
+    assert "30 8 * * 0" in text
+    assert "OPENAI_API_KEY" not in text
+    assert "documents.private.json" not in text
+    assert "--review-bundle" not in text
+    assert "retention-days: 30" in text
+    assert "macro-sage-data-v3" in text

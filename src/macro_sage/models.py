@@ -62,6 +62,15 @@ class SourceState(StrEnum):
     INVALID_DATES = "invalid_dates"
     DUPLICATE = "duplicate"
     DEGRADED = "degraded"
+    UNAVAILABLE = "unavailable"
+
+
+class SourceHealthStatus(StrEnum):
+    HEALTHY = "healthy"
+    QUIET = "quiet"
+    WARNING = "warning"
+    FAILING = "failing"
+    UNKNOWN = "unknown"
 
 
 class ContentResult(StrEnum):
@@ -114,13 +123,17 @@ class SourceDefinition:
     critical_coverage_role: str | None = None
     scan_depth: int = 50
     daily_limit: int = 3
+    selection_cap: int = 3
     publisher_cap: int = 5
+    failure_threshold: int = 3
     validation_status: ValidationStatus = ValidationStatus.NEEDS_VALIDATION
     last_validation_date: date | None = None
     validation_note: str | None = None
     owner: str = ""
     include_url_pattern: str | None = None
     exclude_title_pattern: str | None = None
+    selection_include_title_pattern: str | None = None
+    selection_exclude_title_pattern: str | None = None
     pdf_link_pattern: str | None = None
     published_from_updated: bool = False
     published_from_feed_last_modified: bool = False
@@ -235,6 +248,8 @@ class SourceOutcome:
     document_count: int = 0
     stage: str | None = None
     detail: str | None = None
+    checked_at: datetime | None = None
+    latest_publication_at: datetime | None = None
 
     @property
     def is_failure(self) -> bool:
@@ -264,11 +279,27 @@ class ItemOutcome:
     document_id: str | None = None
 
 
+@dataclass(frozen=True, slots=True)
+class SourceHealthSnapshot:
+    source_id: str
+    source_name: str
+    status: SourceHealthStatus
+    last_checked_at: datetime | None
+    last_success_at: datetime | None
+    last_failure_at: datetime | None
+    latest_publication_at: datetime | None
+    expected_next_publication: date | None
+    consecutive_failures: int
+    failure_threshold: int
+    detail: str
+
+
 @dataclass(slots=True)
 class CollectionReport:
     documents: list[Document] = field(default_factory=list)
     outcomes: list[SourceOutcome] = field(default_factory=list)
     item_outcomes: list[ItemOutcome] = field(default_factory=list)
+    health_snapshots: list[SourceHealthSnapshot] = field(default_factory=list)
 
     @property
     def failures(self) -> list[SourceOutcome]:

@@ -1,9 +1,17 @@
 import hashlib
 import sqlite3
 from dataclasses import replace
-from datetime import datetime, timezone
+from datetime import date, datetime, timedelta, timezone
 
-from macro_sage.models import Document, FeedItem, SourceDefinition
+from macro_sage.models import (
+    Document,
+    FeedItem,
+    SourceDefinition,
+    SourceHealthStatus,
+    SourceKind,
+    SourceOutcome,
+    SourceState,
+)
 from macro_sage.storage import DocumentStore
 from macro_sage.versions import DATABASE_SCHEMA_VERSION, EXTRACTOR_VERSION
 
@@ -136,3 +144,86 @@ def test_legacy_database_is_migrated_without_losing_the_document(tmp_path):
     with DocumentStore(path) as store:
         assert store.schema_version == DATABASE_SCHEMA_VERSION
         assert store.get("legacy:id").body == "Legacy body"
+
+
+def test_source_health_snapshot_tracks_consecutive_failures_and_publication():
+    source = SourceDefinition(
+        "source",
+        "Source",
+        "Publisher",
+        "https://example.com/feed.xml",
+        "research",
+        event_driven=False,
+        max_gap_days=4,
+        failure_threshold=3,
+    )
+    checked = datetime(2026, 8, 24, 8, tzinfo=timezone.utc)
+    publication = datetime(2026, 8, 24, 7, tzinfo=timezone.utc)
+
+    with DocumentStore(":memory:") as store:
+        store.record_source_health(
+            SourceOutcome(
+                source.id,
+                source.name,
+                SourceKind.ARTICLE,
+                SourceState.COLLECTED,
+                checked_at=checked,
+                latest_publication_at=publication,
+            )
+        )
+        for offset in range(1, 4):
+            store.record_source_health(
+                SourceOutcome(
+                    source.id,
+                    source.name,
+                    SourceKind.ARTICLE,
+                    SourceState.FAILED,
+                    checked_at=checked + timedelta(days=offset),
+                )
+            )
+        snapshot = store.source_health_snapshots(
+            [source],
+            target=date(2026, 8, 27),
+            timezone_name="UTC",
+        )[0]
+
+    assert snapshot.status is SourceHealthStatus.FAILING
+    assert snapshot.consecutive_failures == 3
+    assert snapshot.last_success_at == checked
+    assert snapshot.latest_publication_at == publication
+    assert snapshot.expected_next_publication == date(2026, 8, 28)
+
+
+def test_schema_two_health_events_migrate_in_place(tmp_path):
+    path = tmp_path / "schema-two.sqlite3"
+    connection = sqlite3.connect(path)
+    connection.executescript(
+        """
+        CREATE TABLE schema_metadata (key TEXT PRIMARY KEY, value TEXT NOT NULL);
+        INSERT INTO schema_metadata VALUES ('version', '2');
+        CREATE TABLE source_health_events (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            source_id TEXT NOT NULL,
+            checked_at TEXT NOT NULL,
+            state TEXT NOT NULL,
+            stage TEXT,
+            detail TEXT,
+            document_count INTEGER NOT NULL
+        );
+        INSERT INTO source_health_events (
+            source_id, checked_at, state, stage, detail, document_count
+        ) VALUES ('source', '2026-08-29T08:00:00+00:00', 'collected', NULL, NULL, 1);
+        """
+    )
+    connection.commit()
+    connection.close()
+
+    with DocumentStore(path) as store:
+        columns = store._table_columns("source_health_events")
+        row = store.connection.execute(
+            "SELECT state, latest_publication_at FROM source_health_events"
+        ).fetchone()
+
+    assert "latest_publication_at" in columns
+    assert row["state"] == "collected"
+    assert row["latest_publication_at"] is None

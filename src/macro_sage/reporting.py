@@ -16,10 +16,14 @@ from macro_sage.models import (
     ItemOutcome,
     ItemState,
     RunHealth,
+    SourceDefinition,
+    SourceHealthSnapshot,
+    SourceHealthStatus,
     SourceKind,
     SourceOutcome,
     SourceState,
 )
+from macro_sage.run_state import assess_coverage
 
 
 def document_to_dict(document: Document) -> dict[str, object]:
@@ -99,7 +103,14 @@ def document_from_dict(value: dict[str, object]) -> Document:
 
 
 def outcome_to_dict(outcome: SourceOutcome) -> dict[str, object]:
-    return asdict(outcome)
+    value = asdict(outcome)
+    value["checked_at"] = outcome.checked_at.isoformat() if outcome.checked_at else None
+    value["latest_publication_at"] = (
+        outcome.latest_publication_at.isoformat()
+        if outcome.latest_publication_at
+        else None
+    )
+    return value
 
 
 def outcome_from_dict(value: dict[str, object]) -> SourceOutcome:
@@ -111,6 +122,71 @@ def outcome_from_dict(value: dict[str, object]) -> SourceOutcome:
         document_count=int(value.get("document_count", 0)),
         stage=str(value["stage"]) if value.get("stage") else None,
         detail=str(value["detail"]) if value.get("detail") else None,
+        checked_at=(
+            datetime.fromisoformat(str(value["checked_at"]))
+            if value.get("checked_at")
+            else None
+        ),
+        latest_publication_at=(
+            datetime.fromisoformat(str(value["latest_publication_at"]))
+            if value.get("latest_publication_at")
+            else None
+        ),
+    )
+
+
+def health_snapshot_to_dict(snapshot: SourceHealthSnapshot) -> dict[str, object]:
+    return {
+        "source_id": snapshot.source_id,
+        "source_name": snapshot.source_name,
+        "status": snapshot.status.value,
+        "last_checked_at": (
+            snapshot.last_checked_at.isoformat() if snapshot.last_checked_at else None
+        ),
+        "last_success_at": (
+            snapshot.last_success_at.isoformat() if snapshot.last_success_at else None
+        ),
+        "last_failure_at": (
+            snapshot.last_failure_at.isoformat() if snapshot.last_failure_at else None
+        ),
+        "latest_publication_at": (
+            snapshot.latest_publication_at.isoformat()
+            if snapshot.latest_publication_at
+            else None
+        ),
+        "expected_next_publication": (
+            snapshot.expected_next_publication.isoformat()
+            if snapshot.expected_next_publication
+            else None
+        ),
+        "consecutive_failures": snapshot.consecutive_failures,
+        "failure_threshold": snapshot.failure_threshold,
+        "detail": snapshot.detail,
+    }
+
+
+def health_snapshot_from_dict(value: dict[str, object]) -> SourceHealthSnapshot:
+    def parsed_datetime(name: str) -> datetime | None:
+        return (
+            datetime.fromisoformat(str(value[name])) if value.get(name) else None
+        )
+
+    return SourceHealthSnapshot(
+        source_id=str(value["source_id"]),
+        source_name=str(value["source_name"]),
+        status=SourceHealthStatus(str(value["status"])),
+        last_checked_at=parsed_datetime("last_checked_at"),
+        last_success_at=parsed_datetime("last_success_at"),
+        last_failure_at=parsed_datetime("last_failure_at"),
+        latest_publication_at=parsed_datetime("latest_publication_at"),
+        expected_next_publication=(
+            date.fromisoformat(str(value["expected_next_publication"]))
+            if value.get("expected_next_publication")
+            else None
+        ),
+        consecutive_failures=int(value.get("consecutive_failures", 0)),
+        failure_threshold=int(value.get("failure_threshold", 3)),
+        detail=str(value.get("detail", "")),
     )
 
 
@@ -141,6 +217,9 @@ def write_manifest(path: Path, target: date, report: CollectionReport) -> None:
             outcome_to_dict(outcome) for outcome in report.outcomes
         ],
         "item_statuses": [asdict(outcome) for outcome in report.item_outcomes],
+        "source_health": [
+            health_snapshot_to_dict(snapshot) for snapshot in report.health_snapshots
+        ],
         # Kept as human-readable compatibility fields for existing renderers.
         "errors": failures,
         "skipped": no_items,
@@ -163,6 +242,9 @@ def write_audit_manifest(path: Path, target: date, report: CollectionReport) -> 
             outcome_to_dict(outcome) for outcome in report.outcomes
         ],
         "item_statuses": [asdict(outcome) for outcome in report.item_outcomes],
+        "source_health": [
+            health_snapshot_to_dict(snapshot) for snapshot in report.health_snapshots
+        ],
         "errors": failures,
         "skipped": no_items,
     }
@@ -183,6 +265,10 @@ def load_manifest(path: Path) -> tuple[date, CollectionReport]:
             item_outcome_from_dict(outcome)
             for outcome in value.get("item_statuses", [])
         ],
+        health_snapshots=[
+            health_snapshot_from_dict(snapshot)
+            for snapshot in value.get("source_health", [])
+        ],
     )
     return date.fromisoformat(value["date"]), report
 
@@ -193,6 +279,7 @@ def status_markdown(
     *,
     content_result: ContentResult | None = None,
     health: RunHealth | None = None,
+    sources: list[SourceDefinition] | None = None,
 ) -> str:
     failures = report.failures
     lines = [
@@ -206,9 +293,32 @@ def status_markdown(
         lines.append(f"- Content result: **{content_result.value}**")
     if health is not None:
         lines.append(f"- Run health: **{health.value}**")
+    coverage = assess_coverage(report, sources)
+    lines.extend(["", "## Material coverage gaps", ""])
+    if coverage.material_gaps:
+        lines.extend(f"- **{gap}**" for gap in coverage.material_gaps)
+    else:
+        lines.append("- None under configured critical-role rule v1.")
     lines.extend(["", "## Failed or partial sources", ""])
     if failures:
         lines.extend(f"- **{outcome.summary()}**" for outcome in failures)
+    else:
+        lines.append("- None.")
+
+    attention = [
+        snapshot
+        for snapshot in report.health_snapshots
+        if snapshot.status in {SourceHealthStatus.WARNING, SourceHealthStatus.FAILING}
+    ]
+    lines.extend(["", "## Accumulated source-health attention", ""])
+    if attention:
+        lines.extend(
+            f"- `{snapshot.source_id}` - {snapshot.source_name}: "
+            f"**{snapshot.status.value}**, {snapshot.consecutive_failures}/"
+            f"{snapshot.failure_threshold} consecutive adverse observation(s). "
+            f"{snapshot.detail}"
+            for snapshot in attention
+        )
     else:
         lines.append("- None.")
 
@@ -218,8 +328,17 @@ def status_markdown(
         if outcome.state is SourceState.SKIPPED
     ]
     if skipped:
-        lines.extend(["", "## Skipped by run limits", ""])
+        lines.extend(["", "## Skipped by policy or run limits", ""])
         lines.extend(f"- {outcome.summary()}" for outcome in skipped)
+
+    unavailable = [
+        outcome
+        for outcome in report.outcomes
+        if outcome.state is SourceState.UNAVAILABLE
+    ]
+    if unavailable:
+        lines.extend(["", "## Configured but unavailable", ""])
+        lines.extend(f"- {outcome.summary()}" for outcome in unavailable)
 
     lines.extend(["", "## Sources with no same-day publication", ""])
     if report.without_items:
@@ -260,6 +379,48 @@ def print_status(target: date, report: CollectionReport) -> None:
             print(f"- {outcome.summary()}")
     else:
         print("- None")
+
+
+def health_report_to_dict(target: date, report: CollectionReport) -> dict[str, object]:
+    return {
+        "date": target.isoformat(),
+        "source_statuses": [outcome_to_dict(outcome) for outcome in report.outcomes],
+        "source_health": [
+            health_snapshot_to_dict(snapshot) for snapshot in report.health_snapshots
+        ],
+    }
+
+
+def health_status_markdown(target: date, report: CollectionReport) -> str:
+    counts = {
+        status: sum(snapshot.status is status for snapshot in report.health_snapshots)
+        for status in SourceHealthStatus
+    }
+    lines = [
+        f"# Source health - {target.isoformat()}",
+        "",
+        "This is a discovery-only check. It does not call OpenAI, download podcast "
+        "audio, or treat normal event-driven silence as a failure.",
+        "",
+        f"- Healthy: **{counts[SourceHealthStatus.HEALTHY]}**",
+        f"- Quiet as expected: **{counts[SourceHealthStatus.QUIET]}**",
+        f"- Warning: **{counts[SourceHealthStatus.WARNING]}**",
+        f"- Failing threshold reached: **{counts[SourceHealthStatus.FAILING]}**",
+        f"- No history: **{counts[SourceHealthStatus.UNKNOWN]}**",
+        "",
+        "| Source | Status | Consecutive adverse | Latest publication | Last success | Detail |",
+        "|---|---|---:|---|---|---|",
+    ]
+    for snapshot in report.health_snapshots:
+        lines.append(
+            f"| `{snapshot.source_id}` {snapshot.source_name} | "
+            f"{snapshot.status.value} | {snapshot.consecutive_failures}/"
+            f"{snapshot.failure_threshold} | "
+            f"{snapshot.latest_publication_at.date() if snapshot.latest_publication_at else 'unknown'} | "
+            f"{snapshot.last_success_at.date() if snapshot.last_success_at else 'none'} | "
+            f"{snapshot.detail.replace('|', '/')} |"
+        )
+    return "\n".join(lines).rstrip() + "\n"
 
 
 def append_github_summary(markdown: str) -> None:

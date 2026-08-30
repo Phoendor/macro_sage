@@ -82,7 +82,8 @@ def render_catalog(inventory: SourceInventory) -> str:
         "**expected** (event-driven expectation). The inventory also carries normal "
         "publication gaps, active weekdays, evidence tier, geography, topics, asset "
         "classes, acquisition contract, priority, critical coverage role, scan depth, "
-        "daily inclusion limit, publisher cap, language, validation status and owner.",
+        "daily inclusion limit, synthesis selection cap, publisher cap, health-failure "
+        "threshold, language, validation status and owner.",
         "",
         "## Default text sources",
         "",

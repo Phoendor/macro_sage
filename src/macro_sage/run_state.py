@@ -13,9 +13,86 @@ from macro_sage.files import write_json_atomic
 from macro_sage.models import (
     CollectionReport,
     ContentResult,
+    Participation,
     RunHealth,
+    SourceDefinition,
     SourceState,
 )
+from macro_sage.versions import COVERAGE_RULE_VERSION
+
+_MATERIAL_FAILURE_STATES = {
+    SourceState.FAILED,
+    SourceState.PARTIAL,
+    SourceState.EXPECTED_ABSENT,
+    SourceState.STALE,
+    SourceState.INVALID_DATES,
+    SourceState.DEGRADED,
+}
+
+
+@dataclass(frozen=True, slots=True)
+class CoverageAssessment:
+    rule_version: int
+    material_gaps: tuple[str, ...]
+    evaluated_roles: tuple[str, ...]
+
+    @property
+    def has_material_gap(self) -> bool:
+        return bool(self.material_gaps)
+
+    def as_dict(self) -> dict[str, object]:
+        return {
+            "rule_version": self.rule_version,
+            "material_gaps": list(self.material_gaps),
+            "evaluated_roles": list(self.evaluated_roles),
+            "rule": (
+                "A critical role is materially missing only when none of its active "
+                "sources supplied a document and at least one role source failed, was "
+                "partial without content, stale, degraded, invalidly dated, or expected "
+                "but absent. Quiet event-driven sources alone do not create a gap."
+            ),
+        }
+
+
+def assess_coverage(
+    report: CollectionReport,
+    sources: list[SourceDefinition] | None,
+) -> CoverageAssessment:
+    roles: dict[str, list[SourceDefinition]] = {}
+    for source in sources or []:
+        if (
+            source.participation is Participation.DEFAULT
+            and source.critical_coverage_role
+        ):
+            roles.setdefault(source.critical_coverage_role, []).append(source)
+    outcomes = {outcome.source_id: outcome for outcome in report.outcomes}
+    gaps: list[str] = []
+    for role, role_sources in sorted(roles.items()):
+        role_outcomes = [
+            outcomes[source.id] for source in role_sources if source.id in outcomes
+        ]
+        if any(outcome.document_count > 0 for outcome in role_outcomes):
+            continue
+        material = [
+            outcome
+            for outcome in role_outcomes
+            if outcome.state in _MATERIAL_FAILURE_STATES
+            and not (
+                outcome.state is SourceState.PARTIAL
+                and outcome.document_count > 0
+            )
+        ]
+        if not material:
+            continue
+        detail = ", ".join(
+            f"{outcome.source_name}={outcome.state.value}" for outcome in material
+        )
+        gaps.append(f"{role}: {detail}")
+    return CoverageAssessment(
+        rule_version=COVERAGE_RULE_VERSION,
+        material_gaps=tuple(gaps),
+        evaluated_roles=tuple(sorted(roles)),
+    )
 
 
 @dataclass(frozen=True, slots=True)
@@ -80,7 +157,10 @@ def build_run_paths(
     )
 
 
-def classify_collection(report: CollectionReport) -> tuple[ContentResult, RunHealth]:
+def classify_collection(
+    report: CollectionReport,
+    sources: list[SourceDefinition] | None = None,
+) -> tuple[ContentResult, RunHealth]:
     content = ContentResult.REPORT if report.documents else ContentResult.NO_DATA
     failures = report.failures
     if not failures:
@@ -88,10 +168,13 @@ def classify_collection(report: CollectionReport) -> tuple[ContentResult, RunHea
     if report.documents:
         return content, RunHealth.DEGRADED
 
+    if assess_coverage(report, sources).has_material_gap:
+        return content, RunHealth.FAILED
+
     substantive = [
         outcome
         for outcome in report.outcomes
-        if outcome.state not in {SourceState.SKIPPED}
+        if outcome.state not in {SourceState.SKIPPED, SourceState.UNAVAILABLE}
     ]
     systemic = bool(substantive) and all(
         outcome.state in {SourceState.FAILED, SourceState.PARTIAL}

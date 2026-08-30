@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from datetime import date, datetime
+from datetime import date, datetime, timezone
 from zoneinfo import ZoneInfo
 
 from macro_sage.extraction import extract
@@ -79,6 +79,7 @@ def collect_articles(
                 SourceState.FAILED,
                 stage="feed discovery",
                 detail=redact_text(str(exc)),
+                checked_at=datetime.now(timezone.utc),
             )
             report.outcomes.append(outcome)
             store.record_source_health(outcome)
@@ -97,6 +98,11 @@ def collect_articles(
                 )
             )
         dated_items = [item for item in discovery.items if item.published_at is not None]
+        latest_publication = max(
+            (item.published_at for item in dated_items if item.published_at),
+            default=None,
+        )
+        checked_at = getattr(discovery, "checked_at", datetime.now(timezone.utc))
         matching_all = [
             item
             for item in dated_items
@@ -145,6 +151,8 @@ def collect_articles(
                 state,
                 stage="publication dating" if state is SourceState.INVALID_DATES else None,
                 detail=detail,
+                checked_at=checked_at,
+                latest_publication_at=latest_publication,
             )
             report.outcomes.append(outcome)
             store.record_source_health(outcome)
@@ -226,6 +234,8 @@ def collect_articles(
             document_count=collected,
             stage="article extraction" if failures else "content quality" if degraded else None,
             detail="; ".join(details) if details else None,
+            checked_at=checked_at,
+            latest_publication_at=latest_publication,
         )
         report.outcomes.append(outcome)
         store.record_source_health(outcome)

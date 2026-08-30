@@ -179,10 +179,16 @@ def collect_podcasts(
                 SourceState.FAILED,
                 stage="feed discovery",
                 detail=redact_text(str(exc)),
+                checked_at=datetime.now(timezone.utc),
             )
             report.outcomes.append(outcome)
             store.record_source_health(outcome)
             continue
+        checked_at = datetime.now(timezone.utc)
+        latest_publication = max(
+            (item.published_at for item in items if item.published_at),
+            default=None,
+        )
         matching_all = [
             entry
             for entry in items
@@ -210,6 +216,8 @@ def collect_podcasts(
                 source.kind,
                 SourceState.QUIET_EXPECTED,
                 detail=f"no publication expected or observed on {target.isoformat()}",
+                checked_at=checked_at,
+                latest_publication_at=latest_publication,
             )
             report.outcomes.append(outcome)
             store.record_source_health(outcome)
@@ -358,6 +366,8 @@ def collect_podcasts(
             document_count=collected,
             stage=stage,
             detail="; ".join(details) if details else None,
+            checked_at=checked_at,
+            latest_publication_at=latest_publication,
         )
         report.outcomes.append(outcome)
         store.record_source_health(outcome)

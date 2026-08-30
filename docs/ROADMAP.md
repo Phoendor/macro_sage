@@ -6,8 +6,9 @@ a positive owner review on 2026-08-30, and its prospective evidence audit and
 first configured Telegram delivery remain open. Milestone 1 is still awaiting
 its scheduled-run observation gate. Milestone 2 passed its closure audit.
 Milestone 3 passed its hosted fixed-date canary and awaits the first scheduled
-cutoff-window observation before closure. Milestone 5 is the next implementation
-priority.
+cutoff-window observation before closure. Milestone 5's first version-0.6
+implementation tranche is code-complete and awaits its hosted observation and
+remaining advanced corpus-accounting refinements.
 
 Baseline date: 2026-08-30.
 
@@ -57,9 +58,9 @@ allowed after a timestamped market-data source has been integrated.
   one bounded structured Responses API synthesis request.
 - [x] Added generic RSS discovery, HTML extraction, PDF extraction, canonical
   URL handling and SQLite document caching.
-- [x] Added simple round-robin publisher balancing and recorded omitted or
-  truncated documents; evidence-tier weighting and hard concentration controls
-  are not implemented yet.
+- [x] Added deterministic evidence-tier, priority, relevance, freshness and
+  publisher-diversity ranking; reserved primary-evidence capacity; enforced
+  source/publisher caps; and recorded every inclusion, truncation and omission.
 - [x] Added Pydantic-validated structured output and strict source-citation
   validation.
 - [x] Added JSON, Markdown and visually formatted PDF output.
@@ -73,7 +74,7 @@ allowed after a timestamped market-data source has been integrated.
 - [x] Made the same CLI operate locally and in GitHub Actions.
 - [x] Added model preflight selection and recorded the selected models.
 - [x] Added bounded offline compilation, generated-catalog validation, lint and
-  regression checks; version 0.5.0 is verified from a clean editable
+  regression checks; version 0.6.0 is verified from a clean editable
   installation.
 
 ### Current operating state
@@ -207,7 +208,7 @@ Acceptance criteria:
 - [x] Define zero documents plus a non-systemic source failure as
   no-data/degraded, and zero documents plus systemic or material coverage
   failure as no-data/failed.
-- [ ] Determine material coverage from configured source criticality and
+- [x] Determine material coverage from configured source criticality and
   coverage rules, not an ad hoc model judgment, and record the rule used.
 - [x] Return a successful process status for a healthy no-data run so GitHub
   does not send a false failure notification.
@@ -927,20 +928,20 @@ Acceptance criteria:
 
 ### G6. Add cadence-aware source health and complete outcomes
 
-- [ ] Run lightweight discovery checks regularly and full extraction canaries
+- [x] Run lightweight discovery checks regularly and full extraction canaries
   on a slower schedule independent of paid synthesis and transcription.
-- [ ] Track last success, last failure, consecutive failures, last publication,
+- [x] Track last success, last failure, consecutive failures, last publication,
   expected next publication and extraction quality.
-- [ ] Interpret daily, weekly, monthly and event-driven silence differently.
-- [ ] Treat one transient failure as a warning and use a defined consecutive
+- [x] Interpret daily, weekly, monthly and event-driven silence differently.
+- [x] Treat one transient failure as a warning and use a defined consecutive
   failure threshold before quarantine.
-- [ ] Never silently remove or omit a source.
-- [ ] Expose collected, degraded/summary-only, partial, failed, stale,
+- [x] Never silently remove or omit a source.
+- [x] Expose collected, degraded/summary-only, partial, failed, stale,
   expected-but-missing, quiet-as-expected, filtered, duplicate, policy-skipped
   and unavailable states in the manifest.
-- [ ] Keep every failure visible in the daily PDF and GitHub summary, with the
+- [x] Keep every failure visible in the daily PDF and GitHub summary, with the
   exact item and stage when applicable.
-- [ ] Flag material coverage holes—for example, a failed Fed source before an
+- [x] Flag material coverage holes—for example, a failed Fed source before an
   FOMC decision—more prominently than an unrelated low-frequency failure.
 
 Acceptance criteria:
@@ -953,30 +954,30 @@ Acceptance criteria:
 Keep everything lawfully acquired in the internal manifest, but select a
 deterministic, relevant and diverse synthesis subset.
 
-This is the first implementation work after Decision Brief V2. The current
-round-robin ordering is a safe baseline, but it does not enforce the configured
-publisher caps, reserve primary-evidence capacity or rank macro relevance.
+This was the first implementation work after Decision Brief V2. Version 0.6
+replaced the earlier round-robin-only baseline with ranked, reserved and capped
+selection while retaining deterministic publisher diversity.
 
-- [ ] Rank by evidence tier, macro relevance, freshness and source diversity.
-- [ ] Reserve room for primary policy/data evidence before commentary.
-- [ ] Cap publisher and product-line contribution so prolific commercial feeds
+- [x] Rank by evidence tier, macro relevance, freshness and source diversity.
+- [x] Reserve room for primary policy/data evidence before commentary.
+- [x] Cap publisher and product-line contribution so prolific commercial feeds
   do not dominate merely through volume.
 - [ ] Treat several publications derived from one underlying release as one
   evidence family for confidence.
-- [ ] Filter company-specific and lifestyle pieces from broad Saxo feeds unless
+- [x] Filter company-specific and lifestyle pieces from broad Saxo feeds unless
   they have a clear macro transmission channel.
-- [ ] Filter narrowly sectoral ING material unless macro or cross-asset
+- [x] Filter narrowly sectoral ING material unless macro or cross-asset
   relevance is material.
-- [ ] Limit NBER's batch feed to relevant macroeconomics, monetary economics,
+- [x] Limit NBER's batch feed to relevant macroeconomics, monetary economics,
   international finance, asset pricing, labour and public-finance research.
 - [ ] Deduplicate BIS speeches against the originating central bank.
-- [ ] Label practitioner podcasts as opinion rather than primary evidence.
-- [ ] Preserve genuine disagreement rather than forcing artificial consensus.
+- [x] Label practitioner podcasts as opinion rather than primary evidence.
+- [x] Preserve genuine disagreement rather than forcing artificial consensus.
 - [ ] Replace character-only budgets with model-aware input accounting and keep
   every omission/truncation visible.
-- [ ] Keep long-document selection deterministic, versioned and auditable; do
+- [x] Keep long-document selection deterministic, versioned and auditable; do
   not conceal a second model summarization stage inside corpus preparation.
-- [ ] Serialize corpus documents safely so titles or bodies containing closing
+- [x] Serialize corpus documents safely so titles or bodies containing closing
   tags, quoted attributes or instructions cannot alter document boundaries.
 
 Acceptance criteria:
@@ -1476,6 +1477,16 @@ Includes the remaining critical-coverage rule from A2, G6–G7, safe corpus
 serialization, cadence-aware health, deterministic relevance and authority
 ranking, enforceable publisher/product-line caps and the associated J1/J2
 fixtures. Source admission does not expand yet.
+
+Implementation status: the first version-0.6 tranche is code-complete on
+2026-08-30. It implements critical-role coverage rule v1, SQLite source-health
+history, independent weekday discovery and weekly extraction workflows,
+explicit participation outcomes, deterministic ranked/capped corpus admission,
+auditable omission reasons and safe JSON evidence serialization. The bounded
+offline suite passes 141 tests. Milestone closure remains open for a hosted
+health observation and fixed-date report canary, plus the unchecked G7 work on
+cross-publisher evidence-family grouping, BIS/originating-bank speech
+deduplication and model-aware token accounting.
 
 Exit gate:
 

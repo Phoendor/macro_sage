@@ -4,15 +4,17 @@ import argparse
 import json
 import os
 import webbrowser
-from dataclasses import replace
+from dataclasses import asdict, replace
 from datetime import date, datetime, timezone
 from pathlib import Path
+from zoneinfo import ZoneInfo
 
 from openai import OpenAI
 
 from macro_sage.config import load_inventory, load_sources
 from macro_sage.evaluation import evaluate_files
 from macro_sage.files import copy_atomic, write_json_atomic, write_text_atomic
+from macro_sage.health import check_source_health
 from macro_sage.history import (
     BriefHistoryRecord,
     DirectoryBriefHistory,
@@ -27,6 +29,8 @@ from macro_sage.models import (
     RunHealth,
     SourceDefinition,
     SourceKind,
+    SourceOutcome,
+    SourceState,
 )
 from macro_sage.openai_models import (
     ModelSelection,
@@ -41,6 +45,8 @@ from macro_sage.podcasts import PodcastTranscriber, collect_podcasts
 from macro_sage.rendering import render_markdown
 from macro_sage.reporting import (
     append_github_summary,
+    health_report_to_dict,
+    health_status_markdown,
     load_manifest,
     print_status,
     status_markdown,
@@ -49,6 +55,7 @@ from macro_sage.reporting import (
 )
 from macro_sage.run_state import (
     RunPaths,
+    assess_coverage,
     build_run_paths,
     classify_collection,
     error_category,
@@ -300,7 +307,13 @@ def _collect_corpus(
     target: date,
     window: AcquisitionWindow,
 ) -> CollectionReport:
-    sources = load_sources(args.config)
+    all_sources = load_sources(args.config, include_disabled=True)
+    sources = [
+        source
+        for source in all_sources
+        if source.participation is Participation.DEFAULT
+    ]
+    participating_sources = list(sources)
     with HttpClient(settings) as http, DocumentStore(args.database) as store:
         report = collect_articles(
             sources,
@@ -313,9 +326,11 @@ def _collect_corpus(
         if args.include_podcasts:
             podcast_sources = [
                 source
-                for source in load_sources(args.config, include_disabled=True)
-                if source.kind is SourceKind.PODCAST
+                for source in all_sources
+                if source.participation is Participation.OPTIONAL
+                and source.kind is SourceKind.PODCAST
             ]
+            participating_sources.extend(podcast_sources)
             transcriber = PodcastTranscriber(
                 OpenAI(timeout=settings.request_timeout_seconds),
                 http,
@@ -334,6 +349,37 @@ def _collect_corpus(
             )
             report.documents.extend(podcast_report.documents)
             report.outcomes.extend(podcast_report.outcomes)
+            report.item_outcomes.extend(podcast_report.item_outcomes)
+        else:
+            report.outcomes.extend(
+                SourceOutcome(
+                    source.id,
+                    source.name,
+                    source.kind,
+                    SourceState.SKIPPED,
+                    stage="source participation policy",
+                    detail="optional podcast source was not enabled for this run",
+                )
+                for source in all_sources
+                if source.participation is Participation.OPTIONAL
+            )
+        report.outcomes.extend(
+            SourceOutcome(
+                source.id,
+                source.name,
+                source.kind,
+                SourceState.UNAVAILABLE,
+                stage="source participation policy",
+                detail=source.unavailable_reason,
+            )
+            for source in all_sources
+            if source.participation is Participation.UNAVAILABLE
+        )
+        report.health_snapshots = store.source_health_snapshots(
+            participating_sources,
+            target=target,
+            timezone_name=settings.timezone_name,
+        )
     return report
 
 
@@ -344,17 +390,20 @@ def _save_collection(
     resolution: DateResolution,
     window: AcquisitionWindow,
     selection: ModelSelection | None,
+    sources: list[SourceDefinition],
 ) -> tuple[ContentResult, RunHealth]:
     paths.directory.mkdir(parents=True, exist_ok=True)
     write_manifest(paths.private_manifest, target, report)
     paths.private_manifest.chmod(0o600)
     write_audit_manifest(paths.audit_manifest, target, report)
-    content_result, health = classify_collection(report)
+    content_result, health = classify_collection(report, sources)
+    coverage = assess_coverage(report, sources)
     status = status_markdown(
         target,
         report,
         content_result=content_result,
         health=health,
+        sources=sources,
     )
     write_text_atomic(paths.source_status, status)
     run_updates: dict[str, object] = {
@@ -368,6 +417,11 @@ def _save_collection(
         "document_count": len(report.documents),
         "failed_or_partial_source_count": len(report.failures),
         "no_item_source_count": len(report.without_items),
+        "coverage_assessment": coverage.as_dict(),
+        "source_health_attention_count": sum(
+            snapshot.status.value in {"warning", "failing"}
+            for snapshot in report.health_snapshots
+        ),
         "versions": transformation_versions(),
     }
     if selection is not None:
@@ -424,6 +478,7 @@ def _collect(args: argparse.Namespace) -> int:
             resolution,
             window,
             selection,
+            load_sources(args.config, include_disabled=True),
         )
     except Exception as exc:
         update_run_record(
@@ -457,7 +512,7 @@ def _synthesize_report(
     window: AcquisitionWindow,
     source_definitions: list[SourceDefinition],
 ) -> Path:
-    _, collection_health = classify_collection(report)
+    _, collection_health = classify_collection(report, source_definitions)
     update_run_record(
         paths.run_record,
         stage="synthesis_started",
@@ -538,6 +593,9 @@ def _synthesize_report(
         "omitted_document_ids": result.omitted_ids,
         "truncated_document_ids": result.truncated_ids,
         "citation_map": result.citation_map,
+        "corpus_selection": [
+            asdict(decision) for decision in result.corpus_decisions
+        ],
         "failed_or_partial_sources": [
             outcome.summary() for outcome in report.failures
         ],
@@ -677,7 +735,8 @@ def _synthesize(args: argparse.Namespace) -> int:
         raise SystemExit(
             f"Manifest date {manifest_target} does not match requested date {target}"
         )
-    content_result, health = classify_collection(report)
+    source_definitions = load_sources(args.config, include_disabled=True)
+    content_result, health = classify_collection(report, source_definitions)
     if not paths.audit_manifest.exists():
         write_audit_manifest(paths.audit_manifest, target, report)
     if not report.documents:
@@ -731,7 +790,7 @@ def _synthesize(args: argparse.Namespace) -> int:
         history_store=history_store,
         history_context=history_context,
         window=window,
-        source_definitions=load_sources(args.config, include_disabled=True),
+        source_definitions=source_definitions,
     )
     if getattr(args, "deliver", False):
         return _deliver_run_record(
@@ -788,6 +847,7 @@ def _run(args: argparse.Namespace) -> int:
             resolution,
             window,
             selection,
+            load_sources(args.config, include_disabled=True),
         )
     except Exception as exc:
         update_run_record(
@@ -901,6 +961,32 @@ def _list_sources(args: argparse.Namespace) -> int:
         state = source.participation.value
         print(f"{source.id:<24} {source.kind.value:<8} {state:<11} {source.name}")
     return 0
+
+
+def _source_health(args: argparse.Namespace) -> int:
+    settings = Settings.from_env()
+    inventory = load_inventory(args.config)
+    sources = [
+        source
+        for source in inventory.sources
+        if source.participation is Participation.DEFAULT
+        or (args.include_podcasts and source.participation is Participation.OPTIONAL)
+    ]
+    target = args.date or datetime.now(ZoneInfo(settings.timezone_name)).date()
+    with HttpClient(settings) as http, DocumentStore(args.database) as store:
+        report = check_source_health(
+            sources,
+            target,
+            http,
+            store,
+            timezone_name=settings.timezone_name,
+        )
+    markdown = health_status_markdown(target, report)
+    write_json_atomic(args.output, health_report_to_dict(target, report))
+    write_text_atomic(args.markdown, markdown)
+    print(markdown)
+    append_github_summary(markdown + "\n")
+    return int(any(snapshot.status.value == "failing" for snapshot in report.health_snapshots))
 
 
 def _evaluate(args: argparse.Namespace) -> int:
@@ -1174,6 +1260,25 @@ def build_parser() -> argparse.ArgumentParser:
     source_list = subparsers.add_parser("list-sources", help="print configured sources")
     source_list.add_argument("--all", action="store_true")
     source_list.set_defaults(handler=_list_sources)
+
+    source_health = subparsers.add_parser(
+        "source-health",
+        help="run discovery-only cadence-aware source checks without OpenAI",
+    )
+    source_health.add_argument("--date", type=_date)
+    source_health.add_argument("--database", type=Path, default=DEFAULT_DATABASE)
+    source_health.add_argument("--include-podcasts", action="store_true")
+    source_health.add_argument(
+        "--output",
+        type=Path,
+        default=DEFAULT_OUTPUT / "source-health" / "latest.json",
+    )
+    source_health.add_argument(
+        "--markdown",
+        type=Path,
+        default=DEFAULT_OUTPUT / "source-health" / "latest.md",
+    )
+    source_health.set_defaults(handler=_source_health)
 
     evaluate = subparsers.add_parser(
         "evaluate",
