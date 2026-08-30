@@ -14,6 +14,19 @@ from macro_sage.models import (
 from macro_sage.run_state import redact_text
 from macro_sage.storage import DocumentStore
 
+_EXPECTED_TIMESTAMP_POLICY_NOTES = (
+    "publication time derived from updated time by source policy",
+    "publication time derived from feed Last-Modified by source policy",
+)
+
+
+def _actionable_warnings(warnings: tuple[str, ...]) -> list[str]:
+    return [
+        warning
+        for warning in warnings
+        if not any(note in warning for note in _EXPECTED_TIMESTAMP_POLICY_NOTES)
+    ]
+
 
 def check_source_health(
     sources: list[SourceDefinition],
@@ -34,6 +47,7 @@ def check_source_health(
                 (item.published_at for item in dated if item.published_at),
                 default=None,
             )
+            actionable_warnings = _actionable_warnings(discovery.warnings)
             if not dated:
                 state = SourceState.INVALID_DATES
                 detail = (
@@ -49,11 +63,11 @@ def check_source_health(
                     f"newest publication is {age} days old; configured normal gap is "
                     f"at most {source.max_gap_days} days"
                 )
-            elif discovery.invalid_date_count or discovery.warnings:
+            elif discovery.invalid_date_count or actionable_warnings:
                 state = SourceState.DEGRADED
                 detail = (
                     f"feed discovery succeeded with {discovery.invalid_date_count} invalid "
-                    f"date(s) and {len(discovery.warnings)} warning(s)"
+                    f"date(s) and {len(actionable_warnings)} actionable warning(s)"
                 )
             else:
                 state = SourceState.COLLECTED

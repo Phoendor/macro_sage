@@ -1483,7 +1483,7 @@ Implementation status: the first version-0.6 tranche is code-complete on
 history, independent weekday discovery and weekly extraction workflows,
 explicit participation outcomes, deterministic ranked/capped corpus admission,
 auditable omission reasons and safe JSON evidence serialization. The bounded
-offline suite passes 141 tests. Milestone closure remains open for a hosted
+offline suite passes 142 tests. Milestone closure remains open for a hosted
 health observation and fixed-date report canary, plus the unchecked G7 work on
 cross-publisher evidence-family grouping, BIS/originating-bank speech
 deduplication and model-aware token accounting.

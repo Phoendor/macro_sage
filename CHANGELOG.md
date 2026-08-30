@@ -33,7 +33,7 @@
 - Made default, optional-skipped and configured-unavailable participation states
   explicit in the safe run manifest and fixed podcast item outcomes so they are
   no longer dropped when article and audio reports are combined.
-- Expanded the bounded offline suite from 130 to 141 tests.
+- Expanded the bounded offline suite from 130 to 142 tests.
 
 ## 0.5.0 - 2026-08-30
 

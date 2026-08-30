@@ -44,6 +44,33 @@ def test_discovery_only_health_check_records_healthy_feed(monkeypatch):
     assert report.health_snapshots[0].latest_publication_at == published
 
 
+def test_expected_timestamp_derivation_note_is_not_adverse(monkeypatch):
+    published = datetime(2026, 8, 29, 8, tzinfo=timezone.utc)
+    discovery = SimpleNamespace(
+        items=[SimpleNamespace(published_at=published)],
+        checked_at=datetime(2026, 8, 30, 7, tzinfo=timezone.utc),
+        invalid_date_count=0,
+        warnings=(
+            "Item: publication time derived from updated time by source policy",
+        ),
+    )
+    monkeypatch.setattr(
+        "macro_sage.health.discover_with_diagnostics",
+        lambda *_args: discovery,
+    )
+
+    with DocumentStore(":memory:") as store:
+        report = check_source_health(
+            [source()],
+            date(2026, 8, 30),
+            object(),
+            store,
+            timezone_name="UTC",
+        )
+
+    assert report.health_snapshots[0].status is SourceHealthStatus.HEALTHY
+
+
 def test_first_discovery_failure_is_visible_warning_not_quarantine(monkeypatch):
     monkeypatch.setattr(
         "macro_sage.health.discover_with_diagnostics",
