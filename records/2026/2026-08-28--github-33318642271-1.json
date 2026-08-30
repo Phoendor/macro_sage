@@ -1,0 +1,1044 @@
+{
+  "record_schema_version": 1,
+  "run_id": "github-33318642271-1",
+  "target_date": "2026-08-28",
+  "intended_cutoff": "2026-08-29T00:00:00+02:00",
+  "acquisition_start": "2026-08-27T22:00:00Z",
+  "acquisition_end": "2026-08-28T22:00:00Z",
+  "acquisition_rule": "explicit_calendar_day",
+  "completed_at": "2026-08-30T15:06:51.101120Z",
+  "health": "degraded",
+  "versions": {
+    "application": "0.5.0",
+    "git_commit": "d97fe9986d2b194dab4ae3c98fe1422f88794522",
+    "source_config": 2,
+    "extractor": "3",
+    "corpus": "2",
+    "synthesis_prompt": "3",
+    "brief_schema": "2",
+    "transcription_prompt": "1",
+    "renderer": "3",
+    "database_schema": 2,
+    "history_store": 1,
+    "history_record": 1,
+    "date_resolution": 2,
+    "acquisition_window": 1,
+    "comparison_keys": 1,
+    "evaluation_contract": 1,
+    "delivery_contract": 1
+  },
+  "brief_schema_version": "2",
+  "synthesis_prompt_version": "3",
+  "model": "gpt-5.6-luna",
+  "reasoning_effort": "low",
+  "document_ids": [
+    "ing-think:f794be3d163c7904",
+    "ing-think:f4a3e8c99eb0bb6a",
+    "ing-think:04bb5ddb8042339f",
+    "ing-think:e939f4aa5d9760d9",
+    "ing-think:2073eb754d427e83",
+    "ing-think:9e964ddf64c8e174",
+    "ing-think:a026a8b97ccd506b",
+    "ing-think:c96e7ddf78685fd1",
+    "ing-think:7bd26430a495467e",
+    "ing-think:6c401d00dc57e909",
+    "saxo-articles:5f6ae3360b50a06d",
+    "saxo-articles:a683468044eb9dca",
+    "saxo-articles:0ae1fee6712bf2b2",
+    "saxo-articles:13e8be22220d5e52",
+    "ecb-press:2ed90d59ca1fb0e6",
+    "fed-speeches:2c51127ee15af4b4",
+    "doc:03f6288e97a337f0",
+    "boe-publications:a429297b84d365cb",
+    "boe-publications:0b992257f96d7f6d",
+    "boj-policy-research:3d2fa2286461e5fe"
+  ],
+  "cited_document_ids": [
+    "ing-think:f794be3d163c7904",
+    "fed-speeches:2c51127ee15af4b4",
+    "saxo-articles:5f6ae3360b50a06d",
+    "ing-think:e939f4aa5d9760d9",
+    "ing-think:a026a8b97ccd506b",
+    "ing-think:7bd26430a495467e",
+    "ing-think:c96e7ddf78685fd1",
+    "ecb-press:2ed90d59ca1fb0e6",
+    "ing-think:04bb5ddb8042339f",
+    "saxo-articles:a683468044eb9dca"
+  ],
+  "brief": {
+    "what_changed": [
+      {
+        "headline": "Fed Chair Warsh delivered a net-hawkish message",
+        "significance": "He stressed inflation remains above target, judged financial conditions broadly non-restrictive, and limited forward guidance; ING reports front-end yields rose and the curve flattened in reaction.",
+        "affected_assets": [
+          "rates",
+          "fx",
+          "equities"
+        ],
+        "transmission": "Higher near-term rate risk can support the dollar and pressure duration-sensitive assets, while reduced guidance increases policy sensitivity to incoming data.",
+        "horizon": "short_term",
+        "source_ids": [
+          "ing-think:f794be3d163c7904",
+          "fed-speeches:2c51127ee15af4b4"
+        ]
+      },
+      {
+        "headline": "Commodity strength broadened beyond energy",
+        "significance": "Saxo reports strong August gains in precious metals, grains and softs, while crude softened as Gulf flows improved; copper remained supported by regional tightness.",
+        "affected_assets": [
+          "commodities",
+          "rates",
+          "equities"
+        ],
+        "transmission": "A broader scarcity impulse raises upside inflation-tail risk, but improving crude supply may limit the aggregate energy shock.",
+        "horizon": "short_term",
+        "source_ids": [
+          "saxo-articles:5f6ae3360b50a06d"
+        ]
+      },
+      {
+        "headline": "European growth remained uneven",
+        "significance": "Eurozone sentiment improved and Italian confidence strengthened, while French GDP stagnated in Q2 and employment declined.",
+        "affected_assets": [
+          "equities",
+          "rates",
+          "credit"
+        ],
+        "transmission": "Resilience supports activity-sensitive assets, but weak French growth and fiscal pressure constrain the case for aggressive European tightening.",
+        "horizon": "medium_term",
+        "source_ids": [
+          "ing-think:e939f4aa5d9760d9",
+          "ing-think:a026a8b97ccd506b",
+          "ing-think:7bd26430a495467e"
+        ]
+      }
+    ],
+    "executive_decisions": [
+      {
+        "rank": 1,
+        "development": "Treat the Fed as more data-dependent and inflation-focused rather than relying on forward guidance.",
+        "why_it_matters": "Warsh explicitly favours limited guidance and says policy must respond to contemporaneous trends; the immediate market reaction was hawkish at the front end.",
+        "transmission": "Incoming inflation and labour data should have greater influence on front-end rates, the dollar and equity duration.",
+        "urgency": "watch",
+        "horizon": "short_term",
+        "source_ids": [
+          "ing-think:f794be3d163c7904",
+          "fed-speeches:2c51127ee15af4b4"
+        ]
+      },
+      {
+        "rank": 2,
+        "development": "Separate commodity exposures by supply mechanism.",
+        "why_it_matters": "Agriculture and precious metals are responding to different scarcity drivers, while crude supply conditions are improving.",
+        "transmission": "Food and metals may retain idiosyncratic upside even if oil weakens; commodity inflation risk is therefore broader but less uniform.",
+        "urgency": "routine",
+        "horizon": "medium_term",
+        "source_ids": [
+          "saxo-articles:5f6ae3360b50a06d"
+        ]
+      }
+    ],
+    "regime_dashboard": [
+      {
+        "dimension": "growth",
+        "state": "Resilient but uneven",
+        "direction": "mixed",
+        "horizon": "medium_term",
+        "confidence": 3,
+        "confidence_rationale": "Code-calibrated evidence strength: 2 cited document(s) from 1 conservatively independent evidence family/families from 1 publisher(s); strongest tier is institutional_analysis.",
+        "evidence": [
+          {
+            "text": "Eurozone economic sentiment rose from 97.1 to 98.4 in August.",
+            "claim_type": "observed_fact",
+            "source_ids": [
+              "ing-think:a026a8b97ccd506b"
+            ],
+            "evidence_family": "confidence surveys",
+            "carried_forward": false
+          },
+          {
+            "text": "French Q2 GDP was revised to stagnation and private-sector employment has declined for six consecutive quarters.",
+            "claim_type": "observed_fact",
+            "source_ids": [
+              "ing-think:7bd26430a495467e"
+            ],
+            "evidence_family": "national accounts and labour data",
+            "carried_forward": false
+          }
+        ],
+        "counterevidence": [],
+        "source_ids": [
+          "ing-think:a026a8b97ccd506b",
+          "ing-think:7bd26430a495467e"
+        ]
+      },
+      {
+        "dimension": "inflation",
+        "state": "Above target with renewed commodity risks",
+        "direction": "mixed",
+        "horizon": "short_term",
+        "confidence": 4,
+        "confidence_rationale": "Code-calibrated evidence strength: 4 cited document(s) from 3 conservatively independent evidence family/families from 3 publisher(s); strongest tier is primary. Explicit counterevidence reduces the displayed tier.",
+        "evidence": [
+          {
+            "text": "US PCE inflation was reported at 3.7% year-on-year and 4.1% over six months, above the Fed’s 2% objective.",
+            "claim_type": "observed_fact",
+            "source_ids": [
+              "fed-speeches:2c51127ee15af4b4"
+            ],
+            "evidence_family": "central-bank assessment",
+            "carried_forward": false
+          },
+          {
+            "text": "Saxo reports strong gains in grains, soft commodities and precious metals, alongside tight refined-product inventories.",
+            "claim_type": "observed_fact",
+            "source_ids": [
+              "saxo-articles:5f6ae3360b50a06d"
+            ],
+            "evidence_family": "commodity-market report",
+            "carried_forward": false
+          }
+        ],
+        "counterevidence": [
+          {
+            "text": "Eurozone selling-price expectations were subdued in industry, while French goods and food inflation remained low.",
+            "claim_type": "observed_fact",
+            "source_ids": [
+              "ing-think:a026a8b97ccd506b",
+              "ing-think:7bd26430a495467e"
+            ],
+            "evidence_family": "survey and CPI data",
+            "carried_forward": false
+          }
+        ],
+        "source_ids": [
+          "fed-speeches:2c51127ee15af4b4",
+          "saxo-articles:5f6ae3360b50a06d",
+          "ing-think:a026a8b97ccd506b",
+          "ing-think:7bd26430a495467e"
+        ]
+      },
+      {
+        "dimension": "monetary_policy",
+        "state": "US hawkish; Europe contested",
+        "direction": "mixed",
+        "horizon": "short_term",
+        "confidence": 5,
+        "confidence_rationale": "Code-calibrated evidence strength: 3 cited document(s) from 2 conservatively independent evidence family/families from 2 publisher(s); strongest tier is primary.",
+        "evidence": [
+          {
+            "text": "Warsh described the 2% PCE objective as firm and said underlying inflation had not meaningfully improved.",
+            "claim_type": "observed_fact",
+            "source_ids": [
+              "fed-speeches:2c51127ee15af4b4"
+            ],
+            "evidence_family": "central-bank communication",
+            "carried_forward": false
+          },
+          {
+            "text": "ING expects an ECB September hike but argues that further hikes could become restrictive without stronger justification.",
+            "claim_type": "source_opinion",
+            "source_ids": [
+              "ing-think:a026a8b97ccd506b",
+              "ing-think:c96e7ddf78685fd1"
+            ],
+            "evidence_family": "bank research",
+            "carried_forward": false
+          }
+        ],
+        "counterevidence": [],
+        "source_ids": [
+          "fed-speeches:2c51127ee15af4b4",
+          "ing-think:a026a8b97ccd506b",
+          "ing-think:c96e7ddf78685fd1"
+        ]
+      },
+      {
+        "dimension": "liquidity_financial_conditions",
+        "state": "Not restrictive in the US; architecture under redesign",
+        "direction": "mixed",
+        "horizon": "medium_term",
+        "confidence": 5,
+        "confidence_rationale": "Code-calibrated evidence strength: 2 cited document(s) from 2 conservatively independent evidence family/families from 2 publisher(s); strongest tier is primary.",
+        "evidence": [
+          {
+            "text": "Warsh said credit and loan markets showed few signs of policy restraint and that broad financial conditions were not restrictive.",
+            "claim_type": "observed_fact",
+            "source_ids": [
+              "fed-speeches:2c51127ee15af4b4"
+            ],
+            "evidence_family": "central-bank assessment",
+            "carried_forward": false
+          },
+          {
+            "text": "ECB work argues that native on-chain central-bank money could improve liquidity provision but that ledger design involves fragmentation, governance and resilience trade-offs.",
+            "claim_type": "source_opinion",
+            "source_ids": [
+              "ecb-press:2ed90d59ca1fb0e6"
+            ],
+            "evidence_family": "central-bank speech",
+            "carried_forward": false
+          }
+        ],
+        "counterevidence": [],
+        "source_ids": [
+          "ecb-press:2ed90d59ca1fb0e6",
+          "fed-speeches:2c51127ee15af4b4"
+        ]
+      },
+      {
+        "dimension": "fiscal_policy",
+        "state": "Expansionary pressure remains",
+        "direction": "deteriorating",
+        "horizon": "medium_term",
+        "confidence": 3,
+        "confidence_rationale": "Code-calibrated evidence strength: 2 cited document(s) from 1 conservatively independent evidence family/families from 1 publisher(s); strongest tier is institutional_analysis.",
+        "evidence": [
+          {
+            "text": "Poland’s draft 2027 general-government deficit is projected at 7.1% of GDP.",
+            "claim_type": "observed_fact",
+            "source_ids": [
+              "ing-think:04bb5ddb8042339f"
+            ],
+            "evidence_family": "fiscal policy",
+            "carried_forward": false
+          },
+          {
+            "text": "French fiscal targets were described as increasingly difficult after weaker growth and higher projected adjustment needs.",
+            "claim_type": "source_opinion",
+            "source_ids": [
+              "ing-think:7bd26430a495467e"
+            ],
+            "evidence_family": "fiscal analysis",
+            "carried_forward": false
+          }
+        ],
+        "counterevidence": [],
+        "source_ids": [
+          "ing-think:04bb5ddb8042339f",
+          "ing-think:7bd26430a495467e"
+        ]
+      },
+      {
+        "dimension": "risk_sentiment",
+        "state": "Fragile beneath resilient headline activity",
+        "direction": "mixed",
+        "horizon": "short_term",
+        "confidence": 5,
+        "confidence_rationale": "Code-calibrated evidence strength: 2 cited document(s) from 2 conservatively independent evidence family/families from 2 publisher(s); strongest tier is primary.",
+        "evidence": [
+          {
+            "text": "Warsh cited low credit spreads, strong issuance and buoyant loan markets.",
+            "claim_type": "observed_fact",
+            "source_ids": [
+              "fed-speeches:2c51127ee15af4b4"
+            ],
+            "evidence_family": "central-bank assessment",
+            "carried_forward": false
+          },
+          {
+            "text": "Saxo identifies war, weather, trade policy and fiscal concerns as active commodity drivers.",
+            "claim_type": "source_opinion",
+            "source_ids": [
+              "saxo-articles:5f6ae3360b50a06d"
+            ],
+            "evidence_family": "market research",
+            "carried_forward": false
+          }
+        ],
+        "counterevidence": [],
+        "source_ids": [
+          "fed-speeches:2c51127ee15af4b4",
+          "saxo-articles:5f6ae3360b50a06d"
+        ]
+      }
+    ],
+    "macro_themes": [
+      {
+        "theme": "Inflation persistence versus resilient demand",
+        "thesis": "The US combination of above-target inflation, stable employment and non-restrictive financial conditions supports a hawkish policy bias, while Europe’s resilience has not yet produced broad core-price pressure.",
+        "market_implication": "Near-term rates risk is asymmetric to the upside in the US; European duration faces a less decisive but still contested tightening outlook.",
+        "observed_facts": [
+          {
+            "text": "US PCE inflation remains above the Fed’s 2% objective, while labour markets were described as stable.",
+            "claim_type": "observed_fact",
+            "source_ids": [
+              "fed-speeches:2c51127ee15af4b4"
+            ],
+            "evidence_family": "central-bank assessment",
+            "carried_forward": false
+          },
+          {
+            "text": "Eurozone sentiment improved, but French Q2 GDP stagnated and core price pressures remained subdued in France.",
+            "claim_type": "observed_fact",
+            "source_ids": [
+              "ing-think:a026a8b97ccd506b",
+              "ing-think:7bd26430a495467e"
+            ],
+            "evidence_family": "macro data",
+            "carried_forward": false
+          }
+        ],
+        "inferences": [
+          {
+            "text": "The US policy reaction function is likely to remain more sensitive to inflation than to modest labour-market softening.",
+            "claim_type": "synthesis_inference",
+            "source_ids": [
+              "fed-speeches:2c51127ee15af4b4"
+            ],
+            "evidence_family": "policy transmission",
+            "carried_forward": false
+          }
+        ],
+        "conflicting_evidence": [],
+        "unresolved_questions": [
+          "Whether incoming US inflation data show sufficient improvement for the Fed to avoid further tightening.",
+          "Whether higher European energy prices broaden into core inflation."
+        ],
+        "transmission": [
+          {
+            "asset_class": "rates",
+            "implication": "US front-end rate risk is upward-biased; European rates face competing growth and inflation signals."
+          },
+          {
+            "asset_class": "fx",
+            "implication": "A more hawkish Fed stance is supportive for the dollar, subject to subsequent data."
+          },
+          {
+            "asset_class": "equities",
+            "implication": "Long-duration and richly valued growth exposure remains sensitive to higher real-rate risk."
+          }
+        ],
+        "horizon": "short_term",
+        "catalysts": [
+          "US labour-market and inflation releases",
+          "Eurozone August inflation data"
+        ],
+        "invalidation_conditions": [
+          "Clear evidence of sustained US disinflation",
+          "Material deterioration in US employment or financial conditions"
+        ],
+        "source_ids": [
+          "fed-speeches:2c51127ee15af4b4",
+          "ing-think:a026a8b97ccd506b",
+          "ing-think:c96e7ddf78685fd1",
+          "ing-think:7bd26430a495467e"
+        ]
+      },
+      {
+        "theme": "Scarcity broadens the commodity inflation tail",
+        "thesis": "Commodity risks are increasingly diversified across food, precious metals, industrial metals and refined products rather than concentrated in crude.",
+        "market_implication": "Commodity exposure may hedge inflation shocks, but the drivers are heterogeneous and vulnerable to diplomatic, weather and demand reversals.",
+        "observed_facts": [
+          {
+            "text": "Precious metals, grains and soft commodities recorded strong August advances, while crude weakened as Gulf flows improved.",
+            "claim_type": "observed_fact",
+            "source_ids": [
+              "saxo-articles:5f6ae3360b50a06d"
+            ],
+            "evidence_family": "commodity-market report",
+            "carried_forward": false
+          },
+          {
+            "text": "Refined-product inventories were reported at very low levels despite improving crude availability.",
+            "claim_type": "observed_fact",
+            "source_ids": [
+              "saxo-articles:5f6ae3360b50a06d"
+            ],
+            "evidence_family": "commodity-market report",
+            "carried_forward": false
+          }
+        ],
+        "inferences": [
+          {
+            "text": "Headline oil relief may not fully remove broader commodity-driven inflation risk.",
+            "claim_type": "synthesis_inference",
+            "source_ids": [
+              "saxo-articles:5f6ae3360b50a06d"
+            ],
+            "evidence_family": "cross-commodity transmission",
+            "carried_forward": false
+          }
+        ],
+        "conflicting_evidence": [],
+        "unresolved_questions": [
+          "Whether Black Sea disruptions and weather risks persist into the next harvest cycle.",
+          "Whether improving Gulf flows continue without renewed geopolitical escalation."
+        ],
+        "transmission": [
+          {
+            "asset_class": "commodities",
+            "implication": "Agriculture, precious metals and copper retain distinct supply-driven support; crude is more vulnerable to improved flows."
+          },
+          {
+            "asset_class": "rates",
+            "implication": "Persistent food or refined-product inflation could delay policy easing."
+          }
+        ],
+        "horizon": "medium_term",
+        "catalysts": [
+          "Further Gulf shipping-flow data",
+          "Harvest, weather and Black Sea logistics updates"
+        ],
+        "invalidation_conditions": [
+          "Diplomatic de-escalation, improved harvest conditions or a sharp global-growth slowdown"
+        ],
+        "source_ids": [
+          "saxo-articles:5f6ae3360b50a06d"
+        ]
+      }
+    ],
+    "asset_views": [
+      {
+        "asset": "US front-end rates",
+        "bias": "bearish",
+        "horizon": "short_term",
+        "confidence": 3,
+        "confidence_rationale": "Code-calibrated evidence strength: 1 cited document(s) from 1 conservatively independent evidence family/families from 1 publisher(s); strongest tier is primary.",
+        "market_confirmation": "unavailable",
+        "thesis": "Persistent above-target inflation and non-restrictive financial conditions keep near-term tightening risk material.",
+        "transmission": "Higher expected policy rates lift front-end yields and can tighten duration-sensitive financial conditions.",
+        "drivers": [
+          "Inflation remains above the 2% objective.",
+          "Labour markets were assessed as stable.",
+          "Financial conditions were assessed as broadly non-restrictive."
+        ],
+        "risks": [
+          "Weak incoming employment data could reduce tightening risk.",
+          "The speech explicitly avoided a policy commitment."
+        ],
+        "catalyst": "US inflation and employment data",
+        "invalidation_condition": "Clear, sustained evidence that underlying inflation is moving toward target at sufficient speed.",
+        "evidence": [
+          {
+            "text": "Warsh said inflation remained above target and that the underlying trend had not meaningfully improved.",
+            "claim_type": "observed_fact",
+            "source_ids": [
+              "fed-speeches:2c51127ee15af4b4"
+            ],
+            "evidence_family": "central-bank communication",
+            "carried_forward": false
+          }
+        ],
+        "counterevidence": [],
+        "source_ids": [
+          "fed-speeches:2c51127ee15af4b4"
+        ]
+      },
+      {
+        "asset": "Gold",
+        "bias": "mixed",
+        "horizon": "short_term",
+        "confidence": 4,
+        "confidence_rationale": "Code-calibrated evidence strength: 2 cited document(s) from 2 conservatively independent evidence family/families from 2 publisher(s); strongest tier is primary. Explicit counterevidence reduces the displayed tier.",
+        "market_confirmation": "unavailable",
+        "thesis": "Gold retains support from fiscal concerns and investor demand, but a hawkish Fed and stronger dollar can interrupt the advance.",
+        "transmission": "Fiscal-risk demand supports bullion, while higher real rates and dollar strength raise its opportunity cost.",
+        "drivers": [
+          "Fiscal sustainability concerns.",
+          "Renewed investor demand and technical momentum.",
+          "Persistent uncertainty over US monetary policy."
+        ],
+        "risks": [
+          "Higher real yields or a stronger dollar.",
+          "Profit-taking after strong gains."
+        ],
+        "catalyst": "Incoming US inflation and Fed communication",
+        "invalidation_condition": "Sustained dollar and real-yield strengthening that overwhelms fiscal-risk demand.",
+        "evidence": [
+          {
+            "text": "Saxo reports precious metals rose strongly in August amid fiscal concerns and renewed investor demand.",
+            "claim_type": "observed_fact",
+            "source_ids": [
+              "saxo-articles:5f6ae3360b50a06d"
+            ],
+            "evidence_family": "commodity-market report",
+            "carried_forward": false
+          }
+        ],
+        "counterevidence": [
+          {
+            "text": "Saxo identifies stronger real yields and the dollar as risks to precious metals.",
+            "claim_type": "source_opinion",
+            "source_ids": [
+              "saxo-articles:5f6ae3360b50a06d"
+            ],
+            "evidence_family": "market research",
+            "carried_forward": false
+          }
+        ],
+        "source_ids": [
+          "saxo-articles:5f6ae3360b50a06d",
+          "fed-speeches:2c51127ee15af4b4"
+        ]
+      }
+    ],
+    "candidate_expressions": [],
+    "scenarios": [
+      {
+        "kind": "base",
+        "qualitative_likelihood": "leading",
+        "description": "US inflation remains sticky enough to keep the Fed hawkish, while European growth remains resilient but uneven and commodity leadership stays diversified.",
+        "signposts": [
+          "US inflation fails to show clear further improvement.",
+          "Eurozone sentiment remains resilient while French activity stays weak.",
+          "Agricultural and precious-metal supply risks persist."
+        ],
+        "cross_asset_consequences": [
+          {
+            "asset_class": "rates",
+            "implication": "US front-end yields remain vulnerable to upward repricing; European rates are mixed."
+          },
+          {
+            "asset_class": "fx",
+            "implication": "Dollar support persists against currencies exposed to dovish repricing."
+          },
+          {
+            "asset_class": "commodities",
+            "implication": "Non-energy commodities remain relatively supported while crude is more mixed."
+          }
+        ],
+        "assumptions": [
+          {
+            "text": "The Fed maintains a firm focus on returning inflation to 2%.",
+            "claim_type": "source_opinion",
+            "source_ids": [
+              "fed-speeches:2c51127ee15af4b4"
+            ],
+            "evidence_family": "policy communication",
+            "carried_forward": false
+          }
+        ],
+        "source_ids": [
+          "fed-speeches:2c51127ee15af4b4",
+          "saxo-articles:5f6ae3360b50a06d",
+          "ing-think:a026a8b97ccd506b",
+          "ing-think:7bd26430a495467e"
+        ]
+      },
+      {
+        "kind": "upside",
+        "qualitative_likelihood": "plausible",
+        "description": "US disinflation resumes without a major growth shock, allowing rate pressure to ease while AI-linked investment and commodity scarcity support selected risk assets.",
+        "signposts": [
+          "Underlying US inflation improves clearly.",
+          "AI investment remains strong.",
+          "Commodity supply disruptions persist without broad demand deterioration."
+        ],
+        "cross_asset_consequences": [
+          {
+            "asset_class": "rates",
+            "implication": "Front-end rate pressure eases."
+          },
+          {
+            "asset_class": "equities",
+            "implication": "AI-related and other duration-sensitive equities benefit, subject to valuation risk."
+          },
+          {
+            "asset_class": "commodities",
+            "implication": "Gold and supply-constrained commodities remain supported."
+          }
+        ],
+        "assumptions": [
+          {
+            "text": "AI-related capital expenditure continues to expand rapidly.",
+            "claim_type": "observed_fact",
+            "source_ids": [
+              "fed-speeches:2c51127ee15af4b4",
+              "saxo-articles:a683468044eb9dca"
+            ],
+            "evidence_family": "corporate and central-bank assessment",
+            "carried_forward": false
+          }
+        ],
+        "source_ids": [
+          "fed-speeches:2c51127ee15af4b4",
+          "saxo-articles:a683468044eb9dca"
+        ]
+      },
+      {
+        "kind": "downside",
+        "qualitative_likelihood": "plausible",
+        "description": "Commodity disruptions broaden into core inflation while fiscal concerns intensify, forcing tighter policy into weakening European activity.",
+        "signposts": [
+          "Food or refined-product inflation accelerates.",
+          "US inflation expectations become less anchored.",
+          "French or broader European activity deteriorates further."
+        ],
+        "cross_asset_consequences": [
+          {
+            "asset_class": "rates",
+            "implication": "Short-end yields rise while long-end term-risk pressure increases."
+          },
+          {
+            "asset_class": "equities",
+            "implication": "Cyclical and long-duration equities weaken."
+          },
+          {
+            "asset_class": "credit",
+            "implication": "Weak growth and tighter policy raise spread risk."
+          }
+        ],
+        "assumptions": [
+          {
+            "text": "Commodity disruptions persist and pass through more broadly to prices.",
+            "claim_type": "synthesis_inference",
+            "source_ids": [
+              "saxo-articles:5f6ae3360b50a06d",
+              "ing-think:a026a8b97ccd506b",
+              "ing-think:7bd26430a495467e"
+            ],
+            "evidence_family": "inflation transmission",
+            "carried_forward": false
+          }
+        ],
+        "source_ids": [
+          "saxo-articles:5f6ae3360b50a06d",
+          "ing-think:a026a8b97ccd506b",
+          "ing-think:7bd26430a495467e"
+        ]
+      }
+    ],
+    "disagreements": [
+      {
+        "issue": "Extent of forthcoming European monetary tightening",
+        "sides": [
+          {
+            "position": "Further ECB tightening remains warranted",
+            "evidence": [
+              {
+                "text": "ING expects a September ECB hike despite subdued core price signals.",
+                "claim_type": "source_forecast",
+                "source_ids": [
+                  "ing-think:a026a8b97ccd506b"
+                ],
+                "evidence_family": "bank research",
+                "carried_forward": false
+              }
+            ],
+            "source_ids": [
+              "ing-think:a026a8b97ccd506b"
+            ]
+          },
+          {
+            "position": "Additional hikes beyond September may be excessive",
+            "evidence": [
+              {
+                "text": "ING argues that more than one further hike could push policy into restrictive territory without compelling evidence.",
+                "claim_type": "source_opinion",
+                "source_ids": [
+                  "ing-think:c96e7ddf78685fd1"
+                ],
+                "evidence_family": "bank research",
+                "carried_forward": false
+              }
+            ],
+            "source_ids": [
+              "ing-think:c96e7ddf78685fd1"
+            ]
+          }
+        ],
+        "resolution_signal": "Eurozone August core inflation and evidence of second-round effects in services and wages."
+      }
+    ],
+    "catalysts": [
+      {
+        "event_or_signpost": "US labour-market and inflation releases",
+        "timing": "Next data cycle",
+        "what_matters": "Whether underlying inflation improves and labour-market resilience persists, determining the durability of the Fed’s hawkish stance.",
+        "affected_views": [
+          "US front-end rates",
+          "Gold",
+          "Base scenario"
+        ],
+        "source_ids": [
+          "fed-speeches:2c51127ee15af4b4",
+          "ing-think:c96e7ddf78685fd1"
+        ]
+      },
+      {
+        "event_or_signpost": "Eurozone August inflation",
+        "timing": "Next data cycle",
+        "what_matters": "Whether higher energy prices broaden into core inflation and validate further ECB tightening.",
+        "affected_views": [
+          "European rates",
+          "Inflation regime",
+          "European monetary-policy disagreement"
+        ],
+        "source_ids": [
+          "ing-think:a026a8b97ccd506b",
+          "ing-think:c96e7ddf78685fd1",
+          "ing-think:7bd26430a495467e"
+        ]
+      },
+      {
+        "event_or_signpost": "Gulf flows and refined-product inventories",
+        "timing": "Ongoing",
+        "what_matters": "Whether crude supply continues to improve while product markets remain constrained.",
+        "affected_views": [
+          "Commodity inflation theme",
+          "Gold",
+          "Downside scenario"
+        ],
+        "source_ids": [
+          "saxo-articles:5f6ae3360b50a06d"
+        ]
+      }
+    ],
+    "top_risks": [
+      {
+        "risk": "US inflation remains persistent while financial conditions stay loose.",
+        "why_it_matters": "This could extend front-end rate pressure and weaken long-duration assets.",
+        "monitor": "Core inflation breadth, inflation expectations, credit conditions and Fed communication.",
+        "source_ids": [
+          "fed-speeches:2c51127ee15af4b4"
+        ]
+      },
+      {
+        "risk": "Commodity scarcity broadens from energy into food and refined products.",
+        "why_it_matters": "A wider inflation impulse could delay policy easing and weaken growth-sensitive assets.",
+        "monitor": "Black Sea logistics, harvest conditions, refined-product inventories and Gulf shipping flows.",
+        "source_ids": [
+          "saxo-articles:5f6ae3360b50a06d"
+        ]
+      },
+      {
+        "risk": "European fiscal deterioration collides with weak growth.",
+        "why_it_matters": "France and Poland illustrate the combination of limited consolidation capacity and elevated funding needs.",
+        "monitor": "Budget measures, sovereign spreads and quarterly activity data.",
+        "source_ids": [
+          "ing-think:04bb5ddb8042339f",
+          "ing-think:7bd26430a495467e"
+        ]
+      }
+    ],
+    "schema_version": "2",
+    "as_of_date": "2026-08-28",
+    "coverage": {
+      "data_cutoff": "2026-08-28T22:00:00Z",
+      "comparison_date": null,
+      "documents_collected": 20,
+      "sources_collected": 6,
+      "sources_failed_or_partial": 9,
+      "sources_without_items": 16,
+      "important_missing_coverage": [
+        "policy:global: Central Bank Speeches (stale)",
+        "policy:canada: Bank of Canada Speeches (expected_absent)",
+        "policy:united-kingdom: Bank of England Speeches (stale)",
+        "policy:norway: Norges Bank Speeches (expected_absent)",
+        "policy:sweden: Sveriges Riksbank Speeches (expected_absent)"
+      ],
+      "market_data_available": false,
+      "market_data_note": "No timestamped market-price, positioning, or event-calendar feed is integrated. Candidate expressions require current-market confirmation."
+    },
+    "source_ids_used": [
+      "ing-think:f794be3d163c7904",
+      "fed-speeches:2c51127ee15af4b4",
+      "saxo-articles:5f6ae3360b50a06d",
+      "ing-think:e939f4aa5d9760d9",
+      "ing-think:a026a8b97ccd506b",
+      "ing-think:7bd26430a495467e",
+      "ing-think:c96e7ddf78685fd1",
+      "ecb-press:2ed90d59ca1fb0e6",
+      "ing-think:04bb5ddb8042339f",
+      "saxo-articles:a683468044eb9dca"
+    ]
+  },
+  "asset_views": [
+    {
+      "key": "asset-view:rates:us:front-end:short_term",
+      "family": "rates",
+      "horizon_key": "short_term",
+      "asset": "US front-end rates",
+      "horizon": "short_term",
+      "bias": "bearish",
+      "confidence": 3,
+      "supporting_evidence": [
+        "Inflation remains above the 2% objective.",
+        "Labour markets were assessed as stable.",
+        "Financial conditions were assessed as broadly non-restrictive."
+      ],
+      "contradicting_evidence": [
+        "Weak incoming employment data could reduce tightening risk.",
+        "The speech explicitly avoided a policy commitment."
+      ],
+      "source_document_ids": [
+        "fed-speeches:2c51127ee15af4b4"
+      ],
+      "first_seen_date": "2026-08-28",
+      "last_updated_date": "2026-08-28",
+      "expected_expiry_date": "2026-09-11",
+      "freshness": "current",
+      "status_history": [
+        {
+          "as_of_date": "2026-08-28",
+          "status": "new",
+          "bias": "bearish",
+          "confidence": 3,
+          "current_source_document_ids": [
+            "fed-speeches:2c51127ee15af4b4"
+          ],
+          "freshness": "current"
+        }
+      ]
+    },
+    {
+      "key": "asset-view:commodities:gold:short_term",
+      "family": "commodities",
+      "horizon_key": "short_term",
+      "asset": "Gold",
+      "horizon": "short_term",
+      "bias": "mixed",
+      "confidence": 4,
+      "supporting_evidence": [
+        "Fiscal sustainability concerns.",
+        "Renewed investor demand and technical momentum.",
+        "Persistent uncertainty over US monetary policy."
+      ],
+      "contradicting_evidence": [
+        "Higher real yields or a stronger dollar.",
+        "Profit-taking after strong gains."
+      ],
+      "source_document_ids": [
+        "saxo-articles:5f6ae3360b50a06d",
+        "fed-speeches:2c51127ee15af4b4"
+      ],
+      "first_seen_date": "2026-08-28",
+      "last_updated_date": "2026-08-28",
+      "expected_expiry_date": "2026-09-11",
+      "freshness": "current",
+      "status_history": [
+        {
+          "as_of_date": "2026-08-28",
+          "status": "new",
+          "bias": "mixed",
+          "confidence": 4,
+          "current_source_document_ids": [
+            "saxo-articles:5f6ae3360b50a06d",
+            "fed-speeches:2c51127ee15af4b4"
+          ],
+          "freshness": "current"
+        }
+      ]
+    }
+  ],
+  "themes": [
+    {
+      "key": "regime:inflation",
+      "entity_type": "regime",
+      "title": "Inflation persistence versus resilient demand",
+      "implication": "Near-term rates risk is asymmetric to the upside in the US; European duration faces a less decisive but still contested tightening outlook.",
+      "source_document_ids": [
+        "fed-speeches:2c51127ee15af4b4",
+        "ing-think:a026a8b97ccd506b",
+        "ing-think:c96e7ddf78685fd1",
+        "ing-think:7bd26430a495467e"
+      ],
+      "first_seen_date": "2026-08-28",
+      "last_updated_date": "2026-08-28",
+      "expected_expiry_date": "2026-09-11",
+      "freshness": "current"
+    },
+    {
+      "key": "regime:inflation",
+      "entity_type": "regime",
+      "title": "Scarcity broadens the commodity inflation tail",
+      "implication": "Commodity exposure may hedge inflation shocks, but the drivers are heterogeneous and vulnerable to diplomatic, weather and demand reversals.",
+      "source_document_ids": [
+        "saxo-articles:5f6ae3360b50a06d"
+      ],
+      "first_seen_date": "2026-08-28",
+      "last_updated_date": "2026-08-28",
+      "expected_expiry_date": "2026-09-11",
+      "freshness": "current"
+    }
+  ],
+  "comparison": {
+    "baseline_status": "no_prior",
+    "baseline_detail": "History is healthy, but it contains no earlier comparable brief.",
+    "previous_run_id": null,
+    "previous_date": null,
+    "week_run_id": null,
+    "week_date": null,
+    "asset_view_changes": [
+      {
+        "key": "asset-view:commodities:gold:short_term",
+        "status": "new",
+        "asset": "Gold",
+        "horizon": "short_term",
+        "previous_bias": null,
+        "current_bias": "mixed",
+        "previous_confidence": null,
+        "current_confidence": 4,
+        "current_source_document_ids": [
+          "saxo-articles:5f6ae3360b50a06d",
+          "fed-speeches:2c51127ee15af4b4"
+        ],
+        "historical_source_document_ids": [],
+        "first_seen_date": "2026-08-28",
+        "last_updated_date": "2026-08-28",
+        "expected_expiry_date": "2026-09-11",
+        "resolved_date": null,
+        "carried_forward": false,
+        "explanation": "No comparable view appeared in the previous successful brief."
+      },
+      {
+        "key": "asset-view:rates:us:front-end:short_term",
+        "status": "new",
+        "asset": "US front-end rates",
+        "horizon": "short_term",
+        "previous_bias": null,
+        "current_bias": "bearish",
+        "previous_confidence": null,
+        "current_confidence": 3,
+        "current_source_document_ids": [
+          "fed-speeches:2c51127ee15af4b4"
+        ],
+        "historical_source_document_ids": [],
+        "first_seen_date": "2026-08-28",
+        "last_updated_date": "2026-08-28",
+        "expected_expiry_date": "2026-09-11",
+        "resolved_date": null,
+        "carried_forward": false,
+        "explanation": "No comparable view appeared in the previous successful brief."
+      }
+    ],
+    "theme_changes": [
+      {
+        "key": "regime:inflation",
+        "entity_type": "regime",
+        "status": "new",
+        "title": "Inflation persistence versus resilient demand",
+        "current_source_document_ids": [
+          "fed-speeches:2c51127ee15af4b4",
+          "ing-think:a026a8b97ccd506b",
+          "ing-think:c96e7ddf78685fd1",
+          "ing-think:7bd26430a495467e"
+        ],
+        "historical_source_document_ids": [],
+        "first_seen_date": "2026-08-28",
+        "last_updated_date": "2026-08-28",
+        "expected_expiry_date": "2026-09-11",
+        "resolved_date": null,
+        "carried_forward": false
+      },
+      {
+        "key": "regime:inflation",
+        "entity_type": "regime",
+        "status": "new",
+        "title": "Scarcity broadens the commodity inflation tail",
+        "current_source_document_ids": [
+          "saxo-articles:5f6ae3360b50a06d"
+        ],
+        "historical_source_document_ids": [],
+        "first_seen_date": "2026-08-28",
+        "last_updated_date": "2026-08-28",
+        "expected_expiry_date": "2026-09-11",
+        "resolved_date": null,
+        "carried_forward": false
+      }
+    ],
+    "week_asset_view_changes": [],
+    "warnings": []
+  }
+}
