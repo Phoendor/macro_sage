@@ -55,6 +55,7 @@ class Settings:
     max_podcast_episodes: int = DEFAULT_MAX_PODCAST_EPISODES
     max_podcast_minutes: int = DEFAULT_MAX_PODCAST_MINUTES
     request_timeout_seconds: int = 30
+    synthesis_timeout_seconds: int = 180
     user_agent: str = "MacroSage/0.2 (personal research reader)"
     timezone_name: str = "Europe/Amsterdam"
 
@@ -94,6 +95,10 @@ class Settings:
             max_podcast_minutes=_positive_int(
                 "MACRO_SAGE_MAX_PODCAST_MINUTES",
                 DEFAULT_MAX_PODCAST_MINUTES,
+            ),
+            synthesis_timeout_seconds=_positive_int(
+                "MACRO_SAGE_SYNTHESIS_TIMEOUT_SECONDS",
+                180,
             ),
             timezone_name=(
                 os.getenv("MACRO_SAGE_TIMEZONE", "").strip() or "Europe/Amsterdam"

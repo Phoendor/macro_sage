@@ -157,6 +157,37 @@ def test_synthesize_uses_structured_responses_api():
     assert result.brief.source_ids_used == ["known"]
 
 
+def test_synthesize_uses_dedicated_model_timeout(monkeypatch):
+    brief = DailyBriefV2Draft.model_validate(v2_draft("S001"))
+    observed = {}
+
+    class Response:
+        output_parsed = brief
+        usage = None
+
+    class Responses:
+        @staticmethod
+        def parse(**_kwargs):
+            return Response()
+
+    class Client:
+        responses = Responses()
+
+    def client_factory(*, timeout):
+        observed["timeout"] = timeout
+        return Client()
+
+    monkeypatch.setattr("macro_sage.synthesis.OpenAI", client_factory)
+
+    synthesize(
+        [document("known")],
+        date(2026, 7, 27),
+        Settings(request_timeout_seconds=7, synthesis_timeout_seconds=181),
+    )
+
+    assert observed["timeout"] == 181
+
+
 def test_synthesize_labels_history_as_non_evidence():
     brief = DailyBriefV2Draft.model_validate(v2_draft("S001"))
 

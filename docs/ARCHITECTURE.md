@@ -40,6 +40,11 @@ output-token cost. Inputs still have deterministic article-count, per-article,
 and total-character caps. That is a cost and failure guard, not a second
 summarization layer.
 
+Feed requests keep a short 30-second network bound. The single, richer V2
+synthesis request has a separate 180-second read bound so model generation is
+not forced through a feed-sized timeout; the hosted job and all development
+subprocesses retain their own outer safety limits.
+
 ### Structured output with enforced citations
 
 The model emits a schema rather than free-form prose. Every theme and asset view

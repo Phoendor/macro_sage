@@ -105,3 +105,12 @@ def test_empty_environment_override_uses_committed_default(monkeypatch):
 
     assert settings.model == DEFAULT_MODEL
     assert settings.model_preferences[0] == DEFAULT_MODEL
+
+
+def test_synthesis_timeout_has_a_separate_bounded_override(monkeypatch):
+    monkeypatch.setenv("MACRO_SAGE_SYNTHESIS_TIMEOUT_SECONDS", "240")
+
+    settings = Settings.from_env()
+
+    assert settings.request_timeout_seconds == 30
+    assert settings.synthesis_timeout_seconds == 240

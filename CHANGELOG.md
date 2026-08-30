@@ -17,6 +17,9 @@
   families, freshness, disagreement and missing market context; confidence is
   evidence strength, not probability of profit or a position-size signal.
 - Kept V1 history records readable while all new synthesis writes schema 2.
+- Separated the V2 synthesis request's 180-second bound from the 30-second feed
+  timeout after the first hosted canary proved that the richer structured
+  response can legitimately exceed the old feed-sized limit.
 
 ### Evaluation and reporting
 

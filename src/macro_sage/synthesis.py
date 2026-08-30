@@ -414,7 +414,7 @@ def synthesize(
     data_cutoff: datetime | None = None,
 ) -> SynthesisResult:
     prepared = prepare_corpus(documents, settings)
-    api = client or OpenAI(timeout=settings.request_timeout_seconds)
+    api = client or OpenAI(timeout=settings.synthesis_timeout_seconds)
     request: dict[str, object] = {
         "model": settings.model,
         "input": [
