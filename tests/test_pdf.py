@@ -148,6 +148,21 @@ def test_pdf_renders_comparison_baseline_and_carried_history(tmp_path):
 
 def test_v2_pdf_puts_decision_content_first_and_technical_metadata_last(tmp_path):
     brief = v2_brief()
+    brief["what_changed"] = [
+        {
+            **brief["what_changed"][0],
+            "headline": f"Policy signal changed in market {index}",
+            "significance": (
+                "The expected path is less certain and requires careful confirmation "
+                "from the next complete evidence cycle."
+            ),
+        }
+        for index in range(1, 6)
+    ]
+    brief["coverage"]["important_missing_coverage"] = [
+        "Policy speeches are delayed or absent in several monitored jurisdictions.",
+        "No timestamped price, positioning, or complete event-calendar data exists.",
+    ]
     documents = [
         {
             "id": "doc:one",
@@ -165,11 +180,15 @@ def test_v2_pdf_puts_decision_content_first_and_technical_metadata_last(tmp_path
     assert "Regime dashboard" in pages[0]
     assert "Highest-priority research expressions" in pages[0]
     assert "Next event risks" in pages[0]
+    assert "Next policy communication" in pages[0]
+    assert "Policy signal changed in market 4" not in pages[0]
     assert "report/unknown" in pages[0]
     assert "Technical audit" not in pages[0]
     full_text = "\n".join(pages)
     for heading in (
         "Executive decision summary",
+        "Additional material changes",
+        "Candidate research expressions",
         "Theme analysis",
         "Cross-asset map",
         "Scenario map",
@@ -181,4 +200,5 @@ def test_v2_pdf_puts_decision_content_first_and_technical_metadata_last(tmp_path
         "Failed or partial sources",
     ):
         assert heading in full_text
+    assert "Policy signal changed in market 5" in full_text
     assert "Fixture Publisher: Fixture evidence" in full_text

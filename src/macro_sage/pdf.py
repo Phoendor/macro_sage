@@ -175,6 +175,8 @@ def _bullets(values: list[str], style: ParagraphStyle) -> Any:
 def _source_labels(
     source_ids: list[str],
     documents: dict[str, dict[str, Any]],
+    *,
+    separator: str = "<br/>",
 ) -> str:
     labels = []
     for source_id in dict.fromkeys(source_ids):
@@ -185,7 +187,7 @@ def _source_labels(
         title = escape(str(document.get("title") or "Untitled"))
         url = escape(str(document.get("url") or ""), quote=True)
         labels.append(f'<link href="{url}" color="#167D7F">{publisher}: {title}</link>')
-    return "<br/>".join(labels) or "No source link available"
+    return separator.join(labels) or "No source link available"
 
 
 def _footer(canvas: Any, document: Any) -> None:
@@ -242,8 +244,13 @@ def _source_paragraph(
     source_ids: list[str],
     documents: dict[str, dict[str, Any]],
     style: ParagraphStyle,
+    *,
+    separator: str = "<br/>",
 ) -> Paragraph:
-    return Paragraph(_source_labels(source_ids, documents), style)
+    return Paragraph(
+        _source_labels(source_ids, documents, separator=separator),
+        style,
+    )
 
 
 def _v2_story(
@@ -321,17 +328,28 @@ def _v2_story(
     story.append(_paragraph("What changed", styles["section_compact"]))
     changes = brief.get("what_changed", [])
     if changes:
-        for change in changes[:5]:
-            content = [
-                _paragraph(change.get("headline", "Change"), styles["card_title"]),
-                _paragraph(
-                    f"{change.get('significance', '')} Transmission: "
-                    f"{change.get('transmission', '')}",
-                    styles["body"],
-                ),
-                _source_paragraph(change.get("source_ids", []), documents, styles["source"]),
-            ]
-            story.extend([KeepTogether(_card(content, PALE_BLUE)), Spacer(1, 1.5 * mm)])
+        for index, change in enumerate(changes[:3], start=1):
+            story.extend(
+                [
+                    KeepTogether(
+                        [
+                            _paragraph(
+                                f"{index}. {change.get('headline', 'Change')} - "
+                                f"{change.get('significance', '')} Transmission: "
+                                f"{change.get('transmission', '')}",
+                                styles["small"],
+                            ),
+                            _source_paragraph(
+                                change.get("source_ids", []),
+                                documents,
+                                styles["source"],
+                                separator="; ",
+                            ),
+                        ]
+                    ),
+                    Spacer(1, 1 * mm),
+                ]
+            )
     else:
         story.append(_paragraph("No material evidence-backed change was identified.", styles["body"]))
 
@@ -381,33 +399,30 @@ def _v2_story(
     expressions = brief.get("candidate_expressions", [])
     if not expressions:
         story.append(_paragraph("No sufficiently supported setup today.", styles["body"]))
-    for expression in expressions[:3]:
+    for index, expression in enumerate(expressions[:1], start=1):
         story.extend(
             [
                 KeepTogether(
-                    _card(
-                        [
-                            _paragraph(expression.get("expression", "Expression"), styles["card_title"]),
-                            _paragraph(
-                                f"{str(expression.get('actionability', '')).upper()} | "
-                                f"{str(expression.get('horizon', '')).replace('_', ' ')} | "
-                                f"Thesis {expression.get('thesis_confidence', 1)}/5, "
-                                f"expression {expression.get('expression_confidence', 1)}/5",
-                                styles["meta"],
-                            ),
-                            _paragraph(expression.get("thesis", ""), styles["body"]),
-                            _paragraph(
-                                f"Invalidation: {expression.get('invalidation_condition', '')}",
-                                styles["small"],
-                            ),
-                            _source_paragraph(
-                                expression.get("source_ids", []), documents, styles["source"]
-                            ),
-                        ],
-                        PALE_TEAL,
-                    )
+                    [
+                        _paragraph(
+                            f"{index}. {expression.get('expression', 'Expression')} - "
+                            f"{str(expression.get('actionability', '')).upper()} | "
+                            f"{str(expression.get('horizon', '')).replace('_', ' ')} | "
+                            f"thesis {expression.get('thesis_confidence', 1)}/5, "
+                            f"expression {expression.get('expression_confidence', 1)}/5. "
+                            f"{expression.get('thesis', '')} Invalidation: "
+                            f"{expression.get('invalidation_condition', '')}",
+                            styles["small"],
+                        ),
+                        _source_paragraph(
+                            expression.get("source_ids", []),
+                            documents,
+                            styles["source"],
+                            separator="; ",
+                        ),
+                    ]
                 ),
-                Spacer(1, 1.5 * mm),
+                Spacer(1, 1 * mm),
             ]
         )
 
@@ -415,7 +430,7 @@ def _v2_story(
     catalysts = brief.get("catalysts", [])
     if not catalysts:
         story.append(_paragraph("No sourced event risk was identified.", styles["body"]))
-    for item in catalysts[:3]:
+    for item in catalysts[:1]:
         story.extend(
             [
                 KeepTogether(
@@ -426,7 +441,10 @@ def _v2_story(
                             styles["small"],
                         ),
                         _source_paragraph(
-                            item.get("source_ids", []), documents, styles["source"]
+                            item.get("source_ids", []),
+                            documents,
+                            styles["source"],
+                            separator="; ",
                         ),
                     ]
                 ),
@@ -435,6 +453,35 @@ def _v2_story(
         )
 
     story.append(PageBreak())
+    if len(changes) > 3:
+        story.append(_paragraph("Additional material changes", styles["section"]))
+        for index, change in enumerate(changes[3:5], start=4):
+            story.extend(
+                [
+                    KeepTogether(
+                        _card(
+                            [
+                                _paragraph(
+                                    f"{index}. {change.get('headline', 'Change')}",
+                                    styles["card_title"],
+                                ),
+                                _paragraph(
+                                    f"{change.get('significance', '')} Transmission: "
+                                    f"{change.get('transmission', '')}",
+                                    styles["body"],
+                                ),
+                                _source_paragraph(
+                                    change.get("source_ids", []),
+                                    documents,
+                                    styles["source"],
+                                ),
+                            ],
+                            PALE_BLUE,
+                        )
+                    ),
+                    Spacer(1, 2 * mm),
+                ]
+            )
     story.append(_paragraph("Executive decision summary", styles["section"]))
     for item in sorted(brief.get("executive_decisions", []), key=lambda value: value.get("rank", 99)):
         story.extend(
@@ -499,6 +546,45 @@ def _v2_story(
                 Spacer(1, 2 * mm),
             ]
         )
+
+    if expressions:
+        story.append(_paragraph("Candidate research expressions", styles["section"]))
+    for expression in expressions:
+        content = [
+            _paragraph(expression.get("expression", "Expression"), styles["card_title"]),
+            _paragraph(
+                f"{str(expression.get('actionability', '')).upper()} | "
+                f"{str(expression.get('framing', '')).replace('_', ' ')} | "
+                f"{str(expression.get('horizon', '')).replace('_', ' ')} | "
+                f"Thesis {expression.get('thesis_confidence', 1)}/5, expression "
+                f"{expression.get('expression_confidence', 1)}/5",
+                styles["meta"],
+            ),
+            _paragraph(f"Thesis: {expression.get('thesis', '')}", styles["body"]),
+            _paragraph(
+                f"Why now / expected path: {expression.get('why_now', '')} "
+                f"{expression.get('expected_path', '')}",
+                styles["small"],
+            ),
+            _paragraph(f"Catalyst: {expression.get('catalyst', '')}", styles["small"]),
+            _paragraph(
+                f"Invalidation: {expression.get('invalidation_condition', '')}",
+                styles["small"],
+            ),
+            _paragraph(f"Countercase: {expression.get('countercase', '')}", styles["small"]),
+            _paragraph(
+                "Implementation risks: "
+                + "; ".join(expression.get("implementation_risks", [])),
+                styles["small"],
+            ),
+            _paragraph(
+                f"Alternative: {expression.get('alternative_expression', '')}",
+                styles["small"],
+            ),
+            _paragraph(expression.get("confidence_rationale", ""), styles["small"]),
+            _source_paragraph(expression.get("source_ids", []), documents, styles["source"]),
+        ]
+        story.extend([_card(content, PALE_TEAL), Spacer(1, 3 * mm)])
 
     story.append(_paragraph("Theme analysis", styles["section"]))
     for theme in brief.get("macro_themes", []):
