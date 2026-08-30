@@ -30,6 +30,8 @@
 - Added `macro-sage source-health` plus a model-free weekday GitHub check and a
   weekly full extraction canary. One transient failure remains a warning until
   the configured threshold is reached; sources are never disabled silently.
+- Kept configured timestamp-derivation notes informational so valid ING, NBER
+  and similar feeds are not mislabeled as degraded by expected source policy.
 - Made default, optional-skipped and configured-unavailable participation states
   explicit in the safe run manifest and fixed podcast item outcomes so they are
   no longer dropped when article and audio reports are combined.

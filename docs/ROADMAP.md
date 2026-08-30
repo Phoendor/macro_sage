@@ -1483,10 +1483,29 @@ Implementation status: the first version-0.6 tranche is code-complete on
 history, independent weekday discovery and weekly extraction workflows,
 explicit participation outcomes, deterministic ranked/capped corpus admission,
 auditable omission reasons and safe JSON evidence serialization. The bounded
-offline suite passes 142 tests. Milestone closure remains open for a hosted
-health observation and fixed-date report canary, plus the unchecked G7 work on
+offline suite passes 142 tests. Both hosted validation gates passed on
+2026-08-30. Milestone closure remains open only for the unchecked G7 work on
 cross-publisher evidence-family grouping, BIS/originating-bank speech
 deduplication and model-aware token accounting.
+
+The corrected discovery-only health run
+[`33337257541`](https://github.com/Phoendor/macro_sage/actions/runs/33337257541)
+passed on commit `60d3b13` in 37 seconds without an OpenAI request or podcast
+download. It reported 23 healthy sources, eight genuine warnings and zero
+sources at the failure threshold. Expected timestamp derivation notes remained
+healthy, while stale, invalid and failed discovery observations remained
+visible. The workflow persisted health history and uploaded a body-free
+evidence artifact.
+
+The fixed-date report canary
+[`33337311571`](https://github.com/Phoendor/macro_sage/actions/runs/33337311571)
+passed on the same commit in 1 minute 41 seconds with podcasts disabled. It
+collected 20 documents, admitted nine complete and three deliberately truncated
+documents from six publishers, omitted eight with explicit machine-readable
+reasons, and synthesized with `gpt-5.6-luna` from 52,263 input tokens. It
+rendered a valid 10-page PDF, persisted durable history and uploaded the report
+and audit trail. Telegram delivery was correctly skipped because live channel
+configuration remains absent.
 
 Exit gate:
 
