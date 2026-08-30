@@ -43,6 +43,9 @@
 - Increased GitHub artifact retention from 14 to 30 days, added a workflow badge
   and clearer artifact instructions, and added `evaluate` and `latest-report`
   CLI commands.
+- Passed final hosted canary `33319046110` on commit `12ae26b`: 20 documents,
+  nine explicit coverage limitations, schema 2, a 10-page PDF, 27 material
+  claims, 12 cited documents and zero deterministic evaluation defects.
 
 ## 0.4.7 - 2026-08-29
 

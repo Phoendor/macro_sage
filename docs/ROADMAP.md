@@ -1418,6 +1418,17 @@ manual evidence/usefulness scoring, owner approval, and one live configured
 Telegram delivery. Those evidence gates are not represented as complete by the
 code release.
 
+Hosted canary
+[33319046110](https://github.com/Phoendor/macro_sage/actions/runs/33319046110)
+passed on commit `12ae26b` with podcasts disabled. It collected 20 documents,
+kept all nine failed or expected-but-absent sources explicit, synthesized schema
+2 with `gpt-5.6-luna`, produced a 10-page PDF, persisted body-free history and
+uploaded the 30-day artifact. The deterministic evaluator found 27 material
+claims, 12 cited documents and zero contract defects. Visual inspection of the
+actual hosted PDF confirmed the three leading changes, regime dashboard,
+no-setup decision and nearest event risk all remain on page one. Telegram was
+correctly skipped because live channel configuration is absent.
+
 Exit gate:
 
 - V2 beats the current format on the documented evaluation set;
