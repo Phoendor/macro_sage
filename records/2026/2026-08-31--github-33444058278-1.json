@@ -1,0 +1,1329 @@
+{
+  "record_schema_version": 1,
+  "run_id": "github-33444058278-1",
+  "target_date": "2026-08-31",
+  "intended_cutoff": "2026-08-31T19:30:00+02:00",
+  "acquisition_start": "2026-08-28T17:30:00Z",
+  "acquisition_end": "2026-08-31T17:30:00Z",
+  "acquisition_rule": "first_run_since_previous_scheduled_cutoff",
+  "completed_at": "2026-08-31T22:09:03.991705Z",
+  "health": "degraded",
+  "versions": {
+    "application": "0.6.0",
+    "git_commit": "3c68bf62f865383ee7a4db7371609eb5a40386ec",
+    "source_config": 2,
+    "extractor": "3",
+    "corpus": "3",
+    "synthesis_prompt": "3",
+    "brief_schema": "2",
+    "transcription_prompt": "1",
+    "renderer": "3",
+    "database_schema": 3,
+    "source_health_rules": 1,
+    "coverage_rules": 1,
+    "history_store": 1,
+    "history_record": 1,
+    "date_resolution": 2,
+    "acquisition_window": 1,
+    "comparison_keys": 1,
+    "evaluation_contract": 1,
+    "delivery_contract": 1
+  },
+  "brief_schema_version": "2",
+  "synthesis_prompt_version": "3",
+  "model": "gpt-5.6-luna",
+  "reasoning_effort": "low",
+  "document_ids": [
+    "doc:9005895cc70e3069",
+    "doc:102e97bb39b77633",
+    "doc:97a0856e163a5c6d",
+    "doc:e9e19301d8b7a6d0",
+    "doc:11fe9f7332237e67",
+    "doc:ff04b385b44f5ba0",
+    "doc:bf32a457f677524f",
+    "doc:5bed8e55839c4e3b",
+    "doc:21a5e6203bafb811",
+    "doc:56b82e76c11e2900",
+    "doc:3b55631ccb0b118b",
+    "doc:51d66f7fc0fdf67b",
+    "doc:d09174970a989b1a",
+    "doc:45f4c15b8c06814b",
+    "doc:e010740a9791228f",
+    "doc:9b80527b07d28c57",
+    "doc:d1130905afc9cdb8",
+    "doc:4ca4d2a4ec5ef896",
+    "doc:532e7b9862bbe9ed",
+    "doc:05cd62682161f754",
+    "doc:0c25098a99e3c262",
+    "doc:28c8469137db650b",
+    "doc:04a39e26d35d1db6"
+  ],
+  "cited_document_ids": [
+    "doc:9005895cc70e3069",
+    "doc:28c8469137db650b",
+    "doc:45f4c15b8c06814b",
+    "doc:97a0856e163a5c6d",
+    "doc:e010740a9791228f",
+    "doc:0c25098a99e3c262",
+    "doc:102e97bb39b77633",
+    "doc:9b80527b07d28c57",
+    "doc:4ca4d2a4ec5ef896",
+    "doc:d09174970a989b1a",
+    "doc:21a5e6203bafb811",
+    "doc:5bed8e55839c4e3b",
+    "doc:56b82e76c11e2900"
+  ],
+  "brief": {
+    "what_changed": [
+      {
+        "headline": "Long-end real-rate and supply pressure remains the dominant rates risk",
+        "significance": "ING attributes higher long yields to issuance pressure and AI-linked productivity expectations rather than inflation expectations; it expects further curve steepening.",
+        "affected_assets": [
+          "rates",
+          "credit"
+        ],
+        "transmission": "Persistent supply and real-rate pressure raises discount rates and refinancing costs, particularly for long-duration assets.",
+        "horizon": "short_term",
+        "source_ids": [
+          "doc:9005895cc70e3069",
+          "doc:28c8469137db650b"
+        ]
+      },
+      {
+        "headline": "Euro-area inflation rose mainly through energy, while activity remains resilient",
+        "significance": "German headline inflation reached 2.9% year-on-year in August, while core and services inflation eased or held steady; euro-area surveys improved.",
+        "affected_assets": [
+          "rates",
+          "fx",
+          "equities"
+        ],
+        "transmission": "Energy risks support near-term rate pressure, but limited pass-through and resilient activity complicate the ECB reaction function.",
+        "horizon": "short_term",
+        "source_ids": [
+          "doc:45f4c15b8c06814b",
+          "doc:97a0856e163a5c6d"
+        ]
+      },
+      {
+        "headline": "Hyperscaler borrowing is becoming material in euro credit",
+        "significance": "US big tech represents just under 10% of new euro non-financial corporate issuance, with roughly €40 billion outstanding; ECB analysis warns of potential future crowding-out.",
+        "affected_assets": [
+          "credit",
+          "rates",
+          "equities"
+        ],
+        "transmission": "Large, long-maturity issuance can absorb portfolio capacity, widen risk premia and build long-end corporate supply.",
+        "horizon": "medium_term",
+        "source_ids": [
+          "doc:e010740a9791228f"
+        ]
+      }
+    ],
+    "executive_decisions": [
+      {
+        "rank": 1,
+        "development": "Treat duration as vulnerable to supply and real-rate repricing rather than assuming inflation expectations are the primary driver.",
+        "why_it_matters": "The cited analysis identifies issuance and real-rate forces as the key long-end pressure.",
+        "transmission": "Higher real yields weigh on long-duration rates, credit and growth equities.",
+        "urgency": "watch",
+        "horizon": "short_term",
+        "source_ids": [
+          "doc:9005895cc70e3069",
+          "doc:28c8469137db650b"
+        ]
+      },
+      {
+        "rank": 2,
+        "development": "Monitor the September US labour report as the key near-term test of the hawkish Fed repricing.",
+        "why_it_matters": "Available sources disagree on whether weak employment or sticky inflation should dominate policy.",
+        "transmission": "A weak report would challenge higher front-end rates; persistent inflation or resilient activity would reinforce them.",
+        "urgency": "watch",
+        "horizon": "short_term",
+        "source_ids": [
+          "doc:9005895cc70e3069",
+          "doc:0c25098a99e3c262",
+          "doc:45f4c15b8c06814b"
+        ]
+      }
+    ],
+    "regime_dashboard": [
+      {
+        "dimension": "growth",
+        "state": "Resilient but uneven",
+        "direction": "mixed",
+        "horizon": "medium_term",
+        "confidence": 3,
+        "confidence_rationale": "Code-calibrated evidence strength: 2 cited document(s) from 2 conservatively independent evidence family/families from 2 publisher(s); strongest tier is institutional_analysis. Explicit counterevidence reduces the displayed tier.",
+        "evidence": [
+          {
+            "text": "Euro-area manufacturing PMI improved to 52.8 in August and Q2 GDP grew 0.4% quarter-on-quarter.",
+            "claim_type": "observed_fact",
+            "source_ids": [
+              "doc:45f4c15b8c06814b"
+            ],
+            "evidence_family": "activity",
+            "carried_forward": false
+          },
+          {
+            "text": "Polish Q2 GDP growth was revised to 3.9% year-on-year.",
+            "claim_type": "observed_fact",
+            "source_ids": [
+              "doc:102e97bb39b77633"
+            ],
+            "evidence_family": "activity",
+            "carried_forward": false
+          }
+        ],
+        "counterevidence": [
+          {
+            "text": "US payroll growth was weak and labour-force participation declined, according to the cited analysis.",
+            "claim_type": "observed_fact",
+            "source_ids": [
+              "doc:0c25098a99e3c262",
+              "doc:45f4c15b8c06814b"
+            ],
+            "evidence_family": "labour",
+            "carried_forward": false
+          }
+        ],
+        "source_ids": [
+          "doc:102e97bb39b77633",
+          "doc:45f4c15b8c06814b"
+        ]
+      },
+      {
+        "dimension": "inflation",
+        "state": "Above target with supply-shock concentration",
+        "direction": "mixed",
+        "horizon": "short_term",
+        "confidence": 3,
+        "confidence_rationale": "Code-calibrated evidence strength: 2 cited document(s) from 2 conservatively independent evidence family/families from 2 publisher(s); strongest tier is institutional_analysis. Explicit counterevidence reduces the displayed tier.",
+        "evidence": [
+          {
+            "text": "German August headline inflation was 2.9% year-on-year, while core inflation was 2.4% and services inflation 2.8%.",
+            "claim_type": "observed_fact",
+            "source_ids": [
+              "doc:97a0856e163a5c6d"
+            ],
+            "evidence_family": "inflation",
+            "carried_forward": false
+          },
+          {
+            "text": "Euro-area headline CPI was 2.9% and core CPI 2.5% in July.",
+            "claim_type": "observed_fact",
+            "source_ids": [
+              "doc:45f4c15b8c06814b"
+            ],
+            "evidence_family": "inflation",
+            "carried_forward": false
+          }
+        ],
+        "counterevidence": [
+          {
+            "text": "Selling-price expectations were below pre-conflict levels and wage growth was slowing, limiting evidence of broad second-round effects.",
+            "claim_type": "observed_fact",
+            "source_ids": [
+              "doc:45f4c15b8c06814b",
+              "doc:97a0856e163a5c6d"
+            ],
+            "evidence_family": "inflation expectations and wages",
+            "carried_forward": false
+          }
+        ],
+        "source_ids": [
+          "doc:45f4c15b8c06814b",
+          "doc:97a0856e163a5c6d"
+        ]
+      },
+      {
+        "dimension": "monetary_policy",
+        "state": "Hawkish bias, but data-dependent",
+        "direction": "mixed",
+        "horizon": "short_term",
+        "confidence": 4,
+        "confidence_rationale": "Code-calibrated evidence strength: 3 cited document(s) from 2 conservatively independent evidence family/families from 3 publisher(s); strongest tier is primary. Explicit counterevidence reduces the displayed tier.",
+        "evidence": [
+          {
+            "text": "ING expects the ECB to hike at its next meeting, while Riksbank Deputy Governor Jansson said there is scope to wait.",
+            "claim_type": "source_forecast",
+            "source_ids": [
+              "doc:97a0856e163a5c6d",
+              "doc:9b80527b07d28c57"
+            ],
+            "evidence_family": "central-bank outlook",
+            "carried_forward": false
+          }
+        ],
+        "counterevidence": [
+          {
+            "text": "J.P. Morgan argues weak job and wage growth make a September Fed hike potentially premature.",
+            "claim_type": "source_opinion",
+            "source_ids": [
+              "doc:0c25098a99e3c262"
+            ],
+            "evidence_family": "policy interpretation",
+            "carried_forward": false
+          }
+        ],
+        "source_ids": [
+          "doc:9b80527b07d28c57",
+          "doc:0c25098a99e3c262",
+          "doc:97a0856e163a5c6d"
+        ]
+      },
+      {
+        "dimension": "fiscal_policy",
+        "state": "Persistent deficit and institutional-risk concerns",
+        "direction": "deteriorating",
+        "horizon": "medium_term",
+        "confidence": 3,
+        "confidence_rationale": "Code-calibrated evidence strength: 2 cited document(s) from 2 conservatively independent evidence family/families from 2 publisher(s); strongest tier is institutional_analysis. Explicit counterevidence reduces the displayed tier.",
+        "evidence": [
+          {
+            "text": "Morgan Stanley expects the US deficit to remain around 6% of GDP through 2027.",
+            "claim_type": "source_forecast",
+            "source_ids": [
+              "doc:4ca4d2a4ec5ef896"
+            ],
+            "evidence_family": "fiscal outlook",
+            "carried_forward": false
+          },
+          {
+            "text": "BNP Paribas describes central-bank independence as under significant political and debt-related pressure.",
+            "claim_type": "source_opinion",
+            "source_ids": [
+              "doc:d09174970a989b1a"
+            ],
+            "evidence_family": "institutional risk",
+            "carried_forward": false
+          }
+        ],
+        "counterevidence": [
+          {
+            "text": "Morgan Stanley does not currently see a Treasury-market credibility problem.",
+            "claim_type": "source_opinion",
+            "source_ids": [
+              "doc:4ca4d2a4ec5ef896"
+            ],
+            "evidence_family": "market interpretation",
+            "carried_forward": false
+          }
+        ],
+        "source_ids": [
+          "doc:d09174970a989b1a",
+          "doc:4ca4d2a4ec5ef896"
+        ]
+      },
+      {
+        "dimension": "liquidity_financial_conditions",
+        "state": "Tightening at the long end",
+        "direction": "deteriorating",
+        "horizon": "short_term",
+        "confidence": 4,
+        "confidence_rationale": "Code-calibrated evidence strength: 2 cited document(s) from 2 conservatively independent evidence family/families from 2 publisher(s); strongest tier is primary. Explicit counterevidence reduces the displayed tier.",
+        "evidence": [
+          {
+            "text": "ING identifies issuance pressure and higher real yields as drivers of rising long-term yields.",
+            "claim_type": "source_opinion",
+            "source_ids": [
+              "doc:9005895cc70e3069"
+            ],
+            "evidence_family": "rates",
+            "carried_forward": false
+          },
+          {
+            "text": "The ECB reports rising hyperscaler spreads as issuance and expected capital expenditure increased.",
+            "claim_type": "observed_fact",
+            "source_ids": [
+              "doc:e010740a9791228f"
+            ],
+            "evidence_family": "credit",
+            "carried_forward": false
+          }
+        ],
+        "counterevidence": [
+          {
+            "text": "Euro-area issuer cover ratios remained strong and broadly unchanged during 2026.",
+            "claim_type": "observed_fact",
+            "source_ids": [
+              "doc:e010740a9791228f"
+            ],
+            "evidence_family": "credit demand",
+            "carried_forward": false
+          }
+        ],
+        "source_ids": [
+          "doc:e010740a9791228f",
+          "doc:9005895cc70e3069"
+        ]
+      },
+      {
+        "dimension": "risk_sentiment",
+        "state": "Selective and expectation-sensitive",
+        "direction": "mixed",
+        "horizon": "short_term",
+        "confidence": 2,
+        "confidence_rationale": "Code-calibrated evidence strength: 1 cited document(s) from 1 conservatively independent evidence family/families from 1 publisher(s); strongest tier is market_interpretation.",
+        "evidence": [
+          {
+            "text": "Marvell shares fell 10.3% despite higher revenue and guidance, while Salesforce and CrowdStrike rose after stronger results.",
+            "claim_type": "observed_fact",
+            "source_ids": [
+              "doc:21a5e6203bafb811"
+            ],
+            "evidence_family": "equities",
+            "carried_forward": false
+          }
+        ],
+        "counterevidence": [],
+        "source_ids": [
+          "doc:21a5e6203bafb811"
+        ]
+      }
+    ],
+    "macro_themes": [
+      {
+        "theme": "Supply, fiscal and AI investment are lifting the long-end risk premium",
+        "thesis": "Large public and private investment needs are competing for capital, while AI financing adds corporate bond supply.",
+        "market_implication": "Long-duration rates and credit remain exposed to higher real yields, issuance and refinancing premia.",
+        "observed_facts": [
+          {
+            "text": "Hyperscalers are projected to require more than USD 1 trillion of capital expenditure by 2028.",
+            "claim_type": "source_forecast",
+            "source_ids": [
+              "doc:e010740a9791228f"
+            ],
+            "evidence_family": "AI investment",
+            "carried_forward": false
+          },
+          {
+            "text": "US long yields have risen alongside higher real-rate pressure and issuance concerns.",
+            "claim_type": "source_opinion",
+            "source_ids": [
+              "doc:9005895cc70e3069"
+            ],
+            "evidence_family": "rates",
+            "carried_forward": false
+          }
+        ],
+        "inferences": [
+          {
+            "text": "Sustained AI and fiscal investment could keep duration risk elevated even if inflation expectations remain contained.",
+            "claim_type": "synthesis_inference",
+            "source_ids": [
+              "doc:e010740a9791228f",
+              "doc:9005895cc70e3069",
+              "doc:4ca4d2a4ec5ef896"
+            ],
+            "evidence_family": "cross-asset transmission",
+            "carried_forward": false
+          }
+        ],
+        "conflicting_evidence": [
+          {
+            "text": "Euro-area corporate issuance has so far produced limited spillovers to other issuers.",
+            "claim_type": "observed_fact",
+            "source_ids": [
+              "doc:e010740a9791228f"
+            ],
+            "evidence_family": "credit",
+            "carried_forward": false
+          }
+        ],
+        "unresolved_questions": [
+          "Whether investor capacity expands sufficiently to absorb future hyperscaler issuance.",
+          "Whether AI capital expenditure converts into durable productivity and earnings growth."
+        ],
+        "transmission": [
+          {
+            "asset_class": "rates",
+            "implication": "Bearish for long duration if real yields and supply pressure persist."
+          },
+          {
+            "asset_class": "credit",
+            "implication": "Higher-quality long-maturity supply may widen relative premia and crowd other issuers."
+          },
+          {
+            "asset_class": "equities",
+            "implication": "Higher discount rates challenge long-duration growth valuations, especially when expectations are elevated."
+          }
+        ],
+        "horizon": "medium_term",
+        "catalysts": [
+          "US labour and inflation data",
+          "Further hyperscaler issuance announcements",
+          "Evidence on AI monetisation and returns"
+        ],
+        "invalidation_conditions": [
+          "Weak activity materially lowers issuance and real yields.",
+          "AI investment slows without broader financing pressure."
+        ],
+        "source_ids": [
+          "doc:e010740a9791228f",
+          "doc:9005895cc70e3069",
+          "doc:4ca4d2a4ec5ef896",
+          "doc:21a5e6203bafb811"
+        ]
+      }
+    ],
+    "asset_views": [
+      {
+        "asset": "US front-end rates",
+        "bias": "bearish",
+        "horizon": "short_term",
+        "confidence": 3,
+        "confidence_rationale": "Code-calibrated evidence strength: 3 cited document(s) from 2 conservatively independent evidence family/families from 3 publisher(s); strongest tier is institutional_analysis. Explicit counterevidence reduces the displayed tier.",
+        "market_confirmation": "unavailable",
+        "thesis": "Front-end yields remain vulnerable to renewed tightening expectations, subject to the labour-market data.",
+        "transmission": "A credible inflation response would lift expected policy rates; weak employment would reverse that pressure.",
+        "drivers": [
+          "Fed Chair Warsh used hawkish language.",
+          "US core PCE and services inflation remain above target.",
+          "The labour market shows weak payroll growth and soft wages."
+        ],
+        "risks": [
+          "Weak August payrolls or rising unemployment.",
+          "Supply-driven inflation fades without second-round effects."
+        ],
+        "catalyst": "US August employment report.",
+        "invalidation_condition": "Clear labour-market deterioration alongside falling underlying inflation.",
+        "evidence": [
+          {
+            "text": "Fed hike expectations rose after Warsh's speech, according to market commentary.",
+            "claim_type": "observed_fact",
+            "source_ids": [
+              "doc:5bed8e55839c4e3b",
+              "doc:45f4c15b8c06814b"
+            ],
+            "evidence_family": "rates",
+            "carried_forward": false
+          }
+        ],
+        "counterevidence": [
+          {
+            "text": "J.P. Morgan argues the labour market is weaker and less inflationary than the Fed chair portrayed.",
+            "claim_type": "source_opinion",
+            "source_ids": [
+              "doc:0c25098a99e3c262"
+            ],
+            "evidence_family": "labour",
+            "carried_forward": false
+          }
+        ],
+        "source_ids": [
+          "doc:5bed8e55839c4e3b",
+          "doc:0c25098a99e3c262",
+          "doc:45f4c15b8c06814b"
+        ]
+      },
+      {
+        "asset": "Euro-area corporate credit",
+        "bias": "bearish",
+        "horizon": "medium_term",
+        "confidence": 3,
+        "confidence_rationale": "Code-calibrated evidence strength: 1 cited document(s) from 1 conservatively independent evidence family/families from 1 publisher(s); strongest tier is primary. Explicit counterevidence reduces the displayed tier.",
+        "market_confirmation": "unavailable",
+        "thesis": "Growing hyperscaler issuance raises medium-term supply and concentration risk for euro investment-grade credit.",
+        "transmission": "Large long-maturity deals can absorb investor balance sheets and raise required compensation for other issuers.",
+        "drivers": [
+          "Hyperscalers represent just under 10% of new euro non-financial corporate issuance.",
+          "Hyperscaler spreads have increased as issuance expectations rose."
+        ],
+        "risks": [
+          "Investor demand expands with the supply.",
+          "Strong balance sheets and high ratings limit default concerns."
+        ],
+        "catalyst": "Further large hyperscaler bond issuance or weaker deal cover.",
+        "invalidation_condition": "Issuance slows and spreads stabilise without spillovers to other sectors.",
+        "evidence": [
+          {
+            "text": "Hyperscaler bonds outstanding total around €40 billion and their share of reverse-Yankee issuance nearly doubled between 2025 and 2026.",
+            "claim_type": "observed_fact",
+            "source_ids": [
+              "doc:e010740a9791228f"
+            ],
+            "evidence_family": "credit supply",
+            "carried_forward": false
+          }
+        ],
+        "counterevidence": [
+          {
+            "text": "Cover ratios for euro-area issuers remained strong and little changed during 2026.",
+            "claim_type": "observed_fact",
+            "source_ids": [
+              "doc:e010740a9791228f"
+            ],
+            "evidence_family": "credit demand",
+            "carried_forward": false
+          }
+        ],
+        "source_ids": [
+          "doc:e010740a9791228f"
+        ]
+      },
+      {
+        "asset": "Gold",
+        "bias": "mixed",
+        "horizon": "short_term",
+        "confidence": 2,
+        "confidence_rationale": "Code-calibrated evidence strength: 2 cited document(s) from 2 conservatively independent evidence family/families from 2 publisher(s); strongest tier is institutional_analysis. At least one cited document has an acquisition-quality warning. Explicit counterevidence reduces the displayed tier.",
+        "market_confirmation": "unavailable",
+        "thesis": "Gold faces opposing forces from policy credibility and fiscal/institutional concerns.",
+        "transmission": "Higher real yields pressure gold, while fiscal and central-bank-independence concerns support hedging demand.",
+        "drivers": [
+          "Hawkish Fed rhetoric.",
+          "Persistent fiscal and institutional-risk concerns."
+        ],
+        "risks": [
+          "Further real-yield increases.",
+          "Improved confidence in monetary and fiscal credibility."
+        ],
+        "catalyst": "Incoming US inflation and labour data.",
+        "invalidation_condition": "Real yields fall while fiscal-risk concerns intensify.",
+        "evidence": [
+          {
+            "text": "Saxo described Warsh's speech as most decisive for gold rather than the dollar or broad risk sentiment.",
+            "claim_type": "source_opinion",
+            "source_ids": [
+              "doc:56b82e76c11e2900"
+            ],
+            "evidence_family": "commodities",
+            "carried_forward": false
+          }
+        ],
+        "counterevidence": [
+          {
+            "text": "BNP Paribas argues that central-bank independence remains an important institutional shield against inflationary outcomes.",
+            "claim_type": "source_opinion",
+            "source_ids": [
+              "doc:d09174970a989b1a"
+            ],
+            "evidence_family": "institutional risk",
+            "carried_forward": false
+          }
+        ],
+        "source_ids": [
+          "doc:d09174970a989b1a",
+          "doc:56b82e76c11e2900"
+        ]
+      }
+    ],
+    "candidate_expressions": [],
+    "scenarios": [
+      {
+        "kind": "base",
+        "qualitative_likelihood": "leading",
+        "description": "Sticky but mostly supply-driven inflation keeps central banks cautious while growth remains resilient but uneven.",
+        "signposts": [
+          "Energy prices remain elevated.",
+          "Labour data do not materially deteriorate.",
+          "ECB and Fed communication stays hawkish."
+        ],
+        "cross_asset_consequences": [
+          {
+            "asset_class": "rates",
+            "implication": "Front-end remains elevated and curves face long-end steepening pressure."
+          },
+          {
+            "asset_class": "credit",
+            "implication": "Investment-grade supply and duration premia remain elevated."
+          }
+        ],
+        "assumptions": [
+          {
+            "text": "Energy-driven inflation does not generate broad wage-price pass-through.",
+            "claim_type": "synthesis_inference",
+            "source_ids": [
+              "doc:45f4c15b8c06814b",
+              "doc:97a0856e163a5c6d"
+            ],
+            "evidence_family": "inflation",
+            "carried_forward": false
+          }
+        ],
+        "source_ids": [
+          "doc:9005895cc70e3069",
+          "doc:0c25098a99e3c262",
+          "doc:45f4c15b8c06814b",
+          "doc:97a0856e163a5c6d"
+        ]
+      },
+      {
+        "kind": "downside",
+        "qualitative_likelihood": "plausible",
+        "description": "Weak labour data exposes a sharper US slowdown while high real yields and refinancing pressure transmit into credit and investment.",
+        "signposts": [
+          "Payroll weakness broadens beyond government employment.",
+          "Wages and consumption weaken further.",
+          "Credit spreads widen beyond hyperscaler issuance."
+        ],
+        "cross_asset_consequences": [
+          {
+            "asset_class": "rates",
+            "implication": "Front-end easing expectations rise, while long-end supply may remain problematic."
+          },
+          {
+            "asset_class": "credit",
+            "implication": "Spreads widen as growth and refinancing risks increase."
+          },
+          {
+            "asset_class": "equities",
+            "implication": "Long-duration growth valuations face pressure from weaker earnings and financing conditions."
+          }
+        ],
+        "assumptions": [
+          {
+            "text": "The labour-market weakness identified by J.P. Morgan persists rather than reflecting temporary measurement noise.",
+            "claim_type": "source_opinion",
+            "source_ids": [
+              "doc:0c25098a99e3c262"
+            ],
+            "evidence_family": "labour",
+            "carried_forward": false
+          }
+        ],
+        "source_ids": [
+          "doc:9005895cc70e3069",
+          "doc:0c25098a99e3c262",
+          "doc:28c8469137db650b"
+        ]
+      },
+      {
+        "kind": "upside",
+        "qualitative_likelihood": "plausible",
+        "description": "AI investment and European fiscal support sustain activity while inflation pass-through remains contained.",
+        "signposts": [
+          "Manufacturing surveys continue improving.",
+          "AI earnings and monetisation exceed expectations.",
+          "Energy prices moderate without renewed supply disruption."
+        ],
+        "cross_asset_consequences": [
+          {
+            "asset_class": "equities",
+            "implication": "AI-linked earnings support selected semiconductor and infrastructure exposures, subject to valuation risk."
+          },
+          {
+            "asset_class": "credit",
+            "implication": "Resilient growth supports issuer fundamentals despite elevated supply."
+          }
+        ],
+        "assumptions": [
+          {
+            "text": "AI investment produces durable productivity and revenue gains rather than only higher financing needs.",
+            "claim_type": "source_opinion",
+            "source_ids": [
+              "doc:28c8469137db650b",
+              "doc:21a5e6203bafb811"
+            ],
+            "evidence_family": "AI growth",
+            "carried_forward": false
+          }
+        ],
+        "source_ids": [
+          "doc:28c8469137db650b",
+          "doc:21a5e6203bafb811",
+          "doc:97a0856e163a5c6d"
+        ]
+      }
+    ],
+    "disagreements": [
+      {
+        "issue": "September US rate-hike risk",
+        "sides": [
+          {
+            "position": "Hawkish repricing is justified by sticky inflation and resilient activity.",
+            "evidence": [
+              {
+                "text": "ING reports a substantial move toward a September hike and expects front-end rates to remain elevated absent weak payrolls.",
+                "claim_type": "source_opinion",
+                "source_ids": [
+                  "doc:9005895cc70e3069"
+                ],
+                "evidence_family": "rates",
+                "carried_forward": false
+              }
+            ],
+            "source_ids": [
+              "doc:9005895cc70e3069"
+            ]
+          },
+          {
+            "position": "A September hike may be premature because employment and wage growth are weak.",
+            "evidence": [
+              {
+                "text": "J.P. Morgan argues weak payroll growth, falling participation and subdued wages imply less inflationary pressure.",
+                "claim_type": "source_opinion",
+                "source_ids": [
+                  "doc:0c25098a99e3c262"
+                ],
+                "evidence_family": "labour",
+                "carried_forward": false
+              }
+            ],
+            "source_ids": [
+              "doc:0c25098a99e3c262"
+            ]
+          }
+        ],
+        "resolution_signal": "US August payrolls, wages and participation data, alongside underlying inflation measures."
+      }
+    ],
+    "catalysts": [
+      {
+        "event_or_signpost": "US August employment report",
+        "timing": "This week",
+        "what_matters": "Payrolls, unemployment, participation and wage growth will test the hawkish Fed repricing.",
+        "affected_views": [
+          "US front-end rates",
+          "Gold"
+        ],
+        "source_ids": [
+          "doc:9005895cc70e3069",
+          "doc:5bed8e55839c4e3b",
+          "doc:0c25098a99e3c262"
+        ]
+      },
+      {
+        "event_or_signpost": "ECB policy meeting",
+        "timing": "Next week",
+        "what_matters": "Whether energy-driven inflation and resilient activity produce another hike, and how strongly the ECB signals beyond it.",
+        "affected_views": [
+          "Euro-area corporate credit",
+          "Euro-area rates"
+        ],
+        "source_ids": [
+          "doc:9b80527b07d28c57",
+          "doc:97a0856e163a5c6d"
+        ]
+      },
+      {
+        "event_or_signpost": "Further hyperscaler bond issuance",
+        "timing": "Ongoing",
+        "what_matters": "Deal size, investor demand and spillovers to other euro corporate issuers.",
+        "affected_views": [
+          "Euro-area corporate credit",
+          "Long-end rates"
+        ],
+        "source_ids": [
+          "doc:e010740a9791228f"
+        ]
+      }
+    ],
+    "top_risks": [
+      {
+        "risk": "Persistent energy and gas inflation creates second-round effects.",
+        "why_it_matters": "It could force tighter policy despite weak demand and raise rates across the curve.",
+        "monitor": "Core/services inflation, wages, selling-price expectations and energy prices.",
+        "source_ids": [
+          "doc:45f4c15b8c06814b",
+          "doc:97a0856e163a5c6d"
+        ]
+      },
+      {
+        "risk": "Long-end supply and real-rate repricing intensify.",
+        "why_it_matters": "Higher discount rates pressure duration, credit and growth equities.",
+        "monitor": "Further issuance, real yields and hyperscaler spreads.",
+        "source_ids": [
+          "doc:e010740a9791228f",
+          "doc:9005895cc70e3069",
+          "doc:28c8469137db650b"
+        ]
+      },
+      {
+        "risk": "US labour weakness becomes recessionary.",
+        "why_it_matters": "It would undermine the current hawkish policy narrative and weaken risk assets.",
+        "monitor": "Payrolls, participation, wages, consumption and job openings.",
+        "source_ids": [
+          "doc:0c25098a99e3c262",
+          "doc:45f4c15b8c06814b"
+        ]
+      }
+    ],
+    "schema_version": "2",
+    "as_of_date": "2026-08-31",
+    "coverage": {
+      "data_cutoff": "2026-08-31T17:30:00Z",
+      "comparison_date": "2026-08-28",
+      "documents_collected": 23,
+      "sources_collected": 12,
+      "sources_failed_or_partial": 13,
+      "sources_without_items": 24,
+      "important_missing_coverage": [
+        "policy:canada: Bank of Canada News=stale, Bank of Canada Speeches=expected_absent",
+        "policy:global: Central Bank Speeches=stale",
+        "policy:norway: Norges Bank Speeches=expected_absent",
+        "policy:united-kingdom: Bank of England Speeches=stale"
+      ],
+      "market_data_available": false,
+      "market_data_note": "No timestamped market-price, positioning, or event-calendar feed is integrated. Candidate expressions require current-market confirmation."
+    },
+    "source_ids_used": [
+      "doc:9005895cc70e3069",
+      "doc:28c8469137db650b",
+      "doc:45f4c15b8c06814b",
+      "doc:97a0856e163a5c6d",
+      "doc:e010740a9791228f",
+      "doc:0c25098a99e3c262",
+      "doc:102e97bb39b77633",
+      "doc:9b80527b07d28c57",
+      "doc:4ca4d2a4ec5ef896",
+      "doc:d09174970a989b1a",
+      "doc:21a5e6203bafb811",
+      "doc:5bed8e55839c4e3b",
+      "doc:56b82e76c11e2900"
+    ]
+  },
+  "asset_views": [
+    {
+      "key": "asset-view:rates:us:front-end:short_term",
+      "family": "rates",
+      "horizon_key": "short_term",
+      "asset": "US front-end rates",
+      "horizon": "short_term",
+      "bias": "bearish",
+      "confidence": 3,
+      "supporting_evidence": [
+        "Fed Chair Warsh used hawkish language.",
+        "US core PCE and services inflation remain above target.",
+        "The labour market shows weak payroll growth and soft wages."
+      ],
+      "contradicting_evidence": [
+        "Weak August payrolls or rising unemployment.",
+        "Supply-driven inflation fades without second-round effects."
+      ],
+      "source_document_ids": [
+        "doc:5bed8e55839c4e3b",
+        "doc:0c25098a99e3c262",
+        "doc:45f4c15b8c06814b"
+      ],
+      "first_seen_date": "2026-08-31",
+      "last_updated_date": "2026-08-31",
+      "expected_expiry_date": "2026-09-14",
+      "freshness": "current",
+      "status_history": [
+        {
+          "as_of_date": "2026-08-31",
+          "status": "new",
+          "bias": "bearish",
+          "confidence": 3,
+          "current_source_document_ids": [
+            "doc:5bed8e55839c4e3b",
+            "doc:0c25098a99e3c262",
+            "doc:45f4c15b8c06814b"
+          ],
+          "freshness": "current"
+        }
+      ]
+    },
+    {
+      "key": "asset-view:rates:global:curve:medium_term",
+      "family": "rates",
+      "horizon_key": "medium_term",
+      "asset": "Euro-area corporate credit",
+      "horizon": "medium_term",
+      "bias": "bearish",
+      "confidence": 3,
+      "supporting_evidence": [
+        "Hyperscalers represent just under 10% of new euro non-financial corporate issuance.",
+        "Hyperscaler spreads have increased as issuance expectations rose."
+      ],
+      "contradicting_evidence": [
+        "Investor demand expands with the supply.",
+        "Strong balance sheets and high ratings limit default concerns."
+      ],
+      "source_document_ids": [
+        "doc:e010740a9791228f"
+      ],
+      "first_seen_date": "2026-08-31",
+      "last_updated_date": "2026-08-31",
+      "expected_expiry_date": "2026-11-29",
+      "freshness": "current",
+      "status_history": [
+        {
+          "as_of_date": "2026-08-31",
+          "status": "new",
+          "bias": "bearish",
+          "confidence": 3,
+          "current_source_document_ids": [
+            "doc:e010740a9791228f"
+          ],
+          "freshness": "current"
+        }
+      ]
+    },
+    {
+      "key": "asset-view:commodities:gold:short_term",
+      "family": "commodities",
+      "horizon_key": "short_term",
+      "asset": "Gold",
+      "horizon": "short_term",
+      "bias": "mixed",
+      "confidence": 2,
+      "supporting_evidence": [
+        "Hawkish Fed rhetoric.",
+        "Persistent fiscal and institutional-risk concerns."
+      ],
+      "contradicting_evidence": [
+        "Further real-yield increases.",
+        "Improved confidence in monetary and fiscal credibility."
+      ],
+      "source_document_ids": [
+        "doc:d09174970a989b1a",
+        "doc:56b82e76c11e2900"
+      ],
+      "first_seen_date": "2026-08-31",
+      "last_updated_date": "2026-08-31",
+      "expected_expiry_date": "2026-09-14",
+      "freshness": "current",
+      "status_history": [
+        {
+          "as_of_date": "2026-08-31",
+          "status": "new",
+          "bias": "mixed",
+          "confidence": 2,
+          "current_source_document_ids": [
+            "doc:d09174970a989b1a",
+            "doc:56b82e76c11e2900"
+          ],
+          "freshness": "current"
+        }
+      ]
+    },
+    {
+      "key": "asset-view:rates:us:front-end:unspecified",
+      "family": "rates",
+      "horizon_key": "unspecified",
+      "asset": "US front-end rates",
+      "horizon": "immediate",
+      "bias": "bearish",
+      "confidence": 3,
+      "supporting_evidence": [
+        "PCE inflation remains above target.",
+        "Financial conditions and labour markets were described as resilient."
+      ],
+      "contradicting_evidence": [
+        "A rapid disinflation surprise.",
+        "A sharp deterioration in employment or credit."
+      ],
+      "source_document_ids": [
+        "doc:2c51127ee15af4b4"
+      ],
+      "first_seen_date": "2026-08-28",
+      "last_updated_date": "2026-08-28",
+      "expected_expiry_date": "2026-09-27",
+      "freshness": "carried",
+      "status_history": [
+        {
+          "as_of_date": "2026-08-28",
+          "status": "new",
+          "bias": "bearish",
+          "confidence": 3,
+          "current_source_document_ids": [
+            "doc:2c51127ee15af4b4"
+          ],
+          "freshness": "current"
+        },
+        {
+          "as_of_date": "2026-08-31",
+          "status": "unchanged",
+          "bias": "bearish",
+          "confidence": 3,
+          "current_source_document_ids": [],
+          "freshness": "carried"
+        }
+      ]
+    },
+    {
+      "key": "asset-view:credit:global:medium_term",
+      "family": "credit",
+      "horizon_key": "medium_term",
+      "asset": "European sovereign credit, with focus on France",
+      "horizon": "medium_term",
+      "bias": "bearish",
+      "confidence": 3,
+      "supporting_evidence": [
+        "French Q2 GDP stagnated after revision.",
+        "Private-sector employment has fallen for six consecutive quarters.",
+        "Additional consolidation is judged necessary."
+      ],
+      "contradicting_evidence": [
+        "A stronger Q3 recovery.",
+        "Faster-than-expected fiscal measures."
+      ],
+      "source_document_ids": [
+        "doc:7bd26430a495467e"
+      ],
+      "first_seen_date": "2026-08-28",
+      "last_updated_date": "2026-08-28",
+      "expected_expiry_date": "2026-11-26",
+      "freshness": "carried",
+      "status_history": [
+        {
+          "as_of_date": "2026-08-28",
+          "status": "new",
+          "bias": "bearish",
+          "confidence": 3,
+          "current_source_document_ids": [
+            "doc:7bd26430a495467e"
+          ],
+          "freshness": "current"
+        },
+        {
+          "as_of_date": "2026-08-31",
+          "status": "unchanged",
+          "bias": "bearish",
+          "confidence": 3,
+          "current_source_document_ids": [],
+          "freshness": "carried"
+        }
+      ]
+    },
+    {
+      "key": "asset-view:commodities:broad-commodities:short_term",
+      "family": "commodities",
+      "horizon_key": "short_term",
+      "asset": "Broad commodities",
+      "horizon": "short_term",
+      "bias": "bullish",
+      "confidence": 1,
+      "supporting_evidence": [
+        "Agricultural disruption and weather risk.",
+        "Precious-metals fiscal concerns.",
+        "Copper supply and inventory distortions."
+      ],
+      "contradicting_evidence": [
+        "Improved weather or logistics.",
+        "Diplomatic de-escalation.",
+        "Global growth slowdown."
+      ],
+      "source_document_ids": [
+        "doc:5f6ae3360b50a06d"
+      ],
+      "first_seen_date": "2026-08-28",
+      "last_updated_date": "2026-08-28",
+      "expected_expiry_date": "2026-09-11",
+      "freshness": "carried",
+      "status_history": [
+        {
+          "as_of_date": "2026-08-28",
+          "status": "new",
+          "bias": "bullish",
+          "confidence": 1,
+          "current_source_document_ids": [
+            "doc:5f6ae3360b50a06d"
+          ],
+          "freshness": "current"
+        },
+        {
+          "as_of_date": "2026-08-31",
+          "status": "unchanged",
+          "bias": "bullish",
+          "confidence": 1,
+          "current_source_document_ids": [],
+          "freshness": "carried"
+        }
+      ]
+    }
+  ],
+  "themes": [
+    {
+      "key": "thesis:supply-fiscal-ai-investment-are-lifting-long-end-risk-premium",
+      "entity_type": "thesis",
+      "title": "Supply, fiscal and AI investment are lifting the long-end risk premium",
+      "implication": "Long-duration rates and credit remain exposed to higher real yields, issuance and refinancing premia.",
+      "source_document_ids": [
+        "doc:e010740a9791228f",
+        "doc:9005895cc70e3069",
+        "doc:4ca4d2a4ec5ef896",
+        "doc:21a5e6203bafb811"
+      ],
+      "first_seen_date": "2026-08-31",
+      "last_updated_date": "2026-08-31",
+      "expected_expiry_date": "2026-09-14",
+      "freshness": "current"
+    },
+    {
+      "key": "regime:inflation",
+      "entity_type": "regime",
+      "title": "Scarcity has broadened the commodity inflation channel",
+      "implication": "Commodity exposure may diversify inflation risk, but individual markets remain vulnerable to supply normalisation, weather improvement or weaker growth.",
+      "source_document_ids": [
+        "doc:5f6ae3360b50a06d"
+      ],
+      "first_seen_date": "2026-08-28",
+      "last_updated_date": "2026-08-28",
+      "expected_expiry_date": "2026-09-11",
+      "freshness": "carried"
+    }
+  ],
+  "comparison": {
+    "baseline_status": "available",
+    "baseline_detail": "Compared with successful brief github-33337311571-1.",
+    "previous_run_id": "github-33337311571-1",
+    "previous_date": "2026-08-28",
+    "week_run_id": null,
+    "week_date": null,
+    "asset_view_changes": [
+      {
+        "key": "asset-view:commodities:broad-commodities:short_term",
+        "status": "unchanged",
+        "asset": "Broad commodities",
+        "horizon": "short_term",
+        "previous_bias": "bullish",
+        "current_bias": "bullish",
+        "previous_confidence": 1,
+        "current_confidence": 1,
+        "current_source_document_ids": [],
+        "historical_source_document_ids": [
+          "doc:5f6ae3360b50a06d"
+        ],
+        "first_seen_date": "2026-08-28",
+        "last_updated_date": "2026-08-28",
+        "expected_expiry_date": "2026-09-11",
+        "resolved_date": null,
+        "carried_forward": true,
+        "explanation": "No current evidence renewed the view; it is retained only as historical context."
+      },
+      {
+        "key": "asset-view:commodities:gold:short_term",
+        "status": "new",
+        "asset": "Gold",
+        "horizon": "short_term",
+        "previous_bias": null,
+        "current_bias": "mixed",
+        "previous_confidence": null,
+        "current_confidence": 2,
+        "current_source_document_ids": [
+          "doc:d09174970a989b1a",
+          "doc:56b82e76c11e2900"
+        ],
+        "historical_source_document_ids": [],
+        "first_seen_date": "2026-08-31",
+        "last_updated_date": "2026-08-31",
+        "expected_expiry_date": "2026-09-14",
+        "resolved_date": null,
+        "carried_forward": false,
+        "explanation": "No comparable view appeared in the previous successful brief."
+      },
+      {
+        "key": "asset-view:credit:global:medium_term",
+        "status": "unchanged",
+        "asset": "European sovereign credit, with focus on France",
+        "horizon": "medium_term",
+        "previous_bias": "bearish",
+        "current_bias": "bearish",
+        "previous_confidence": 3,
+        "current_confidence": 3,
+        "current_source_document_ids": [],
+        "historical_source_document_ids": [
+          "doc:7bd26430a495467e"
+        ],
+        "first_seen_date": "2026-08-28",
+        "last_updated_date": "2026-08-28",
+        "expected_expiry_date": "2026-11-26",
+        "resolved_date": null,
+        "carried_forward": true,
+        "explanation": "No current evidence renewed the view; it is retained only as historical context."
+      },
+      {
+        "key": "asset-view:rates:global:curve:medium_term",
+        "status": "new",
+        "asset": "Euro-area corporate credit",
+        "horizon": "medium_term",
+        "previous_bias": null,
+        "current_bias": "bearish",
+        "previous_confidence": null,
+        "current_confidence": 3,
+        "current_source_document_ids": [
+          "doc:e010740a9791228f"
+        ],
+        "historical_source_document_ids": [],
+        "first_seen_date": "2026-08-31",
+        "last_updated_date": "2026-08-31",
+        "expected_expiry_date": "2026-11-29",
+        "resolved_date": null,
+        "carried_forward": false,
+        "explanation": "No comparable view appeared in the previous successful brief."
+      },
+      {
+        "key": "asset-view:rates:us:front-end:short_term",
+        "status": "new",
+        "asset": "US front-end rates",
+        "horizon": "short_term",
+        "previous_bias": null,
+        "current_bias": "bearish",
+        "previous_confidence": null,
+        "current_confidence": 3,
+        "current_source_document_ids": [
+          "doc:5bed8e55839c4e3b",
+          "doc:0c25098a99e3c262",
+          "doc:45f4c15b8c06814b"
+        ],
+        "historical_source_document_ids": [],
+        "first_seen_date": "2026-08-31",
+        "last_updated_date": "2026-08-31",
+        "expected_expiry_date": "2026-09-14",
+        "resolved_date": null,
+        "carried_forward": false,
+        "explanation": "No comparable view appeared in the previous successful brief."
+      },
+      {
+        "key": "asset-view:rates:us:front-end:unspecified",
+        "status": "unchanged",
+        "asset": "US front-end rates",
+        "horizon": "immediate",
+        "previous_bias": "bearish",
+        "current_bias": "bearish",
+        "previous_confidence": 3,
+        "current_confidence": 3,
+        "current_source_document_ids": [],
+        "historical_source_document_ids": [
+          "doc:2c51127ee15af4b4"
+        ],
+        "first_seen_date": "2026-08-28",
+        "last_updated_date": "2026-08-28",
+        "expected_expiry_date": "2026-09-27",
+        "resolved_date": null,
+        "carried_forward": true,
+        "explanation": "No current evidence renewed the view; it is retained only as historical context."
+      }
+    ],
+    "theme_changes": [
+      {
+        "key": "regime:inflation",
+        "entity_type": "regime",
+        "status": "unchanged",
+        "title": "Scarcity has broadened the commodity inflation channel",
+        "current_source_document_ids": [],
+        "historical_source_document_ids": [
+          "doc:5f6ae3360b50a06d"
+        ],
+        "first_seen_date": "2026-08-28",
+        "last_updated_date": "2026-08-28",
+        "expected_expiry_date": "2026-09-11",
+        "resolved_date": null,
+        "carried_forward": true
+      },
+      {
+        "key": "thesis:supply-fiscal-ai-investment-are-lifting-long-end-risk-premium",
+        "entity_type": "thesis",
+        "status": "new",
+        "title": "Supply, fiscal and AI investment are lifting the long-end risk premium",
+        "current_source_document_ids": [
+          "doc:e010740a9791228f",
+          "doc:9005895cc70e3069",
+          "doc:4ca4d2a4ec5ef896",
+          "doc:21a5e6203bafb811"
+        ],
+        "historical_source_document_ids": [],
+        "first_seen_date": "2026-08-31",
+        "last_updated_date": "2026-08-31",
+        "expected_expiry_date": "2026-09-14",
+        "resolved_date": null,
+        "carried_forward": false
+      }
+    ],
+    "week_asset_view_changes": [],
+    "warnings": []
+  }
+}
