@@ -1446,9 +1446,9 @@ retained local dates currently have complete lawful corpora. The milestone exit
 gate therefore uses same-corpus V1/V2 comparison only on those two lawful
 corpora and accumulates claim and usefulness audits prospectively across ten V2
 reports. The owner positively reviewed the canary's information hierarchy and
-output quality on 2026-08-30. The evidence audit and one live configured
-Telegram delivery remain open; they are not represented as complete by the code
-release.
+output quality on 2026-08-30. The first live configured Telegram delivery
+completed on 2026-09-01; only the evidence audit remains open and it is not
+represented as complete by the code release.
 
 Hosted canary
 [33319046110](https://github.com/Phoendor/macro_sage/actions/runs/33319046110)
@@ -1460,6 +1460,14 @@ claims, 12 cited documents and zero contract defects. Visual inspection of the
 actual hosted PDF confirmed the three leading changes, regime dashboard,
 no-setup decision and nearest event risk all remain on page one. Telegram was
 correctly skipped because live channel configuration is absent.
+
+The first live Telegram delivery passed on 2026-09-01 in hosted run
+[`33495839234`](https://github.com/Phoendor/macro_sage/actions/runs/33495839234).
+The workflow generated the fixed-date 2026-08-31 report with podcasts disabled,
+sent the PDF to the configured `@macro_sage` channel, reported `Telegram
+delivery: sent`, and persisted the idempotency state to durable history before
+completing successfully. This closes the live-delivery observation; the normal
+scheduled brief remains unchanged.
 
 Exit gate:
 
