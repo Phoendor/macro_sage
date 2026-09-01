@@ -46,11 +46,14 @@ def test_workflow_delivers_optionally_and_persists_idempotency_state():
 
     assert "secrets.TELEGRAM_BOT_TOKEN" in text
     assert "vars.TELEGRAM_CHAT_ID" in text
+    assert "vars.TELEGRAM_ADMIN_CHAT_ID" in text
     assert "python -m macro_sage deliver" in text
     assert "--state .history-store/delivery/telegram.json" in text
     assert "--github-run-url" not in text
     assert "continue-on-error: true" in text
     assert "git -C .history-store add delivery" in text
+    assert "technical-report.pdf" in text
+    assert "technical-report.md" in text
     assert "retention-days: 30" in text
 
 

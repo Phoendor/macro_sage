@@ -50,8 +50,6 @@ def test_repository_inventory_has_complete_structured_metadata():
         assert source.asset_classes
         assert source.owner
         assert source.scan_depth >= source.daily_limit
-        assert source.selection_cap >= 1
-        assert source.publisher_cap >= 1
         assert source.failure_threshold >= 1
         if source.participation is not Participation.UNAVAILABLE:
                 assert source.validation_status in {

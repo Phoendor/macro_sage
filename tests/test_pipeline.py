@@ -148,7 +148,7 @@ def test_missing_publication_dates_cannot_masquerade_as_a_quiet_day(monkeypatch)
     assert report.failures
 
 
-def test_expected_but_absent_source_is_visibly_degraded(monkeypatch):
+def test_no_same_day_item_is_quiet_until_source_exceeds_normal_gap(monkeypatch):
     article_source = SourceDefinition(
         "daily",
         "Daily",
@@ -177,8 +177,9 @@ def test_expected_but_absent_source_is_visibly_degraded(monkeypatch):
         timezone_name="UTC",
     )
 
-    assert report.outcomes[0].state is SourceState.EXPECTED_ABSENT
-    assert report.failures
+    assert report.outcomes[0].state is SourceState.QUIET_EXPECTED
+    assert not report.failures
+    assert "within its normal 30-day gap" in report.outcomes[0].detail
 
 
 def test_collection_window_covers_weekend_and_applies_limit_per_publication_day(

@@ -78,6 +78,7 @@ class CorpusDecision:
     source_id: str
     publisher: str
     outcome: str
+    reason_label: str
     reason: str
 
 
@@ -119,21 +120,25 @@ _MACRO_TITLE_TERMS = re.compile(
 def _document_rank(
     document: Document,
     sources: dict[str, SourceDefinition],
-) -> tuple[int, int, int, float]:
+) -> tuple[int, int, int, int, float]:
     source = sources.get(document.source_id)
     tier = source.evidence_tier if source else EvidenceTier.INSTITUTIONAL_ANALYSIS
     priority = source.priority if source else 50
+    include_pattern = source.selection_include_title_pattern if source else None
+    preferred = int(
+        not include_pattern or bool(re.search(include_pattern, document.title))
+    )
     relevance = min(5, len(_MACRO_TITLE_TERMS.findall(document.title)))
     published_rank = document.published_at.timestamp() if document.published_at else float("-inf")
-    return (_TIER_WEIGHT[tier], priority, relevance, published_rank)
+    return (_TIER_WEIGHT[tier], priority, preferred, relevance, published_rank)
 
 
 def _document_sort_key(
     document: Document,
     sources: dict[str, SourceDefinition],
-) -> tuple[int, int, int, float, str]:
+) -> tuple[int, int, int, int, float, str]:
     rank = _document_rank(document, sources)
-    return (-rank[0], -rank[1], -rank[2], -rank[3], document.id)
+    return (-rank[0], -rank[1], -rank[2], -rank[3], -rank[4], document.id)
 
 
 def _publisher_balanced(
@@ -176,19 +181,7 @@ def prepare_corpus(
     eligible: list[Document] = []
     for document in documents:
         source = source_lookup.get(document.source_id)
-        include_pattern = source.selection_include_title_pattern if source else None
         exclude_pattern = source.selection_exclude_title_pattern if source else None
-        if include_pattern and not re.search(include_pattern, document.title):
-            decisions.append(
-                CorpusDecision(
-                    document.id,
-                    document.source_id,
-                    document.publisher,
-                    "omitted",
-                    "title did not match the configured synthesis relevance filter",
-                )
-            )
-            continue
         if exclude_pattern and re.search(exclude_pattern, document.title):
             decisions.append(
                 CorpusDecision(
@@ -196,6 +189,7 @@ def prepare_corpus(
                     document.source_id,
                     document.publisher,
                     "omitted",
+                    "explicit_keyword_exclusion",
                     "title matched the configured synthesis exclusion filter",
                 )
             )
@@ -221,44 +215,9 @@ def prepare_corpus(
     citation_map: dict[str, str] = {}
     records: list[str] = []
     used = 2
-    publisher_counts: dict[str, int] = defaultdict(int)
-    source_counts: dict[str, int] = defaultdict(int)
-
-    publisher_caps: dict[str, int] = {}
-    for source in source_lookup.values():
-        publisher_caps[source.publisher] = min(
-            publisher_caps.get(source.publisher, source.publisher_cap),
-            source.publisher_cap,
-        )
 
     for document in ordered:
         source = source_lookup.get(document.source_id)
-        publisher_cap = publisher_caps.get(document.publisher, settings.max_articles)
-        selection_cap = source.selection_cap if source else settings.max_articles
-        if publisher_counts[document.publisher] >= publisher_cap:
-            omitted.append(document.id)
-            decisions.append(
-                CorpusDecision(
-                    document.id,
-                    document.source_id,
-                    document.publisher,
-                    "omitted",
-                    f"publisher synthesis cap reached ({publisher_cap})",
-                )
-            )
-            continue
-        if source_counts[document.source_id] >= selection_cap:
-            omitted.append(document.id)
-            decisions.append(
-                CorpusDecision(
-                    document.id,
-                    document.source_id,
-                    document.publisher,
-                    "omitted",
-                    f"source product-line synthesis cap reached ({selection_cap})",
-                )
-            )
-            continue
         if len(included) >= settings.max_articles:
             omitted.append(document.id)
             decisions.append(
@@ -267,6 +226,7 @@ def prepare_corpus(
                     document.source_id,
                     document.publisher,
                     "omitted",
+                    "run_article_limit",
                     f"run article limit reached ({settings.max_articles})",
                 )
             )
@@ -301,6 +261,7 @@ def prepare_corpus(
                     document.source_id,
                     document.publisher,
                     "omitted",
+                    "run_character_budget",
                     f"run character budget reached ({settings.max_corpus_chars})",
                 )
             )
@@ -310,18 +271,26 @@ def prepare_corpus(
         records.append(record)
         included.append(document)
         citation_map[citation_key] = document.id
-        publisher_counts[document.publisher] += 1
-        source_counts[document.source_id] += 1
         used += delimiter + len(record)
         rank = _document_rank(document, source_lookup)
+        include_pattern = source.selection_include_title_pattern if source else None
+        if not include_pattern:
+            preference = "no title preference is configured"
+        elif re.search(include_pattern, document.title):
+            preference = "configured title preference matched"
+        else:
+            preference = "configured title preference did not match (soft ordering only)"
         decisions.append(
             CorpusDecision(
                 document.id,
                 document.source_id,
                 document.publisher,
                 "included_truncated" if was_truncated else "included",
-                "selected by evidence tier, configured priority, macro-title relevance, "
-                f"freshness and publisher diversity (rank={rank[:4]})",
+                "included_truncated" if was_truncated else "included_full",
+                "included within the bounded corpus; ordered by evidence tier, "
+                "configured priority, title preference, macro-title relevance, "
+                "freshness and publisher "
+                f"diversity; {preference} (rank={rank[:4]})",
             )
         )
 

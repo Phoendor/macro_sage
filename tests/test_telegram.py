@@ -3,10 +3,13 @@ import json
 import pytest
 import requests
 
+from macro_sage import cli
 from macro_sage.telegram import (
     TELEGRAM_MAX_DOCUMENT_BYTES,
     TelegramConfig,
+    TelegramDelivery,
     TelegramDeliveryError,
+    private_technical_caption,
     public_delayed_message,
     public_no_data_message,
     public_report_caption,
@@ -52,6 +55,16 @@ def test_telegram_configuration_is_disabled_only_when_both_values_absent(monkeyp
     with pytest.raises(TelegramDeliveryError, match="TELEGRAM_CHAT_ID"):
         TelegramConfig.from_env()
 
+    monkeypatch.setenv("TELEGRAM_CHAT_ID", "@channel")
+    monkeypatch.setenv("TELEGRAM_ADMIN_CHAT_ID", "123456")
+    assert TelegramConfig.from_env() == TelegramConfig(
+        "secret", "@channel", "123456"
+    )
+
+    monkeypatch.setenv("TELEGRAM_ADMIN_CHAT_ID", "@artembaulin")
+    with pytest.raises(TelegramDeliveryError, match="must be a numeric"):
+        TelegramConfig.from_env()
+
 
 def test_send_pdf_records_success_without_formatting_mode(tmp_path):
     client = Client([Response()])
@@ -86,9 +99,103 @@ def test_public_delivery_copy_contains_no_operational_details():
     assert no_data == "Macro Sage — 30 August 2026: no new edition today."
     assert delayed == "Macro Sage — 30 August 2026: today's edition is delayed."
     assert report_document_name("2026-08-30") == "Macro-Sage-2026-08-30.pdf"
+    assert private_technical_caption("2026-08-30") == (
+        "Macro Sage technical report — 30 August 2026"
+    )
+    assert report_document_name("2026-08-30", technical=True) == (
+        "Macro-Sage-Technical-2026-08-30.pdf"
+    )
     combined = " ".join((caption, no_data, delayed)).casefold()
     for internal_term in ("github", "http", "degraded", "health", "source", "failed"):
         assert internal_term not in combined
+
+
+def test_public_and_admin_destinations_have_independent_idempotency(tmp_path):
+    client = Client([Response(), Response(value={"ok": True, "result": {"message_id": 43}})])
+    state = tmp_path / "telegram.json"
+    report = pdf(tmp_path / "brief.pdf")
+    config = TelegramConfig("secret", "@channel")
+
+    public = send_pdf(
+        config,
+        pdf_path=report,
+        target_date="2026-08-30",
+        run_id="run-one",
+        caption="Public",
+        state_path=state,
+        destination="public",
+        client=client,
+    )
+    admin = send_pdf(
+        TelegramConfig("secret", "123456"),
+        pdf_path=report,
+        target_date="2026-08-30",
+        run_id="run-one",
+        caption="Admin",
+        state_path=state,
+        destination="admin",
+        document_name="Macro-Sage-Technical-2026-08-30.pdf",
+        client=client,
+    )
+
+    assert public == TelegramDelivery("sent", public.idempotency_key, public.pdf_sha256, 42)
+    assert admin.message_id == 43
+    assert len(client.calls) == 2
+    saved = json.loads(state.read_text(encoding="utf-8"))["deliveries"]
+    assert {item["destination"] for item in saved} == {"public", "admin"}
+
+
+def test_run_delivery_routes_content_publicly_and_technical_report_privately(
+    monkeypatch, tmp_path
+):
+    monkeypatch.setenv("TELEGRAM_BOT_TOKEN", "secret")
+    monkeypatch.setenv("TELEGRAM_CHAT_ID", "@channel")
+    monkeypatch.setenv("TELEGRAM_ADMIN_CHAT_ID", "123456")
+    public_pdf = tmp_path / "report.pdf"
+    technical_pdf = tmp_path / "technical-report.pdf"
+    run_record = tmp_path / "run.json"
+    run_record.write_text(
+        json.dumps(
+            {
+                "run_id": "run-one",
+                "target_date": "2026-08-30",
+                "content_result": "report",
+                "report_pdf": str(public_pdf),
+                "technical_report_pdf": str(technical_pdf),
+            }
+        ),
+        encoding="utf-8",
+    )
+    calls = []
+
+    def fake_send(config, **kwargs):
+        calls.append((config, kwargs))
+        message_id = 42 if kwargs.get("destination", "public") == "public" else 43
+        return TelegramDelivery(
+            "sent",
+            f"key-{message_id}",
+            "digest",
+            message_id,
+        )
+
+    monkeypatch.setattr(cli, "send_pdf", fake_send)
+
+    result = cli._deliver_run_record(
+        run_record,
+        state_path=tmp_path / "delivery.json",
+        force=False,
+        notify_failure=False,
+    )
+
+    assert result == 0
+    assert calls[0][0].chat_id == "@channel"
+    assert calls[0][1]["pdf_path"] == public_pdf
+    assert calls[1][0].chat_id == "123456"
+    assert calls[1][1]["pdf_path"] == technical_pdf
+    assert calls[1][1]["document_name"] == "Macro-Sage-Technical-2026-08-30.pdf"
+    delivery = json.loads(run_record.read_text(encoding="utf-8"))["telegram_delivery"]
+    assert delivery["public"]["message_id"] == 42
+    assert delivery["admin"]["message_id"] == 43
 
 
 def test_same_date_and_pdf_is_suppressed_across_different_run_ids(tmp_path):

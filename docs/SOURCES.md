@@ -28,9 +28,11 @@ but is never silently disabled.
 [SOURCE_COVERAGE.md](SOURCE_COVERAGE.md); offline checks compare the complete
 generated documents rather than only checking that IDs appear.
 The same inventory controls synthesis admission separately from acquisition:
-evidence tier, priority, `selection_cap`, `publisher_cap` and explicit title
-include/exclude patterns are deterministic, and every omitted document remains
-auditable in `run.json`.
+evidence tier, priority and explicit title include/exclude patterns determine
+ordering and narrowly defined exclusions. There is no per-source or
+per-publisher synthesis cap. Every collected document remains visible in the
+private technical report, including documents omitted by the overall context
+boundary or explicit keyword policy.
 
 Automated validation and manual review are separate operations. Validation
 always writes `pending_review` contract samples. Supplying `--review-bundle`

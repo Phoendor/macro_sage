@@ -41,8 +41,10 @@ macro-sage collect --date 2026-07-27
 Each full run receives an immutable attempt ID and writes to
 `output/runs/<run-id>/`; fetched documents are cached in
 `data/macro_sage.sqlite3`. The latest successful PDF is copied atomically to
-`output/pdf/macro-sage-<date>.pdf`. Staged `collect`/`synthesize` commands without
-a run ID retain the convenient `output/<date>/` directory.
+`output/pdf/macro-sage-<date>.pdf`; its private acquisition and filtering audit
+is copied to `output/pdf/macro-sage-technical-<date>.pdf`. Staged
+`collect`/`synthesize` commands without a run ID retain the convenient
+`output/<date>/` directory.
 
 Successful local briefs are also appended to `data/brief-history/`. Each new
 report states whether a trustworthy previous baseline exists and shows
@@ -128,8 +130,9 @@ the half-open interval from the last successful scheduled cutoff to the current
 intended cutoff, so Monday includes Friday-evening and weekend publications.
 Explicit dates remain deterministic calendar-day replays. The workflow persists
 the SQLite document/transcript cache between runs, synthesizes the brief, renders
-a PDF, and uploads the PDF plus a sanitized audit trail for 30 days. Raw article
-bodies and transcripts are never included in the uploaded artifact. Standard
+separate content and technical PDFs, and uploads both plus a sanitized audit
+trail for 30 days. Raw article bodies and transcripts are never included in the
+uploaded artifact. Standard
 GitHub-hosted runners are free for this public repository; OpenAI API
 transcription and synthesis remain paid usage.
 
@@ -146,38 +149,41 @@ same migrated SQLite store. One transient failure is a warning; the configured
 threshold must be reached before the source is labelled failing. This workflow
 does not need an OpenAI key and never downloads podcast audio.
 
-Every run writes `source-status.md` and lists failed or partially acquired
-sources in terminal output, GitHub's run summary, Markdown, JSON, and the PDF.
-Sources with no same-day publication are listed separately and are not treated
-as failures. A healthy no-data day completes successfully without making a
-synthesis request; collection health is recorded separately as healthy,
-degraded, or failed.
+Every run writes `source-status.md` and a deterministic `technical-report.md`
+and PDF. The technical report groups every collected document by source, labels
+whether it was cited, available but uncited, truncated or excluded, lists every
+discovered item that could not be extracted, and separates acquisition failures,
+stale feeds, normal same-day silence and non-participating sources. Creating this
+audit makes no additional OpenAI request. A source is called stale only when its
+newest known publication exceeds its configured normal gap; ordinary same-day
+silence is not treated as a failure.
 
 Optional Telegram delivery uses the same application locally and on GitHub.
 When `TELEGRAM_BOT_TOKEN` and `TELEGRAM_CHAT_ID` are configured, scheduled
-GitHub runs send the completed PDF automatically, or a short status message on
-a normal no-data day. Local runs send only with `--deliver`. Delivery state is
-durable and suppresses duplicate rerun posts; use the explicit `deliver
---force` command for intentional redelivery. A delivery outage does not remove
-the PDF or fail report generation. Public Telegram copy contains only the Macro
-Sage title and human-readable publication date; operational health details stay
-inside the report and audit trail. See [Telegram delivery](docs/TELEGRAM.md).
+GitHub runs send the content PDF to the public channel automatically, or a short
+status message on a normal no-data day. When the optional numeric
+`TELEGRAM_ADMIN_CHAT_ID` is also configured, the same run sends the technical
+PDF separately to the bot's private chat with the owner. Local runs send only
+with `--deliver`. Public Telegram copy contains no source-health or workflow
+details. Destination-aware idempotency prevents reruns from duplicating either
+file; use `deliver --force` for intentional redelivery.
 
-The input budget is intentionally bounded by article count and characters. This
-controls cost without splitting the corpus into many model calls. Corpus
-selection reserves capacity for primary evidence, ranks by evidence tier,
-configured priority, title relevance and freshness, balances publishers, and
-enforces per-source and per-publisher caps. Explicit title filters keep known
-single-security or off-topic material out of synthesis without deleting it from
-the private collection manifest. Every inclusion, truncation and omission is
-saved in `run.json`. The model receives a JSON evidence array, so source text
-cannot forge document boundaries or citation headers.
+The input budget is intentionally bounded by overall article count and
+characters. This controls request size without splitting the corpus into many
+model calls. There is no arbitrary three-item source cap or publisher cap:
+every collected document is eligible until the overall model-context boundary
+is reached. Corpus order reserves capacity for primary evidence, ranks by
+evidence tier, configured priority, title preference, macro relevance and
+freshness, and interleaves publishers. Explicit, reviewed title exclusions keep
+known single-security or off-topic material out of synthesis without deleting
+it from the private manifest or technical report. Every inclusion, truncation
+and omission has a plain reason label in `run.json`.
 
 ## Source and cache contracts
 
 `config/sources.toml` is the single source inventory. It distinguishes default,
 optional and unavailable participation and records evidence tier, coverage,
-cadence, expected gaps, acquisition mode, validation state and selection limits.
+cadence, expected gaps, acquisition mode and validation state.
 The source catalog and coverage matrix are generated from it; `python
 scripts/check.py` fails if either generated document drifts.
 

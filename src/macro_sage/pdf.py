@@ -12,6 +12,7 @@ from reportlab.lib.pagesizes import A4
 from reportlab.lib.styles import ParagraphStyle, getSampleStyleSheet
 from reportlab.lib.units import mm
 from reportlab.platypus import (
+    CondPageBreak,
     HRFlowable,
     KeepTogether,
     ListFlowable,
@@ -153,11 +154,24 @@ def _paragraph(text: object, style: ParagraphStyle) -> Paragraph:
     return Paragraph(escape(str(text)).replace("\n", "<br/>"), style)
 
 
+def _wrap_long_tokens(value: str) -> str:
+    tokens = []
+    for token in value.split():
+        if len(token) > 64:
+            token = token.replace("/", "/ ").replace("?", "? ").replace("&", "& ")
+        tokens.append(token)
+    return " ".join(tokens)
+
+
 def _bullets(values: list[str], style: ParagraphStyle) -> Any:
     if not values:
         return _paragraph("None.", style)
     items = [
-        ListItem(_paragraph(value, style), leftIndent=3 * mm, value="circle")
+        ListItem(
+            _paragraph(_wrap_long_tokens(value), style),
+            leftIndent=3 * mm,
+            value="circle",
+        )
         for value in values
     ]
     return ListFlowable(
@@ -200,6 +214,18 @@ def _footer(canvas: Any, document: Any) -> None:
     canvas.drawString(18 * mm, 9 * mm, "MACRO SAGE - SOURCE-ATTRIBUTED RESEARCH")
     page = str(document.page)
     canvas.drawRightString(width - 18 * mm, 9 * mm, page)
+    canvas.restoreState()
+
+
+def _technical_footer(canvas: Any, document: Any) -> None:
+    canvas.saveState()
+    width, _ = A4
+    canvas.setStrokeColor(LIGHT_GREY)
+    canvas.line(18 * mm, 14 * mm, width - 18 * mm, 14 * mm)
+    canvas.setFont("Helvetica", 7)
+    canvas.setFillColor(MID_GREY)
+    canvas.drawString(18 * mm, 9 * mm, "MACRO SAGE - PRIVATE TECHNICAL AUDIT")
+    canvas.drawRightString(width - 18 * mm, 9 * mm, str(document.page))
     canvas.restoreState()
 
 
@@ -262,37 +288,38 @@ def _v2_story(
 ) -> list[Any]:
     story: list[Any] = []
     coverage = brief.get("coverage", {})
-    errors = manifest.get("errors", [])
-    skipped = manifest.get("skipped", [])
+    used_ids = list(dict.fromkeys(brief.get("source_ids_used", [])))
+    used_documents = [
+        documents[source_id] for source_id in used_ids if source_id in documents
+    ]
+    cited_source_count = len(
+        {str(document.get("source_id", "")) for document in used_documents}
+    )
 
     story.extend(
         [
             _paragraph("DAILY MACRO DECISION BRIEF", styles["kicker"]),
             _paragraph("Macro Sage", styles["title"]),
             _paragraph(
-                f"{brief.get('as_of_date', 'unknown date')} | Data cutoff "
-                f"{coverage.get('data_cutoff', 'unknown')} | Previous brief "
-                f"{coverage.get('comparison_date') or 'none'} | Outcome "
-                f"{run.get('content_result', 'report')}/{run.get('health', 'unknown')}",
+                f"Source-attributed decision brief for "
+                f"{brief.get('as_of_date', 'unknown date')}",
                 styles["subtitle"],
             ),
         ]
     )
     coverage_rows = [
         [
-            _paragraph("DOCUMENTS", styles["small"]),
-            _paragraph("SOURCES", styles["small"]),
-            _paragraph("FAILED / PARTIAL", styles["small"]),
-            _paragraph("NO ITEM", styles["small"]),
+            _paragraph("CITED DOCUMENTS", styles["small"]),
+            _paragraph("CITED SOURCES", styles["small"]),
+            _paragraph("PREVIOUS BRIEF", styles["small"]),
         ],
         [
-            _paragraph(coverage.get("documents_collected", 0), styles["center"]),
-            _paragraph(coverage.get("sources_collected", 0), styles["center"]),
-            _paragraph(coverage.get("sources_failed_or_partial", 0), styles["center"]),
-            _paragraph(coverage.get("sources_without_items", 0), styles["center"]),
+            _paragraph(len(used_documents), styles["center"]),
+            _paragraph(cited_source_count, styles["center"]),
+            _paragraph(coverage.get("comparison_date") or "none", styles["center"]),
         ],
     ]
-    coverage_table = Table(coverage_rows, colWidths=[41.25 * mm] * 4)
+    coverage_table = Table(coverage_rows, colWidths=[55 * mm] * 3)
     coverage_table.setStyle(
         TableStyle(
             [
@@ -306,12 +333,7 @@ def _v2_story(
         )
     )
     story.extend([coverage_table, Spacer(1, 3 * mm)])
-    warnings = [str(value) for value in coverage.get("important_missing_coverage", [])]
     warning_text = str(coverage.get("market_data_note", "Market data unavailable."))
-    if errors:
-        warning_text += f" {len(errors)} source(s) failed or were partial."
-    if warnings:
-        warning_text += " Important gaps: " + "; ".join(warnings)
     story.extend(
         [
             _card(
@@ -319,7 +341,7 @@ def _v2_story(
                     _paragraph("DECISION LIMITATIONS", styles["card_title"]),
                     _paragraph(warning_text, styles["small"]),
                 ],
-                PALE_RED if errors or warnings else PALE_BLUE,
+                PALE_BLUE,
             ),
             Spacer(1, 2 * mm),
         ]
@@ -426,6 +448,7 @@ def _v2_story(
             ]
         )
 
+    story.append(PageBreak())
     story.append(_paragraph("Next event risks", styles["section_compact"]))
     catalysts = brief.get("catalysts", [])
     if not catalysts:
@@ -452,7 +475,6 @@ def _v2_story(
             ]
         )
 
-    story.append(PageBreak())
     if len(changes) > 3:
         story.append(_paragraph("Additional material changes", styles["section"]))
         for index, change in enumerate(changes[3:5], start=4):
@@ -739,20 +761,7 @@ def _v2_story(
         )
 
     story.append(PageBreak())
-    story.append(_paragraph("Technical audit", styles["section"]))
-    story.append(Spacer(1, 3 * mm))
-    story.append(
-        _paragraph(
-            f"Model: {run.get('model', 'unknown')} | Input tokens: "
-            f"{run.get('input_tokens', 'n/a')} | Output tokens: "
-            f"{run.get('output_tokens', 'n/a')} | Brief schema: "
-            f"{brief.get('schema_version', 'unknown')}",
-            styles["meta"],
-        )
-    )
-    story.append(_paragraph("Source register", styles["section"]))
-    used_ids = list(dict.fromkeys(brief.get("source_ids_used", [])))
-    used_documents = [documents[source_id] for source_id in used_ids if source_id in documents]
+    story.append(_paragraph("Documents cited in this report", styles["section"]))
     used_documents.sort(
         key=lambda document: (
             str(document.get("publisher", "")),
@@ -775,11 +784,278 @@ def _v2_story(
                 ]
             )
         )
-    story.append(_paragraph("Failed or partial sources", styles["section"]))
-    story.append(_bullets([str(value) for value in errors], styles["small"]))
-    if skipped:
-        story.append(_paragraph("Sources without dated items", styles["card_title"]))
-        story.append(_bullets([str(value) for value in skipped], styles["small"]))
+    return story
+
+
+def _technical_story(
+    brief: dict[str, Any],
+    manifest: dict[str, Any],
+    run: dict[str, Any],
+    documents: dict[str, dict[str, Any]],
+    styles: dict[str, ParagraphStyle],
+) -> list[Any]:
+    story: list[Any] = [
+        _paragraph("OPERATOR ACQUISITION AND SELECTION AUDIT", styles["kicker"]),
+        _paragraph("Macro Sage - Technical report", styles["title"]),
+        _paragraph(
+            f"Publication date {brief.get('as_of_date', 'unknown')} | Run "
+            f"{run.get('run_id', 'unknown')}",
+            styles["subtitle"],
+        ),
+    ]
+    decisions = {
+        str(item.get("document_id")): item
+        for item in run.get("corpus_selection", [])
+        if isinstance(item, dict)
+    }
+    cited_ids = set(str(item) for item in brief.get("source_ids_used", []))
+    included = [
+        item
+        for item in decisions.values()
+        if str(item.get("outcome", "")).startswith("included")
+    ]
+    excluded = [
+        item for item in decisions.values() if item.get("outcome") == "omitted"
+    ]
+    source_ids = {str(document.get("source_id", "")) for document in documents.values()}
+    item_statuses = [
+        item for item in manifest.get("item_statuses", []) if isinstance(item, dict)
+    ]
+    not_extracted = [
+        item
+        for item in item_statuses
+        if item.get("state") not in {"collected", "cached"}
+    ]
+    summary_rows = [
+        [
+            _paragraph("COLLECTED", styles["small"]),
+            _paragraph("SOURCES", styles["small"]),
+            _paragraph("TO SYNTHESIS", styles["small"]),
+            _paragraph("CITED", styles["small"]),
+            _paragraph("EXCLUDED", styles["small"]),
+        ],
+        [
+            _paragraph(len(documents), styles["center"]),
+            _paragraph(len(source_ids), styles["center"]),
+            _paragraph(len(included), styles["center"]),
+            _paragraph(len(cited_ids), styles["center"]),
+            _paragraph(len(excluded), styles["center"]),
+        ],
+    ]
+    summary = Table(summary_rows, colWidths=[33 * mm] * 5)
+    summary.setStyle(
+        TableStyle(
+            [
+                ("BACKGROUND", (0, 0), (-1, -1), PALE_BLUE),
+                ("BOX", (0, 0), (-1, -1), 0.5, LIGHT_GREY),
+                ("INNERGRID", (0, 0), (-1, -1), 0.5, WHITE),
+                ("VALIGN", (0, 0), (-1, -1), "MIDDLE"),
+                ("TOPPADDING", (0, 0), (-1, -1), 2 * mm),
+                ("BOTTOMPADDING", (0, 0), (-1, -1), 2 * mm),
+            ]
+        )
+    )
+    story.extend(
+        [
+            summary,
+            Spacer(1, 3 * mm),
+            _paragraph(
+                f"Model {run.get('model', 'unknown')} | Input tokens "
+                f"{run.get('input_tokens', 'unknown')} | Output tokens "
+                f"{run.get('output_tokens', 'unknown')} | Not added separately "
+                f"{len(not_extracted)}",
+                styles["meta"],
+            ),
+        ]
+    )
+
+    story.append(_paragraph("Collected documents by source", styles["section"]))
+    groups: dict[str, list[dict[str, Any]]] = {}
+    for document in documents.values():
+        groups.setdefault(str(document.get("source_id", "unknown")), []).append(document)
+    for source_id, source_documents in sorted(
+        groups.items(),
+        key=lambda item: (
+            str(item[1][0].get("source_name", item[0])),
+            item[0],
+        ),
+    ):
+        source_documents.sort(
+            key=lambda item: (
+                str(item.get("published_at", "")),
+                str(item.get("title", "")),
+            ),
+            reverse=True,
+        )
+        source_name = str(source_documents[0].get("source_name", source_id))
+        story.append(
+            _paragraph(
+                f"{source_name} ({source_id}) - {len(source_documents)} document(s)",
+                styles["section_compact"],
+            )
+        )
+        for document in source_documents:
+            document_id = str(document.get("id", ""))
+            decision = decisions.get(document_id, {})
+            outcome = str(decision.get("outcome", "decision_missing"))
+            reason_label = str(decision.get("reason_label", outcome)).upper()
+            if document_id in cited_ids:
+                label = "CITED"
+            elif outcome.startswith("included"):
+                label = "AVAILABLE NOT CITED"
+            else:
+                label = reason_label.replace("_", " ")
+            title = escape(str(document.get("title", "Untitled")))
+            url = escape(str(document.get("url", "")), quote=True)
+            published = escape(str(document.get("published_at", "unknown")))
+            reason = str(decision.get("reason", "No corpus decision was recorded."))
+            story.extend(
+                [
+                    Paragraph(
+                        f"<b>[{escape(label)}]</b> "
+                        f'<link href="{url}" color="#167D7F">{title}</link><br/>'
+                        f"Published: {published}<br/><font color=\"#486581\">"
+                        f"Reason: {escape(reason_label)} - {escape(reason)}</font>",
+                        styles["small"],
+                    ),
+                    Spacer(1, 1.5 * mm),
+                ]
+            )
+
+    story.append(PageBreak())
+    story.append(
+        _paragraph("Collected documents excluded before synthesis", styles["section"])
+    )
+    if excluded:
+        for decision in excluded:
+            document = documents.get(str(decision.get("document_id")), {})
+            title = escape(
+                str(document.get("title", decision.get("document_id", "Unknown")))
+            )
+            url = escape(str(document.get("url", "")), quote=True)
+            label = escape(
+                str(decision.get("reason_label", "excluded")).upper().replace("_", " ")
+            )
+            reason = escape(str(decision.get("reason", "No reason recorded.")))
+            story.extend(
+                [
+                    Paragraph(
+                        f"<b>[{label}]</b> "
+                        f'<link href="{url}" color="#167D7F">{title}</link><br/>'
+                        f"{reason}",
+                        styles["small"],
+                    ),
+                    Spacer(1, 1.5 * mm),
+                ]
+            )
+    else:
+        story.append(
+            _paragraph(
+                "None. Every collected document fit within the bounded synthesis corpus.",
+                styles["body"],
+            )
+        )
+
+    story.append(
+        _paragraph(
+            "Discovered materials not added as separate documents",
+            styles["section"],
+        )
+    )
+    if not_extracted:
+        for item in not_extracted:
+            state = str(item.get("state", "unknown")).upper().replace("_", " ")
+            title = escape(str(item.get("title", "Untitled")))
+            source_id = escape(str(item.get("source_id", "unknown")))
+            url = escape(str(item.get("url", "")), quote=True)
+            detail = escape(str(item.get("detail") or "No detail recorded."))
+            story.extend(
+                [
+                    Paragraph(
+                        f"<b>[{escape(state)}] {source_id}</b> - "
+                        f'<link href="{url}" color="#167D7F">{title}</link><br/>'
+                        f"{detail}",
+                        styles["small"],
+                    ),
+                    Spacer(1, 1.5 * mm),
+                ]
+            )
+    else:
+        story.append(_paragraph("None.", styles["body"]))
+
+    source_statuses = [
+        item for item in manifest.get("source_statuses", []) if isinstance(item, dict)
+    ]
+    zero_document = [
+        item
+        for item in source_statuses
+        if int(item.get("document_count", 0)) == 0
+    ]
+    source_sections = [
+        (
+            "Publication cadence attention",
+            {"stale", "expected_absent"},
+        ),
+        (
+            "Acquisition failures",
+            {"failed", "invalid_dates", "degraded", "partial"},
+        ),
+        (
+            "No same-day publication, within configured cadence",
+            {"no_items", "quiet_expected"},
+        ),
+        (
+            "Not participating in this run",
+            {"skipped", "unavailable", "filtered", "duplicate"},
+        ),
+    ]
+    for index, (heading, states) in enumerate(source_sections):
+        matching = [item for item in zero_document if item.get("state") in states]
+        block: list[Any] = []
+        if index == 0:
+            block.append(
+                _paragraph("Sources with no collected documents", styles["section"])
+            )
+        block.append(_paragraph(heading, styles["section_compact"]))
+        if matching:
+            block.append(
+                _bullets(
+                    [
+                        f"[{str(item.get('state', 'unknown')).upper()}] "
+                        f"{item.get('source_name', item.get('source_id', 'unknown'))}: "
+                        f"{item.get('detail') or 'No additional detail recorded.'}"
+                        for item in matching
+                    ],
+                    styles["small"],
+                )
+            )
+        else:
+            block.append(_paragraph("None.", styles["small"]))
+        if index == 0:
+            story.append(KeepTogether(block))
+        else:
+            story.extend([CondPageBreak(25 * mm), *block])
+
+    attention = [
+        item
+        for item in manifest.get("source_health", [])
+        if isinstance(item, dict) and item.get("status") in {"warning", "failing"}
+    ]
+    story.append(_paragraph("Accumulated source-health attention", styles["section"]))
+    if attention:
+        story.append(
+            _bullets(
+                [
+                    f"[{str(item.get('status', 'unknown')).upper()}] "
+                    f"{item.get('source_name', item.get('source_id', 'unknown'))}: "
+                    f"{item.get('detail') or 'No detail recorded.'}"
+                    for item in attention
+                ],
+                styles["small"],
+            )
+        )
+    else:
+        story.append(_paragraph("None.", styles["small"]))
     return story
 
 
@@ -1043,6 +1319,39 @@ def render(
         story.append(_bullets([str(value) for value in skipped], styles["small"]))
 
     pdf.build(story, onFirstPage=_footer, onLaterPages=_footer)
+
+
+def render_technical(
+    brief_path: Path,
+    documents_path: Path,
+    run_path: Path,
+    output_path: Path,
+) -> None:
+    brief = _load(brief_path)
+    manifest = _load(documents_path)
+    run = _load(run_path)
+    documents = {
+        str(document["id"]): document for document in manifest.get("documents", [])
+    }
+    styles = _styles()
+    output_path.parent.mkdir(parents=True, exist_ok=True)
+    pdf = SimpleDocTemplate(
+        str(output_path),
+        pagesize=A4,
+        rightMargin=18 * mm,
+        leftMargin=18 * mm,
+        topMargin=17 * mm,
+        bottomMargin=19 * mm,
+        title=f"Macro Sage technical report - {brief.get('as_of_date', '')}",
+        author="Macro Sage",
+        subject="Private source acquisition and corpus-selection audit",
+    )
+    story = _technical_story(brief, manifest, run, documents, styles)
+    pdf.build(
+        story,
+        onFirstPage=_technical_footer,
+        onLaterPages=_technical_footer,
+    )
 
 
 def _parser() -> argparse.ArgumentParser:

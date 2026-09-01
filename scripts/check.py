@@ -22,13 +22,13 @@ def _timeout_seconds() -> int:
 
 
 def _verify_import() -> None:
-    source_root = str(ROOT / "src")
-    if source_root not in sys.path:
-        sys.path.insert(0, source_root)
     try:
         import macro_sage
     except ModuleNotFoundError as exc:
-        raise RuntimeError("macro_sage is not importable from this checkout's src directory") from exc
+        raise RuntimeError(
+            "macro_sage is not importable from the active environment; reinstall "
+            "the editable package"
+        ) from exc
 
     actual = Path(macro_sage.__file__).resolve()
     expected = (ROOT / "src" / "macro_sage").resolve()

@@ -8,8 +8,6 @@ active_weekdays = [0, 1, 2, 3, 4]
 event_driven = true
 priority = 50
 scan_depth = 50
-selection_cap = 3
-publisher_cap = 5
 failure_threshold = 3
 validation_status = "validated"
 last_validation_date = "2026-08-29"
@@ -38,7 +36,6 @@ priority = 50
 
 scan_depth = 50
 daily_limit = 10
-publisher_cap = 3
 selection_exclude_title_pattern = '(?i)(?:\b(?:earnings|single[- ]stock|stock of the week|technical analysis|options strategy)\b|^(?!.*\b(?:econom\w*|growth|inflation|rates?|monetary|policy|trade|tariff|employment|wages?|currenc\w*|credit|financial|commodit\w*|oil)\b).*\b(?:aviation|automotive|chemicals|construction|healthcare|real estate|retail|shipping|telecom)\b)'
 
 [[sources]]
@@ -64,7 +61,6 @@ priority = 50
 
 scan_depth = 50
 daily_limit = 12
-publisher_cap = 3
 selection_exclude_title_pattern = '(?i)\b(?:earnings|single[- ]stock|stock of the week|technical analysis|options strategy)\b'
 
 [[sources]]
@@ -90,7 +86,6 @@ priority = 50
 
 scan_depth = 50
 daily_limit = 8
-publisher_cap = 5
 
 [[sources]]
 id = "bnp-eco-flash"
@@ -115,7 +110,6 @@ priority = 50
 
 scan_depth = 50
 daily_limit = 8
-publisher_cap = 5
 
 [[sources]]
 id = "bnp-eco-perspectives"
@@ -140,7 +134,6 @@ priority = 50
 
 scan_depth = 50
 daily_limit = 8
-publisher_cap = 5
 
 [[sources]]
 id = "bnp-eco-insight"
@@ -165,7 +158,6 @@ priority = 50
 
 scan_depth = 50
 daily_limit = 8
-publisher_cap = 5
 
 [[sources]]
 id = "ecb-blog"
@@ -190,7 +182,6 @@ priority = 90
 critical_coverage_role = "policy:euro-area"
 scan_depth = 50
 daily_limit = 10
-publisher_cap = 5
 
 [[sources]]
 id = "ecb-press"
@@ -215,7 +206,6 @@ priority = 90
 critical_coverage_role = "policy:euro-area"
 scan_depth = 60
 daily_limit = 15
-publisher_cap = 5
 
 [[sources]]
 id = "fed-press"
@@ -240,7 +230,6 @@ priority = 90
 critical_coverage_role = "policy:united-states"
 scan_depth = 60
 daily_limit = 15
-publisher_cap = 5
 
 [[sources]]
 id = "fed-speeches"
@@ -265,7 +254,6 @@ priority = 90
 critical_coverage_role = "policy:united-states"
 scan_depth = 60
 daily_limit = 15
-publisher_cap = 5
 
 [[sources]]
 id = "fed-notes"
@@ -290,7 +278,6 @@ priority = 60
 
 scan_depth = 60
 daily_limit = 15
-publisher_cap = 5
 
 [[sources]]
 id = "bis-research"
@@ -318,7 +305,6 @@ priority = 60
 
 scan_depth = 60
 daily_limit = 15
-publisher_cap = 5
 
 [[sources]]
 id = "bis-speeches"
@@ -344,7 +330,6 @@ priority = 90
 critical_coverage_role = "policy:global"
 scan_depth = 60
 daily_limit = 15
-publisher_cap = 5
 
 [[sources]]
 id = "boc-news"
@@ -370,7 +355,6 @@ priority = 90
 critical_coverage_role = "policy:canada"
 scan_depth = 50
 daily_limit = 10
-publisher_cap = 5
 
 [[sources]]
 id = "boc-speeches"
@@ -396,7 +380,6 @@ priority = 90
 critical_coverage_role = "policy:canada"
 scan_depth = 50
 daily_limit = 10
-publisher_cap = 5
 include_url_pattern = "^https://www\\.bankofcanada\\.ca/20\\d{2}/"
 
 [[sources]]
@@ -423,7 +406,6 @@ priority = 60
 
 scan_depth = 50
 daily_limit = 10
-publisher_cap = 5
 
 [[sources]]
 id = "nyfed-liberty-street"
@@ -448,7 +430,6 @@ priority = 60
 
 scan_depth = 60
 daily_limit = 15
-publisher_cap = 5
 
 [[sources]]
 id = "boe-speeches"
@@ -473,7 +454,6 @@ priority = 90
 critical_coverage_role = "policy:united-kingdom"
 scan_depth = 50
 daily_limit = 10
-publisher_cap = 5
 
 [[sources]]
 id = "boe-bank-insights"
@@ -498,7 +478,6 @@ priority = 60
 
 scan_depth = 50
 daily_limit = 10
-publisher_cap = 5
 
 [[sources]]
 id = "boe-publications"
@@ -523,7 +502,6 @@ priority = 60
 
 scan_depth = 50
 daily_limit = 6
-publisher_cap = 5
 pdf_link_pattern = "(?i)(download|full[- ]?report|paper|bulletin|minutes|report)"
 
 [[sources]]
@@ -550,7 +528,6 @@ priority = 90
 critical_coverage_role = "policy:switzerland"
 scan_depth = 50
 daily_limit = 4
-publisher_cap = 5
 pdf_link_pattern = "(?i)(download|full[- ]?report|paper|bulletin|minutes|report)"
 
 [[sources]]
@@ -577,7 +554,6 @@ priority = 90
 critical_coverage_role = "policy:switzerland"
 scan_depth = 50
 daily_limit = 8
-publisher_cap = 5
 
 [[sources]]
 id = "norges-speeches"
@@ -602,7 +578,6 @@ priority = 90
 critical_coverage_role = "policy:norway"
 scan_depth = 50
 daily_limit = 6
-publisher_cap = 5
 
 [[sources]]
 id = "norges-monetary-policy"
@@ -627,7 +602,6 @@ priority = 90
 critical_coverage_role = "policy:norway"
 scan_depth = 50
 daily_limit = 4
-publisher_cap = 5
 pdf_link_pattern = "(?i)(download report|mpr[-_ ].*\\.pdf|monetary policy report)"
 
 [[sources]]
@@ -655,7 +629,6 @@ validation_note = "Prose extracts completely, but chart labels and numeric serie
 
 scan_depth = 50
 daily_limit = 4
-publisher_cap = 5
 pdf_link_pattern = "(?i)(download|full[- ]?report|paper|bulletin|minutes|report)"
 
 [[sources]]
@@ -681,7 +654,6 @@ priority = 90
 critical_coverage_role = "policy:sweden"
 scan_depth = 50
 daily_limit = 8
-publisher_cap = 5
 
 [[sources]]
 id = "riksbank-minutes"
@@ -706,7 +678,6 @@ priority = 90
 critical_coverage_role = "policy:sweden"
 scan_depth = 50
 daily_limit = 4
-publisher_cap = 5
 pdf_link_pattern = "(?i)(download|full[- ]?report|paper|bulletin|minutes|report)"
 
 [[sources]]
@@ -732,7 +703,6 @@ priority = 60
 
 scan_depth = 50
 daily_limit = 10
-publisher_cap = 5
 
 [[sources]]
 id = "sf-fed-fedviews"
@@ -757,7 +727,6 @@ priority = 60
 
 scan_depth = 50
 daily_limit = 6
-publisher_cap = 5
 
 [[sources]]
 id = "boj-policy-research"
@@ -782,7 +751,6 @@ priority = 90
 critical_coverage_role = "policy:japan"
 scan_depth = 50
 daily_limit = 8
-publisher_cap = 5
 include_url_pattern = "/en/(?:mopo|research/(?:brp|wps_rev)|about/press)/"
 
 [[sources]]
@@ -810,7 +778,6 @@ priority = 60
 
 scan_depth = 50
 daily_limit = 6
-publisher_cap = 5
 unavailable_reason = "The documented RSS endpoint consistently returns HTTP 403."
 
 [[sources]]
@@ -837,7 +804,6 @@ priority = 60
 
 scan_depth = 50
 daily_limit = 4
-publisher_cap = 5
 selection_include_title_pattern = '(?i)\b(?:asset pric|bank|business cycle|capital flow|credit|currency|debt|exchange rate|financial|fiscal|growth|inflation|labor|labour|macro|monetary|productivity|public finance|recession|tax|trade|unemployment|wage)'
 
 [[sources]]
@@ -864,7 +830,6 @@ priority = 50
 
 scan_depth = 50
 daily_limit = 2
-publisher_cap = 5
 
 [[sources]]
 id = "pod-jpm-global-data"
@@ -890,7 +855,6 @@ priority = 50
 
 scan_depth = 50
 daily_limit = 2
-publisher_cap = 5
 
 [[sources]]
 id = "pod-morgan-stanley"
@@ -916,7 +880,6 @@ priority = 50
 
 scan_depth = 50
 daily_limit = 2
-publisher_cap = 5
 
 [[sources]]
 id = "pod-goldman-markets"
@@ -942,7 +905,6 @@ priority = 50
 
 scan_depth = 50
 daily_limit = 2
-publisher_cap = 5
 
 [[sources]]
 id = "pod-hsbc-macro"
@@ -969,7 +931,6 @@ priority = 50
 
 scan_depth = 50
 daily_limit = 2
-publisher_cap = 5
 
 [[sources]]
 id = "pod-macro-voices"
@@ -995,7 +956,6 @@ priority = 50
 
 scan_depth = 50
 daily_limit = 2
-publisher_cap = 5
 
 [[sources]]
 id = "pod-moodys-economics"
@@ -1021,7 +981,6 @@ priority = 50
 
 scan_depth = 50
 daily_limit = 2
-publisher_cap = 5
 
 [[sources]]
 id = "pod-bofa-research"
@@ -1047,7 +1006,6 @@ priority = 50
 
 scan_depth = 50
 daily_limit = 2
-publisher_cap = 5
 
 [[sources]]
 id = "pod-saxo-market-call"
@@ -1073,7 +1031,6 @@ priority = 50
 
 scan_depth = 50
 daily_limit = 2
-publisher_cap = 3
 
 [[sources]]
 id = "pod-jpm-making-sense"
@@ -1099,7 +1056,6 @@ priority = 50
 
 scan_depth = 50
 daily_limit = 2
-publisher_cap = 5
 
 [[sources]]
 id = "pod-jpm-week-ahead"
@@ -1125,7 +1081,6 @@ priority = 50
 
 scan_depth = 50
 daily_limit = 2
-publisher_cap = 5
 
 [[sources]]
 id = "pod-deutsche-weekly"
@@ -1151,7 +1106,6 @@ priority = 50
 
 scan_depth = 50
 daily_limit = 2
-publisher_cap = 5
 
 [[sources]]
 id = "pod-macro-trading-floor"
@@ -1177,7 +1131,6 @@ priority = 50
 
 scan_depth = 50
 daily_limit = 2
-publisher_cap = 5
 
 [[sources]]
 id = "pod-imf"
@@ -1203,7 +1156,6 @@ priority = 50
 
 scan_depth = 50
 daily_limit = 2
-publisher_cap = 5
 
 [[sources]]
 id = "pod-macro-musings"
@@ -1229,7 +1181,6 @@ priority = 50
 
 scan_depth = 50
 daily_limit = 2
-publisher_cap = 5
 
 [[sources]]
 id = "pod-bloomberg-odd-lots"
@@ -1255,7 +1206,6 @@ priority = 50
 
 scan_depth = 50
 daily_limit = 2
-publisher_cap = 5
 exclude_title_pattern = "(?i)sponsored content"
 
 [[candidates]]

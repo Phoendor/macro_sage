@@ -4,6 +4,8 @@ from datetime import date, datetime, timezone
 from macro_sage.models import (
     CollectionReport,
     Document,
+    ItemOutcome,
+    ItemState,
     SourceHealthSnapshot,
     SourceHealthStatus,
     SourceKind,
@@ -13,6 +15,7 @@ from macro_sage.models import (
 from macro_sage.reporting import (
     load_manifest,
     status_markdown,
+    technical_report_markdown,
     write_audit_manifest,
     write_manifest,
 )
@@ -101,3 +104,93 @@ def test_audit_manifest_excludes_source_bodies(tmp_path):
     assert '"body"' not in text
     assert value["documents"][0]["body_chars"] == len(marker)
     assert '"content_sha256"' in text
+
+
+def test_technical_report_lists_collection_funnel_and_every_document():
+    published = datetime(2026, 8, 31, 12, tzinfo=timezone.utc)
+    documents = [
+        Document(
+            id="doc:used",
+            source_id="source-a",
+            source_name="Source A",
+            publisher="Publisher A",
+            category="research",
+            title="Used document",
+            url="https://example.com/used",
+            published_at=published,
+            body="Body",
+        ),
+        Document(
+            id="doc:excluded",
+            source_id="source-a",
+            source_name="Source A",
+            publisher="Publisher A",
+            category="research",
+            title="Excluded document",
+            url="https://example.com/excluded",
+            published_at=published,
+            body="Body",
+        ),
+    ]
+    report = CollectionReport(
+        documents=documents,
+        outcomes=[
+            SourceOutcome(
+                "source-a",
+                "Source A",
+                SourceKind.ARTICLE,
+                SourceState.COLLECTED,
+                document_count=2,
+            ),
+            SourceOutcome(
+                "stale",
+                "Stale Source",
+                SourceKind.ARTICLE,
+                SourceState.STALE,
+                detail="newest publication exceeds configured gap",
+            ),
+        ],
+        item_outcomes=[
+            ItemOutcome(
+                "source-a",
+                "Duplicate discovery",
+                "https://example.com/duplicate",
+                ItemState.DUPLICATE,
+                detail="canonical document already collected",
+                document_id="doc:used",
+            )
+        ],
+    )
+    decisions = [
+        {
+            "document_id": "doc:used",
+            "outcome": "included",
+            "reason_label": "included_full",
+            "reason": "fit within bounded corpus",
+        },
+        {
+            "document_id": "doc:excluded",
+            "outcome": "omitted",
+            "reason_label": "explicit_keyword_exclusion",
+            "reason": "matched explicit exclusion",
+        },
+    ]
+
+    output = technical_report_markdown(
+        date(2026, 8, 31),
+        report,
+        corpus_decisions=decisions,
+        cited_document_ids=["doc:used"],
+        model="gpt-5.6-luna",
+        input_tokens=100,
+        output_tokens=50,
+    )
+
+    assert "2 documents collected from 1 source" in output
+    assert "[CITED]" in output
+    assert "[EXPLICIT_KEYWORD_EXCLUSION]" in output
+    assert "Excluded document" in output
+    assert "Publication cadence attention" in output
+    assert "Stale Source" in output
+    assert "[DUPLICATE]" in output
+    assert "Duplicate discovery" in output

@@ -48,26 +48,41 @@ def public_delayed_message(target_date: str) -> str:
     return f"{public_report_caption(target_date)}: today's edition is delayed."
 
 
-def report_document_name(target_date: str) -> str:
+def private_technical_caption(target_date: str) -> str:
     publication_date = _publication_date(target_date)
-    return f"Macro-Sage-{publication_date.isoformat()}.pdf"
+    return (
+        f"Macro Sage technical report — {publication_date.day} "
+        f"{publication_date:%B %Y}"
+    )
+
+
+def report_document_name(target_date: str, *, technical: bool = False) -> str:
+    publication_date = _publication_date(target_date)
+    qualifier = "-Technical" if technical else ""
+    return f"Macro-Sage{qualifier}-{publication_date.isoformat()}.pdf"
 
 
 @dataclass(frozen=True, slots=True)
 class TelegramConfig:
     bot_token: str
     chat_id: str
+    admin_chat_id: str | None = None
 
     @classmethod
     def from_env(cls) -> TelegramConfig | None:
         token = os.getenv("TELEGRAM_BOT_TOKEN", "").strip()
         chat_id = os.getenv("TELEGRAM_CHAT_ID", "").strip()
+        admin_chat_id = os.getenv("TELEGRAM_ADMIN_CHAT_ID", "").strip() or None
         if not token and not chat_id:
             return None
         if not token or not chat_id:
             missing = "TELEGRAM_BOT_TOKEN" if not token else "TELEGRAM_CHAT_ID"
             raise TelegramDeliveryError(f"Incomplete Telegram configuration: missing {missing}")
-        return cls(token, chat_id)
+        if admin_chat_id and not admin_chat_id.lstrip("-").isdigit():
+            raise TelegramDeliveryError(
+                "TELEGRAM_ADMIN_CHAT_ID must be a numeric Bot API chat ID, not a username"
+            )
+        return cls(token, chat_id, admin_chat_id)
 
 
 @dataclass(frozen=True, slots=True)
@@ -136,9 +151,12 @@ def _is_duplicate(
     target_date: str,
     content_sha256: str | None,
     delivery_kind: str,
+    destination: str,
 ) -> dict[str, Any] | None:
     for item in state.get("deliveries", []):
         if not isinstance(item, dict) or item.get("status") != "sent":
+            continue
+        if str(item.get("destination", "public")) != destination:
             continue
         if item.get("idempotency_key") == key:
             return item
@@ -200,6 +218,8 @@ def send_pdf(
     run_id: str,
     caption: str,
     state_path: Path,
+    destination: str = "public",
+    document_name: str | None = None,
     force: bool = False,
     client: HttpPoster | None = None,
     sleep: Any = time.sleep,
@@ -216,7 +236,7 @@ def send_pdf(
             raise TelegramDeliveryError(f"File does not have a PDF signature: {pdf_path}")
         stream.seek(0)
         digest = hashlib.sha256(stream.read()).hexdigest()
-    key = f"{run_id}:{digest}"
+    key = f"{run_id}:{destination}:{digest}"
     state = _load_state(state_path)
     duplicate = _is_duplicate(
         state,
@@ -224,6 +244,7 @@ def send_pdf(
         target_date=target_date,
         content_sha256=digest,
         delivery_kind="pdf",
+        destination=destination,
     )
     if duplicate and not force:
         return TelegramDelivery(
@@ -242,7 +263,7 @@ def send_pdf(
             data={"chat_id": config.chat_id, "caption": safe_caption},
             files={
                 "document": (
-                    report_document_name(target_date),
+                    document_name or report_document_name(target_date),
                     stream,
                     "application/pdf",
                 )
@@ -258,6 +279,7 @@ def send_pdf(
         "target_date": target_date,
         "run_id": run_id,
         "delivery_kind": "pdf",
+        "destination": destination,
         "content_sha256": digest,
         "pdf_sha256": digest,
         "message_id": message_id,
@@ -274,12 +296,13 @@ def send_status(
     text: str,
     state_path: Path,
     status_kind: str = "status",
+    destination: str = "public",
     force: bool = False,
     client: HttpPoster | None = None,
     sleep: Any = time.sleep,
 ) -> TelegramDelivery:
     digest = hashlib.sha256(text.encode("utf-8")).hexdigest()
-    key = f"{run_id}:{status_kind}:{digest}"
+    key = f"{run_id}:{destination}:{status_kind}:{digest}"
     state = _load_state(state_path)
     duplicate = _is_duplicate(
         state,
@@ -287,6 +310,7 @@ def send_status(
         target_date=target_date,
         content_sha256=digest,
         delivery_kind=status_kind,
+        destination=destination,
     )
     if duplicate and not force:
         return TelegramDelivery(
@@ -315,6 +339,7 @@ def send_status(
             "target_date": target_date,
             "run_id": run_id,
             "delivery_kind": status_kind,
+            "destination": destination,
             "content_sha256": digest,
             "message_id": message_id,
         },

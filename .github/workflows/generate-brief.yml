@@ -43,6 +43,7 @@ jobs:
       MACRO_SAGE_RUN_ID: github-${{ github.run_id }}-${{ github.run_attempt }}
       TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
       TELEGRAM_CHAT_ID: ${{ vars.TELEGRAM_CHAT_ID }}
+      TELEGRAM_ADMIN_CHAT_ID: ${{ vars.TELEGRAM_ADMIN_CHAT_ID }}
 
     steps:
       - uses: actions/checkout@v6
@@ -218,8 +219,11 @@ jobs:
           name: macro-sage-${{ env.TARGET_DATE }}-${{ env.MACRO_SAGE_RUN_ID }}
           path: |
             output/pdf/macro-sage-${{ env.TARGET_DATE }}.pdf
+            output/pdf/macro-sage-technical-${{ env.TARGET_DATE }}.pdf
             output/runs/${{ env.MACRO_SAGE_RUN_ID }}/report.pdf
+            output/runs/${{ env.MACRO_SAGE_RUN_ID }}/technical-report.pdf
             output/runs/${{ env.MACRO_SAGE_RUN_ID }}/brief.md
+            output/runs/${{ env.MACRO_SAGE_RUN_ID }}/technical-report.md
             output/runs/${{ env.MACRO_SAGE_RUN_ID }}/brief.json
             output/runs/${{ env.MACRO_SAGE_RUN_ID }}/manifest.json
             output/runs/${{ env.MACRO_SAGE_RUN_ID }}/run.json

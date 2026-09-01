@@ -21,19 +21,38 @@ fixture or log.
    `TELEGRAM_BOT_TOKEN` as a repository secret and `TELEGRAM_CHAT_ID` as a
    repository variable.
 
-The scheduled workflow sends automatically only when both values exist. If
-both are absent, delivery is disabled. If only one is present, a direct local
-delivery command fails clearly rather than guessing configuration.
+## Private admin report
+
+The public channel receives only the content PDF. To receive the separate
+technical acquisition and filtering report privately:
+
+1. Open a direct chat with the bot from the intended Telegram account and send
+   `/start`. A bot cannot initiate a private conversation before this.
+2. Obtain that private chat's **numeric** ID. `@artembaulin` is a username and
+   cannot be used as the Bot API destination. The numeric ID can be read from a
+   `getUpdates` response after `/start` or from a trusted Telegram ID utility.
+3. Add the numeric value as the GitHub repository variable
+   `TELEGRAM_ADMIN_CHAT_ID`. It is optional; the public delivery continues when
+   it is absent.
+
+One successful report run then sends `Macro-Sage-YYYY-MM-DD.pdf` to the channel
+and `Macro-Sage-Technical-YYYY-MM-DD.pdf` to the private admin chat. The two
+destinations have independent duplicate protection.
+
+The scheduled workflow sends automatically only when the public token and chat
+values both exist. If both are absent, delivery is disabled. If only one is
+present, a direct local delivery command fails clearly rather than guessing
+configuration. The admin ID never substitutes for the public channel ID.
 
 ## Public channel presentation
 
 The channel message is intentionally editorial rather than operational. A PDF
 is posted with a caption such as `Macro Sage — 31 August 2026` and the document
 name `Macro-Sage-2026-08-31.pdf`. It does not expose GitHub links, internal run
-states, source-health counts or failure stages. Those diagnostics remain
-available inside the PDF, the private run record and GitHub's operator-facing
-summary. Normal no-data and explicitly enabled delayed-edition notices use the
-same public wording policy.
+states, source-health counts or failure stages. Those diagnostics are excluded
+from the public content PDF and remain available in the private technical PDF,
+the run record and GitHub's operator-facing summary. Normal no-data and
+explicitly enabled delayed-edition notices use the same public wording policy.
 
 ## Local use
 
@@ -50,9 +69,9 @@ macro-sage deliver \
   --run-record output/runs/RUN_ID/run.json
 ```
 
-Automatic duplicate suppression covers both PDFs and no-data status messages,
-including workflow reruns with a different run ID. Intentional redelivery is
-explicit:
+Automatic duplicate suppression is destination-aware and covers both PDFs and
+no-data status messages, including workflow reruns with a different run ID.
+Intentional redelivery is explicit:
 
 ```bash
 macro-sage deliver \

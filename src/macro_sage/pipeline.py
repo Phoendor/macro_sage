@@ -46,12 +46,9 @@ def _empty_state(
                 f"newest publication is {newest_day.isoformat()} ({age} days old; "
                 f"normal gap <= {source.max_gap_days})"
             )
-    if not source.event_driven and target.weekday() in source.active_weekdays:
-        return SourceState.EXPECTED_ABSENT, (
-            f"publication expected on {target.isoformat()} but none was discovered"
-        )
     return SourceState.QUIET_EXPECTED, (
-        f"no publication expected or observed on {target.isoformat()}"
+        f"no same-day publication was observed on {target.isoformat()}; "
+        f"the source remains within its normal {source.max_gap_days}-day gap"
     )
 
 

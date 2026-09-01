@@ -123,8 +123,6 @@ class SourceDefinition:
     critical_coverage_role: str | None = None
     scan_depth: int = 50
     daily_limit: int = 3
-    selection_cap: int = 3
-    publisher_cap: int = 5
     failure_threshold: int = 3
     validation_status: ValidationStatus = ValidationStatus.NEEDS_VALIDATION
     last_validation_date: date | None = None

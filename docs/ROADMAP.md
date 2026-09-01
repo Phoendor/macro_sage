@@ -7,9 +7,11 @@ passed on 2026-09-01, and its prospective evidence audit remains open. Milestone
 1 is still awaiting its scheduled-run observation gate. Milestone 2 passed its
 closure audit.
 Milestone 3 passed its hosted fixed-date canary and awaits the first scheduled
-cutoff-window observation before closure. Milestone 5's first version-0.6
-implementation tranche is code-complete and awaits its hosted observation and
-remaining advanced corpus-accounting refinements.
+cutoff-window observation before closure. Milestone 5's version-0.7 clarity
+tranche removes the arbitrary source/publisher synthesis caps, separates public
+content from private operations, and adds a complete deterministic material
+funnel; its hosted observation and advanced evidence-family/token-accounting
+refinements remain open.
 
 Baseline date: 2026-08-30.
 
@@ -60,13 +62,15 @@ allowed after a timestamped market-data source has been integrated.
 - [x] Added generic RSS discovery, HTML extraction, PDF extraction, canonical
   URL handling and SQLite document caching.
 - [x] Added deterministic evidence-tier, priority, relevance, freshness and
-  publisher-diversity ranking; reserved primary-evidence capacity; enforced
-  source/publisher caps; and recorded every inclusion, truncation and omission.
+  publisher-diversity ordering; reserved primary-evidence capacity; removed
+  arbitrary source/publisher synthesis caps; and recorded every inclusion,
+  truncation and omission with a reason label.
 - [x] Added Pydantic-validated structured output and strict source-citation
   validation.
-- [x] Added JSON, Markdown and visually formatted PDF output.
-- [x] Made failed and partial sources visible in the terminal, run artifacts,
-  Markdown and PDF.
+- [x] Added JSON, public Markdown/PDF and a separate private technical
+  Markdown/PDF.
+- [x] Made every collected, uncited, rejected, unextractable, quiet, stale and
+  failed material/source state visible in the deterministic technical report.
 - [x] Created a human-readable source catalog with links, cadence,
   descriptions, rationale and a non-working candidate section.
 - [x] Expanded the configured inventory to 31 enabled text feeds and 16 opt-in
@@ -75,8 +79,7 @@ allowed after a timestamped market-data source has been integrated.
 - [x] Made the same CLI operate locally and in GitHub Actions.
 - [x] Added model preflight selection and recorded the selected models.
 - [x] Added bounded offline compilation, generated-catalog validation, lint and
-  regression checks; version 0.6.1 is verified from a clean editable
-  installation.
+  regression checks; version 0.7.0 carries the public/private reporting split.
 
 ### Current operating state
 
@@ -130,6 +133,11 @@ allowed after a timestamped market-data source has been integrated.
   hierarchy is therefore accepted as the production baseline; future prompt or
   layout changes should answer an observed defect rather than restart the
   redesign.
+- Version 0.7.0 treats ordinary same-day silence as quiet until a source exceeds
+  its configured normal publication gap. The previous “expected absent” labels
+  inferred from weekdays were false precision, not exact release schedules.
+- Version 0.7.0 sends only content to the public Telegram channel and can send a
+  separate technical PDF to the owner's numeric private chat ID.
 
 ## 3. Priority and dependency map
 
@@ -844,9 +852,10 @@ Acceptance criteria:
 - [x] Separate scan depth from maximum items selected for the day.
 - [x] Report missing and malformed timestamps explicitly rather than folding
   them into “no items.”
-- [x] Distinguish no publication expected, no publication in the window,
-  expected-but-absent, stale feed, entries filtered by policy, invalid dates,
-  duplicate discoveries and discovery failure.
+- [x] Distinguish no publication in the window but within normal cadence, stale
+  feed, entries filtered by policy, invalid dates, duplicate discoveries and
+  discovery failure. Do not infer an exact scheduled-day failure from a broad
+  cadence description or weekday list.
 - [x] Normalize after redirects and honor reliable canonical links while
   retaining original feed URLs, GUIDs and publisher identifiers.
 - [x] Test RSS, Atom, podcast namespaces, timezones, daylight-saving boundaries,
@@ -938,10 +947,11 @@ Acceptance criteria:
   failure threshold before quarantine.
 - [x] Never silently remove or omit a source.
 - [x] Expose collected, degraded/summary-only, partial, failed, stale,
-  expected-but-missing, quiet-as-expected, filtered, duplicate, policy-skipped
-  and unavailable states in the manifest.
-- [x] Keep every failure visible in the daily PDF and GitHub summary, with the
-  exact item and stage when applicable.
+  quiet-within-cadence, filtered, duplicate, policy-skipped and unavailable
+  states in the manifest.
+- [x] Keep every failure visible in the private technical PDF and GitHub
+  summary, with the exact item and stage when applicable; keep the public report
+  editorial.
 - [x] Flag material coverage holes—for example, a failed Fed source before an
   FOMC decision—more prominently than an unrelated low-frequency failure.
 
@@ -952,17 +962,17 @@ Acceptance criteria:
 
 ### G7. Balance what enters synthesis
 
-Keep everything lawfully acquired in the internal manifest, but select a
-deterministic, relevant and diverse synthesis subset.
-
-This was the first implementation work after Decision Brief V2. Version 0.6
-replaced the earlier round-robin-only baseline with ranked, reserved and capped
-selection while retaining deterministic publisher diversity.
+Keep everything lawfully acquired in the internal manifest and make every
+material decision visible. Version 0.7 supersedes the version-0.6 hard-cap
+experiment: ranking may determine order at a genuine run-level context boundary,
+but merely having already read three items from a source or publisher is never a
+reason to reject the fourth.
 
 - [x] Rank by evidence tier, macro relevance, freshness and source diversity.
 - [x] Reserve room for primary policy/data evidence before commentary.
-- [x] Cap publisher and product-line contribution so prolific commercial feeds
-  do not dominate merely through volume.
+- [x] Remove per-source and per-publisher hard synthesis caps. Interleave
+  publishers for ordering, but keep every document eligible until the global
+  article/character boundary.
 - [ ] Treat several publications derived from one underlying release as one
   evidence family for confidence.
 - [x] Filter company-specific and lifestyle pieces from broad Saxo feeds unless
@@ -974,6 +984,12 @@ selection while retaining deterministic publisher diversity.
 - [ ] Deduplicate BIS speeches against the originating central bank.
 - [x] Label practitioner podcasts as opinion rather than primary evidence.
 - [x] Preserve genuine disagreement rather than forcing artificial consensus.
+- [x] Treat configured title-inclusion expressions as soft ordering preferences,
+  not rejection rules; retain narrow, explicit exclusions for known
+  single-security/off-topic material.
+- [x] Generate a zero-model-call technical funnel that groups all collected
+  documents by source, labels cited/available/rejected material, lists extraction
+  failures, and separates stale sources from normal same-day silence.
 - [ ] Replace character-only budgets with model-aware input accounting and keep
   every omission/truncation visible.
 - [x] Keep long-document selection deterministic, versioned and auditable; do
@@ -983,9 +999,12 @@ selection while retaining deterministic publisher diversity.
 
 Acceptance criteria:
 
-- No two publishers dominate a normal brief solely because they publish more.
-  An exceptional concentration must be explained by the day's available
-  evidence.
+- No document is omitted merely because an arbitrary source or publisher quota
+  was reached. Any global-boundary or keyword exclusion has a plain reason
+  label and remains visible to the owner.
+- The owner can reconcile “documents collected,” “made available to synthesis,”
+  “cited,” “excluded,” and “not extracted” without reading logs or spending
+  model tokens.
 - Source text containing delimiter-like strings remains inert data.
 
 ### G8. Expand the portfolio through an admission gate
@@ -1148,8 +1167,16 @@ market-data enrichment in Workstream H.
   automatically after a successful render when Telegram is configured.
 - [x] Send PDFs with a public-facing caption containing only the product title
   and human-readable publication date. Keep run outcome, coverage warnings,
-  source-failure counts and GitHub links in the report and operator audit, not
-  the public channel message.
+  source-failure counts and GitHub links out of both the channel message and the
+  attached public content file.
+- [x] Render a separate technical PDF containing the complete acquisition,
+  extraction, selection and source-health audit without an additional model
+  request.
+- [x] Optionally send the technical PDF to the owner's numeric private chat ID
+  via `TELEGRAM_ADMIN_CHAT_ID`; do not assume that `@artembaulin` is a Bot API
+  destination.
+- [x] Give public and admin deliveries independent idempotency records so the
+  same run can deliver both files without suppressing either one.
 - [x] Give the Telegram document a stable dated name,
   `Macro-Sage-YYYY-MM-DD.pdf`, instead of exposing the internal `report.pdf`
   artifact name.
@@ -1176,9 +1203,11 @@ market-data enrichment in Workstream H.
 Acceptance criteria:
 
 - One successful scheduled run posts exactly one matching PDF to the configured
-  Telegram channel.
+  Telegram channel and, when the admin ID is configured, exactly one matching
+  technical PDF to the private chat.
 - The message identifies the report date without exposing operational jargon;
-  degradation and source failures remain explicit inside the attached report.
+  degradation and source failures remain explicit in the private technical
+  report rather than the public attachment.
 - A Telegram outage cannot destroy or hide an otherwise valid report.
 - The bot token never appears in logs, exceptions, artifacts or test fixtures.
 - Local and GitHub delivery use the same adapter and configuration contract.
@@ -1334,9 +1363,10 @@ Acceptance criteria for Workstream J:
   store; it contains body-free append-only JSON records and Git-native backup.
 - Select and license market-data providers, and choose delayed intraday versus
   completed-close timing, before making current-market claims.
-- Confirm the Telegram channel identifier and its public/private visibility
-  before adding live delivery configuration. No-data messages are enabled;
-  failure messages remain separately opt-in; artifact retention is 30 days.
+- The public Telegram channel is configured. Private technical delivery remains
+  optional until the owner's numeric bot-chat ID is added; no-data messages are
+  enabled, failure messages remain separately opt-in, and artifact retention is
+  30 days.
 - Enable new sources only after the Workstream G admission gate, even when the
   institution is reputable.
 
@@ -1488,18 +1518,19 @@ Exit gate:
 
 Includes the remaining critical-coverage rule from A2, G6–G7, safe corpus
 serialization, cadence-aware health, deterministic relevance and authority
-ranking, enforceable publisher/product-line caps and the associated J1/J2
+ranking, transparent run-level context boundaries and the associated J1/J2
 fixtures. Source admission does not expand yet.
 
 Implementation status: the first version-0.6 tranche is code-complete on
 2026-08-30. It implements critical-role coverage rule v1, SQLite source-health
 history, independent weekday discovery and weekly extraction workflows,
-explicit participation outcomes, deterministic ranked/capped corpus admission,
-auditable omission reasons and safe JSON evidence serialization. The bounded
-offline suite passes 143 tests. Both hosted validation gates passed on
-2026-08-30. Milestone closure remains open only for the unchecked G7 work on
-cross-publisher evidence-family grouping, BIS/originating-bank speech
-deduplication and model-aware token accounting.
+explicit participation outcomes, deterministic corpus admission, auditable
+omission reasons and safe JSON evidence serialization. Version 0.7.0 removes
+the hard per-source/publisher caps, stops inferring scheduled-day failures from
+broad cadence metadata, adds the complete deterministic material funnel, and
+splits public content from the private technical audit. Milestone closure remains
+open for a hosted observation plus cross-publisher evidence-family grouping,
+BIS/originating-bank speech deduplication and model-aware token accounting.
 
 The corrected discovery-only health run
 [`33337257541`](https://github.com/Phoendor/macro_sage/actions/runs/33337257541)
@@ -1524,9 +1555,12 @@ Exit gate:
 
 - source participation and cadence-aware health are reported separately;
 - material coverage failures use configured critical roles and explicit rules;
-- primary evidence receives reserved capacity and prolific publishers cannot
-  dominate merely through volume;
-- relevance filters and every omission remain deterministic and auditable;
+- primary evidence receives reserved ordering while no document is rejected
+  merely because a source or publisher quota was reached;
+- relevance filters and every omission remain deterministic and auditable in a
+  separate private file;
+- public Telegram receives only the content report, while an optional numeric
+  admin chat receives the technical report;
 - document text cannot alter model-facing document boundaries or instructions.
 
 ### Milestone 6 — quantified market context
@@ -1588,6 +1622,8 @@ The roadmap is complete when:
 - every source failure is explicit;
 - source participation, health, publication absence, filtering and item-level
   failures are distinct states;
+- every collected document can be reconciled by source through cited,
+  available-but-uncited, excluded or extraction-failure states;
 - the brief states what changed, transmission, scenarios, catalysts,
   invalidations, counterarguments and confidence rationale;
 - source facts, source opinion and Macro Sage inference are visibly different;
@@ -1600,8 +1636,9 @@ The roadmap is complete when:
 - market values, when added, always carry timestamp and provider provenance;
 - JSON, Markdown and PDF agree;
 - the owner can reliably receive or find the latest report;
-- a configured scheduled run delivers exactly one PDF to the selected Telegram
-  channel without exposing its bot credentials;
+- a configured scheduled run delivers exactly one content PDF to the selected
+  Telegram channel and, when configured, one technical PDF to the private admin
+  chat without exposing bot credentials or operational detail publicly;
 - local and GitHub execution remain the same application;
 - all tests and documented clean-install checks pass;
 - hosted artifacts contain no raw article or transcript bodies, and durable

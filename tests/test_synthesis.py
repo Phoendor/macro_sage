@@ -285,7 +285,7 @@ def test_prepare_corpus_serializes_untrusted_boundaries_as_json_data():
     assert prepared.citation_map == {"S001": "one"}
 
 
-def test_prepare_corpus_enforces_source_and_publisher_caps():
+def test_prepare_corpus_uses_publisher_diversity_without_hard_caps():
     sources = [
         SourceDefinition(
             "a-one",
@@ -293,8 +293,6 @@ def test_prepare_corpus_enforces_source_and_publisher_caps():
             "Publisher A",
             "https://example.com/a-one.xml",
             "research",
-            selection_cap=1,
-            publisher_cap=2,
         ),
         SourceDefinition(
             "a-two",
@@ -302,8 +300,6 @@ def test_prepare_corpus_enforces_source_and_publisher_caps():
             "Publisher A",
             "https://example.com/a-two.xml",
             "research",
-            selection_cap=1,
-            publisher_cap=2,
         ),
         SourceDefinition(
             "b-one",
@@ -311,8 +307,6 @@ def test_prepare_corpus_enforces_source_and_publisher_caps():
             "Publisher B",
             "https://example.com/b-one.xml",
             "research",
-            selection_cap=3,
-            publisher_cap=3,
         ),
     ]
     documents = [
@@ -328,11 +322,8 @@ def test_prepare_corpus_enforces_source_and_publisher_caps():
         sources,
     )
 
-    assert {item.id for item in prepared.included} == {"a1-new", "a2", "b1"}
-    assert any(
-        decision.document_id == "a1-old" and "product-line" in decision.reason
-        for decision in prepared.decisions
-    )
+    assert {item.id for item in prepared.included} == {"a1-new", "a1-old", "a2", "b1"}
+    assert prepared.omitted_ids == []
 
 
 def test_prepare_corpus_reserves_primary_evidence_capacity():
@@ -377,7 +368,7 @@ def test_prepare_corpus_reserves_primary_evidence_capacity():
     assert prepared.included[0].id == "primary"
 
 
-def test_prepare_corpus_applies_configured_title_relevance_filter():
+def test_prepare_corpus_treats_include_pattern_as_soft_preference():
     source = SourceDefinition(
         "research",
         "Research",
@@ -396,8 +387,34 @@ def test_prepare_corpus_applies_configured_title_relevance_filter():
         [source],
     )
 
-    assert [item.id for item in prepared.included] == ["Inflation outlook"]
-    assert any(
-        decision.document_id == "Company merger" and decision.outcome == "omitted"
-        for decision in prepared.decisions
+    assert [item.id for item in prepared.included] == [
+        "Inflation outlook",
+        "Company merger",
+    ]
+    assert prepared.omitted_ids == []
+
+
+def test_prepare_corpus_applies_explicit_title_exclusion():
+    source = SourceDefinition(
+        "research",
+        "Research",
+        "Publisher",
+        "https://example.com/research.xml",
+        "research",
+        selection_exclude_title_pattern=r"(?i)\bearnings\b",
     )
+
+    prepared = prepare_corpus(
+        [
+            document("Inflation outlook", source_id="research"),
+            document("Company earnings", source_id="research"),
+        ],
+        Settings(max_articles=3, max_article_chars=100, max_corpus_chars=2_000),
+        [source],
+    )
+
+    assert [item.id for item in prepared.included] == ["Inflation outlook"]
+    decision = next(
+        item for item in prepared.decisions if item.document_id == "Company earnings"
+    )
+    assert decision.reason_label == "explicit_keyword_exclusion"

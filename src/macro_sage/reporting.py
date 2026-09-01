@@ -4,7 +4,7 @@ import hashlib
 import json
 import os
 from dataclasses import asdict
-from datetime import date, datetime
+from datetime import date, datetime, timezone
 from pathlib import Path
 
 from macro_sage.files import write_json_atomic
@@ -379,6 +379,216 @@ def print_status(target: date, report: CollectionReport) -> None:
             print(f"- {outcome.summary()}")
     else:
         print("- None")
+
+
+def technical_report_markdown(
+    target: date,
+    report: CollectionReport,
+    *,
+    corpus_decisions: list[dict[str, object]],
+    cited_document_ids: list[str],
+    model: str,
+    input_tokens: int | None,
+    output_tokens: int | None,
+) -> str:
+    """Render a body-free, deterministic acquisition and selection audit."""
+    decisions = {
+        str(item.get("document_id")): item for item in corpus_decisions
+    }
+    cited = set(cited_document_ids)
+    documents_by_source: dict[str, list[Document]] = {}
+    for document in report.documents:
+        documents_by_source.setdefault(document.source_id, []).append(document)
+    for documents in documents_by_source.values():
+        documents.sort(
+            key=lambda item: (
+                item.published_at or datetime.min.replace(tzinfo=timezone.utc),
+                item.title,
+            ),
+            reverse=True,
+        )
+
+    included = [
+        item
+        for item in corpus_decisions
+        if str(item.get("outcome", "")).startswith("included")
+    ]
+    excluded = [
+        item for item in corpus_decisions if item.get("outcome") == "omitted"
+    ]
+    not_extracted = [
+        item
+        for item in report.item_outcomes
+        if item.state
+        in {
+            ItemState.FAILED,
+            ItemState.DEGRADED,
+            ItemState.FILTERED,
+            ItemState.INVALID_DATE,
+            ItemState.SKIPPED,
+            ItemState.DUPLICATE,
+        }
+    ]
+    source_word = "source" if len(documents_by_source) == 1 else "sources"
+    lines = [
+        f"# Macro Sage technical report - {target.isoformat()}",
+        "",
+        "This file is the operator-facing acquisition and selection record. It is "
+        "generated deterministically and makes no additional model request.",
+        "",
+        "## Collection funnel",
+        "",
+        f"- **{len(report.documents)} documents collected from "
+        f"{len(documents_by_source)} {source_word}.**",
+        f"- **{len(included)} documents made available to synthesis.**",
+        f"- **{len(cited)} documents were cited in the content report.**",
+        f"- **{len(excluded)} collected documents were excluded before synthesis.**",
+        f"- **{len(not_extracted)} discovered items were rejected or not added "
+        "separately.**",
+        f"- Model: `{model}`; input tokens: `{input_tokens or 'unknown'}`; "
+        f"output tokens: `{output_tokens or 'unknown'}`.",
+        "",
+        "## Collected documents by source",
+        "",
+    ]
+    for source_id, documents in sorted(
+        documents_by_source.items(),
+        key=lambda item: (item[1][0].source_name, item[0]),
+    ):
+        lines.extend(
+            [
+                f"### {documents[0].source_name} (`{source_id}`) - "
+                f"{len(documents)} document(s)",
+                "",
+            ]
+        )
+        for document in documents:
+            decision = decisions.get(document.id, {})
+            outcome = str(decision.get("outcome", "decision_missing"))
+            reason_label = str(decision.get("reason_label", outcome)).upper()
+            if document.id in cited:
+                use_label = "CITED"
+            elif outcome.startswith("included"):
+                use_label = "AVAILABLE_NOT_CITED"
+            else:
+                use_label = reason_label
+            published = (
+                document.published_at.isoformat() if document.published_at else "unknown"
+            )
+            lines.append(
+                f"- **[{use_label}]** {document.title} - {document.url} "
+                f"_(published {published})_"
+            )
+            reason = str(decision.get("reason", "No corpus decision was recorded."))
+            lines.append(f"  Reason: `{reason_label}` - {reason}")
+
+    lines.extend(["", "## Collected documents excluded before synthesis", ""])
+    if excluded:
+        document_lookup = {document.id: document for document in report.documents}
+        for decision in excluded:
+            document = document_lookup.get(str(decision.get("document_id")))
+            title = document.title if document else str(decision.get("document_id"))
+            url = document.url if document else "URL unavailable"
+            label = str(decision.get("reason_label", "excluded")).upper()
+            lines.append(f"- **[{label}]** {title} - {url}")
+            lines.append(f"  Reason: {decision.get('reason', 'No reason recorded.')}")
+    else:
+        lines.append("- None. Every collected document fit within the synthesis corpus.")
+
+    lines.extend(["", "## Discovered materials not added as separate documents", ""])
+    if not_extracted:
+        for item in not_extracted:
+            detail = item.detail or "No additional detail recorded."
+            lines.append(
+                f"- **[{item.state.value.upper()}]** `{item.source_id}` - "
+                f"{item.title} - {item.url}"
+            )
+            lines.append(f"  Reason: {detail}")
+    else:
+        lines.append("- None.")
+
+    zero_document_outcomes = [
+        outcome
+        for outcome in report.outcomes
+        if outcome.document_count == 0
+        and outcome.state
+        not in {
+            SourceState.SKIPPED,
+            SourceState.UNAVAILABLE,
+            SourceState.FILTERED,
+            SourceState.DUPLICATE,
+        }
+    ]
+    cadence_attention = [
+        outcome
+        for outcome in zero_document_outcomes
+        if outcome.state in {SourceState.STALE, SourceState.EXPECTED_ABSENT}
+    ]
+    acquisition_failures = [
+        outcome
+        for outcome in zero_document_outcomes
+        if outcome.state
+        in {
+            SourceState.FAILED,
+            SourceState.INVALID_DATES,
+            SourceState.DEGRADED,
+            SourceState.PARTIAL,
+        }
+    ]
+    quiet = [
+        outcome
+        for outcome in zero_document_outcomes
+        if outcome.state in {SourceState.NO_ITEMS, SourceState.QUIET_EXPECTED}
+    ]
+    lines.extend(["", "## Sources with no collected documents", ""])
+    lines.extend(["### Publication cadence attention", ""])
+    if cadence_attention:
+        lines.extend(
+            f"- **[{outcome.state.value.upper()}]** `{outcome.source_id}` - "
+            f"{outcome.source_name}: {outcome.detail or 'No detail recorded.'}"
+            for outcome in cadence_attention
+        )
+    else:
+        lines.append("- None.")
+    lines.extend(["", "### Acquisition failures", ""])
+    if acquisition_failures:
+        lines.extend(
+            f"- **[{outcome.state.value.upper()}]** `{outcome.source_id}` - "
+            f"{outcome.source_name}: {outcome.detail or 'No detail recorded.'}"
+            for outcome in acquisition_failures
+        )
+    else:
+        lines.append("- None.")
+    lines.extend(["", "### No same-day publication, within configured cadence", ""])
+    if quiet:
+        lines.extend(
+            f"- `[NO_SAME_DAY_ITEM]` `{outcome.source_id}` - {outcome.source_name}"
+            for outcome in quiet
+        )
+    else:
+        lines.append("- None.")
+
+    excluded_sources = [
+        outcome
+        for outcome in report.outcomes
+        if outcome.state
+        in {
+            SourceState.SKIPPED,
+            SourceState.UNAVAILABLE,
+            SourceState.FILTERED,
+            SourceState.DUPLICATE,
+        }
+    ]
+    lines.extend(["", "## Sources not participating in this run", ""])
+    if excluded_sources:
+        lines.extend(
+            f"- **[{outcome.state.value.upper()}]** `{outcome.source_id}` - "
+            f"{outcome.source_name}: {outcome.detail or 'No detail recorded.'}"
+            for outcome in excluded_sources
+        )
+    else:
+        lines.append("- None.")
+    return "\n".join(lines).rstrip() + "\n"
 
 
 def health_report_to_dict(target: date, report: CollectionReport) -> dict[str, object]:

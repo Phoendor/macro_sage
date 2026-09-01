@@ -139,10 +139,10 @@ def test_v2_markdown_contains_every_decision_section_and_failures():
         "## Disagreement map",
         "## Catalysts and monitoring",
         "## Top risks and blind spots",
-        "## Source acquisition status",
-        "## Source register",
+        "## Documents cited in this report",
     ):
         assert heading in output
-    assert "Broken Source" in output
+    assert "Source acquisition status" not in output
+    assert "Broken Source" not in output
     assert "No timestamped market data" in output
     assert "[Publisher: Current note](https://example.com/current)" in output

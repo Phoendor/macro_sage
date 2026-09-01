@@ -106,8 +106,11 @@ class RunPaths:
     run_record: Path
     brief_json: Path
     brief_markdown: Path
+    technical_markdown: Path
     report_pdf: Path
+    technical_pdf: Path
     latest_pdf: Path
+    latest_technical_pdf: Path
 
 
 def normalize_run_id(value: str) -> str:
@@ -152,8 +155,13 @@ def build_run_paths(
         run_record=directory / "run.json",
         brief_json=directory / "brief.json",
         brief_markdown=directory / "brief.md",
+        technical_markdown=directory / "technical-report.md",
         report_pdf=directory / "report.pdf",
+        technical_pdf=directory / "technical-report.pdf",
         latest_pdf=output / "pdf" / f"macro-sage-{target.isoformat()}.pdf",
+        latest_technical_pdf=(
+            output / "pdf" / f"macro-sage-technical-{target.isoformat()}.pdf"
+        ),
     )
 
 

@@ -14,9 +14,10 @@ Macro Sage is intentionally a small batch application, not a framework.
    identity in a migrated, revision-preserving SQLite schema.
 5. Every discovery origin, content revision, source-health event, invalid date,
    filter, duplicate, quiet period and failure remains auditable.
-6. A deterministic corpus contract reserves primary evidence, applies explicit
-   relevance filters, enforces source/publisher caps, balances publishers and
-   records every inclusion, truncation and omission.
+6. A deterministic corpus contract reserves primary evidence, applies only
+   explicit reviewed exclusions, interleaves publishers and records every
+   inclusion, truncation and omission. It does not impose per-source or
+   per-publisher hard caps.
 7. Selected documents receive short run-scoped citation keys such as `S001` and
    are serialized as one JSON evidence array; opaque canonical IDs remain
    internal and source text cannot forge document boundaries.
@@ -30,9 +31,10 @@ Macro Sage is intentionally a small batch application, not a framework.
    by PDF rendering and GitHub artifact upload.
 11. Successful structured briefs are appended to a versioned history store;
     deterministic one-day and one-week comparisons are rendered from it.
-12. JSON, Markdown and PDF are rendered from the same final brief object. An
-    optional Telegram adapter sends the PDF after rendering and records its
-    idempotency key separately from report success.
+12. JSON, public Markdown/PDF and a deterministic private technical audit are
+    rendered from the same run. The optional Telegram adapter sends the content
+    PDF to the channel and, when configured, the technical PDF to the owner's
+    numeric private chat ID. Each destination has its own idempotency record.
 
 ## Main decisions
 
@@ -49,10 +51,12 @@ summarization layer.
 Acquisition and synthesis admission are separate. Lawfully acquired documents
 remain in the private manifest even when they do not enter the bounded model
 context. Corpus version 3 ranks evidence by configured authority and priority,
-macro relevance, freshness and publisher diversity; reserves up to one third of
-the article capacity for available primary evidence; and enforces both
-per-product-line and per-publisher caps. Source-specific title filters are
-declarative and versioned in `sources.toml` rather than hidden in model prompts.
+explicit title preference, macro relevance, freshness and publisher diversity,
+and reserves up to one third of the article capacity for available primary
+evidence. Every collected document remains eligible until the global article or
+character boundary; there are no per-product-line or publisher hard caps.
+Source-specific title exclusions are declarative, narrow and versioned in
+`sources.toml` rather than hidden in model prompts.
 
 Every decision and reason is written to `run.json`. The selected records are a
 JSON array, not pseudo-XML assembled around publisher text. JSON escaping keeps
@@ -141,28 +145,33 @@ then passes those immutable records to collection and synthesis.
 
 Telegram configuration is optional. Local delivery requires `--deliver` or an
 explicit `macro-sage deliver` command; GitHub sends after a successful render
-when both configuration values exist. The adapter validates PDF type and size,
-uses a run/content idempotency key, retries only an explicit rate-limit response
-once, and records the returned message ID in durable history state. Ambiguous
-network failures are not automatically retried because the first request may
-already have posted. Report artifacts remain available when delivery fails.
+when the public configuration exists. The public channel receives only the
+content PDF. If `TELEGRAM_ADMIN_CHAT_ID` is configured, the bot also sends the
+technical PDF to that numeric private chat. The adapter validates PDF type and
+size, uses a destination-aware run/content idempotency key, retries only an
+explicit rate-limit response once, and records the returned message ID in
+durable history state. Report artifacts remain available when delivery fails.
 
 ### Failures are output, not log noise
 
 A source outage must be visible without reading debug logs. The collection
-manifest records a structured outcome for every attempted source. Failed and
-partial sources are repeated in the terminal, `source-status.md`, the brief,
-the PDF, and the GitHub job summary. A source with no same-day item is reported
-separately because absence is normal for lower-frequency publishers.
+manifest records a structured outcome for every attempted source. The private
+technical Markdown/PDF groups every acquired document by source and separately
+lists failed extraction, explicit filtering, stale feeds, ordinary same-day
+silence and non-participation. The public content file contains only cited
+research content, so operational diagnostics do not leak into a public channel.
 
 ### Source health is cadence-aware and model-free
 
 Daily collection and the independent `Source Health` workflow append discovery
 events to SQLite schema 3. The accumulated snapshot records last check, last
 success, last failure, latest publication, expected publication boundary and
-consecutive adverse observations. Event-driven silence is quiet, not failure;
-a source becomes `failing` only after its configured threshold (three by
-default), and no source is automatically disabled.
+consecutive adverse observations. Same-day silence is quiet until the newest
+known publication exceeds the source's configured maximum normal gap; the old
+weekday-based “expected absent” inference is not used because a broad cadence
+description is not an exact release schedule. A source becomes `failing` only
+after its configured threshold (three by default), and no source is
+automatically disabled.
 
 The weekday check performs feed discovery only. A Sunday canary runs full
 extraction separately from synthesis and transcription. Both produce body-free
@@ -184,4 +193,6 @@ before synthesis begins.
 `documents.private.json` contains the bodies required for local synthesis and
 is permission-restricted. `manifest.json` contains document metadata, body
 lengths, content hashes, item/source outcomes, and provenance without article or
-transcript text. PDF rendering and hosted artifact upload use the safe manifest.
+transcript text. Both public and technical PDFs use only the safe manifest. The
+technical file reveals titles, URLs and reason labels, never article or
+transcript bodies.

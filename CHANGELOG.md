@@ -1,5 +1,38 @@
 # Changelog
 
+## 0.7.0 - 2026-09-01
+
+### Transparent material funnel
+
+- Removed per-source and per-publisher synthesis caps. Collected documents now
+  remain eligible until the overall article or character boundary; publisher
+  diversity affects ordering, not arbitrary rejection.
+- Made configured inclusion keywords a soft ordering preference while retaining
+  narrow explicit exclusions for known off-topic or single-security material.
+- Added a deterministic, body-free technical Markdown/PDF that groups every
+  collected document by source, labels cited, available-but-uncited, truncated
+  and rejected material, lists every discovered item not added separately, and
+  separates acquisition failure, stale publication, normal silence and
+  non-participation. This audit makes no additional OpenAI request.
+- Stopped inferring “expected absent” from a broad weekday/cadence setting.
+  Same-day silence stays quiet until the source exceeds its configured maximum
+  normal publication gap.
+
+### Public/private delivery split
+
+- Removed source-health, model, token and acquisition diagnostics from the
+  public content PDF; its source register now contains only documents cited in
+  the report.
+- Added a separately dated technical PDF to local outputs and GitHub artifacts.
+- Added optional `TELEGRAM_ADMIN_CHAT_ID` routing: the public channel receives
+  only the content PDF, while the owner's numeric private bot chat receives the
+  technical PDF.
+- Made duplicate protection destination-aware so public and private delivery of
+  the same run cannot suppress one another.
+- Expanded the offline regression suite to 148 tests and made the development
+  check verify the active installation before adding the source directory to
+  subprocess paths.
+
 ## 0.6.1 - 2026-09-01
 
 ### Public Telegram presentation

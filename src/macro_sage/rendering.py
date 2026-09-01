@@ -191,21 +191,21 @@ def _render_v2_markdown(
 ) -> str:
     lookup = {document.id: document for document in documents}
     coverage = brief.coverage
+    used = [
+        lookup[source_id]
+        for source_id in dict.fromkeys(brief.source_ids_used)
+        if source_id in lookup
+    ]
+    cited_sources = {document.source_id for document in used}
     lines = [
         f"# Macro Sage - {brief.as_of_date}",
         "",
         f"**Data cutoff:** {coverage.data_cutoff.isoformat()}  ",
         f"**Previous comparable brief:** {coverage.comparison_date or 'none'}  ",
-        f"**Coverage:** {coverage.documents_collected} documents from "
-        f"{coverage.sources_collected} sources; "
-        f"{coverage.sources_failed_or_partial} failed or partial; "
-        f"{coverage.sources_without_items} without items.",
+        f"**Evidence cited:** {len(used)} documents from {len(cited_sources)} sources.",
         "",
         f"> **Market-data limitation:** {coverage.market_data_note}",
     ]
-    if coverage.important_missing_coverage:
-        lines.extend(["", "> **Important missing coverage:**"])
-        lines.extend(f"> - {item}" for item in coverage.important_missing_coverage)
 
     lines.extend(["", "## What changed", ""])
     if brief.what_changed:
@@ -398,9 +398,7 @@ def _render_v2_markdown(
             f"Sources: {_citations(risk.source_ids, lookup)}"
         )
 
-    lines.extend(["", *_source_status_lines(outcomes)])
-    lines.extend(["", "## Source register", ""])
-    used = [lookup[source_id] for source_id in brief.source_ids_used if source_id in lookup]
+    lines.extend(["", "## Documents cited in this report", ""])
     used.sort(key=lambda document: (document.publisher, document.title))
     for document in used:
         lines.append(f"- [{document.publisher}: {document.title}]({document.url})")

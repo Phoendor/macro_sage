@@ -118,8 +118,6 @@ def _source(row: dict[str, Any], *, strict: bool) -> SourceDefinition:
             ),
             scan_depth=int(row.get("scan_depth", max(50, daily_limit))),
             daily_limit=daily_limit,
-            selection_cap=int(row.get("selection_cap", 3)),
-            publisher_cap=int(row.get("publisher_cap", 5)),
             failure_threshold=int(row.get("failure_threshold", 3)),
             validation_status=ValidationStatus(
                 row.get("validation_status", ValidationStatus.NEEDS_VALIDATION)
@@ -159,8 +157,6 @@ def _source(row: dict[str, Any], *, strict: bool) -> SourceDefinition:
     for name, value in (
         ("scan_depth", source.scan_depth),
         ("daily_limit", source.daily_limit),
-        ("selection_cap", source.selection_cap),
-        ("publisher_cap", source.publisher_cap),
         ("failure_threshold", source.failure_threshold),
         ("max_gap_days", source.max_gap_days),
         ("max_future_days", source.max_future_days),

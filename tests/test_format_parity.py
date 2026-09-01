@@ -15,7 +15,7 @@ from macro_sage.rendering import render_markdown
 from tests.helpers import v2_brief
 
 
-def test_v2_json_markdown_and_pdf_preserve_decision_and_audit_content(tmp_path):
+def test_v2_public_outputs_preserve_content_without_operator_diagnostics(tmp_path):
     brief = DailyBriefV2.model_validate(v2_brief(failed=1))
     document = Document(
         id="doc:one",
@@ -79,4 +79,4 @@ def test_v2_json_markdown_and_pdf_preserve_decision_and_audit_content(tmp_path):
         assert "EUR/USD" in output
         assert "No timestamped market data" in output
         assert "Fixture Publisher: Fixture evidence" in output
-        assert "Broken Source" in output
+        assert "Broken Source" not in output

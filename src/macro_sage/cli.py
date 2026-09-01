@@ -40,6 +40,7 @@ from macro_sage.openai_models import (
     write_github_env,
 )
 from macro_sage.pdf import render as render_pdf
+from macro_sage.pdf import render_technical as render_technical_pdf
 from macro_sage.pipeline import collect_articles
 from macro_sage.podcasts import PodcastTranscriber, collect_podcasts
 from macro_sage.rendering import render_markdown
@@ -50,6 +51,7 @@ from macro_sage.reporting import (
     load_manifest,
     print_status,
     status_markdown,
+    technical_report_markdown,
     write_audit_manifest,
     write_manifest,
 )
@@ -75,9 +77,11 @@ from macro_sage.synthesis import synthesize
 from macro_sage.telegram import (
     TelegramConfig,
     TelegramDeliveryError,
+    private_technical_caption,
     public_delayed_message,
     public_no_data_message,
     public_report_caption,
+    report_document_name,
     send_pdf,
     send_status,
 )
@@ -584,6 +588,19 @@ def _synthesize_report(
             history_record.comparison,
         ),
     )
+    corpus_decisions = [asdict(decision) for decision in result.corpus_decisions]
+    write_text_atomic(
+        paths.technical_markdown,
+        technical_report_markdown(
+            target,
+            report,
+            corpus_decisions=corpus_decisions,
+            cited_document_ids=result.brief.source_ids_used,
+            model=result.model,
+            input_tokens=result.input_tokens,
+            output_tokens=result.output_tokens,
+        ),
+    )
     metadata = {
         "model": result.model,
         "reasoning_effort": (
@@ -596,9 +613,7 @@ def _synthesize_report(
         "omitted_document_ids": result.omitted_ids,
         "truncated_document_ids": result.truncated_ids,
         "citation_map": result.citation_map,
-        "corpus_selection": [
-            asdict(decision) for decision in result.corpus_decisions
-        ],
+        "corpus_selection": corpus_decisions,
         "failed_or_partial_sources": [
             outcome.summary() for outcome in report.failures
         ],
@@ -620,6 +635,9 @@ def _synthesize_report(
         health=collection_health.value,
     )
     temporary_pdf = paths.report_pdf.with_name(f".{paths.report_pdf.name}.tmp")
+    temporary_technical_pdf = paths.technical_pdf.with_name(
+        f".{paths.technical_pdf.name}.tmp"
+    )
     try:
         render_pdf(
             paths.brief_json,
@@ -627,9 +645,17 @@ def _synthesize_report(
             paths.run_record,
             temporary_pdf,
         )
+        render_technical_pdf(
+            paths.brief_json,
+            paths.audit_manifest,
+            paths.run_record,
+            temporary_technical_pdf,
+        )
         temporary_pdf.replace(paths.report_pdf)
+        temporary_technical_pdf.replace(paths.technical_pdf)
     except Exception as exc:
         temporary_pdf.unlink(missing_ok=True)
+        temporary_technical_pdf.unlink(missing_ok=True)
         update_run_record(
             paths.run_record,
             stage="rendering_failed",
@@ -649,6 +675,7 @@ def _synthesize_report(
     try:
         history_path = history_store.save(history_record)
         copy_atomic(paths.report_pdf, paths.latest_pdf)
+        copy_atomic(paths.technical_pdf, paths.latest_technical_pdf)
     except Exception as exc:
         update_run_record(
             paths.run_record,
@@ -671,11 +698,14 @@ def _synthesize_report(
         content_result=ContentResult.REPORT.value,
         health=collection_health.value,
         report_pdf=str(paths.report_pdf),
+        technical_report_pdf=str(paths.technical_pdf),
         latest_pdf=str(paths.latest_pdf),
+        latest_technical_pdf=str(paths.latest_technical_pdf),
         history_record=str(history_path),
     )
     print(f"Saved brief to {paths.brief_markdown}")
     print(f"Saved PDF to {paths.report_pdf}")
+    print(f"Saved technical report to {paths.technical_pdf}")
     append_github_summary(
         "## Brief generated\n\n"
         f"- Run ID: `{paths.run_id}`\n"
@@ -686,6 +716,7 @@ def _synthesize_report(
         f"- Comparison baseline: `{history_record.comparison.baseline_status.value}`\n"
         f"- Previous brief: `{history_record.comparison.previous_run_id or 'none'}`\n"
         f"- PDF: `{paths.report_pdf}`\n\n"
+        f"- Technical PDF: `{paths.technical_pdf}`\n\n"
     )
     return paths.report_pdf
 
@@ -1007,7 +1038,11 @@ def _evaluate(args: argparse.Namespace) -> int:
 def _latest_report(args: argparse.Namespace) -> int:
     pdf_directory = args.output / "pdf"
     candidates = sorted(
-        pdf_directory.glob("macro-sage-*.pdf"),
+        (
+            path
+            for path in pdf_directory.glob("macro-sage-*.pdf")
+            if not path.name.startswith("macro-sage-technical-")
+        ),
         key=lambda path: (path.stat().st_mtime, path.name),
     )
     if not candidates:
@@ -1034,9 +1069,10 @@ def _deliver_run_record(
     target_date = str(run.get("target_date", "unknown"))
     run_id = str(run.get("run_id", "unknown"))
     content_result = str(run.get("content_result", "not_produced"))
+    deliveries: dict[str, object] = {}
     try:
         if content_result == ContentResult.REPORT.value and run.get("report_pdf"):
-            result = send_pdf(
+            public_result = send_pdf(
                 config,
                 pdf_path=Path(str(run["report_pdf"])),
                 target_date=target_date,
@@ -1045,8 +1081,32 @@ def _deliver_run_record(
                 state_path=state_path,
                 force=force,
             )
+            deliveries["public"] = public_result.as_dict()
+            if config.admin_chat_id:
+                technical_path = run.get("technical_report_pdf")
+                if not technical_path:
+                    raise TelegramDeliveryError(
+                        "Run record has no private technical report PDF"
+                    )
+                admin_result = send_pdf(
+                    TelegramConfig(config.bot_token, config.admin_chat_id),
+                    pdf_path=Path(str(technical_path)),
+                    target_date=target_date,
+                    run_id=run_id,
+                    caption=private_technical_caption(target_date),
+                    state_path=state_path,
+                    destination="admin",
+                    document_name=report_document_name(target_date, technical=True),
+                    force=force,
+                )
+                deliveries["admin"] = admin_result.as_dict()
+            else:
+                deliveries["admin"] = {
+                    "status": "disabled",
+                    "detail": "TELEGRAM_ADMIN_CHAT_ID is not configured.",
+                }
         elif content_result == ContentResult.NO_DATA.value:
-            result = send_status(
+            public_result = send_status(
                 config,
                 target_date=target_date,
                 run_id=run_id,
@@ -1055,8 +1115,9 @@ def _deliver_run_record(
                 status_kind="no_data",
                 force=force,
             )
+            deliveries["public"] = public_result.as_dict()
         elif notify_failure:
-            result = send_status(
+            public_result = send_status(
                 config,
                 target_date=target_date,
                 run_id=run_id,
@@ -1065,6 +1126,7 @@ def _deliver_run_record(
                 status_kind="failure",
                 force=force,
             )
+            deliveries["public"] = public_result.as_dict()
         else:
             print("Telegram failure notification disabled; nothing was sent.")
             return 0
@@ -1073,7 +1135,11 @@ def _deliver_run_record(
         update_run_record(
             run_record,
             delivery_stage="telegram_failed",
-            telegram_delivery={"status": "failed", "error": safe_error},
+            telegram_delivery={
+                **deliveries,
+                "status": "failed",
+                "error": safe_error,
+            },
         )
         append_github_summary(
             "## Telegram delivery failed\n\n"
@@ -1082,21 +1148,35 @@ def _deliver_run_record(
         )
         print(f"Telegram delivery failed: {safe_error}")
         return 1
+    results = [
+        value
+        for value in deliveries.values()
+        if isinstance(value, dict) and value.get("status") != "disabled"
+    ]
+    all_duplicates = bool(results) and all(
+        value.get("status") == "duplicate_suppressed" for value in results
+    )
     update_run_record(
         run_record,
         delivery_stage=(
-            "telegram_duplicate_suppressed"
-            if result.status == "duplicate_suppressed"
-            else "telegram_complete"
+            "telegram_duplicate_suppressed" if all_duplicates else "telegram_complete"
         ),
-        telegram_delivery=result.as_dict(),
+        telegram_delivery=deliveries,
     )
+    public = deliveries.get("public", {})
+    admin = deliveries.get("admin", {})
     append_github_summary(
         "## Telegram delivery\n\n"
-        f"- Status: `{result.status}`\n"
-        f"- Message ID: `{result.message_id or 'none'}`\n\n"
+        f"- Public status: `{public.get('status', 'not_requested')}`\n"
+        f"- Public message ID: `{public.get('message_id') or 'none'}`\n"
+        f"- Admin status: `{admin.get('status', 'not_requested')}`\n"
+        f"- Admin message ID: `{admin.get('message_id') or 'none'}`\n\n"
     )
-    print(f"Telegram delivery: {result.status}")
+    print(
+        "Telegram delivery: "
+        f"public={public.get('status', 'not_requested')}; "
+        f"admin={admin.get('status', 'not_requested')}"
+    )
     return 0
 
 
