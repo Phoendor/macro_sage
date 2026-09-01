@@ -1,0 +1,15 @@
+{
+  "schema_version": 1,
+  "deliveries": [
+    {
+      "status": "sent",
+      "idempotency_key": "github-33495839234-1:b53f0ba2917a01846f7f6b403e3b8db6a0a2b1a1b98a37fd2b234ff3249d4922",
+      "target_date": "2026-08-31",
+      "run_id": "github-33495839234-1",
+      "delivery_kind": "pdf",
+      "content_sha256": "b53f0ba2917a01846f7f6b403e3b8db6a0a2b1a1b98a37fd2b234ff3249d4922",
+      "pdf_sha256": "b53f0ba2917a01846f7f6b403e3b8db6a0a2b1a1b98a37fd2b234ff3249d4922",
+      "message_id": 2
+    }
+  ]
+}
