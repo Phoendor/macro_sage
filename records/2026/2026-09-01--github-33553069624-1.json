@@ -1,0 +1,1697 @@
+{
+  "record_schema_version": 1,
+  "run_id": "github-33553069624-1",
+  "target_date": "2026-09-01",
+  "intended_cutoff": "2026-09-01T19:30:00+02:00",
+  "acquisition_start": "2026-08-31T17:30:00Z",
+  "acquisition_end": "2026-09-01T17:30:00Z",
+  "acquisition_rule": "since_previous_successful_cutoff",
+  "completed_at": "2026-09-01T20:08:51.118437Z",
+  "health": "degraded",
+  "versions": {
+    "application": "0.7.0",
+    "git_commit": "253a75dfa17ef30227465518ff9a14f93d7ca8ab",
+    "source_config": 2,
+    "extractor": "3",
+    "corpus": "3",
+    "synthesis_prompt": "3",
+    "brief_schema": "2",
+    "transcription_prompt": "1",
+    "renderer": "3",
+    "database_schema": 3,
+    "source_health_rules": 1,
+    "coverage_rules": 1,
+    "history_store": 1,
+    "history_record": 1,
+    "date_resolution": 2,
+    "acquisition_window": 1,
+    "comparison_keys": 1,
+    "evaluation_contract": 1,
+    "delivery_contract": 1
+  },
+  "brief_schema_version": "2",
+  "synthesis_prompt_version": "3",
+  "model": "gpt-5.6-luna",
+  "reasoning_effort": "low",
+  "document_ids": [
+    "doc:787b3683d4ea53bf",
+    "doc:4a1b5b2eafb9466f",
+    "doc:d4c584abe6d6087d",
+    "doc:145186da1f23b703",
+    "doc:510b15bd3609c2d8",
+    "doc:ef3dce6abcd452b5",
+    "doc:693e7e32fc5af6da",
+    "doc:8a58bdbba40c26c6",
+    "doc:887f8d8319d7f775",
+    "doc:4ee6957f18520282",
+    "doc:56efa399dcc80da0",
+    "doc:0166f2051241a79e",
+    "doc:e3798a7b91ada43a",
+    "doc:d905d5da8fcd6563",
+    "doc:b6cd321248a2fe55",
+    "doc:8245ddfff5bd17eb",
+    "doc:326adeca8373bfb7",
+    "doc:47b90484307b44ff",
+    "doc:31fe0ef469543855",
+    "doc:f93008c6066580d0",
+    "doc:58bcdeb539ed876f",
+    "doc:2bc2eb03491cda95",
+    "doc:0a46b3c2907a1495",
+    "doc:fa5e39809e662278",
+    "doc:4578330da4663bae",
+    "doc:3b4249e71de70c93",
+    "doc:b7d238be99f81722",
+    "doc:f8bce12224c383c7",
+    "doc:79189a476a53631f",
+    "doc:b0b5d1d9cc60a109",
+    "doc:2f06629d06aa9c79",
+    "doc:e806aae358159bba"
+  ],
+  "cited_document_ids": [
+    "doc:b6cd321248a2fe55",
+    "doc:3b4249e71de70c93",
+    "doc:ef3dce6abcd452b5",
+    "doc:e3798a7b91ada43a",
+    "doc:56efa399dcc80da0",
+    "doc:0166f2051241a79e",
+    "doc:8a58bdbba40c26c6",
+    "doc:fa5e39809e662278",
+    "doc:0a46b3c2907a1495",
+    "doc:326adeca8373bfb7",
+    "doc:4a1b5b2eafb9466f",
+    "doc:510b15bd3609c2d8",
+    "doc:d4c584abe6d6087d",
+    "doc:8245ddfff5bd17eb",
+    "doc:145186da1f23b703",
+    "doc:b7d238be99f81722",
+    "doc:47b90484307b44ff",
+    "doc:4578330da4663bae",
+    "doc:d905d5da8fcd6563",
+    "doc:e806aae358159bba"
+  ],
+  "brief": {
+    "what_changed": [
+      {
+        "headline": "Energy-led inflation is reaccelerating while core pressures remain comparatively contained.",
+        "significance": "The shock raises near-term policy risk without yet demonstrating broad demand-driven persistence.",
+        "affected_assets": [
+          "rates",
+          "fx",
+          "commodities",
+          "equities"
+        ],
+        "transmission": "Higher energy costs lift headline inflation and expectations; central banks may keep policy restrictive, weighing on duration and rate-sensitive assets.",
+        "horizon": "short_term",
+        "source_ids": [
+          "doc:b6cd321248a2fe55",
+          "doc:3b4249e71de70c93",
+          "doc:ef3dce6abcd452b5",
+          "doc:e3798a7b91ada43a"
+        ]
+      },
+      {
+        "headline": "Global long-end yields have risen alongside fiscal and inflation concerns.",
+        "significance": "The move complicates both duration exposure and currency interpretation.",
+        "affected_assets": [
+          "rates",
+          "fx",
+          "equities"
+        ],
+        "transmission": "Higher term premia and borrowing costs tighten financial conditions; if driven by fiscal concerns rather than stronger growth, currency support may be weaker.",
+        "horizon": "short_term",
+        "source_ids": [
+          "doc:56efa399dcc80da0",
+          "doc:0166f2051241a79e",
+          "doc:e3798a7b91ada43a",
+          "doc:8a58bdbba40c26c6"
+        ]
+      }
+    ],
+    "executive_decisions": [
+      {
+        "rank": 1,
+        "development": "Treat the energy shock as a supply-side inflation risk, not yet as proof of generalized demand overheating.",
+        "why_it_matters": "The ECB identifies energy supply shocks as the dominant driver, while euro-area core inflation has remained contained; policy response may therefore be gradual but restrictive.",
+        "transmission": "Further energy escalation can delay easing and pressure duration, consumption and inflation-sensitive currencies.",
+        "urgency": "watch",
+        "horizon": "short_term",
+        "source_ids": [
+          "doc:b6cd321248a2fe55",
+          "doc:ef3dce6abcd452b5"
+        ]
+      },
+      {
+        "rank": 2,
+        "development": "Keep duration exposure selective while monitoring whether long-end yield pressure persists.",
+        "why_it_matters": "US, German and Japanese benchmark yields have reached multi-year highs, with sources citing inflation, issuance and debt-sustainability concerns.",
+        "transmission": "Persistent term-premium pressure can tighten global financial conditions even without additional policy-rate increases.",
+        "urgency": "watch",
+        "horizon": "short_term",
+        "source_ids": [
+          "doc:56efa399dcc80da0",
+          "doc:0166f2051241a79e",
+          "doc:e3798a7b91ada43a"
+        ]
+      }
+    ],
+    "regime_dashboard": [
+      {
+        "dimension": "inflation",
+        "state": "Energy and food pressures are elevated; core inflation is mixed across regions.",
+        "direction": "deteriorating",
+        "horizon": "short_term",
+        "confidence": 4,
+        "confidence_rationale": "Code-calibrated evidence strength: 2 cited document(s) from 2 conservatively independent evidence family/families from 2 publisher(s); strongest tier is primary. Explicit counterevidence reduces the displayed tier.",
+        "evidence": [
+          {
+            "text": "Euro-area headline inflation rose to 3.3% in August, while core inflation fell to 2.4%.",
+            "claim_type": "observed_fact",
+            "source_ids": [
+              "doc:ef3dce6abcd452b5"
+            ],
+            "evidence_family": "inflation_data",
+            "carried_forward": false
+          },
+          {
+            "text": "The ECB estimates that the January-May 2026 increase was driven almost entirely by adverse energy supply shocks.",
+            "claim_type": "source_opinion",
+            "source_ids": [
+              "doc:b6cd321248a2fe55"
+            ],
+            "evidence_family": "central_bank_analysis",
+            "carried_forward": false
+          }
+        ],
+        "counterevidence": [
+          {
+            "text": "Euro-area services inflation fell to 3.0% and no significant energy pass-through to core inflation had materialised by August.",
+            "claim_type": "observed_fact",
+            "source_ids": [
+              "doc:ef3dce6abcd452b5"
+            ],
+            "evidence_family": "inflation_data",
+            "carried_forward": false
+          }
+        ],
+        "source_ids": [
+          "doc:b6cd321248a2fe55",
+          "doc:ef3dce6abcd452b5"
+        ]
+      },
+      {
+        "dimension": "monetary_policy",
+        "state": "Restrictive bias remains, with hike risk where inflation is above target.",
+        "direction": "deteriorating",
+        "horizon": "short_term",
+        "confidence": 3,
+        "confidence_rationale": "Code-calibrated evidence strength: 4 cited document(s) from 1 conservatively independent evidence family/families from 3 publisher(s); strongest tier is primary. Explicit counterevidence reduces the displayed tier.",
+        "evidence": [
+          {
+            "text": "Norges Bank kept its policy rate at 4.25% and said a further increase may still be necessary.",
+            "claim_type": "observed_fact",
+            "source_ids": [
+              "doc:fa5e39809e662278"
+            ],
+            "evidence_family": "central_bank_guidance",
+            "carried_forward": false
+          },
+          {
+            "text": "The Reserve Bank of Australia judged monetary policy to be somewhat restrictive.",
+            "claim_type": "source_opinion",
+            "source_ids": [
+              "doc:0a46b3c2907a1495"
+            ],
+            "evidence_family": "central_bank_guidance",
+            "carried_forward": false
+          },
+          {
+            "text": "A Federal Reserve governor said rates should rise decisively if inflation does not moderate sufficiently.",
+            "claim_type": "source_opinion",
+            "source_ids": [
+              "doc:326adeca8373bfb7"
+            ],
+            "evidence_family": "central_bank_guidance",
+            "carried_forward": false
+          }
+        ],
+        "counterevidence": [
+          {
+            "text": "The ECB describes its response to the predominantly supply-side shock as gradual and flexible.",
+            "claim_type": "source_opinion",
+            "source_ids": [
+              "doc:b6cd321248a2fe55"
+            ],
+            "evidence_family": "central_bank_guidance",
+            "carried_forward": false
+          }
+        ],
+        "source_ids": [
+          "doc:b6cd321248a2fe55",
+          "doc:326adeca8373bfb7",
+          "doc:0a46b3c2907a1495",
+          "doc:fa5e39809e662278"
+        ]
+      },
+      {
+        "dimension": "growth",
+        "state": "Resilient but uneven",
+        "direction": "mixed",
+        "horizon": "medium_term",
+        "confidence": 1,
+        "confidence_rationale": "Code-calibrated evidence strength: 3 cited document(s) from 1 conservatively independent evidence family/families from 1 publisher(s); strongest tier is institutional_analysis. At least one cited document has an acquisition-quality warning. Explicit counterevidence reduces the displayed tier.",
+        "evidence": [
+          {
+            "text": "US manufacturing remained in expansion at an ISM reading of 54.6 in August, while employment moderated.",
+            "claim_type": "observed_fact",
+            "source_ids": [
+              "doc:4a1b5b2eafb9466f"
+            ],
+            "evidence_family": "activity_data",
+            "carried_forward": false
+          },
+          {
+            "text": "Italian GDP grew 0.2% quarter-on-quarter in Q2, supported by domestic demand.",
+            "claim_type": "observed_fact",
+            "source_ids": [
+              "doc:510b15bd3609c2d8"
+            ],
+            "evidence_family": "activity_data",
+            "carried_forward": false
+          }
+        ],
+        "counterevidence": [
+          {
+            "text": "Hungarian investment fell 3.6% quarter-on-quarter in Q2 and the capital stock has stagnated for almost four years.",
+            "claim_type": "observed_fact",
+            "source_ids": [
+              "doc:d4c584abe6d6087d"
+            ],
+            "evidence_family": "investment_data",
+            "carried_forward": false
+          }
+        ],
+        "source_ids": [
+          "doc:4a1b5b2eafb9466f",
+          "doc:d4c584abe6d6087d",
+          "doc:510b15bd3609c2d8"
+        ]
+      },
+      {
+        "dimension": "liquidity_financial_conditions",
+        "state": "Tightening at the long end",
+        "direction": "deteriorating",
+        "horizon": "short_term",
+        "confidence": 2,
+        "confidence_rationale": "Code-calibrated evidence strength: 2 cited document(s) from 1 conservatively independent evidence family/families from 1 publisher(s); strongest tier is market_interpretation.",
+        "evidence": [
+          {
+            "text": "The US 10-year yield traded above 4.75%, while German and Japanese 10-year yields reached multi-year highs.",
+            "claim_type": "observed_fact",
+            "source_ids": [
+              "doc:e3798a7b91ada43a"
+            ],
+            "evidence_family": "market_observation",
+            "carried_forward": false
+          },
+          {
+            "text": "The yield rise was attributed to policy expectations, inflation uncertainty, sovereign issuance and fiscal risks.",
+            "claim_type": "source_opinion",
+            "source_ids": [
+              "doc:56efa399dcc80da0"
+            ],
+            "evidence_family": "market_interpretation",
+            "carried_forward": false
+          }
+        ],
+        "counterevidence": [],
+        "source_ids": [
+          "doc:56efa399dcc80da0",
+          "doc:e3798a7b91ada43a"
+        ]
+      },
+      {
+        "dimension": "risk_sentiment",
+        "state": "Sensitive to yields and geopolitics",
+        "direction": "deteriorating",
+        "horizon": "short_term",
+        "confidence": 5,
+        "confidence_rationale": "Code-calibrated evidence strength: 2 cited document(s) from 2 conservatively independent evidence family/families from 2 publisher(s); strongest tier is primary.",
+        "evidence": [
+          {
+            "text": "Saxo reported that higher oil prices and rising global bond yields weighed on stocks.",
+            "claim_type": "source_opinion",
+            "source_ids": [
+              "doc:e3798a7b91ada43a"
+            ],
+            "evidence_family": "market_interpretation",
+            "carried_forward": false
+          },
+          {
+            "text": "Geopolitical risk has significantly worsened euro-area household sentiment and spending intentions, according to cited ECB research.",
+            "claim_type": "source_opinion",
+            "source_ids": [
+              "doc:8245ddfff5bd17eb"
+            ],
+            "evidence_family": "survey_research",
+            "carried_forward": false
+          }
+        ],
+        "counterevidence": [],
+        "source_ids": [
+          "doc:8245ddfff5bd17eb",
+          "doc:e3798a7b91ada43a"
+        ]
+      },
+      {
+        "dimension": "fiscal_policy",
+        "state": "Expansionary risks are rising in selected economies",
+        "direction": "mixed",
+        "horizon": "medium_term",
+        "confidence": 2,
+        "confidence_rationale": "Code-calibrated evidence strength: 2 cited document(s) from 1 conservatively independent evidence family/families from 2 publisher(s); strongest tier is institutional_analysis. Explicit counterevidence reduces the displayed tier.",
+        "evidence": [
+          {
+            "text": "ING estimates the proposed Czech 2027 deficit at 3.5% of GDP after municipal adjustment.",
+            "claim_type": "source_forecast",
+            "source_ids": [
+              "doc:145186da1f23b703"
+            ],
+            "evidence_family": "fiscal_analysis",
+            "carried_forward": false
+          },
+          {
+            "text": "J.P. Morgan analysts expect higher national oil transfers and a larger fiscal impulse in Kazakhstan next year.",
+            "claim_type": "source_forecast",
+            "source_ids": [
+              "doc:b7d238be99f81722"
+            ],
+            "evidence_family": "fiscal_analysis",
+            "carried_forward": false
+          }
+        ],
+        "counterevidence": [
+          {
+            "text": "Fiscal consolidation was identified as part of Turkey’s disinflation programme.",
+            "claim_type": "source_opinion",
+            "source_ids": [
+              "doc:b7d238be99f81722"
+            ],
+            "evidence_family": "fiscal_analysis",
+            "carried_forward": false
+          }
+        ],
+        "source_ids": [
+          "doc:b7d238be99f81722",
+          "doc:145186da1f23b703"
+        ]
+      }
+    ],
+    "macro_themes": [
+      {
+        "theme": "Supply shock meets restrictive policy",
+        "thesis": "Energy and food disruptions are lifting headline inflation while demand-side pressures remain uneven, forcing central banks to balance credibility against growth.",
+        "market_implication": "Near-term duration risk is asymmetric if energy escalation persists; the strongest pressure is likely on energy-importing economies and rate-sensitive demand.",
+        "observed_facts": [
+          {
+            "text": "Euro-area headline inflation rose to 3.3% in August, driven by energy, while core inflation fell to 2.4%.",
+            "claim_type": "observed_fact",
+            "source_ids": [
+              "doc:ef3dce6abcd452b5"
+            ],
+            "evidence_family": "inflation_data",
+            "carried_forward": false
+          },
+          {
+            "text": "Turkey reported July consumer inflation of 31.8% and maintained a tight stance amid geopolitical supply shocks.",
+            "claim_type": "observed_fact",
+            "source_ids": [
+              "doc:47b90484307b44ff"
+            ],
+            "evidence_family": "inflation_data",
+            "carried_forward": false
+          }
+        ],
+        "inferences": [
+          {
+            "text": "If energy disruptions persist, policy easing may be delayed even where core inflation and demand are relatively benign.",
+            "claim_type": "synthesis_inference",
+            "source_ids": [
+              "doc:b6cd321248a2fe55",
+              "doc:47b90484307b44ff",
+              "doc:ef3dce6abcd452b5"
+            ],
+            "evidence_family": "macro_transmission",
+            "carried_forward": false
+          }
+        ],
+        "conflicting_evidence": [
+          {
+            "text": "ECB analysis supports a measured response to the supply shock, while Norges Bank and some US commentary retain explicit tightening risk.",
+            "claim_type": "synthesis_inference",
+            "source_ids": [
+              "doc:b6cd321248a2fe55",
+              "doc:326adeca8373bfb7",
+              "doc:fa5e39809e662278"
+            ],
+            "evidence_family": "policy_divergence",
+            "carried_forward": false
+          }
+        ],
+        "unresolved_questions": [
+          "Will energy costs pass through into core inflation and wages?",
+          "Will fiscal support offset or amplify the supply shock?"
+        ],
+        "transmission": [
+          {
+            "asset_class": "rates",
+            "implication": "Bearish for duration if energy inflation persists and central banks delay easing."
+          },
+          {
+            "asset_class": "fx",
+            "implication": "Potential support for currencies of central banks retaining a tightening bias; energy importers remain vulnerable."
+          },
+          {
+            "asset_class": "commodities",
+            "implication": "Constructive for energy and agriculture while supply disruptions persist."
+          },
+          {
+            "asset_class": "equities",
+            "implication": "Margin and valuation pressure for energy-intensive and rate-sensitive sectors."
+          }
+        ],
+        "horizon": "short_term",
+        "catalysts": [
+          "Further developments around Middle East energy flows",
+          "Core inflation and wage data",
+          "Central-bank decisions and guidance"
+        ],
+        "invalidation_conditions": [
+          "Energy prices stabilise and core inflation continues to decline",
+          "Demand weakens enough to force a clear shift toward easing"
+        ],
+        "source_ids": [
+          "doc:b6cd321248a2fe55",
+          "doc:326adeca8373bfb7",
+          "doc:47b90484307b44ff",
+          "doc:fa5e39809e662278",
+          "doc:ef3dce6abcd452b5"
+        ]
+      },
+      {
+        "theme": "AI investment is broadening, but labour and productivity effects remain uncertain",
+        "thesis": "AI adoption is widespread and supporting investment, yet current evidence points more to workflow transformation and retraining than large-scale displacement.",
+        "market_implication": "The durable opportunity may extend beyond software and semiconductors into power, grids, infrastructure and productivity-enhancing capital.",
+        "observed_facts": [
+          {
+            "text": "More than 60% of surveyed service firms and about half of manufacturers reported using AI; layoffs remained uncommon.",
+            "claim_type": "observed_fact",
+            "source_ids": [
+              "doc:4578330da4663bae"
+            ],
+            "evidence_family": "business_survey",
+            "carried_forward": false
+          },
+          {
+            "text": "A Federal Reserve governor said US growth was powered in part by AI-related business investment and capability buildout.",
+            "claim_type": "source_opinion",
+            "source_ids": [
+              "doc:326adeca8373bfb7"
+            ],
+            "evidence_family": "central_bank_commentary",
+            "carried_forward": false
+          }
+        ],
+        "inferences": [
+          {
+            "text": "AI-related capital expenditure can support near-term activity without yet producing a broad employment shock; power and grid constraints may become important transmission channels.",
+            "claim_type": "synthesis_inference",
+            "source_ids": [
+              "doc:326adeca8373bfb7",
+              "doc:4578330da4663bae",
+              "doc:d905d5da8fcd6563"
+            ],
+            "evidence_family": "technology_macro_transmission",
+            "carried_forward": false
+          }
+        ],
+        "conflicting_evidence": [
+          {
+            "text": "New York Fed survey evidence finds limited layoffs, while cited research warns that entry-level workers may face greater substitution risk.",
+            "claim_type": "source_opinion",
+            "source_ids": [
+              "doc:4578330da4663bae"
+            ],
+            "evidence_family": "labour_market_research",
+            "carried_forward": false
+          }
+        ],
+        "unresolved_questions": [
+          "Will productivity gains broaden beyond leading firms and sectors?",
+          "Will AI investment remain resilient under higher financing costs?"
+        ],
+        "transmission": [
+          {
+            "asset_class": "equities",
+            "implication": "Supports AI, semiconductor and enabling-infrastructure investment, but with valuation and execution risk."
+          },
+          {
+            "asset_class": "commodities",
+            "implication": "Supports electricity, industrial metals and grid-related demand over the medium term."
+          },
+          {
+            "asset_class": "rates",
+            "implication": "Could support growth, but associated capex and power demand may complicate inflation assessment."
+          }
+        ],
+        "horizon": "medium_term",
+        "catalysts": [
+          "Corporate AI investment and adoption data",
+          "Evidence of productivity gains",
+          "Power, grid and semiconductor-capacity developments"
+        ],
+        "invalidation_conditions": [
+          "AI capex materially weakens or adoption fails to improve productivity",
+          "Higher financing costs cause widespread project cancellations"
+        ],
+        "source_ids": [
+          "doc:326adeca8373bfb7",
+          "doc:4578330da4663bae",
+          "doc:d905d5da8fcd6563"
+        ]
+      }
+    ],
+    "asset_views": [
+      {
+        "asset": "US duration",
+        "bias": "bearish",
+        "horizon": "short_term",
+        "confidence": 4,
+        "confidence_rationale": "Code-calibrated evidence strength: 3 cited document(s) from 3 conservatively independent evidence family/families from 3 publisher(s); strongest tier is primary. Explicit counterevidence reduces the displayed tier.",
+        "market_confirmation": "unavailable",
+        "thesis": "Persistent energy inflation and fiscal/term-premium concerns can delay easing and keep long-end yields elevated.",
+        "transmission": "Higher inflation compensation and issuance concerns raise discount rates and tighten financial conditions.",
+        "drivers": [
+          "US inflation remains above target according to Federal Reserve commentary.",
+          "US 10-year yields have moved above 4.75%.",
+          "Energy prices remain a renewed inflation risk."
+        ],
+        "risks": [
+          "Weak payrolls or services data could reduce tightening expectations.",
+          "Treasury intervention or fiscal measures could lower long-end yields."
+        ],
+        "catalyst": "US labour, services and inflation data.",
+        "invalidation_condition": "A sustained sequence of softer inflation and activity data leads to clear easing guidance.",
+        "evidence": [
+          {
+            "text": "A Federal Reserve governor said rates should rise decisively if inflation does not moderate sufficiently.",
+            "claim_type": "source_opinion",
+            "source_ids": [
+              "doc:326adeca8373bfb7"
+            ],
+            "evidence_family": "central_bank_guidance",
+            "carried_forward": false
+          },
+          {
+            "text": "The US 10-year yield traded above 4.75%.",
+            "claim_type": "observed_fact",
+            "source_ids": [
+              "doc:e3798a7b91ada43a"
+            ],
+            "evidence_family": "market_observation",
+            "carried_forward": false
+          }
+        ],
+        "counterevidence": [
+          {
+            "text": "ING expects limited wage pressure and says a possible September hike would not require a series of hikes.",
+            "claim_type": "source_opinion",
+            "source_ids": [
+              "doc:4a1b5b2eafb9466f"
+            ],
+            "evidence_family": "bank_research",
+            "carried_forward": false
+          }
+        ],
+        "source_ids": [
+          "doc:326adeca8373bfb7",
+          "doc:4a1b5b2eafb9466f",
+          "doc:e3798a7b91ada43a"
+        ]
+      },
+      {
+        "asset": "European duration",
+        "bias": "bearish",
+        "horizon": "short_term",
+        "confidence": 4,
+        "confidence_rationale": "Code-calibrated evidence strength: 2 cited document(s) from 2 conservatively independent evidence family/families from 2 publisher(s); strongest tier is primary. Explicit counterevidence reduces the displayed tier.",
+        "market_confirmation": "unavailable",
+        "thesis": "Energy inflation makes near-term easing less likely, while core containment limits the case for sustained restrictive repricing.",
+        "transmission": "Higher energy costs lift inflation expectations and sovereign yields; weaker real income can later restrain growth.",
+        "drivers": [
+          "Euro-area headline inflation rose to 3.3%.",
+          "Energy inflation rose to 14.3%.",
+          "ECB analysis characterises the shock as predominantly supply-driven."
+        ],
+        "risks": [
+          "Core inflation may remain contained and policy may stay gradual.",
+          "A resolution of geopolitical disruptions could lower energy prices."
+        ],
+        "catalyst": "Euro-area inflation and ECB policy communication.",
+        "invalidation_condition": "Core inflation and wage growth continue to fall while energy prices normalise.",
+        "evidence": [
+          {
+            "text": "Euro-area headline inflation rose to 3.3% and energy inflation to 14.3%, while core inflation fell to 2.4%.",
+            "claim_type": "observed_fact",
+            "source_ids": [
+              "doc:ef3dce6abcd452b5"
+            ],
+            "evidence_family": "inflation_data",
+            "carried_forward": false
+          },
+          {
+            "text": "The ECB says the 2026 inflation increase has so far been driven almost entirely by energy supply shocks.",
+            "claim_type": "source_opinion",
+            "source_ids": [
+              "doc:b6cd321248a2fe55"
+            ],
+            "evidence_family": "central_bank_analysis",
+            "carried_forward": false
+          }
+        ],
+        "counterevidence": [
+          {
+            "text": "Euro-area services inflation fell to 3.0% and significant pass-through to core inflation has not yet materialised.",
+            "claim_type": "observed_fact",
+            "source_ids": [
+              "doc:ef3dce6abcd452b5"
+            ],
+            "evidence_family": "inflation_data",
+            "carried_forward": false
+          }
+        ],
+        "source_ids": [
+          "doc:b6cd321248a2fe55",
+          "doc:ef3dce6abcd452b5"
+        ]
+      },
+      {
+        "asset": "Energy and agriculture commodities",
+        "bias": "bullish",
+        "horizon": "short_term",
+        "confidence": 1,
+        "confidence_rationale": "Code-calibrated evidence strength: 3 cited document(s) from 1 conservatively independent evidence family/families from 1 publisher(s); strongest tier is market_interpretation. Explicit counterevidence reduces the displayed tier.",
+        "market_confirmation": "unavailable",
+        "thesis": "Geopolitical disruption and agricultural supply risks are sustaining scarcity premia despite tighter financial conditions.",
+        "transmission": "Higher energy and food input costs support commodity prices but pressure consumers, margins and central-bank policy.",
+        "drivers": [
+          "Renewed Middle East conflict is disrupting energy flows.",
+          "European gas and refined-product costs remain elevated.",
+          "Agriculture has been supported by weather and Black Sea supply risks."
+        ],
+        "risks": [
+          "Ceasefire or restored shipping could release risk premia.",
+          "Higher rates and weaker growth could reduce demand."
+        ],
+        "catalyst": "Geopolitical developments and shipping-flow data.",
+        "invalidation_condition": "Energy flows normalise and agricultural supply concerns ease materially.",
+        "evidence": [
+          {
+            "text": "Crude rose amid renewed hostilities and concerns about disruption through the Strait of Hormuz.",
+            "claim_type": "source_opinion",
+            "source_ids": [
+              "doc:e3798a7b91ada43a"
+            ],
+            "evidence_family": "commodity_analysis",
+            "carried_forward": false
+          },
+          {
+            "text": "Agriculture reached a 14-year high at the end of August after a 12.4% monthly rise.",
+            "claim_type": "observed_fact",
+            "source_ids": [
+              "doc:56efa399dcc80da0"
+            ],
+            "evidence_family": "commodity_observation",
+            "carried_forward": false
+          }
+        ],
+        "counterevidence": [
+          {
+            "text": "Saxo identifies Venezuela and other non-OPEC supply as a medium-term counterweight to the oil bullish case.",
+            "claim_type": "source_opinion",
+            "source_ids": [
+              "doc:d905d5da8fcd6563"
+            ],
+            "evidence_family": "commodity_analysis",
+            "carried_forward": false
+          }
+        ],
+        "source_ids": [
+          "doc:56efa399dcc80da0",
+          "doc:d905d5da8fcd6563",
+          "doc:e3798a7b91ada43a"
+        ]
+      }
+    ],
+    "candidate_expressions": [],
+    "scenarios": [
+      {
+        "kind": "base",
+        "qualitative_likelihood": "leading",
+        "description": "Energy-led inflation remains elevated, core inflation rises only gradually, and central banks retain restrictive or cautious guidance.",
+        "signposts": [
+          "Energy prices remain elevated.",
+          "Core inflation does not broaden materially.",
+          "Policy easing is delayed rather than abandoned."
+        ],
+        "cross_asset_consequences": [
+          {
+            "asset_class": "rates",
+            "implication": "Duration remains vulnerable, especially at the long end."
+          },
+          {
+            "asset_class": "commodities",
+            "implication": "Energy and agriculture retain support."
+          },
+          {
+            "asset_class": "equities",
+            "implication": "Energy and selected infrastructure outperform rate-sensitive sectors."
+          }
+        ],
+        "assumptions": [
+          {
+            "text": "The current euro-area inflation increase remains primarily supply-driven.",
+            "claim_type": "source_opinion",
+            "source_ids": [
+              "doc:b6cd321248a2fe55",
+              "doc:ef3dce6abcd452b5"
+            ],
+            "evidence_family": "inflation_analysis",
+            "carried_forward": false
+          },
+          {
+            "text": "AI investment continues to support activity without broad layoffs.",
+            "claim_type": "observed_fact",
+            "source_ids": [
+              "doc:4578330da4663bae"
+            ],
+            "evidence_family": "business_survey",
+            "carried_forward": false
+          }
+        ],
+        "source_ids": [
+          "doc:b6cd321248a2fe55",
+          "doc:4578330da4663bae",
+          "doc:ef3dce6abcd452b5",
+          "doc:e3798a7b91ada43a"
+        ]
+      },
+      {
+        "kind": "upside",
+        "qualitative_likelihood": "plausible",
+        "description": "Energy disruptions ease, inflation expectations stabilise and resilient activity supports risk assets.",
+        "signposts": [
+          "Improved shipping and ceasefire news.",
+          "Falling energy prices.",
+          "Core inflation remains contained."
+        ],
+        "cross_asset_consequences": [
+          {
+            "asset_class": "rates",
+            "implication": "Long-end yields retrace as inflation risk falls."
+          },
+          {
+            "asset_class": "equities",
+            "implication": "Broader risk appetite improves, particularly in rate-sensitive sectors."
+          },
+          {
+            "asset_class": "fx",
+            "implication": "Energy-importing currencies gain relative support."
+          }
+        ],
+        "assumptions": [
+          {
+            "text": "A more favourable ceasefire outcome could lower oil prices and inflation.",
+            "claim_type": "source_opinion",
+            "source_ids": [
+              "doc:47b90484307b44ff"
+            ],
+            "evidence_family": "central_bank_risk_assessment",
+            "carried_forward": false
+          }
+        ],
+        "source_ids": [
+          "doc:47b90484307b44ff",
+          "doc:ef3dce6abcd452b5"
+        ]
+      },
+      {
+        "kind": "downside",
+        "qualitative_likelihood": "plausible",
+        "description": "Further energy disruption produces broader pass-through, forcing more tightening while weakening consumption and risk appetite.",
+        "signposts": [
+          "Additional disruption around the Strait of Hormuz.",
+          "Rising core or services inflation.",
+          "Worsening household sentiment and spending intentions."
+        ],
+        "cross_asset_consequences": [
+          {
+            "asset_class": "rates",
+            "implication": "Front-end and long-end yields rise, with curve behaviour dependent on growth expectations."
+          },
+          {
+            "asset_class": "equities",
+            "implication": "Energy-intensive, consumer and duration-sensitive equities underperform."
+          },
+          {
+            "asset_class": "commodities",
+            "implication": "Energy and food rise, while industrial demand becomes more vulnerable."
+          }
+        ],
+        "assumptions": [
+          {
+            "text": "Geopolitical risk can worsen household sentiment and spending intentions.",
+            "claim_type": "source_opinion",
+            "source_ids": [
+              "doc:8245ddfff5bd17eb"
+            ],
+            "evidence_family": "survey_research",
+            "carried_forward": false
+          },
+          {
+            "text": "Higher expected gasoline-price growth is associated with higher inflation expectations and uncertainty.",
+            "claim_type": "observed_fact",
+            "source_ids": [
+              "doc:3b4249e71de70c93"
+            ],
+            "evidence_family": "survey_research",
+            "carried_forward": false
+          }
+        ],
+        "source_ids": [
+          "doc:8245ddfff5bd17eb",
+          "doc:3b4249e71de70c93",
+          "doc:56efa399dcc80da0",
+          "doc:e3798a7b91ada43a"
+        ]
+      }
+    ],
+    "disagreements": [],
+    "catalysts": [
+      {
+        "event_or_signpost": "US labour, services and inflation releases",
+        "timing": "This week and next",
+        "what_matters": "Whether activity and inflation validate further US tightening or support a pause.",
+        "affected_views": [
+          "US duration",
+          "Global risk sentiment"
+        ],
+        "source_ids": [
+          "doc:4a1b5b2eafb9466f",
+          "doc:e3798a7b91ada43a",
+          "doc:8a58bdbba40c26c6"
+        ]
+      },
+      {
+        "event_or_signpost": "Middle East conflict and Strait of Hormuz shipping",
+        "timing": "Ongoing",
+        "what_matters": "Persistence of the energy-supply shock and second-round inflation effects.",
+        "affected_views": [
+          "Energy and agriculture commodities",
+          "European duration",
+          "US duration"
+        ],
+        "source_ids": [
+          "doc:b6cd321248a2fe55",
+          "doc:47b90484307b44ff",
+          "doc:56efa399dcc80da0",
+          "doc:e3798a7b91ada43a"
+        ]
+      },
+      {
+        "event_or_signpost": "Euro-area core inflation and ECB communication",
+        "timing": "Near term",
+        "what_matters": "Whether supply-driven headline inflation broadens into wages and services.",
+        "affected_views": [
+          "European duration",
+          "EUR"
+        ],
+        "source_ids": [
+          "doc:b6cd321248a2fe55",
+          "doc:ef3dce6abcd452b5",
+          "doc:8a58bdbba40c26c6"
+        ]
+      }
+    ],
+    "top_risks": [
+      {
+        "risk": "Energy shock broadens into core inflation and expectations.",
+        "why_it_matters": "It would extend restrictive policy and weaken real household income.",
+        "monitor": "Core/services inflation, wage indicators and household expectations.",
+        "source_ids": [
+          "doc:8245ddfff5bd17eb",
+          "doc:3b4249e71de70c93",
+          "doc:ef3dce6abcd452b5"
+        ]
+      },
+      {
+        "risk": "Long-end yield pressure reflects fiscal concerns rather than growth.",
+        "why_it_matters": "It can tighten financial conditions without providing equivalent currency support.",
+        "monitor": "Sovereign issuance, term-premium commentary and yield-curve behaviour.",
+        "source_ids": [
+          "doc:56efa399dcc80da0",
+          "doc:0166f2051241a79e",
+          "doc:8a58bdbba40c26c6"
+        ]
+      },
+      {
+        "risk": "AI investment and valuation expectations outrun realised productivity.",
+        "why_it_matters": "A capex slowdown could pressure technology equities and related infrastructure demand.",
+        "monitor": "AI adoption, productivity evidence, capex plans and employment effects.",
+        "source_ids": [
+          "doc:326adeca8373bfb7",
+          "doc:4578330da4663bae",
+          "doc:e806aae358159bba",
+          "doc:d905d5da8fcd6563"
+        ]
+      }
+    ],
+    "schema_version": "2",
+    "as_of_date": "2026-09-01",
+    "coverage": {
+      "data_cutoff": "2026-09-01T17:30:00Z",
+      "comparison_date": "2026-08-31",
+      "documents_collected": 32,
+      "sources_collected": 14,
+      "sources_failed_or_partial": 6,
+      "sources_without_items": 28,
+      "important_missing_coverage": [
+        "policy:canada: Bank of Canada News=stale",
+        "policy:united-kingdom: Bank of England Speeches=stale"
+      ],
+      "market_data_available": false,
+      "market_data_note": "No timestamped market-price, positioning, or event-calendar feed is integrated. Candidate expressions require current-market confirmation."
+    },
+    "source_ids_used": [
+      "doc:b6cd321248a2fe55",
+      "doc:3b4249e71de70c93",
+      "doc:ef3dce6abcd452b5",
+      "doc:e3798a7b91ada43a",
+      "doc:56efa399dcc80da0",
+      "doc:0166f2051241a79e",
+      "doc:8a58bdbba40c26c6",
+      "doc:fa5e39809e662278",
+      "doc:0a46b3c2907a1495",
+      "doc:326adeca8373bfb7",
+      "doc:4a1b5b2eafb9466f",
+      "doc:510b15bd3609c2d8",
+      "doc:d4c584abe6d6087d",
+      "doc:8245ddfff5bd17eb",
+      "doc:145186da1f23b703",
+      "doc:b7d238be99f81722",
+      "doc:47b90484307b44ff",
+      "doc:4578330da4663bae",
+      "doc:d905d5da8fcd6563",
+      "doc:e806aae358159bba"
+    ]
+  },
+  "asset_views": [
+    {
+      "key": "asset-view:other:us-duration:short_term",
+      "family": "other",
+      "horizon_key": "short_term",
+      "asset": "US duration",
+      "horizon": "short_term",
+      "bias": "bearish",
+      "confidence": 4,
+      "supporting_evidence": [
+        "US inflation remains above target according to Federal Reserve commentary.",
+        "US 10-year yields have moved above 4.75%.",
+        "Energy prices remain a renewed inflation risk."
+      ],
+      "contradicting_evidence": [
+        "Weak payrolls or services data could reduce tightening expectations.",
+        "Treasury intervention or fiscal measures could lower long-end yields."
+      ],
+      "source_document_ids": [
+        "doc:326adeca8373bfb7",
+        "doc:4a1b5b2eafb9466f",
+        "doc:e3798a7b91ada43a"
+      ],
+      "first_seen_date": "2026-09-01",
+      "last_updated_date": "2026-09-01",
+      "expected_expiry_date": "2026-09-15",
+      "freshness": "current",
+      "status_history": [
+        {
+          "as_of_date": "2026-09-01",
+          "status": "new",
+          "bias": "bearish",
+          "confidence": 4,
+          "current_source_document_ids": [
+            "doc:326adeca8373bfb7",
+            "doc:4a1b5b2eafb9466f",
+            "doc:e3798a7b91ada43a"
+          ],
+          "freshness": "current"
+        }
+      ]
+    },
+    {
+      "key": "asset-view:other:european-duration:short_term",
+      "family": "other",
+      "horizon_key": "short_term",
+      "asset": "European duration",
+      "horizon": "short_term",
+      "bias": "bearish",
+      "confidence": 4,
+      "supporting_evidence": [
+        "Euro-area headline inflation rose to 3.3%.",
+        "Energy inflation rose to 14.3%.",
+        "ECB analysis characterises the shock as predominantly supply-driven."
+      ],
+      "contradicting_evidence": [
+        "Core inflation may remain contained and policy may stay gradual.",
+        "A resolution of geopolitical disruptions could lower energy prices."
+      ],
+      "source_document_ids": [
+        "doc:b6cd321248a2fe55",
+        "doc:ef3dce6abcd452b5"
+      ],
+      "first_seen_date": "2026-09-01",
+      "last_updated_date": "2026-09-01",
+      "expected_expiry_date": "2026-09-15",
+      "freshness": "current",
+      "status_history": [
+        {
+          "as_of_date": "2026-09-01",
+          "status": "new",
+          "bias": "bearish",
+          "confidence": 4,
+          "current_source_document_ids": [
+            "doc:b6cd321248a2fe55",
+            "doc:ef3dce6abcd452b5"
+          ],
+          "freshness": "current"
+        }
+      ]
+    },
+    {
+      "key": "asset-view:commodities:agriculture:short_term",
+      "family": "commodities",
+      "horizon_key": "short_term",
+      "asset": "Energy and agriculture commodities",
+      "horizon": "short_term",
+      "bias": "bullish",
+      "confidence": 1,
+      "supporting_evidence": [
+        "Renewed Middle East conflict is disrupting energy flows.",
+        "European gas and refined-product costs remain elevated.",
+        "Agriculture has been supported by weather and Black Sea supply risks."
+      ],
+      "contradicting_evidence": [
+        "Ceasefire or restored shipping could release risk premia.",
+        "Higher rates and weaker growth could reduce demand."
+      ],
+      "source_document_ids": [
+        "doc:56efa399dcc80da0",
+        "doc:d905d5da8fcd6563",
+        "doc:e3798a7b91ada43a"
+      ],
+      "first_seen_date": "2026-09-01",
+      "last_updated_date": "2026-09-01",
+      "expected_expiry_date": "2026-09-15",
+      "freshness": "current",
+      "status_history": [
+        {
+          "as_of_date": "2026-09-01",
+          "status": "new",
+          "bias": "bullish",
+          "confidence": 1,
+          "current_source_document_ids": [
+            "doc:56efa399dcc80da0",
+            "doc:d905d5da8fcd6563",
+            "doc:e3798a7b91ada43a"
+          ],
+          "freshness": "current"
+        }
+      ]
+    },
+    {
+      "key": "asset-view:rates:us:front-end:short_term",
+      "family": "rates",
+      "horizon_key": "short_term",
+      "asset": "US front-end rates",
+      "horizon": "short_term",
+      "bias": "bearish",
+      "confidence": 1,
+      "supporting_evidence": [
+        "Warsh emphasized further work if inflation does not retreat.",
+        "Saxo reports September hike odds rose above 60%."
+      ],
+      "contradicting_evidence": [
+        "Weak August payrolls could reverse the hawkish impulse.",
+        "Fiscal measures may constrain long-end rather than front-end rates."
+      ],
+      "source_document_ids": [
+        "doc:5bed8e55839c4e3b"
+      ],
+      "first_seen_date": "2026-08-31",
+      "last_updated_date": "2026-08-31",
+      "expected_expiry_date": "2026-09-14",
+      "freshness": "carried",
+      "status_history": [
+        {
+          "as_of_date": "2026-08-31",
+          "status": "new",
+          "bias": "bearish",
+          "confidence": 1,
+          "current_source_document_ids": [
+            "doc:5bed8e55839c4e3b"
+          ],
+          "freshness": "current"
+        },
+        {
+          "as_of_date": "2026-09-01",
+          "status": "unchanged",
+          "bias": "bearish",
+          "confidence": 1,
+          "current_source_document_ids": [],
+          "freshness": "carried"
+        }
+      ]
+    },
+    {
+      "key": "asset-view:credit:global:medium_term",
+      "family": "credit",
+      "horizon_key": "medium_term",
+      "asset": "Euro investment-grade credit",
+      "horizon": "medium_term",
+      "bias": "bearish",
+      "confidence": 3,
+      "supporting_evidence": [
+        "Hyperscalers’ share of reverse-Yankee issuance nearly doubled between 2025 and 2026.",
+        "Hyperscaler spreads have increased with higher capex and issuance announcements."
+      ],
+      "contradicting_evidence": [
+        "Strong investor demand could absorb supply without broader spread widening.",
+        "High credit quality may preserve demand from insurers and pension funds."
+      ],
+      "source_document_ids": [
+        "doc:e010740a9791228f"
+      ],
+      "first_seen_date": "2026-08-28",
+      "last_updated_date": "2026-08-31",
+      "expected_expiry_date": "2026-11-29",
+      "freshness": "carried",
+      "status_history": [
+        {
+          "as_of_date": "2026-08-28",
+          "status": "new",
+          "bias": "bearish",
+          "confidence": 3,
+          "current_source_document_ids": [
+            "doc:7bd26430a495467e"
+          ],
+          "freshness": "current"
+        },
+        {
+          "as_of_date": "2026-08-31",
+          "status": "unchanged",
+          "bias": "bearish",
+          "confidence": 3,
+          "current_source_document_ids": [
+            "doc:e010740a9791228f"
+          ],
+          "freshness": "current"
+        },
+        {
+          "as_of_date": "2026-09-01",
+          "status": "unchanged",
+          "bias": "bearish",
+          "confidence": 3,
+          "current_source_document_ids": [],
+          "freshness": "carried"
+        }
+      ]
+    },
+    {
+      "key": "asset-view:equities:broad-ai-infrastructure-equities:short_term",
+      "family": "equities",
+      "horizon_key": "short_term",
+      "asset": "Broad AI infrastructure equities",
+      "horizon": "short_term",
+      "bias": "mixed",
+      "confidence": 1,
+      "supporting_evidence": [
+        "Broadcom and Marvell are expanding custom-chip and networking exposure.",
+        "Marvell’s Google-related revenue contribution is expected mainly from fiscal 2029."
+      ],
+      "contradicting_evidence": [
+        "Customer concentration and programme delays.",
+        "High expectations can amplify downside reactions."
+      ],
+      "source_document_ids": [
+        "doc:21a5e6203bafb811"
+      ],
+      "first_seen_date": "2026-08-31",
+      "last_updated_date": "2026-08-31",
+      "expected_expiry_date": "2026-09-14",
+      "freshness": "carried",
+      "status_history": [
+        {
+          "as_of_date": "2026-08-31",
+          "status": "new",
+          "bias": "mixed",
+          "confidence": 1,
+          "current_source_document_ids": [
+            "doc:21a5e6203bafb811"
+          ],
+          "freshness": "current"
+        },
+        {
+          "as_of_date": "2026-09-01",
+          "status": "unchanged",
+          "bias": "mixed",
+          "confidence": 1,
+          "current_source_document_ids": [],
+          "freshness": "carried"
+        }
+      ]
+    },
+    {
+      "key": "asset-view:rates:us:front-end:unspecified",
+      "family": "rates",
+      "horizon_key": "unspecified",
+      "asset": "US front-end rates",
+      "horizon": "immediate",
+      "bias": "bearish",
+      "confidence": 3,
+      "supporting_evidence": [
+        "PCE inflation remains above target.",
+        "Financial conditions and labour markets were described as resilient."
+      ],
+      "contradicting_evidence": [
+        "A rapid disinflation surprise.",
+        "A sharp deterioration in employment or credit."
+      ],
+      "source_document_ids": [
+        "doc:2c51127ee15af4b4"
+      ],
+      "first_seen_date": "2026-08-28",
+      "last_updated_date": "2026-08-28",
+      "expected_expiry_date": "2026-09-27",
+      "freshness": "carried",
+      "status_history": [
+        {
+          "as_of_date": "2026-08-28",
+          "status": "new",
+          "bias": "bearish",
+          "confidence": 3,
+          "current_source_document_ids": [
+            "doc:2c51127ee15af4b4"
+          ],
+          "freshness": "current"
+        },
+        {
+          "as_of_date": "2026-08-31",
+          "status": "unchanged",
+          "bias": "bearish",
+          "confidence": 3,
+          "current_source_document_ids": [],
+          "freshness": "carried"
+        },
+        {
+          "as_of_date": "2026-09-01",
+          "status": "unchanged",
+          "bias": "bearish",
+          "confidence": 3,
+          "current_source_document_ids": [],
+          "freshness": "carried"
+        }
+      ]
+    },
+    {
+      "key": "asset-view:commodities:broad-commodities:short_term",
+      "family": "commodities",
+      "horizon_key": "short_term",
+      "asset": "Broad commodities",
+      "horizon": "short_term",
+      "bias": "bullish",
+      "confidence": 1,
+      "supporting_evidence": [
+        "Agricultural disruption and weather risk.",
+        "Precious-metals fiscal concerns.",
+        "Copper supply and inventory distortions."
+      ],
+      "contradicting_evidence": [
+        "Improved weather or logistics.",
+        "Diplomatic de-escalation.",
+        "Global growth slowdown."
+      ],
+      "source_document_ids": [
+        "doc:5f6ae3360b50a06d"
+      ],
+      "first_seen_date": "2026-08-28",
+      "last_updated_date": "2026-08-28",
+      "expected_expiry_date": "2026-09-11",
+      "freshness": "carried",
+      "status_history": [
+        {
+          "as_of_date": "2026-08-28",
+          "status": "new",
+          "bias": "bullish",
+          "confidence": 1,
+          "current_source_document_ids": [
+            "doc:5f6ae3360b50a06d"
+          ],
+          "freshness": "current"
+        },
+        {
+          "as_of_date": "2026-08-31",
+          "status": "unchanged",
+          "bias": "bullish",
+          "confidence": 1,
+          "current_source_document_ids": [],
+          "freshness": "carried"
+        },
+        {
+          "as_of_date": "2026-09-01",
+          "status": "unchanged",
+          "bias": "bullish",
+          "confidence": 1,
+          "current_source_document_ids": [],
+          "freshness": "carried"
+        }
+      ]
+    }
+  ],
+  "themes": [
+    {
+      "key": "event:supply-shock-meets-restrictive-policy",
+      "entity_type": "event",
+      "title": "Supply shock meets restrictive policy",
+      "implication": "Near-term duration risk is asymmetric if energy escalation persists; the strongest pressure is likely on energy-importing economies and rate-sensitive demand.",
+      "source_document_ids": [
+        "doc:b6cd321248a2fe55",
+        "doc:326adeca8373bfb7",
+        "doc:47b90484307b44ff",
+        "doc:fa5e39809e662278",
+        "doc:ef3dce6abcd452b5"
+      ],
+      "first_seen_date": "2026-09-01",
+      "last_updated_date": "2026-09-01",
+      "expected_expiry_date": "2026-09-15",
+      "freshness": "current"
+    },
+    {
+      "key": "thesis:ai-investment-is-broadening-but-labour-productivity-effects-remain-uncertain",
+      "entity_type": "thesis",
+      "title": "AI investment is broadening, but labour and productivity effects remain uncertain",
+      "implication": "The durable opportunity may extend beyond software and semiconductors into power, grids, infrastructure and productivity-enhancing capital.",
+      "source_document_ids": [
+        "doc:326adeca8373bfb7",
+        "doc:4578330da4663bae",
+        "doc:d905d5da8fcd6563"
+      ],
+      "first_seen_date": "2026-09-01",
+      "last_updated_date": "2026-09-01",
+      "expected_expiry_date": "2026-09-15",
+      "freshness": "current"
+    },
+    {
+      "key": "event:ai-investment-is-becoming-cross-market-financing-duration-shock",
+      "entity_type": "event",
+      "title": "AI investment is becoming a cross-market financing and duration shock",
+      "implication": "Favourable AI demand does not eliminate financing risk: supply, concentration, leverage and delayed revenue realization can raise credit premia and pressure long-duration assets.",
+      "source_document_ids": [
+        "doc:e010740a9791228f",
+        "doc:9005895cc70e3069",
+        "doc:21a5e6203bafb811"
+      ],
+      "first_seen_date": "2026-08-31",
+      "last_updated_date": "2026-08-31",
+      "expected_expiry_date": "2026-09-14",
+      "freshness": "carried"
+    },
+    {
+      "key": "regime:inflation",
+      "entity_type": "regime",
+      "title": "Scarcity has broadened the commodity inflation channel",
+      "implication": "Commodity exposure may diversify inflation risk, but individual markets remain vulnerable to supply normalisation, weather improvement or weaker growth.",
+      "source_document_ids": [
+        "doc:5f6ae3360b50a06d"
+      ],
+      "first_seen_date": "2026-08-28",
+      "last_updated_date": "2026-08-28",
+      "expected_expiry_date": "2026-09-11",
+      "freshness": "carried"
+    }
+  ],
+  "comparison": {
+    "baseline_status": "available",
+    "baseline_detail": "Compared with successful brief github-33495839234-1.",
+    "previous_run_id": "github-33495839234-1",
+    "previous_date": "2026-08-31",
+    "week_run_id": null,
+    "week_date": null,
+    "asset_view_changes": [
+      {
+        "key": "asset-view:commodities:agriculture:short_term",
+        "status": "new",
+        "asset": "Energy and agriculture commodities",
+        "horizon": "short_term",
+        "previous_bias": null,
+        "current_bias": "bullish",
+        "previous_confidence": null,
+        "current_confidence": 1,
+        "current_source_document_ids": [
+          "doc:56efa399dcc80da0",
+          "doc:d905d5da8fcd6563",
+          "doc:e3798a7b91ada43a"
+        ],
+        "historical_source_document_ids": [],
+        "first_seen_date": "2026-09-01",
+        "last_updated_date": "2026-09-01",
+        "expected_expiry_date": "2026-09-15",
+        "resolved_date": null,
+        "carried_forward": false,
+        "explanation": "No comparable view appeared in the previous successful brief."
+      },
+      {
+        "key": "asset-view:commodities:broad-commodities:short_term",
+        "status": "unchanged",
+        "asset": "Broad commodities",
+        "horizon": "short_term",
+        "previous_bias": "bullish",
+        "current_bias": "bullish",
+        "previous_confidence": 1,
+        "current_confidence": 1,
+        "current_source_document_ids": [],
+        "historical_source_document_ids": [
+          "doc:5f6ae3360b50a06d"
+        ],
+        "first_seen_date": "2026-08-28",
+        "last_updated_date": "2026-08-28",
+        "expected_expiry_date": "2026-09-11",
+        "resolved_date": null,
+        "carried_forward": true,
+        "explanation": "No current evidence renewed the view; it is retained only as historical context."
+      },
+      {
+        "key": "asset-view:credit:global:medium_term",
+        "status": "unchanged",
+        "asset": "Euro investment-grade credit",
+        "horizon": "medium_term",
+        "previous_bias": "bearish",
+        "current_bias": "bearish",
+        "previous_confidence": 3,
+        "current_confidence": 3,
+        "current_source_document_ids": [],
+        "historical_source_document_ids": [
+          "doc:e010740a9791228f"
+        ],
+        "first_seen_date": "2026-08-28",
+        "last_updated_date": "2026-08-31",
+        "expected_expiry_date": "2026-11-29",
+        "resolved_date": null,
+        "carried_forward": true,
+        "explanation": "No current evidence renewed the view; it is retained only as historical context."
+      },
+      {
+        "key": "asset-view:equities:broad-ai-infrastructure-equities:short_term",
+        "status": "unchanged",
+        "asset": "Broad AI infrastructure equities",
+        "horizon": "short_term",
+        "previous_bias": "mixed",
+        "current_bias": "mixed",
+        "previous_confidence": 1,
+        "current_confidence": 1,
+        "current_source_document_ids": [],
+        "historical_source_document_ids": [
+          "doc:21a5e6203bafb811"
+        ],
+        "first_seen_date": "2026-08-31",
+        "last_updated_date": "2026-08-31",
+        "expected_expiry_date": "2026-09-14",
+        "resolved_date": null,
+        "carried_forward": true,
+        "explanation": "No current evidence renewed the view; it is retained only as historical context."
+      },
+      {
+        "key": "asset-view:other:european-duration:short_term",
+        "status": "new",
+        "asset": "European duration",
+        "horizon": "short_term",
+        "previous_bias": null,
+        "current_bias": "bearish",
+        "previous_confidence": null,
+        "current_confidence": 4,
+        "current_source_document_ids": [
+          "doc:b6cd321248a2fe55",
+          "doc:ef3dce6abcd452b5"
+        ],
+        "historical_source_document_ids": [],
+        "first_seen_date": "2026-09-01",
+        "last_updated_date": "2026-09-01",
+        "expected_expiry_date": "2026-09-15",
+        "resolved_date": null,
+        "carried_forward": false,
+        "explanation": "No comparable view appeared in the previous successful brief."
+      },
+      {
+        "key": "asset-view:other:us-duration:short_term",
+        "status": "new",
+        "asset": "US duration",
+        "horizon": "short_term",
+        "previous_bias": null,
+        "current_bias": "bearish",
+        "previous_confidence": null,
+        "current_confidence": 4,
+        "current_source_document_ids": [
+          "doc:326adeca8373bfb7",
+          "doc:4a1b5b2eafb9466f",
+          "doc:e3798a7b91ada43a"
+        ],
+        "historical_source_document_ids": [],
+        "first_seen_date": "2026-09-01",
+        "last_updated_date": "2026-09-01",
+        "expected_expiry_date": "2026-09-15",
+        "resolved_date": null,
+        "carried_forward": false,
+        "explanation": "No comparable view appeared in the previous successful brief."
+      },
+      {
+        "key": "asset-view:rates:us:front-end:short_term",
+        "status": "unchanged",
+        "asset": "US front-end rates",
+        "horizon": "short_term",
+        "previous_bias": "bearish",
+        "current_bias": "bearish",
+        "previous_confidence": 1,
+        "current_confidence": 1,
+        "current_source_document_ids": [],
+        "historical_source_document_ids": [
+          "doc:5bed8e55839c4e3b"
+        ],
+        "first_seen_date": "2026-08-31",
+        "last_updated_date": "2026-08-31",
+        "expected_expiry_date": "2026-09-14",
+        "resolved_date": null,
+        "carried_forward": true,
+        "explanation": "No current evidence renewed the view; it is retained only as historical context."
+      },
+      {
+        "key": "asset-view:rates:us:front-end:unspecified",
+        "status": "unchanged",
+        "asset": "US front-end rates",
+        "horizon": "immediate",
+        "previous_bias": "bearish",
+        "current_bias": "bearish",
+        "previous_confidence": 3,
+        "current_confidence": 3,
+        "current_source_document_ids": [],
+        "historical_source_document_ids": [
+          "doc:2c51127ee15af4b4"
+        ],
+        "first_seen_date": "2026-08-28",
+        "last_updated_date": "2026-08-28",
+        "expected_expiry_date": "2026-09-27",
+        "resolved_date": null,
+        "carried_forward": true,
+        "explanation": "No current evidence renewed the view; it is retained only as historical context."
+      }
+    ],
+    "theme_changes": [
+      {
+        "key": "event:ai-investment-is-becoming-cross-market-financing-duration-shock",
+        "entity_type": "event",
+        "status": "unchanged",
+        "title": "AI investment is becoming a cross-market financing and duration shock",
+        "current_source_document_ids": [],
+        "historical_source_document_ids": [
+          "doc:e010740a9791228f",
+          "doc:9005895cc70e3069",
+          "doc:21a5e6203bafb811"
+        ],
+        "first_seen_date": "2026-08-31",
+        "last_updated_date": "2026-08-31",
+        "expected_expiry_date": "2026-09-14",
+        "resolved_date": null,
+        "carried_forward": true
+      },
+      {
+        "key": "event:supply-shock-meets-restrictive-policy",
+        "entity_type": "event",
+        "status": "new",
+        "title": "Supply shock meets restrictive policy",
+        "current_source_document_ids": [
+          "doc:b6cd321248a2fe55",
+          "doc:326adeca8373bfb7",
+          "doc:47b90484307b44ff",
+          "doc:fa5e39809e662278",
+          "doc:ef3dce6abcd452b5"
+        ],
+        "historical_source_document_ids": [],
+        "first_seen_date": "2026-09-01",
+        "last_updated_date": "2026-09-01",
+        "expected_expiry_date": "2026-09-15",
+        "resolved_date": null,
+        "carried_forward": false
+      },
+      {
+        "key": "regime:inflation",
+        "entity_type": "regime",
+        "status": "unchanged",
+        "title": "Scarcity has broadened the commodity inflation channel",
+        "current_source_document_ids": [],
+        "historical_source_document_ids": [
+          "doc:5f6ae3360b50a06d"
+        ],
+        "first_seen_date": "2026-08-28",
+        "last_updated_date": "2026-08-28",
+        "expected_expiry_date": "2026-09-11",
+        "resolved_date": null,
+        "carried_forward": true
+      },
+      {
+        "key": "thesis:ai-investment-is-broadening-but-labour-productivity-effects-remain-uncertain",
+        "entity_type": "thesis",
+        "status": "new",
+        "title": "AI investment is broadening, but labour and productivity effects remain uncertain",
+        "current_source_document_ids": [
+          "doc:326adeca8373bfb7",
+          "doc:4578330da4663bae",
+          "doc:d905d5da8fcd6563"
+        ],
+        "historical_source_document_ids": [],
+        "first_seen_date": "2026-09-01",
+        "last_updated_date": "2026-09-01",
+        "expected_expiry_date": "2026-09-15",
+        "resolved_date": null,
+        "carried_forward": false
+      }
+    ],
+    "week_asset_view_changes": [],
+    "warnings": []
+  }
+}
