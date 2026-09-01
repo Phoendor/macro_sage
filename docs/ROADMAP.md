@@ -2,9 +2,10 @@
 
 Status: approved; Milestones 1 through 3 are code-complete. Milestone 4 is
 code-complete in version 0.5.0, its report hierarchy and output quality received
-a positive owner review on 2026-08-30, and its prospective evidence audit and
-first configured Telegram delivery remain open. Milestone 1 is still awaiting
-its scheduled-run observation gate. Milestone 2 passed its closure audit.
+a positive owner review on 2026-08-30, its first configured Telegram delivery
+passed on 2026-09-01, and its prospective evidence audit remains open. Milestone
+1 is still awaiting its scheduled-run observation gate. Milestone 2 passed its
+closure audit.
 Milestone 3 passed its hosted fixed-date canary and awaits the first scheduled
 cutoff-window observation before closure. Milestone 5's first version-0.6
 implementation tranche is code-complete and awaits its hosted observation and
@@ -74,7 +75,7 @@ allowed after a timestamped market-data source has been integrated.
 - [x] Made the same CLI operate locally and in GitHub Actions.
 - [x] Added model preflight selection and recorded the selected models.
 - [x] Added bounded offline compilation, generated-catalog validation, lint and
-  regression checks; version 0.6.0 is verified from a clean editable
+  regression checks; version 0.6.1 is verified from a clean editable
   installation.
 
 ### Current operating state
@@ -1145,9 +1146,13 @@ market-data enrichment in Workstream H.
 - [x] Keep delivery disabled when configuration is absent. A local run sends
   only when explicitly requested, while a scheduled GitHub run sends
   automatically after a successful render when Telegram is configured.
-- [x] Send successful and degraded PDFs with a concise caption containing the
-  report date, run outcome, coverage warning, failed-source count and GitHub run
-  link.
+- [x] Send PDFs with a public-facing caption containing only the product title
+  and human-readable publication date. Keep run outcome, coverage warnings,
+  source-failure counts and GitHub links in the report and operator audit, not
+  the public channel message.
+- [x] Give the Telegram document a stable dated name,
+  `Macro-Sage-YYYY-MM-DD.pdf`, instead of exposing the internal `report.pdf`
+  artifact name.
 - [x] Send a short status message rather than inventing a PDF for a normal
   no-data outcome; make failure notifications a separately configurable option.
 - [x] Validate the PDF against the Bot API's current document-size and file-type
@@ -1172,8 +1177,8 @@ Acceptance criteria:
 
 - One successful scheduled run posts exactly one matching PDF to the configured
   Telegram channel.
-- The message identifies the report date and warns visibly when the report is
-  degraded or has failed sources.
+- The message identifies the report date without exposing operational jargon;
+  degradation and source failures remain explicit inside the attached report.
 - A Telegram outage cannot destroy or hide an otherwise valid report.
 - The bot token never appears in logs, exceptions, artifacts or test fixtures.
 - Local and GitHub delivery use the same adapter and configuration contract.
@@ -1491,7 +1496,7 @@ Implementation status: the first version-0.6 tranche is code-complete on
 history, independent weekday discovery and weekly extraction workflows,
 explicit participation outcomes, deterministic ranked/capped corpus admission,
 auditable omission reasons and safe JSON evidence serialization. The bounded
-offline suite passes 142 tests. Both hosted validation gates passed on
+offline suite passes 143 tests. Both hosted validation gates passed on
 2026-08-30. Milestone closure remains open only for the unchecked G7 work on
 cross-publisher evidence-family grouping, BIS/originating-bank speech
 deduplication and model-aware token accounting.

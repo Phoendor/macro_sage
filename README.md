@@ -159,7 +159,9 @@ GitHub runs send the completed PDF automatically, or a short status message on
 a normal no-data day. Local runs send only with `--deliver`. Delivery state is
 durable and suppresses duplicate rerun posts; use the explicit `deliver
 --force` command for intentional redelivery. A delivery outage does not remove
-the PDF or fail report generation. See [Telegram delivery](docs/TELEGRAM.md).
+the PDF or fail report generation. Public Telegram copy contains only the Macro
+Sage title and human-readable publication date; operational health details stay
+inside the report and audit trail. See [Telegram delivery](docs/TELEGRAM.md).
 
 The input budget is intentionally bounded by article count and characters. This
 controls cost without splitting the corpus into many model calls. Corpus

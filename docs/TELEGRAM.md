@@ -25,6 +25,16 @@ The scheduled workflow sends automatically only when both values exist. If
 both are absent, delivery is disabled. If only one is present, a direct local
 delivery command fails clearly rather than guessing configuration.
 
+## Public channel presentation
+
+The channel message is intentionally editorial rather than operational. A PDF
+is posted with a caption such as `Macro Sage — 31 August 2026` and the document
+name `Macro-Sage-2026-08-31.pdf`. It does not expose GitHub links, internal run
+states, source-health counts or failure stages. Those diagnostics remain
+available inside the PDF, the private run record and GitHub's operator-facing
+summary. Normal no-data and explicitly enabled delayed-edition notices use the
+same public wording policy.
+
 ## Local use
 
 Load both variables into the shell, then opt in on a new run:

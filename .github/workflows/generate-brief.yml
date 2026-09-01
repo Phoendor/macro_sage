@@ -167,8 +167,7 @@ jobs:
         run: |
           python -m macro_sage deliver \
             --run-record "output/runs/$MACRO_SAGE_RUN_ID/run.json" \
-            --state .history-store/delivery/telegram.json \
-            --github-run-url "$GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID"
+            --state .history-store/delivery/telegram.json
 
       - name: Persist durable brief history
         run: |

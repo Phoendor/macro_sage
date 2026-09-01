@@ -1,5 +1,19 @@
 # Changelog
 
+## 0.6.1 - 2026-09-01
+
+### Public Telegram presentation
+
+- Replaced the operator-oriented Telegram caption with a public-facing report
+  title and human-readable publication date.
+- Removed run health, source-failure counts and GitHub workflow links from PDF,
+  no-data and delayed Telegram messages; those diagnostics remain in the report
+  and audit trail.
+- Send the Telegram document as `Macro-Sage-YYYY-MM-DD.pdf` instead of the
+  internal per-run filename `report.pdf`.
+- Expanded the bounded offline suite to 143 tests with a regression contract
+  that rejects operational terms from public Telegram copy.
+
 ## 0.6.0 - 2026-08-30
 
 ### Trustworthy daily corpus

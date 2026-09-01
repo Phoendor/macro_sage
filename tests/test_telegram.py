@@ -7,6 +7,10 @@ from macro_sage.telegram import (
     TELEGRAM_MAX_DOCUMENT_BYTES,
     TelegramConfig,
     TelegramDeliveryError,
+    public_delayed_message,
+    public_no_data_message,
+    public_report_caption,
+    report_document_name,
     send_pdf,
     send_status,
 )
@@ -67,9 +71,24 @@ def test_send_pdf_records_success_without_formatting_mode(tmp_path):
     assert result.message_id == 42
     assert "secret-token" in client.calls[0][0]
     assert "parse_mode" not in client.calls[0][1]["data"]
+    assert client.calls[0][1]["files"]["document"][0] == "Macro-Sage-2026-08-30.pdf"
     text = state.read_text(encoding="utf-8")
     assert "secret-token" not in text
     assert json.loads(text)["deliveries"][0]["message_id"] == 42
+
+
+def test_public_delivery_copy_contains_no_operational_details():
+    caption = public_report_caption("2026-08-30")
+    no_data = public_no_data_message("2026-08-30")
+    delayed = public_delayed_message("2026-08-30")
+
+    assert caption == "Macro Sage — 30 August 2026"
+    assert no_data == "Macro Sage — 30 August 2026: no new edition today."
+    assert delayed == "Macro Sage — 30 August 2026: today's edition is delayed."
+    assert report_document_name("2026-08-30") == "Macro-Sage-2026-08-30.pdf"
+    combined = " ".join((caption, no_data, delayed)).casefold()
+    for internal_term in ("github", "http", "degraded", "health", "source", "failed"):
+        assert internal_term not in combined
 
 
 def test_same_date_and_pdf_is_suppressed_across_different_run_ids(tmp_path):

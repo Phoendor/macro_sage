@@ -5,6 +5,7 @@ import json
 import os
 import time
 from dataclasses import asdict, dataclass
+from datetime import date
 from pathlib import Path
 from typing import Any, Protocol
 
@@ -23,6 +24,33 @@ class HttpPoster(Protocol):
 
 class TelegramDeliveryError(RuntimeError):
     pass
+
+
+def _publication_date(target_date: str) -> date:
+    try:
+        return date.fromisoformat(target_date)
+    except ValueError as exc:
+        raise TelegramDeliveryError(
+            f"Invalid report publication date: {target_date!r}"
+        ) from exc
+
+
+def public_report_caption(target_date: str) -> str:
+    publication_date = _publication_date(target_date)
+    return f"Macro Sage — {publication_date.day} {publication_date:%B %Y}"
+
+
+def public_no_data_message(target_date: str) -> str:
+    return f"{public_report_caption(target_date)}: no new edition today."
+
+
+def public_delayed_message(target_date: str) -> str:
+    return f"{public_report_caption(target_date)}: today's edition is delayed."
+
+
+def report_document_name(target_date: str) -> str:
+    publication_date = _publication_date(target_date)
+    return f"Macro-Sage-{publication_date.isoformat()}.pdf"
 
 
 @dataclass(frozen=True, slots=True)
@@ -212,7 +240,13 @@ def send_pdf(
             config,
             "sendDocument",
             data={"chat_id": config.chat_id, "caption": safe_caption},
-            files={"document": (pdf_path.name, stream, "application/pdf")},
+            files={
+                "document": (
+                    report_document_name(target_date),
+                    stream,
+                    "application/pdf",
+                )
+            },
             client=poster,
             sleep=sleep,
         )

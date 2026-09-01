@@ -75,6 +75,9 @@ from macro_sage.synthesis import synthesize
 from macro_sage.telegram import (
     TelegramConfig,
     TelegramDeliveryError,
+    public_delayed_message,
+    public_no_data_message,
+    public_report_caption,
     send_pdf,
     send_status,
 )
@@ -762,7 +765,6 @@ def _synthesize(args: argparse.Namespace) -> int:
                 paths.run_record,
                 state_path=args.history / "delivery" / "telegram.json",
                 force=False,
-                github_run_url=None,
                 notify_failure=False,
             )
             if delivery_result:
@@ -797,7 +799,6 @@ def _synthesize(args: argparse.Namespace) -> int:
             paths.run_record,
             state_path=args.history / "delivery" / "telegram.json",
             force=False,
-            github_run_url=None,
             notify_failure=False,
         )
     return 0
@@ -873,7 +874,6 @@ def _run(args: argparse.Namespace) -> int:
                 paths.run_record,
                 state_path=args.history / "delivery" / "telegram.json",
                 force=False,
-                github_run_url=None,
                 notify_failure=False,
             )
             if delivery_result:
@@ -896,7 +896,6 @@ def _run(args: argparse.Namespace) -> int:
             paths.run_record,
             state_path=args.history / "delivery" / "telegram.json",
             force=False,
-            github_run_url=None,
             notify_failure=False,
         )
     return 0
@@ -1025,7 +1024,6 @@ def _deliver_run_record(
     *,
     state_path: Path,
     force: bool,
-    github_run_url: str | None,
     notify_failure: bool,
 ) -> int:
     config = TelegramConfig.from_env()
@@ -1036,26 +1034,14 @@ def _deliver_run_record(
     target_date = str(run.get("target_date", "unknown"))
     run_id = str(run.get("run_id", "unknown"))
     content_result = str(run.get("content_result", "not_produced"))
-    health = str(run.get("health", "failed"))
-    failed_count = int(run.get("failed_or_partial_source_count", 0))
-    link = github_run_url or ""
     try:
         if content_result == ContentResult.REPORT.value and run.get("report_pdf"):
-            warning = (
-                f" Coverage warning: {failed_count} failed or partial source(s)."
-                if failed_count
-                else ""
-            )
-            caption = (
-                f"Macro Sage {target_date} - {content_result}/{health}."
-                f"{warning} {link}"
-            ).strip()
             result = send_pdf(
                 config,
                 pdf_path=Path(str(run["report_pdf"])),
                 target_date=target_date,
                 run_id=run_id,
-                caption=caption,
+                caption=public_report_caption(target_date),
                 state_path=state_path,
                 force=force,
             )
@@ -1064,11 +1050,7 @@ def _deliver_run_record(
                 config,
                 target_date=target_date,
                 run_id=run_id,
-                text=(
-                    f"Macro Sage {target_date}: no report was generated because no "
-                    f"matching publications were collected. Health: {health}. "
-                    f"Failed or partial sources: {failed_count}. {link}"
-                ).strip(),
+                text=public_no_data_message(target_date),
                 state_path=state_path,
                 status_kind="no_data",
                 force=force,
@@ -1078,11 +1060,7 @@ def _deliver_run_record(
                 config,
                 target_date=target_date,
                 run_id=run_id,
-                text=(
-                    f"Macro Sage {target_date}: report production failed at "
-                    f"{run.get('stage', 'unknown stage')}. A partial audit may be "
-                    f"available. {link}"
-                ).strip(),
+                text=public_delayed_message(target_date),
                 state_path=state_path,
                 status_kind="failure",
                 force=force,
@@ -1127,7 +1105,6 @@ def _deliver(args: argparse.Namespace) -> int:
         args.run_record,
         state_path=args.state,
         force=args.force,
-        github_run_url=args.github_run_url,
         notify_failure=args.notify_failure,
     )
 
@@ -1307,7 +1284,6 @@ def build_parser() -> argparse.ArgumentParser:
         type=Path,
         default=DEFAULT_HISTORY / "delivery" / "telegram.json",
     )
-    deliver.add_argument("--github-run-url")
     deliver.add_argument("--force", action="store_true")
     deliver.add_argument("--notify-failure", action="store_true")
     deliver.set_defaults(handler=_deliver)
