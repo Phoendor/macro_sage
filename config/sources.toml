@@ -287,9 +287,10 @@ owner = "Bank for International Settlements"
 feed_url = "https://www.bis.org/doclist/reshub_papers.rss"
 homepage_url = "https://www.bis.org/topic/research.htm"
 category = "economic-research"
-participation = "default"
+participation = "unavailable"
 validation_status = "failed"
-validation_note = "The official Central Bank Research Hub RSS endpoint returned HTTP 404 on two bounded checks; the source remains visible pending a lawful replacement or recovery."
+last_validation_date = "2026-09-02"
+validation_note = "The official Central Bank Research Hub RSS endpoint still returned HTTP 404 in the live source-health workflow after ten consecutive adverse observations."
 description = "Cross-country monetary, banking and market research."
 rationale = "Provides international comparisons and system-level risk analysis."
 evidence_tier = "institutional_analysis"
@@ -305,6 +306,7 @@ priority = 60
 
 scan_depth = 60
 daily_limit = 15
+unavailable_reason = "The documented Central Bank Research Hub RSS endpoint returns HTTP 404; it is retained for bounded replacement checks instead of daily requests."
 
 [[sources]]
 id = "bis-speeches"

@@ -8,6 +8,8 @@ from macro_sage.http import HttpClient
 from macro_sage.models import (
     CollectionReport,
     SourceDefinition,
+    SourceHealthSnapshot,
+    SourceHealthStatus,
     SourceOutcome,
     SourceState,
 )
@@ -26,6 +28,20 @@ def _actionable_warnings(warnings: tuple[str, ...]) -> list[str]:
         for warning in warnings
         if not any(note in warning for note in _EXPECTED_TIMESTAMP_POLICY_NOTES)
     ]
+
+
+def newly_failing_source_ids(
+    previous: list[SourceHealthSnapshot],
+    current: list[SourceHealthSnapshot],
+) -> tuple[str, ...]:
+    """Return sources that crossed into the failing state in this check."""
+    previous_status = {snapshot.source_id: snapshot.status for snapshot in previous}
+    return tuple(
+        snapshot.source_id
+        for snapshot in current
+        if snapshot.status is SourceHealthStatus.FAILING
+        and previous_status.get(snapshot.source_id) is not SourceHealthStatus.FAILING
+    )
 
 
 def check_source_health(

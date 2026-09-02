@@ -1,8 +1,12 @@
 from datetime import date, datetime, timezone
 from types import SimpleNamespace
 
-from macro_sage.health import check_source_health
-from macro_sage.models import SourceDefinition, SourceHealthStatus
+from macro_sage.health import check_source_health, newly_failing_source_ids
+from macro_sage.models import (
+    SourceDefinition,
+    SourceHealthSnapshot,
+    SourceHealthStatus,
+)
 from macro_sage.storage import DocumentStore
 
 
@@ -89,3 +93,31 @@ def test_first_discovery_failure_is_visible_warning_not_quarantine(monkeypatch):
     assert report.health_snapshots[0].status is SourceHealthStatus.WARNING
     assert report.health_snapshots[0].consecutive_failures == 1
     assert "HTTP 503" in report.outcomes[0].detail
+
+
+def health_snapshot(
+    status: SourceHealthStatus,
+    consecutive_failures: int,
+) -> SourceHealthSnapshot:
+    return SourceHealthSnapshot(
+        "source",
+        "Source",
+        status,
+        datetime(2026, 9, 2, 8, tzinfo=timezone.utc),
+        None,
+        None,
+        None,
+        None,
+        consecutive_failures,
+        3,
+        "Test snapshot.",
+    )
+
+
+def test_newly_failing_source_alerts_on_transition_only():
+    warning = health_snapshot(SourceHealthStatus.WARNING, 2)
+    failing = health_snapshot(SourceHealthStatus.FAILING, 3)
+    persistent = health_snapshot(SourceHealthStatus.FAILING, 4)
+
+    assert newly_failing_source_ids([warning], [failing]) == ("source",)
+    assert newly_failing_source_ids([failing], [persistent]) == ()

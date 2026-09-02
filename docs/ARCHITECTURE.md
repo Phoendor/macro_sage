@@ -171,7 +171,12 @@ known publication exceeds the source's configured maximum normal gap; the old
 weekday-based “expected absent” inference is not used because a broad cadence
 description is not an exact release schedule. A source becomes `failing` only
 after its configured threshold (three by default), and no source is
-automatically disabled.
+automatically disabled. Source-health rule v2 makes the workflow exit non-zero
+only on the transition into `failing`; an unresolved source remains visible in
+every summary and body-free artifact without generating a duplicate daily
+failure notification. A source already proven unavailable may be moved to the
+explicit unavailable register, where it remains auditable but is excluded from
+routine requests until a bounded review date.
 
 The weekday check performs feed discovery only. A Sunday canary runs full
 extraction separately from synthesis and transcription. Both produce body-free

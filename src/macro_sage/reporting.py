@@ -591,9 +591,15 @@ def technical_report_markdown(
     return "\n".join(lines).rstrip() + "\n"
 
 
-def health_report_to_dict(target: date, report: CollectionReport) -> dict[str, object]:
+def health_report_to_dict(
+    target: date,
+    report: CollectionReport,
+    *,
+    alert_source_ids: tuple[str, ...] = (),
+) -> dict[str, object]:
     return {
         "date": target.isoformat(),
+        "alert_source_ids": list(alert_source_ids),
         "source_statuses": [outcome_to_dict(outcome) for outcome in report.outcomes],
         "source_health": [
             health_snapshot_to_dict(snapshot) for snapshot in report.health_snapshots
@@ -601,11 +607,22 @@ def health_report_to_dict(target: date, report: CollectionReport) -> dict[str, o
     }
 
 
-def health_status_markdown(target: date, report: CollectionReport) -> str:
+def health_status_markdown(
+    target: date,
+    report: CollectionReport,
+    *,
+    alert_source_ids: tuple[str, ...] = (),
+) -> str:
     counts = {
         status: sum(snapshot.status is status for snapshot in report.health_snapshots)
         for status in SourceHealthStatus
     }
+    alert_ids = set(alert_source_ids)
+    persistent_failures = sum(
+        snapshot.status is SourceHealthStatus.FAILING
+        and snapshot.source_id not in alert_ids
+        for snapshot in report.health_snapshots
+    )
     lines = [
         f"# Source health - {target.isoformat()}",
         "",
@@ -616,6 +633,8 @@ def health_status_markdown(target: date, report: CollectionReport) -> str:
         f"- Quiet as expected: **{counts[SourceHealthStatus.QUIET]}**",
         f"- Warning: **{counts[SourceHealthStatus.WARNING]}**",
         f"- Failing threshold reached: **{counts[SourceHealthStatus.FAILING]}**",
+        f"- Newly failing; workflow alert required: **{len(alert_ids)}**",
+        f"- Persistently failing; retained without repeat alert: **{persistent_failures}**",
         f"- No history: **{counts[SourceHealthStatus.UNKNOWN]}**",
         "",
         "| Source | Status | Consecutive adverse | Latest publication | Last success | Detail |",

@@ -73,13 +73,15 @@ allowed after a timestamped market-data source has been integrated.
   failed material/source state visible in the deterministic technical report.
 - [x] Created a human-readable source catalog with links, cadence,
   descriptions, rationale and a non-working candidate section.
-- [x] Expanded the configured inventory to 31 enabled text feeds and 16 opt-in
-  podcast feeds, with one disabled text candidate.
+- [x] Expanded the configured inventory to 30 enabled text feeds and 16 opt-in
+  podcast feeds, with two configured-unavailable text sources retained in the
+  non-working register.
 - [x] Removed local Whisper and made cloud transcription explicit.
 - [x] Made the same CLI operate locally and in GitHub Actions.
 - [x] Added model preflight selection and recorded the selected models.
 - [x] Added bounded offline compilation, generated-catalog validation, lint and
-  regression checks; version 0.7.0 carries the public/private reporting split.
+  regression checks; version 0.7.1 carries transition-only health alerts on top
+  of the version-0.7 public/private reporting split.
 
 ### Current operating state
 
@@ -138,6 +140,14 @@ allowed after a timestamped market-data source has been integrated.
   inferred from weekdays were false precision, not exact release schedules.
 - Version 0.7.0 sends only content to the public Telegram channel and can send a
   separate technical PDF to the owner's numeric private chat ID.
+- Live source-health run
+  [33615088906](https://github.com/Phoendor/macro_sage/actions/runs/33615088906)
+  exposed a notification defect: five already-known persistent source problems
+  made the whole monitor fail again every weekday even though the report
+  generator was healthy. Version 0.7.1 retains those failures in every audit but
+  alerts only on a new transition into the failing state. BIS Research Hub is
+  now configured unavailable after ten consecutive HTTP-404 observations, so
+  the known-broken endpoint is no longer requested daily.
 
 ## 3. Priority and dependency map
 
@@ -1054,7 +1064,8 @@ Specific current-source treatment:
   documented slower cadence through official endpoints.
 - [ ] Keep each unavailable candidate's rationale, exact failure, last attempt,
   possible alternative and next review date in the generated catalog.
-- [ ] Do not hit known-broken endpoints in every daily run.
+- [x] Do not hit known-broken endpoints in every daily run; configured-
+  unavailable sources remain catalogued for bounded replacement review.
 - [ ] Remove an active source only after repeated failure, persistent
   irrelevance, replacement by a better primary source or inability to acquire
   complete lawful content.
@@ -1220,7 +1231,9 @@ Acceptance criteria:
   infrastructure failure.
 - [x] Provide a useful success notification or delivery link once the delivery
   channel is selected.
-- [x] Avoid notification noise from normal no-publication days.
+- [x] Avoid notification noise from normal no-publication days and from
+  unchanged persistent source failures; alert only when a source newly crosses
+  into the failing state.
 
 ### I4. Preserve local usability
 
@@ -1531,6 +1544,10 @@ broad cadence metadata, adds the complete deterministic material funnel, and
 splits public content from the private technical audit. Milestone closure remains
 open for a hosted observation plus cross-publisher evidence-family grouping,
 BIS/originating-bank speech deduplication and model-aware token accounting.
+Version 0.7.1 corrects the live monitor discovered during that observation:
+new failure transitions alert once, unchanged persistent failures stay visible
+without repeat failure email, and the proven-broken BIS Research Hub endpoint is
+kept in the unavailable register instead of being requested every day.
 
 The corrected discovery-only health run
 [`33337257541`](https://github.com/Phoendor/macro_sage/actions/runs/33337257541)

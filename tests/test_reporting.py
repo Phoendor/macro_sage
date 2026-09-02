@@ -13,6 +13,8 @@ from macro_sage.models import (
     SourceState,
 )
 from macro_sage.reporting import (
+    health_report_to_dict,
+    health_status_markdown,
     load_manifest,
     status_markdown,
     technical_report_markdown,
@@ -75,6 +77,54 @@ def test_manifest_round_trip_preserves_explicit_source_failures(tmp_path):
     assert loaded.failures[0].checked_at == report.outcomes[0].checked_at
     assert loaded.health_snapshots == report.health_snapshots
     assert "HTTP 403" in status_markdown(target, loaded)
+
+
+def test_health_report_separates_new_alerts_from_persistent_failures():
+    checked = datetime(2026, 9, 2, 8, tzinfo=timezone.utc)
+    snapshots = [
+        SourceHealthSnapshot(
+            "new",
+            "New Failure",
+            SourceHealthStatus.FAILING,
+            checked,
+            None,
+            checked,
+            None,
+            None,
+            3,
+            3,
+            "Newly reached the threshold.",
+        ),
+        SourceHealthSnapshot(
+            "persistent",
+            "Persistent Failure",
+            SourceHealthStatus.FAILING,
+            checked,
+            None,
+            checked,
+            None,
+            None,
+            8,
+            3,
+            "Still failing.",
+        ),
+    ]
+    report = CollectionReport(health_snapshots=snapshots)
+
+    markdown = health_status_markdown(
+        date(2026, 9, 2),
+        report,
+        alert_source_ids=("new",),
+    )
+    value = health_report_to_dict(
+        date(2026, 9, 2),
+        report,
+        alert_source_ids=("new",),
+    )
+
+    assert "Newly failing; workflow alert required: **1**" in markdown
+    assert "Persistently failing; retained without repeat alert: **1**" in markdown
+    assert value["alert_source_ids"] == ["new"]
 
 
 def test_audit_manifest_excludes_source_bodies(tmp_path):

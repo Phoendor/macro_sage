@@ -1,5 +1,22 @@
 # Changelog
 
+## 0.7.1 - 2026-09-02
+
+### Actionable source-health alerts
+
+- Changed the discovery-only health command to fail the GitHub job only when a
+  source newly crosses into the failing state. Persistently failing sources
+  remain explicit in the Markdown and JSON evidence without generating the
+  same workflow-failure email every weekday.
+- Added separate new-alert and persistent-failure counts plus machine-readable
+  alert source IDs to the body-free health artifact.
+- Moved the known-broken BIS Research Hub RSS source to configured-unavailable
+  participation after the endpoint continued returning HTTP 404 through ten
+  consecutive adverse observations. It remains visible in the catalog and is
+  eligible for bounded replacement review, but daily runs no longer request it.
+- Versioned the revised source-health rule as v2 and added transition,
+  persistence, catalog and configuration regression tests.
+
 ## 0.7.0 - 2026-09-01
 
 ### Transparent material funnel

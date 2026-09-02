@@ -64,6 +64,13 @@ publish a conventional item publication field. A malformed 2035 BIS date and a
 future Bank of Canada event entry are retained as warnings but are not eligible
 for daily collection.
 
+The BIS Research Hub endpoint continued returning HTTP 404 through the live
+2026-09-02 source-health run and reached ten consecutive adverse observations.
+Version 0.7.1 therefore moved this one rejected contract from default to
+configured-unavailable participation. It remains listed with its exact failure
+and rationale, but daily collection and health checks no longer request the
+known-broken endpoint.
+
 RBA and RBNZ feeds were considered but returned HTTP 403 to the application
 client. IMF Blog and CEPR/VoxEU feeds were rejected by their edge services. Saxo
 Trade Views was removed because its newest item was from 2020. A Bank of Canada

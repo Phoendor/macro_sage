@@ -8,14 +8,14 @@ The initial corpus-balance benchmark is 2026-08-25: 13 collected documents, of w
 
 | Value | Sources |
 |---|---:|
-| `default` | 31 |
+| `default` | 30 |
 | `optional` | 16 |
 
 ## Kind
 
 | Value | Sources |
 |---|---:|
-| `article` | 31 |
+| `article` | 30 |
 | `podcast` | 16 |
 
 ## Evidence tier
@@ -23,7 +23,7 @@ The initial corpus-balance benchmark is 2026-08-25: 13 collected documents, of w
 | Value | Sources |
 |---|---:|
 | `informed_viewpoint` | 4 |
-| `institutional_analysis` | 14 |
+| `institutional_analysis` | 13 |
 | `market_interpretation` | 12 |
 | `primary` | 17 |
 
@@ -31,7 +31,7 @@ The initial corpus-balance benchmark is 2026-08-25: 13 collected documents, of w
 
 | Value | Sources |
 |---|---:|
-| `en` | 47 |
+| `en` | 46 |
 
 ## Cadence basis
 
@@ -39,13 +39,13 @@ The initial corpus-balance benchmark is 2026-08-25: 13 collected documents, of w
 |---|---:|
 | `expected` | 8 |
 | `implicit` | 11 |
-| `observed` | 28 |
+| `observed` | 27 |
 
 ## Acquisition
 
 | Value | Sources |
 |---|---:|
-| `full_html` | 26 |
+| `full_html` | 25 |
 | `full_pdf` | 5 |
 | `machine_transcript` | 16 |
 
@@ -58,7 +58,7 @@ The initial corpus-balance benchmark is 2026-08-25: 13 collected documents, of w
 | `emerging-markets` | 1 |
 | `euro-area` | 7 |
 | `europe` | 8 |
-| `global` | 33 |
+| `global` | 32 |
 | `japan` | 1 |
 | `norway` | 3 |
 | `sweden` | 2 |
@@ -70,18 +70,18 @@ The initial corpus-balance benchmark is 2026-08-25: 13 collected documents, of w
 
 | Value | Sources |
 |---|---:|
-| `financial-conditions` | 47 |
-| `growth` | 47 |
-| `inflation` | 47 |
-| `macro` | 47 |
-| `monetary-policy` | 47 |
+| `financial-conditions` | 46 |
+| `growth` | 46 |
+| `inflation` | 46 |
+| `macro` | 46 |
+| `monetary-policy` | 46 |
 
 ## Asset class
 
 | Value | Sources |
 |---|---:|
-| `commodities` | 47 |
-| `credit` | 47 |
-| `equities` | 47 |
-| `fx` | 47 |
-| `rates` | 47 |
+| `commodities` | 46 |
+| `credit` | 46 |
+| `equities` | 46 |
+| `fx` | 46 |
+| `rates` | 46 |

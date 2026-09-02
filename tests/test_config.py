@@ -35,6 +35,14 @@ def test_disabled_article_sources_explain_why_they_are_unavailable():
     assert all(source.disabled_reason for source in disabled_articles)
 
 
+def test_known_broken_bis_feed_is_retained_but_not_hit_daily():
+    all_sources = load_sources(Path("config/sources.toml"), include_disabled=True)
+    bis_research = next(source for source in all_sources if source.id == "bis-research")
+
+    assert bis_research.participation is Participation.UNAVAILABLE
+    assert "HTTP 404" in (bis_research.unavailable_reason or "")
+
+
 def test_repository_inventory_has_complete_structured_metadata():
     inventory = load_inventory(Path("config/sources.toml"))
 

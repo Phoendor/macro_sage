@@ -14,7 +14,7 @@ from openai import OpenAI
 from macro_sage.config import load_inventory, load_sources
 from macro_sage.evaluation import evaluate_files
 from macro_sage.files import copy_atomic, write_json_atomic, write_text_atomic
-from macro_sage.health import check_source_health
+from macro_sage.health import check_source_health, newly_failing_source_ids
 from macro_sage.history import (
     BriefHistoryRecord,
     DirectoryBriefHistory,
@@ -1004,6 +1004,11 @@ def _source_health(args: argparse.Namespace) -> int:
     ]
     target = args.date or datetime.now(ZoneInfo(settings.timezone_name)).date()
     with HttpClient(settings) as http, DocumentStore(args.database) as store:
+        previous_snapshots = store.source_health_snapshots(
+            sources,
+            target=target,
+            timezone_name=settings.timezone_name,
+        )
         report = check_source_health(
             sources,
             target,
@@ -1011,12 +1016,27 @@ def _source_health(args: argparse.Namespace) -> int:
             store,
             timezone_name=settings.timezone_name,
         )
-    markdown = health_status_markdown(target, report)
-    write_json_atomic(args.output, health_report_to_dict(target, report))
+    alert_source_ids = newly_failing_source_ids(
+        previous_snapshots,
+        report.health_snapshots,
+    )
+    markdown = health_status_markdown(
+        target,
+        report,
+        alert_source_ids=alert_source_ids,
+    )
+    write_json_atomic(
+        args.output,
+        health_report_to_dict(
+            target,
+            report,
+            alert_source_ids=alert_source_ids,
+        ),
+    )
     write_text_atomic(args.markdown, markdown)
     print(markdown)
     append_github_summary(markdown + "\n")
-    return int(any(snapshot.status.value == "failing" for snapshot in report.health_snapshots))
+    return int(bool(alert_source_ids))
 
 
 def _evaluate(args: argparse.Namespace) -> int:

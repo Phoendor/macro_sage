@@ -146,8 +146,12 @@ The separate `Source Health` workflow runs a model-free discovery check on
 weekday mornings and a full extraction canary each Sunday. It records latest
 publication, last success/failure and consecutive adverse observations in the
 same migrated SQLite store. One transient failure is a warning; the configured
-threshold must be reached before the source is labelled failing. This workflow
-does not need an OpenAI key and never downloads podcast audio.
+threshold must be reached before the source is labelled failing. The workflow
+fails once when a source newly crosses that threshold; persistent failures stay
+visible in its summary and artifact without producing the same alert email every
+weekday. Configured-unavailable sources remain in the catalog but are not hit by
+daily checks. This workflow does not need an OpenAI key and never downloads
+podcast audio.
 
 Every run writes `source-status.md` and a deterministic `technical-report.md`
 and PDF. The technical report groups every collected document by source, labels
