@@ -148,6 +148,13 @@ allowed after a timestamped market-data source has been integrated.
   alerts only on a new transition into the failing state. BIS Research Hub is
   now configured unavailable after ten consecutive HTTP-404 observations, so
   the known-broken endpoint is no longer requested daily.
+- The version-0.7.1 hosted canary
+  [33662151433](https://github.com/Phoendor/macro_sage/actions/runs/33662151433)
+  passed on commit `32360b7`. Its body-free artifact retained three persistent
+  failures (EcoInsight, Bank of England Speeches and Bank Insights), emitted
+  zero new-alert source IDs, and reported 27 healthy sources. Bank of Canada
+  News recovered, and BIS Research Hub did not participate after its explicit
+  unavailable transition.
 
 ## 3. Priority and dependency map
 
@@ -1548,6 +1555,12 @@ Version 0.7.1 corrects the live monitor discovered during that observation:
 new failure transitions alert once, unchanged persistent failures stay visible
 without repeat failure email, and the proven-broken BIS Research Hub endpoint is
 kept in the unavailable register instead of being requested every day.
+
+Hosted transition-alert canary
+[`33662151433`](https://github.com/Phoendor/macro_sage/actions/runs/33662151433)
+passed on commit `32360b7`: 27 sources were healthy, three unchanged failures
+remained explicit, no new alert was emitted, and the known-broken BIS Research
+Hub endpoint was not requested.
 
 The corrected discovery-only health run
 [`33337257541`](https://github.com/Phoendor/macro_sage/actions/runs/33337257541)
