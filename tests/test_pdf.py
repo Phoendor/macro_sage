@@ -224,6 +224,43 @@ def test_v2_pdf_contains_only_decision_content_and_cited_documents(tmp_path):
     assert "Fixture Publisher: Fixture evidence" in full_text
 
 
+def test_regime_evidence_cards_do_not_split_across_pages(tmp_path):
+    brief = v2_brief()
+    for regime in brief["regime_dashboard"]:
+        dimension = regime["dimension"]
+        regime["evidence"] = [
+            {
+                "text": (
+                    f"{dimension} evidence item {index} contains enough explanatory detail "
+                    "to exercise pagination while remaining a normal-sized report card. "
+                    f"END-{dimension}-{index}"
+                ),
+                "claim_type": "observed_fact",
+                "source_ids": ["doc:one"],
+                "evidence_family": f"fixture-{dimension}-{index}",
+                "carried_forward": False,
+            }
+            for index in range(4)
+        ]
+    documents = [
+        {
+            "id": "doc:one",
+            "publisher": "Fixture Publisher",
+            "source_name": "Fixture Source",
+            "title": "Fixture evidence",
+            "url": "https://example.com/evidence",
+            "media_type": "text/html",
+        }
+    ]
+
+    pages = _render(tmp_path, brief, documents)
+
+    for regime in brief["regime_dashboard"]:
+        heading = regime["dimension"].replace("_", " ").title()
+        end_marker = f"END-{regime['dimension']}-3"
+        assert any(heading in page and end_marker in page for page in pages)
+
+
 def test_technical_pdf_lists_funnel_documents_and_source_failures(tmp_path):
     brief = v2_brief()
     brief["source_ids_used"] = ["doc:used"]

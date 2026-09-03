@@ -546,24 +546,26 @@ def _v2_story(
         ]
         story.extend(
             [
-                _card(
-                    [
-                        _paragraph(
-                            str(regime.get("dimension", "")).replace("_", " ").title(),
-                            styles["card_title"],
-                        ),
-                        _paragraph(
-                            f"{regime.get('state', '')} / {regime.get('direction', '')} | "
-                            f"Evidence {regime.get('confidence', 1)}/5",
-                            styles["meta"],
-                        ),
-                        _paragraph(regime.get("confidence_rationale", ""), styles["small"]),
-                        _bullets([*evidence_lines, *counter_lines], styles["small"]),
-                        _source_paragraph(
-                            regime.get("source_ids", []), documents, styles["source"]
-                        ),
-                    ],
-                    PALE_BLUE,
+                KeepTogether(
+                    _card(
+                        [
+                            _paragraph(
+                                str(regime.get("dimension", "")).replace("_", " ").title(),
+                                styles["card_title"],
+                            ),
+                            _paragraph(
+                                f"{regime.get('state', '')} / {regime.get('direction', '')} | "
+                                f"Evidence {regime.get('confidence', 1)}/5",
+                                styles["meta"],
+                            ),
+                            _paragraph(regime.get("confidence_rationale", ""), styles["small"]),
+                            _bullets([*evidence_lines, *counter_lines], styles["small"]),
+                            _source_paragraph(
+                                regime.get("source_ids", []), documents, styles["source"]
+                            ),
+                        ],
+                        PALE_BLUE,
+                    )
                 ),
                 Spacer(1, 2 * mm),
             ]

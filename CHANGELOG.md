@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.7.4 - 2026-09-03
+
+### PDF pagination correction
+
+- Prevented a regime-evidence card from splitting across pages and losing its
+  top border and padding at a page boundary.
+- Added a deliberately dense multi-page report fixture that requires every
+  regime heading, evidence body and source line to remain together.
+
 ## 0.7.3 - 2026-09-03
 
 ### Model-aware input budgeting

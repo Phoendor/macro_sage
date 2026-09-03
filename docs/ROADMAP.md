@@ -12,7 +12,9 @@ tranche removes the arbitrary source/publisher synthesis caps, separates public
 content from private operations, and adds a complete deterministic material
 funnel. Version 0.7.2 completes evidence-family confidence grouping and the
 narrow BIS/originating-bank speech deduplication rule. Version 0.7.3 completes
-model-aware input accounting; a hosted corpus observation remains open.
+model-aware input accounting and passed its hosted corpus observation. Version
+0.7.4 closes the pagination defect found during visual acceptance. Milestone 5
+is closed.
 
 Baseline date: 2026-08-30.
 
@@ -1579,7 +1581,23 @@ confidence is calibrated and removes a BIS aggregator copy only when a
 near-date direct-bank copy passes strong title-and-body agreement. Version
 0.7.3 replaces the primary character boundary with an exact
 Responses-request token preflight, while preserving a conservative offline
-fallback. Milestone closure remains open only for a hosted corpus observation.
+fallback. Version 0.7.4 keeps every regime-evidence card intact across page
+boundaries after the hosted artifact's visual acceptance audit exposed a split
+card. Milestone 5 is closed.
+
+The full hosted corpus observation
+[`33737256555`](https://github.com/Phoendor/macro_sage/actions/runs/33737256555)
+passed on commit `8d14839` for 2026-09-02 with podcasts enabled. It collected 16
+documents from seven sources, including two complete machine transcripts, and
+made every document available to synthesis. The exact Responses preflight
+counted 28,630 input tokens against the 250,000-token budget; no document was
+truncated or omitted. `gpt-5.6-luna` produced the report in one pass, citing 13
+documents. The run retained all six failed, degraded or stale source outcomes,
+rendered valid 11-page content and four-page technical PDFs, persisted durable
+history and uploaded the complete audit artifact. Telegram was deliberately
+disabled for this non-publishing canary and the delivery step was correctly
+skipped. Visual inspection found one split regime-evidence card; version 0.7.4
+corrected it and added a dense multi-page pagination regression.
 
 Hosted transition-alert canary
 [`33662151433`](https://github.com/Phoendor/macro_sage/actions/runs/33662151433)
