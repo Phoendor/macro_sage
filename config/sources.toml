@@ -1284,3 +1284,108 @@ last_attempt_date = "2026-07-27"
 lawful_alternative = "Manual review of the official publication page."
 constraint = "The publication is subscription-led; no paywall workaround."
 next_review_date = "2026-10-01"
+
+[[candidates]]
+id = "apollo-daily-spark"
+name = "Apollo Daily Spark"
+homepage_url = "https://www.apollo.com/institutional/insights-news/insights/daily-spark"
+expected_cadence = "most days"
+cadence_basis = "observed"
+description = "Chart-led macro and market notes from Apollo's chief economist"
+rationale = "Adds concise US growth, inflation, rates and credit evidence with explicit chart sources."
+attempted_endpoints = ["https://www.apollo.com/institutional/insights-news/insights/daily-spark"]
+precise_failure = "The public archive is available, but stable item discovery, chart-context extraction and representative multi-item validation have not passed the source-admission gate."
+last_attempt_date = "2026-09-03"
+lawful_alternative = "Manually review the public archive while the official discovery path is evaluated."
+constraint = "Do not enable until complete article and chart-source context can be acquired without relying on page-layout accidents."
+next_review_date = "2026-10-01"
+
+[[candidates]]
+id = "blackrock-bii-weekly"
+name = "BlackRock Investment Institute weekly commentary"
+homepage_url = "https://www.blackrock.com/corporate/insights/blackrock-investment-institute/global-weekly-commentary"
+expected_cadence = "weekly"
+cadence_basis = "observed"
+description = "BlackRock Investment Institute's weekly market view and asset-class positioning"
+rationale = "Adds a compact institutional market backdrop, week-ahead catalysts and explicit tactical asset views."
+attempted_endpoints = ["https://www.blackrock.com/corporate/insights/blackrock-investment-institute/global-weekly-commentary"]
+precise_failure = "The current article and PDF are public, but recurring-item discovery, revision identity and complete extraction have not passed the source-admission gate."
+last_attempt_date = "2026-09-03"
+lawful_alternative = "Manually review the current official commentary and downloadable PDF."
+constraint = "Treat asset-allocation views as institutional opinion and enable only after three successive editions validate cleanly."
+next_review_date = "2026-10-01"
+
+[[candidates]]
+id = "standard-chartered-global-research"
+name = "Standard Chartered Global Research"
+homepage_url = "https://www.sc.com/en/corporate-investment-banking/global-markets/global-research/"
+expected_cadence = "weekly to event driven; major outlooks roughly semiannual"
+cadence_basis = "observed"
+description = "Public global, emerging-market, FX, rates, credit and commodities research"
+rationale = "Adds differentiated emerging-market and cross-border trade coverage that is thin in the current portfolio."
+attempted_endpoints = ["https://www.sc.com/en/corporate-investment-banking/global-markets/global-research/"]
+precise_failure = "The official landing page exposes current articles, podcasts and outlook PDFs, but format-specific discovery and complete extraction have not passed the source-admission gate."
+last_attempt_date = "2026-09-03"
+lawful_alternative = "Manually review the official latest-insights and outlook sections."
+constraint = "Admit public research only; do not attempt to obtain client-only recommendations or research-platform content."
+next_review_date = "2026-10-01"
+
+[[candidates]]
+id = "pimco-outlooks"
+name = "PIMCO Cyclical and Secular Outlooks"
+homepage_url = "https://www.pimco.com/us/en/insights"
+expected_cadence = "three cyclical outlooks per year plus an annual secular outlook"
+cadence_basis = "observed"
+description = "Longer-horizon global cycle, rates and fixed-income outlooks"
+rationale = "Adds a slower-moving regime baseline for duration, curves, credit and global policy divergence."
+attempted_endpoints = ["https://www.pimco.com/us/en/insights"]
+precise_failure = "Current outlook pages are public, but reliable outlook-only discovery, canonical identity and mixed HTML/PDF extraction have not passed the source-admission gate."
+last_attempt_date = "2026-09-03"
+lawful_alternative = "Manually review the official Cyclical and Secular Outlook pages when published."
+constraint = "Use as a regime baseline rather than daily evidence and keep investment views labelled as publisher opinion."
+next_review_date = "2026-10-01"
+
+[[candidates]]
+id = "bank-of-china-financial-insights"
+name = "Bank of China Financial Insights"
+homepage_url = "https://www.bankofchina.com/english/whatsnew/fis/"
+expected_cadence = "quarterly outlooks plus irregular market insights"
+cadence_basis = "observed"
+description = "English-language research from the Bank of China Research Institute"
+rationale = "Adds an institutional Chinese perspective on domestic and global macro-financial developments."
+attempted_endpoints = ["https://www.bankofchina.com/english/whatsnew/fis/"]
+precise_failure = "The English archive is public, but recent-entry discovery, timestamp handling and complete linked-report extraction have not passed the source-admission gate."
+last_attempt_date = "2026-09-03"
+lawful_alternative = "Manually review the official English Financial Insights archive."
+constraint = "Prefer PBoC, NBS and SAFE for primary facts; use Bank of China only as clearly labelled institutional analysis."
+next_review_date = "2026-10-01"
+
+[[candidates]]
+id = "lpl-weekly-market-commentary"
+name = "LPL Weekly Market Commentary"
+homepage_url = "https://www.lpl.com/research/weekly-market-commentary.html"
+expected_cadence = "weekly"
+cadence_basis = "observed"
+description = "Public weekly US market and asset-allocation commentary"
+rationale = "Could add a readable US market consensus check and recurring week-ahead framing."
+attempted_endpoints = ["https://www.lpl.com/research/weekly-market-commentary.html"]
+precise_failure = "The public archive is available, but stable recurring discovery and incremental value versus existing US commentary have not passed the source-admission gate."
+last_attempt_date = "2026-09-03"
+lawful_alternative = "Manually review the latest official weekly commentary."
+constraint = "Lower priority because of likely overlap; admit only if an evidence review demonstrates distinct coverage."
+next_review_date = "2026-10-01"
+
+[[candidates]]
+id = "eurodollar-university"
+name = "Eurodollar University"
+homepage_url = "https://www.eurodollar.university/"
+expected_cadence = "multiple public audio episodes per week; paid written briefing on weekdays"
+cadence_basis = "observed"
+description = "Practitioner commentary on dollar funding, collateral and monetary plumbing"
+rationale = "Could add a distinct counter-consensus view of dollar liquidity and collateral markets."
+attempted_endpoints = ["https://www.eurodollar.university/", "https://podcasts.apple.com/us/podcast/eurodollar-university/id1506469669"]
+precise_failure = "The daily written briefing is subscription content, while the public audio route has not passed feed, advertisement, transcript-quality and incremental-value validation."
+last_attempt_date = "2026-09-03"
+lawful_alternative = "Manually review public podcast episodes or free posts without accessing subscriber material."
+constraint = "If admitted, label it as practitioner opinion, preserve counterevidence and never use it as primary factual support."
+next_review_date = "2026-10-01"

@@ -97,7 +97,10 @@ def render_catalog(inventory: SourceInventory) -> str:
         "",
         "## Would be good to have, but these don't work",
         "",
-        "Unavailable configured sources and candidates are never hit by the daily run.",
+        "Unavailable configured sources and candidates are never hit by the daily run. "
+        "A candidate may have a readable public page but still be unusable by the product "
+        "until reliable discovery, complete extraction, lawful access and incremental value "
+        "all pass the admission gate.",
         "",
     ]
     if unavailable:

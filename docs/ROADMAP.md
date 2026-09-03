@@ -1088,6 +1088,34 @@ Specific current-source treatment:
 - Keep Odd Lots only if advertising can be excluded or clearly separated.
 - Do not add FT Unhedged without an authorized complete-content route.
 
+Historical Macrosignals archive review (completed 2026-09-03):
+
+- [x] Review the 2024 archive as a design and source-discovery input rather than
+  treating its generated directional calls as ground truth. Forty available
+  attached reports span 721 pages and contain roughly 1,700 asset-direction
+  labels; the corpus is useful for identifying recurring coverage, but it also
+  shows duplicated instrument names, little horizon discipline, single-stock
+  clutter and a strong uncalibrated bullish skew.
+- [x] Confirm that the current portfolio already represents the most useful
+  recurring archive names: Saxo, ING, BNP Paribas, JPMorgan, Morgan Stanley,
+  Goldman Sachs, HSBC, Deutsche Bank, Bank of America, Macro Voices and The
+  Macro Trading Floor. Do not add duplicates merely because the old report
+  counted them separately.
+- [ ] First admission wave: Apollo Daily Spark, BlackRock Investment Institute
+  weekly commentary and Standard Chartered Global Research. They appear most
+  additive for chart-led US macro, explicit cross-asset positioning and
+  emerging-market/FX/rates coverage respectively.
+- [ ] Slower regime layer: evaluate PIMCO Cyclical/Secular Outlooks and Bank of
+  China Financial Insights. Prefer PBoC, NBS and SAFE for primary Chinese facts;
+  Bank of China remains labelled institutional interpretation.
+- [ ] Lower-priority counterview layer: evaluate LPL Weekly Market Commentary
+  only if it proves incremental, and Eurodollar University public audio only as
+  practitioner opinion with explicit counterevidence and advertisement checks.
+- [x] Defer Societe Generale certificate-marketing podcasts and Steno Research's
+  discontinued standalone distribution. Do not seek client-only Barclays,
+  NatWest, Rosenberg, Macro Compass or other paywalled research without an
+  authorized complete-content route.
+
 ### G9. Maintain non-working candidates and source history
 
 - [ ] Retest Bruegel, RBA, RBNZ, IMF Blog, CEPR/VoxEU and other candidates on a
@@ -1136,6 +1164,10 @@ candidate expressions as research hypotheses requiring market confirmation.
   macro transmission.
 - [ ] Volatility and financial conditions where a reputable source permits.
 - [ ] One-day, five-day and one-month changes with a clearly defined timestamp.
+- [ ] Present the core snapshot as a compact cross-asset dashboard rather than
+  a long list of model-written technical calls. Normalize instrument aliases
+  and keep single securities out unless they have a documented broad macro
+  transmission channel.
 
 ### H2. Select providers
 
@@ -1167,6 +1199,16 @@ candidate expressions as research hypotheses requiring market confirmation.
   brief when appropriate.
 - [ ] Allow entry, invalidation and relative-value levels only when supported by
   this timestamped layer.
+- [ ] Compare each material narrative with observable market confirmation,
+  contradiction or inconclusive price action; calculate that status from the
+  timestamped snapshot rather than asking the model to invent technical
+  analysis.
+- [ ] Where several publishers state an explicit view on the same normalized
+  instrument, show agreement and disagreement only with the original horizon,
+  publication time and publisher attached. Never convert missing horizons into
+  comparable votes.
+- [ ] Show change since the prior report so the dashboard answers what moved,
+  what changed in the narrative and where price and thesis have diverged.
 
 Acceptance criteria for Workstream H:
 
