@@ -43,6 +43,10 @@ The scheduled workflow sends automatically only when the public token and chat
 values both exist. If both are absent, delivery is disabled. If only one is
 present, a direct local delivery command fails clearly rather than guessing
 configuration. The admin ID never substitutes for the public channel ID.
+Scheduled runs always publish. A manually dispatched GitHub run exposes a
+`deliver_telegram` switch, which can be turned off for hosted validation without
+creating a second public post; report artifacts and private run diagnostics are
+still generated normally.
 
 ## Public channel presentation
 

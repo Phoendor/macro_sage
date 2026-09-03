@@ -17,6 +17,11 @@ on:
         required: true
         default: 240
         type: number
+      deliver_telegram:
+        description: Publish completed outputs to Telegram
+        required: true
+        default: true
+        type: boolean
   schedule:
     - cron: "30 19 * * 1-5"
       timezone: Europe/Amsterdam
@@ -65,19 +70,23 @@ jobs:
         env:
           REQUESTED_PODCASTS: ${{ inputs.include_podcasts }}
           REQUESTED_MAX_MINUTES: ${{ inputs.max_podcast_minutes }}
+          REQUESTED_DELIVERY: ${{ inputs.deliver_telegram }}
         run: |
           if [ "$GITHUB_EVENT_NAME" = "schedule" ]; then
             include_podcasts="true"
             max_podcast_minutes="240"
+            deliver_telegram="true"
           else
             include_podcasts="${REQUESTED_PODCASTS:-true}"
             max_podcast_minutes="${REQUESTED_MAX_MINUTES:-240}"
+            deliver_telegram="${REQUESTED_DELIVERY:-true}"
           fi
           {
             echo "INCLUDE_PODCASTS=$include_podcasts"
             echo "MAX_PODCAST_MINUTES=$max_podcast_minutes"
+            echo "DELIVER_TELEGRAM=$deliver_telegram"
           } >> "$GITHUB_ENV"
-          echo "podcasts=$include_podcasts; audio budget=${max_podcast_minutes}m"
+          echo "podcasts=$include_podcasts; audio budget=${max_podcast_minutes}m; telegram=$deliver_telegram"
 
       - name: Install optional podcast system dependency
         run: |
@@ -163,7 +172,7 @@ jobs:
             --model-selection "output/runs/$MACRO_SAGE_RUN_ID/model-selection.json"
 
       - name: Deliver report or no-data status to Telegram
-        if: steps.synthesize.outcome == 'success' && env.TELEGRAM_BOT_TOKEN != '' && env.TELEGRAM_CHAT_ID != ''
+        if: steps.synthesize.outcome == 'success' && env.DELIVER_TELEGRAM == 'true' && env.TELEGRAM_BOT_TOKEN != '' && env.TELEGRAM_CHAT_ID != ''
         continue-on-error: true
         run: |
           python -m macro_sage deliver \

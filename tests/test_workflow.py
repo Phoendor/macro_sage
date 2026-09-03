@@ -48,6 +48,10 @@ def test_workflow_delivers_optionally_and_persists_idempotency_state():
     assert "vars.TELEGRAM_CHAT_ID" in text
     assert "vars.TELEGRAM_ADMIN_CHAT_ID" in text
     assert "python -m macro_sage deliver" in text
+    assert "deliver_telegram:" in text
+    assert "DELIVER_TELEGRAM=$deliver_telegram" in text
+    assert "env.DELIVER_TELEGRAM == 'true'" in text
+    assert 'deliver_telegram="true"' in text
     assert "--state .history-store/delivery/telegram.json" in text
     assert "--github-run-url" not in text
     assert "continue-on-error: true" in text

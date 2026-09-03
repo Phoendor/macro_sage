@@ -163,6 +163,8 @@ allowed after a timestamped market-data source has been integrated.
 - Version 0.7.3 counts the complete request against a 250,000-token input budget
   before synthesis and records whether OpenAI verified the count or the
   conservative offline fallback estimated it.
+- Manual GitHub report runs can disable Telegram delivery for non-publishing
+  canaries; scheduled runs still publish automatically.
 
 ## 3. Priority and dependency map
 

@@ -17,6 +17,9 @@
   and the former 350,000-character boundary instead of failing the daily run.
 - Record the planned input, budget and exact/estimated method in `run.json`, the
   GitHub summary and both private technical report formats.
+- Added a manual-workflow delivery switch so hosted validation can exercise the
+  complete report pipeline without posting a duplicate PDF to Telegram;
+  scheduled runs continue to publish normally.
 
 ## 0.7.2 - 2026-09-03
 
