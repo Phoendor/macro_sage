@@ -308,9 +308,18 @@ def test_synthesize_uses_structured_responses_api():
         output_parsed = brief
         usage = Usage()
 
+    class InputTokens:
+        def __init__(self):
+            self.arguments = None
+
+        def count(self, **kwargs):
+            self.arguments = kwargs
+            return type("Count", (), {"input_tokens": 90})()
+
     class Responses:
         def __init__(self):
             self.arguments = None
+            self.input_tokens = InputTokens()
 
         def parse(self, **kwargs):
             self.arguments = kwargs
@@ -334,8 +343,131 @@ def test_synthesize_uses_structured_responses_api():
     assert client.responses.arguments["text_format"] is DailyBriefV2Draft
     assert client.responses.arguments["max_output_tokens"] == 16_000
     assert client.responses.arguments["store"] is False
+    assert client.responses.input_tokens.arguments["model"] == "gpt-5.6-luna"
+    assert client.responses.input_tokens.arguments["truncation"] == "disabled"
+    assert client.responses.input_tokens.arguments["text"]["verbosity"] == "low"
+    assert (
+        client.responses.input_tokens.arguments["text"]["format"]["type"]
+        == "json_schema"
+    )
     assert result.input_tokens == 100
+    assert result.planned_input_tokens == 90
+    assert result.input_token_budget == 250_000
+    assert result.input_token_count_method == "openai_preflight"
     assert result.brief.source_ids_used == ["known"]
+
+
+def test_synthesize_rebuilds_corpus_when_exact_token_count_exceeds_budget():
+    brief = DailyBriefV2Draft.model_validate(v2_draft("S001"))
+
+    class Response:
+        output_parsed = brief
+        usage = None
+
+    class InputTokens:
+        def __init__(self):
+            self.counts = iter((20_000, 8_000))
+            self.calls = 0
+
+        def count(self, **_kwargs):
+            self.calls += 1
+            return type("Count", (), {"input_tokens": next(self.counts)})()
+
+    class Responses:
+        def __init__(self):
+            self.input_tokens = InputTokens()
+
+        @staticmethod
+        def parse(**_kwargs):
+            return Response()
+
+    class Client:
+        responses = Responses()
+
+    result = synthesize(
+        [
+            document("one", "a" * 3_000),
+            document("two", "b" * 3_000),
+            document("three", "c" * 3_000),
+        ],
+        date(2026, 7, 27),
+        Settings(
+            max_articles=3,
+            max_article_chars=4_000,
+            max_corpus_chars=12_000,
+            max_input_tokens=10_000,
+        ),
+        client=Client(),
+    )
+
+    assert Client.responses.input_tokens.calls == 2
+    assert result.planned_input_tokens == 8_000
+    assert result.input_token_count_method == "openai_preflight"
+    assert result.omitted_ids == []
+    assert set(result.truncated_ids) == {"one", "two", "three"}
+    assert all(
+        "exact 10000-token model-input budget" in decision.reason
+        for decision in result.corpus_decisions
+        if decision.outcome == "included_truncated"
+    )
+
+
+def test_synthesize_uses_conservative_estimate_without_count_endpoint():
+    brief = DailyBriefV2Draft.model_validate(v2_draft("S001"))
+
+    class Response:
+        output_parsed = brief
+        usage = None
+
+    class Responses:
+        @staticmethod
+        def parse(**_kwargs):
+            return Response()
+
+    class Client:
+        responses = Responses()
+
+    result = synthesize(
+        [document("known")],
+        date(2026, 7, 27),
+        Settings(),
+        client=Client(),
+    )
+
+    assert result.planned_input_tokens > 0
+    assert result.input_token_count_method == "conservative_estimate"
+
+
+def test_synthesize_continues_when_exact_token_counter_fails():
+    brief = DailyBriefV2Draft.model_validate(v2_draft("S001"))
+
+    class Response:
+        output_parsed = brief
+        usage = None
+
+    class InputTokens:
+        @staticmethod
+        def count(**_kwargs):
+            raise RuntimeError("counter unavailable")
+
+    class Responses:
+        input_tokens = InputTokens()
+
+        @staticmethod
+        def parse(**_kwargs):
+            return Response()
+
+    class Client:
+        responses = Responses()
+
+    result = synthesize(
+        [document("known")],
+        date(2026, 7, 27),
+        Settings(),
+        client=Client(),
+    )
+
+    assert result.input_token_count_method == "conservative_estimate"
 
 
 def test_synthesize_uses_dedicated_model_timeout(monkeypatch):

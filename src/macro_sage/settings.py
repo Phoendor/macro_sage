@@ -9,7 +9,8 @@ DEFAULT_MODEL_FALLBACKS = ("gpt-5.6-terra", "gpt-4.1-mini")
 DEFAULT_TRANSCRIPTION_FALLBACKS = ("whisper-1",)
 DEFAULT_MAX_ARTICLES = 30
 DEFAULT_MAX_ARTICLE_CHARS = 40_000
-DEFAULT_MAX_CORPUS_CHARS = 350_000
+DEFAULT_MAX_CORPUS_CHARS = 1_250_000
+DEFAULT_MAX_INPUT_TOKENS = 250_000
 DEFAULT_MAX_PODCAST_EPISODES = 6
 DEFAULT_MAX_PODCAST_MINUTES = 240
 
@@ -52,6 +53,7 @@ class Settings:
     max_articles: int = DEFAULT_MAX_ARTICLES
     max_article_chars: int = DEFAULT_MAX_ARTICLE_CHARS
     max_corpus_chars: int = DEFAULT_MAX_CORPUS_CHARS
+    max_input_tokens: int = DEFAULT_MAX_INPUT_TOKENS
     max_podcast_episodes: int = DEFAULT_MAX_PODCAST_EPISODES
     max_podcast_minutes: int = DEFAULT_MAX_PODCAST_MINUTES
     request_timeout_seconds: int = 30
@@ -87,6 +89,9 @@ class Settings:
             ),
             max_corpus_chars=_positive_int(
                 "MACRO_SAGE_MAX_CORPUS_CHARS", DEFAULT_MAX_CORPUS_CHARS
+            ),
+            max_input_tokens=_positive_int(
+                "MACRO_SAGE_MAX_INPUT_TOKENS", DEFAULT_MAX_INPUT_TOKENS
             ),
             max_podcast_episodes=_positive_int(
                 "MACRO_SAGE_MAX_PODCAST_EPISODES",

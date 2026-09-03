@@ -234,6 +234,9 @@ def test_technical_report_lists_collection_funnel_and_every_document():
         model="gpt-5.6-luna",
         input_tokens=100,
         output_tokens=50,
+        planned_input_tokens=90,
+        input_token_budget=250_000,
+        input_token_count_method="openai_preflight",
     )
 
     assert "2 documents collected from 1 source" in output
@@ -244,3 +247,5 @@ def test_technical_report_lists_collection_funnel_and_every_document():
     assert "Stale Source" in output
     assert "[DUPLICATE]" in output
     assert "Duplicate discovery" in output
+    assert "Planned model input: `90` of `250000` tokens" in output
+    assert "counting method: `openai_preflight`" in output

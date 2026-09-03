@@ -1,5 +1,23 @@
 # Changelog
 
+## 0.7.3 - 2026-09-03
+
+### Model-aware input budgeting
+
+- Added an exact Responses input-token preflight covering the complete model
+  request, including developer instructions, history context, evidence JSON and
+  the structured-output schema.
+- Replaced the primary 350,000-character corpus boundary with a 250,000-token
+  default model-input budget and retained a larger serialization-only safety
+  boundary.
+- When an exact count is over budget, reduce long-document allowances across
+  the whole selected corpus before considering lower-ranked omissions, then
+  verify the rebuilt request again.
+- If exact counting is unavailable, fall back to a conservative UTF-8 estimate
+  and the former 350,000-character boundary instead of failing the daily run.
+- Record the planned input, budget and exact/estimated method in `run.json`, the
+  GitHub summary and both private technical report formats.
+
 ## 0.7.2 - 2026-09-03
 
 ### Evidence identity and speech deduplication

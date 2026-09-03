@@ -114,3 +114,11 @@ def test_synthesis_timeout_has_a_separate_bounded_override(monkeypatch):
 
     assert settings.request_timeout_seconds == 30
     assert settings.synthesis_timeout_seconds == 240
+
+
+def test_input_token_budget_has_a_bounded_override(monkeypatch):
+    monkeypatch.setenv("MACRO_SAGE_MAX_INPUT_TOKENS", "175000")
+
+    settings = Settings.from_env()
+
+    assert settings.max_input_tokens == 175_000

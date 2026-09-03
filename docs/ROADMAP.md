@@ -11,8 +11,8 @@ cutoff-window observation before closure. Milestone 5's version-0.7 clarity
 tranche removes the arbitrary source/publisher synthesis caps, separates public
 content from private operations, and adds a complete deterministic material
 funnel. Version 0.7.2 completes evidence-family confidence grouping and the
-narrow BIS/originating-bank speech deduplication rule; model-aware input
-accounting and a hosted corpus observation remain open.
+narrow BIS/originating-bank speech deduplication rule. Version 0.7.3 completes
+model-aware input accounting; a hosted corpus observation remains open.
 
 Baseline date: 2026-08-30.
 
@@ -81,9 +81,8 @@ allowed after a timestamped market-data source has been integrated.
 - [x] Made the same CLI operate locally and in GitHub Actions.
 - [x] Added model preflight selection and recorded the selected models.
 - [x] Added bounded offline compilation, generated-catalog validation, lint and
-  regression checks; version 0.7.2 adds release-family confidence grouping and
-  conservative BIS/originating-bank speech deduplication on top of the
-  version-0.7 public/private reporting split.
+  regression checks; version 0.7.3 adds model-aware request budgeting on top of
+  the release-family, speech-deduplication and public/private reporting work.
 
 ### Current operating state
 
@@ -161,6 +160,9 @@ allowed after a timestamped market-data source has been integrated.
   confidence is scored and prefers a near-identical direct central-bank speech
   over its BIS aggregator copy. Every such omission remains explicit in the
   private technical report.
+- Version 0.7.3 counts the complete request against a 250,000-token input budget
+  before synthesis and records whether OpenAI verified the count or the
+  conservative offline fallback estimated it.
 
 ## 3. Priority and dependency map
 
@@ -788,8 +790,9 @@ Acceptance criteria:
 
 ### F5. Make long-form audio useful to synthesis
 
-- [ ] Replace raw character-count approximations with model-aware input
-  accounting.
+- [x] Replace raw character-count approximations with model-aware request input
+  accounting. This closes the shared corpus-budget dependency; the remaining
+  F5 items still govern transcript-specific selection within that budget.
 - [ ] Do not blindly keep only the first 40,000 transcript characters; preserve
   the complete transcript when it fits.
 - [ ] When it does not fit, apply a documented evidence/relevance selection
@@ -995,7 +998,7 @@ reason to reject the fourth.
 - [x] Reserve room for primary policy/data evidence before commentary.
 - [x] Remove per-source and per-publisher hard synthesis caps. Interleave
   publishers for ordering, but keep every document eligible until the global
-  article/character boundary.
+  article/model-input boundary.
 - [x] Treat several publications derived from one underlying release as one
   evidence family for confidence. Normalize claim-family labels, connect those
   labels to their cited document IDs, and count the resulting families under
@@ -1019,8 +1022,12 @@ reason to reject the fourth.
 - [x] Generate a zero-model-call technical funnel that groups all collected
   documents by source, labels cited/available/rejected material, lists extraction
   failures, and separates stale sources from normal same-day silence.
-- [ ] Replace character-only budgets with model-aware input accounting and keep
-  every omission/truncation visible.
+- [x] Replace character-only budgets with model-aware input accounting and keep
+  every omission/truncation visible. Count the final Responses request,
+  including its structured-output schema, against a 250,000-token default;
+  rebalance long-document truncation across the corpus when necessary and use
+  an explicitly labelled conservative fallback if the exact counter is
+  unavailable.
 - [x] Keep long-document selection deterministic, versioned and auditable; do
   not conceal a second model summarization stage inside corpus preparation.
 - [x] Serialize corpus documents safely so titles or bodies containing closing
@@ -1567,9 +1574,10 @@ without repeat failure email, and the proven-broken BIS Research Hub endpoint is
 kept in the unavailable register instead of being requested every day.
 Version 0.7.2 maps normalized claim-family labels back to cited documents before
 confidence is calibrated and removes a BIS aggregator copy only when a
-near-date direct-bank copy passes strong title-and-body agreement. Milestone
-closure remains open for a hosted corpus observation and model-aware input
-accounting.
+near-date direct-bank copy passes strong title-and-body agreement. Version
+0.7.3 replaces the primary character boundary with an exact
+Responses-request token preflight, while preserving a conservative offline
+fallback. Milestone closure remains open only for a hosted corpus observation.
 
 Hosted transition-alert canary
 [`33662151433`](https://github.com/Phoendor/macro_sage/actions/runs/33662151433)

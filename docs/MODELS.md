@@ -7,7 +7,7 @@ structured output and low reasoning effort. This is a daily, cost-sensitive
 synthesis workload rather than a frontier-quality coding or agent task. OpenAI
 describes Luna as the cost-sensitive, high-volume member of the GPT-5.6 family.
 
-Synthesis prompt version 3 targets `DailyBriefV2`. The model supplies decision
+Synthesis prompt version 4 targets `DailyBriefV2`. The model supplies decision
 content while code supplies cutoffs, source counts, market-data availability,
 schema version and the complete resolved source register. The prompt explicitly
 separates facts, source forecasts, source opinions and synthesis inference;
@@ -35,12 +35,27 @@ export MACRO_SAGE_MODEL_FALLBACKS=gpt-5.6-terra,gpt-4.1-mini
 export MACRO_SAGE_REASONING_EFFORT=low
 ```
 
-The configured 350,000-character corpus ceiling is a cost and failure guard.
-It is not a recursive chunk/summarize pipeline. Publisher balancing is applied
-before the limit so a prolific source cannot crowd out the rest. Omitted and
-truncated document IDs are saved with the run.
+Before synthesis, Macro Sage sends the completed request shape—including the
+structured-output schema—to the Responses input-token counter. The default
+model-input budget is 250,000 tokens. A normal run therefore makes one exact
+count and one synthesis request. If the count is too large, the application
+reduces the per-document ceiling across the corpus, counts again, and keeps the
+ranking and every decision deterministic. It does not run a hidden summarizer.
+
+The 1,250,000-character setting is now only a serialization safety boundary,
+not the primary context rule. If exact counting is unavailable, the application
+uses a conservative UTF-8 estimate and the prior 350,000-character fallback
+boundary instead of failing or silently trusting an oversized request. The
+private report and `run.json` record the planned count, budget, method, omitted
+IDs and truncated IDs.
+
+```bash
+export MACRO_SAGE_MAX_INPUT_TOKENS=250000
+export MACRO_SAGE_MAX_CORPUS_CHARS=1250000
+```
 
 - [OpenAI GPT-5.6 model guidance](https://developers.openai.com/api/docs/guides/latest-model)
+- [Responses input-token counting](https://developers.openai.com/api/reference/cli/resources/responses/subresources/input_tokens/methods/count)
 - [OpenAI API pricing](https://developers.openai.com/api/docs/pricing)
 
 ## Podcast transcription

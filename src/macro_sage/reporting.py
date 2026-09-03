@@ -390,6 +390,9 @@ def technical_report_markdown(
     model: str,
     input_tokens: int | None,
     output_tokens: int | None,
+    planned_input_tokens: int | None = None,
+    input_token_budget: int | None = None,
+    input_token_count_method: str | None = None,
 ) -> str:
     """Render a body-free, deterministic acquisition and selection audit."""
     decisions = {
@@ -447,6 +450,9 @@ def technical_report_markdown(
         "separately.**",
         f"- Model: `{model}`; input tokens: `{input_tokens or 'unknown'}`; "
         f"output tokens: `{output_tokens or 'unknown'}`.",
+        f"- Planned model input: `{planned_input_tokens or 'unknown'}` of "
+        f"`{input_token_budget or 'unknown'}` tokens; counting method: "
+        f"`{input_token_count_method or 'unknown'}`.",
         "",
         "## Collected documents by source",
         "",

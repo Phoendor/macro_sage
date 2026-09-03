@@ -862,7 +862,11 @@ def _technical_story(
             _paragraph(
                 f"Model {run.get('model', 'unknown')} | Input tokens "
                 f"{run.get('input_tokens', 'unknown')} | Output tokens "
-                f"{run.get('output_tokens', 'unknown')} | Not added separately "
+                f"{run.get('output_tokens', 'unknown')} | Planned input "
+                f"{run.get('planned_input_tokens', 'unknown')} / "
+                f"{run.get('input_token_budget', 'unknown')} "
+                f"({run.get('input_token_count_method', 'unknown')}) | "
+                "Not added separately "
                 f"{len(not_extracted)}",
                 styles["meta"],
             ),

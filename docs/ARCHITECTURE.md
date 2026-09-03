@@ -21,40 +21,43 @@ Macro Sage is intentionally a small batch application, not a framework.
 7. Selected documents receive short run-scoped citation keys such as `S001` and
    are serialized as one JSON evidence array; opaque canonical IDs remain
    internal and source text cannot forge document boundaries.
-8. The OpenAI Responses API returns the model-authored portion of a
+8. The complete request, including its structured-output schema, is checked by
+   the OpenAI Responses input-token counter and deterministically reduced only
+   when it exceeds the configured model-input budget.
+9. The OpenAI Responses API returns the model-authored portion of a
    Pydantic-validated `DailyBriefV2`; operational coverage fields and the final
    source register are calculated in code, and short keys are strictly resolved
    back to canonical document IDs.
-9. Each attempt writes atomically to `output/runs/<run-id>/`, with separate
+10. Each attempt writes atomically to `output/runs/<run-id>/`, with separate
    content and health outcomes.
-10. The local private corpus is separated from a body-free audit manifest used
+11. The local private corpus is separated from a body-free audit manifest used
    by PDF rendering and GitHub artifact upload.
-11. Successful structured briefs are appended to a versioned history store;
+12. Successful structured briefs are appended to a versioned history store;
     deterministic one-day and one-week comparisons are rendered from it.
-12. JSON, public Markdown/PDF and a deterministic private technical audit are
+13. JSON, public Markdown/PDF and a deterministic private technical audit are
     rendered from the same run. The optional Telegram adapter sends the content
     PDF to the channel and, when configured, the technical PDF to the owner's
     numeric private chat ID. Each destination has its own idempotency record.
 
 ## Main decisions
 
-### One synthesis request
+### One synthesis generation request
 
 Modern context windows make the old token-chunk/map-reduce code unnecessary for
 this workload. One request also avoids compounding summary loss and repeated
-output-token cost. Inputs still have deterministic article-count, per-article,
-and total-character caps. That is a cost and failure guard, not a second
-summarization layer.
+output-token cost. The complete input is counted against a model-token budget;
+article and character limits remain deterministic safety bounds. That is a
+failure guard, not a second summarization layer.
 
 ### Deterministic corpus admission
 
 Acquisition and synthesis admission are separate. Lawfully acquired documents
 remain in the private manifest even when they do not enter the bounded model
-context. Corpus version 3 ranks evidence by configured authority and priority,
+context. Corpus version 5 ranks evidence by configured authority and priority,
 explicit title preference, macro relevance, freshness and publisher diversity,
 and reserves up to one third of the article capacity for available primary
 evidence. Every collected document remains eligible until the global article or
-character boundary; there are no per-product-line or publisher hard caps.
+model-input boundary; there are no per-product-line or publisher hard caps.
 Source-specific title exclusions are declarative, narrow and versioned in
 `sources.toml` rather than hidden in model prompts.
 

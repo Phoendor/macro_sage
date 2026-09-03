@@ -172,9 +172,11 @@ with `--deliver`. Public Telegram copy contains no source-health or workflow
 details. Destination-aware idempotency prevents reruns from duplicating either
 file; use `deliver --force` for intentional redelivery.
 
-The input budget is intentionally bounded by overall article count and
-characters. This controls request size without splitting the corpus into many
-model calls. There is no arbitrary three-item source cap or publisher cap:
+The input budget is intentionally bounded by overall article count and an exact
+model-input token preflight; a larger character ceiling remains only as a
+serialization safety limit. This controls request size without splitting the
+corpus into many generation calls. There is no arbitrary three-item source cap
+or publisher cap:
 every collected document is eligible until the overall model-context boundary
 is reached. Corpus order reserves capacity for primary evidence, ranks by
 evidence tier, configured priority, title preference, macro relevance and

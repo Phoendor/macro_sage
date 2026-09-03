@@ -3,7 +3,7 @@ from __future__ import annotations
 import json
 import re
 from collections import defaultdict, deque
-from dataclasses import dataclass
+from dataclasses import dataclass, replace
 from datetime import date, datetime, timezone
 from difflib import SequenceMatcher
 from typing import Any
@@ -92,6 +92,9 @@ class SynthesisResult:
     model: str
     input_tokens: int | None
     output_tokens: int | None
+    planned_input_tokens: int
+    input_token_budget: int
+    input_token_count_method: str
     omitted_ids: list[str]
     truncated_ids: list[str]
     citation_map: dict[str, str]
@@ -311,6 +314,10 @@ def prepare_corpus(
     documents: list[Document],
     settings: Settings,
     sources: list[SourceDefinition] | None = None,
+    *,
+    budget_reason_label: str = "run_character_safety_limit",
+    budget_reason: str | None = None,
+    truncation_reason: str | None = None,
 ) -> PreparedCorpus:
     source_lookup = {source.id: source for source in sources or []}
     decisions: list[CorpusDecision] = []
@@ -415,8 +422,9 @@ def prepare_corpus(
                     document.source_id,
                     document.publisher,
                     "omitted",
-                    "run_character_budget",
-                    f"run character budget reached ({settings.max_corpus_chars})",
+                    budget_reason_label,
+                    budget_reason
+                    or f"run character safety limit reached ({settings.max_corpus_chars})",
                 )
             )
             continue
@@ -444,7 +452,16 @@ def prepare_corpus(
                 "included within the bounded corpus; ordered by evidence tier, "
                 "configured priority, title preference, macro-title relevance, "
                 "freshness and publisher "
-                f"diversity; {preference} (rank={rank[:4]})",
+                f"diversity; {preference} (rank={rank[:4]})"
+                + (
+                    "; body shortened because "
+                    + (
+                        truncation_reason
+                        or "the configured per-document character safety limit was reached"
+                    )
+                    if was_truncated
+                    else ""
+                ),
             )
         )
 
@@ -691,20 +708,16 @@ def _calibrate_confidence(
     return DailyBriefV2Draft.model_validate(calibrate(value))
 
 
-def synthesize(
-    documents: list[Document],
+_FALLBACK_CORPUS_CHARS = 350_000
+_TOKEN_BUDGET_ATTEMPTS = 4
+
+
+def _response_request(
+    prepared: PreparedCorpus,
     target: date,
     settings: Settings,
-    *,
-    client: OpenAI | None = None,
-    history: HistoryContext | None = None,
-    report: CollectionReport | None = None,
-    sources: list[SourceDefinition] | None = None,
-    data_cutoff: datetime | None = None,
-) -> SynthesisResult:
-    source_definitions = sources or []
-    prepared = prepare_corpus(documents, settings, source_definitions)
-    api = client or OpenAI(timeout=settings.synthesis_timeout_seconds)
+    history: HistoryContext | None,
+) -> dict[str, object]:
     request: dict[str, object] = {
         "model": settings.model,
         "input": [
@@ -728,6 +741,193 @@ def synthesize(
     if settings.model.startswith("gpt-5.6"):
         request["reasoning"] = {"effort": settings.reasoning_effort}
         request["text"] = {"verbosity": "low"}
+    return request
+
+
+def _token_count_arguments(request: dict[str, object]) -> dict[str, object]:
+    # Responses.parse uses this same pinned-SDK conversion internally. Supplying
+    # the generated strict schema makes the count include structured-output
+    # instructions rather than measuring document text alone.
+    from openai.lib._parsing._responses import type_to_text_format_param
+
+    text = dict(request.get("text", {}))
+    text["format"] = type_to_text_format_param(DailyBriefV2Draft)
+    arguments = {
+        "model": request["model"],
+        "input": request["input"],
+        "text": text,
+        "truncation": "disabled",
+    }
+    if "reasoning" in request:
+        arguments["reasoning"] = request["reasoning"]
+    return arguments
+
+
+def _estimated_input_tokens(request: dict[str, object]) -> int:
+    serialized = json.dumps(
+        _token_count_arguments(request),
+        ensure_ascii=False,
+        separators=(",", ":"),
+    ).encode("utf-8")
+    ascii_bytes = sum(byte < 128 for byte in serialized)
+    non_ascii_bytes = len(serialized) - ascii_bytes
+    # English prose is usually closer to four bytes per token. Three is a
+    # conservative fallback, while non-ASCII bytes count one-for-one so another
+    # language cannot make the estimate less cautious.
+    return max(1, (ascii_bytes + 2) // 3 + non_ascii_bytes + 512)
+
+
+def _token_reduction_scale(
+    measured_tokens: int,
+    token_budget: int,
+) -> float:
+    fixed_reserve = min(20_000, max(1_000, token_budget // 10))
+    usable_tokens = max(1, token_budget - fixed_reserve)
+    return min(0.9, max(0.05, usable_tokens / measured_tokens * 0.95))
+
+
+def _reduced_corpus_limits(
+    prepared: PreparedCorpus,
+    article_char_limit: int,
+    corpus_char_budget: int,
+    measured_tokens: int,
+    token_budget: int,
+) -> tuple[int, int]:
+    scale = _token_reduction_scale(measured_tokens, token_budget)
+    longest_body = max(
+        (
+            min(len(document.body), article_char_limit)
+            for document in prepared.included
+        ),
+        default=article_char_limit,
+    )
+    next_article_limit = max(1_000, int(longest_body * scale))
+    if next_article_limit >= article_char_limit:
+        corpus_char_budget = max(1_000, int(len(prepared.text) * scale))
+    return min(article_char_limit, next_article_limit), corpus_char_budget
+
+
+def _prepare_budgeted_request(
+    documents: list[Document],
+    target: date,
+    settings: Settings,
+    sources: list[SourceDefinition],
+    history: HistoryContext | None,
+    api: Any,
+) -> tuple[PreparedCorpus, dict[str, object], int, str]:
+    corpus_char_budget = settings.max_corpus_chars
+    article_char_limit = settings.max_article_chars
+    reason_label = "run_character_safety_limit"
+    reason: str | None = None
+    truncation_reason: str | None = None
+    count_resource = getattr(getattr(api, "responses", None), "input_tokens", None)
+    count_method = getattr(count_resource, "count", None)
+
+    for _ in range(_TOKEN_BUDGET_ATTEMPTS):
+        iteration_settings = replace(
+            settings,
+            max_corpus_chars=corpus_char_budget,
+            max_article_chars=article_char_limit,
+        )
+        prepared = prepare_corpus(
+            documents,
+            iteration_settings,
+            sources,
+            budget_reason_label=reason_label,
+            budget_reason=reason,
+            truncation_reason=truncation_reason,
+        )
+        request = _response_request(prepared, target, settings, history)
+        if count_method is None:
+            break
+        try:
+            counted = count_method(
+                **_token_count_arguments(request),
+                timeout=settings.synthesis_timeout_seconds,
+            )
+        except Exception:
+            break
+        planned_tokens = int(counted.input_tokens)
+        if planned_tokens <= settings.max_input_tokens:
+            return prepared, request, planned_tokens, "openai_preflight"
+        article_char_limit, corpus_char_budget = _reduced_corpus_limits(
+            prepared,
+            article_char_limit,
+            corpus_char_budget,
+            planned_tokens,
+            settings.max_input_tokens,
+        )
+        reason_label = "model_input_token_budget"
+        reason = (
+            f"model input budget is {settings.max_input_tokens} tokens; an exact "
+            "preflight count required a smaller deterministic corpus"
+        )
+        truncation_reason = (
+            f"the exact {settings.max_input_tokens}-token model-input budget required "
+            f"a {article_char_limit}-character per-document ceiling"
+        )
+
+    corpus_char_budget = min(corpus_char_budget, _FALLBACK_CORPUS_CHARS)
+    for _ in range(_TOKEN_BUDGET_ATTEMPTS):
+        fallback_settings = replace(
+            settings,
+            max_corpus_chars=corpus_char_budget,
+            max_article_chars=article_char_limit,
+        )
+        prepared = prepare_corpus(
+            documents,
+            fallback_settings,
+            sources,
+            budget_reason_label="estimated_model_input_token_budget",
+            budget_reason=(
+                f"exact model token counting was unavailable; conservative input "
+                f"budget is {settings.max_input_tokens} estimated tokens"
+            ),
+            truncation_reason=truncation_reason,
+        )
+        request = _response_request(prepared, target, settings, history)
+        planned_tokens = _estimated_input_tokens(request)
+        if planned_tokens <= settings.max_input_tokens:
+            return prepared, request, planned_tokens, "conservative_estimate"
+        article_char_limit, corpus_char_budget = _reduced_corpus_limits(
+            prepared,
+            article_char_limit,
+            corpus_char_budget,
+            planned_tokens,
+            settings.max_input_tokens,
+        )
+        truncation_reason = (
+            f"the conservative {settings.max_input_tokens}-token estimate required "
+            f"a {article_char_limit}-character per-document ceiling"
+        )
+    raise ValueError(
+        f"Unable to fit any corpus within the {settings.max_input_tokens}-token input budget"
+    )
+
+
+def synthesize(
+    documents: list[Document],
+    target: date,
+    settings: Settings,
+    *,
+    client: OpenAI | None = None,
+    history: HistoryContext | None = None,
+    report: CollectionReport | None = None,
+    sources: list[SourceDefinition] | None = None,
+    data_cutoff: datetime | None = None,
+) -> SynthesisResult:
+    source_definitions = sources or []
+    api = client or OpenAI(timeout=settings.synthesis_timeout_seconds)
+    prepared, request, planned_input_tokens, input_token_count_method = (
+        _prepare_budgeted_request(
+            documents,
+            target,
+            settings,
+            source_definitions,
+            history,
+            api,
+        )
+    )
     response = api.responses.parse(
         **request,
     )
@@ -760,6 +960,9 @@ def synthesize(
         model=settings.model,
         input_tokens=getattr(usage, "input_tokens", None),
         output_tokens=getattr(usage, "output_tokens", None),
+        planned_input_tokens=planned_input_tokens,
+        input_token_budget=settings.max_input_tokens,
+        input_token_count_method=input_token_count_method,
         omitted_ids=prepared.omitted_ids,
         truncated_ids=prepared.truncated_ids,
         citation_map=prepared.citation_map,

@@ -599,6 +599,9 @@ def _synthesize_report(
             model=result.model,
             input_tokens=result.input_tokens,
             output_tokens=result.output_tokens,
+            planned_input_tokens=result.planned_input_tokens,
+            input_token_budget=result.input_token_budget,
+            input_token_count_method=result.input_token_count_method,
         ),
     )
     metadata = {
@@ -610,6 +613,9 @@ def _synthesize_report(
         ),
         "input_tokens": result.input_tokens,
         "output_tokens": result.output_tokens,
+        "planned_input_tokens": result.planned_input_tokens,
+        "input_token_budget": result.input_token_budget,
+        "input_token_count_method": result.input_token_count_method,
         "omitted_document_ids": result.omitted_ids,
         "truncated_document_ids": result.truncated_ids,
         "citation_map": result.citation_map,
@@ -713,6 +719,8 @@ def _synthesize_report(
         f"- Model: `{result.model}`\n"
         f"- Input tokens: {result.input_tokens or 'n/a'}\n"
         f"- Output tokens: {result.output_tokens or 'n/a'}\n"
+        f"- Planned input: {result.planned_input_tokens} / "
+        f"{result.input_token_budget} ({result.input_token_count_method})\n"
         f"- Comparison baseline: `{history_record.comparison.baseline_status.value}`\n"
         f"- Previous brief: `{history_record.comparison.previous_run_id or 'none'}`\n"
         f"- PDF: `{paths.report_pdf}`\n\n"
