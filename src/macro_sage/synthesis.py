@@ -5,6 +5,7 @@ import re
 from collections import defaultdict, deque
 from dataclasses import dataclass
 from datetime import date, datetime, timezone
+from difflib import SequenceMatcher
 from typing import Any
 
 from openai import OpenAI
@@ -58,7 +59,10 @@ actionability is conditional and it must state that market confirmation is requi
 Use confidence as evidence strength, never probability of profit or position size. Base the
 rationale on source directness, freshness, independent evidence families, corroboration,
 contradiction, and missing market context. The application recalibrates displayed scores
-deterministically. Keep the complete brief concise enough for daily use.
+deterministically. For evidence_family, name the underlying release, speech, data print or
+event rather than the article or publisher. Use the same concise label for every claim
+derived from the same underlying release, including write-ups from different publishers.
+Keep the complete brief concise enough for daily use.
 """
 
 
@@ -171,6 +175,138 @@ def _publisher_balanced(
     return balanced
 
 
+_BIS_SPEECH_SOURCE_ID = "bis-speeches"
+_BIS_OWNER = "bank for international settlements"
+_SPEECH_DUPLICATE_MAX_DAY_GAP = 7
+_SPEECH_DUPLICATE_MIN_CONTENT_OVERLAP = 0.82
+_SPEECH_DUPLICATE_MIN_TITLE_SIMILARITY = 0.68
+
+
+def _normal(value: str) -> str:
+    return " ".join(re.findall(r"[a-z0-9]+", value.casefold()))
+
+
+def _evidence_family_keys(value: object, source_ids: list[str]) -> set[str]:
+    """Return normalized release labels attached to citations in this node."""
+    cited = {str(source_id) for source_id in source_ids}
+    labels: set[str] = set()
+
+    def collect(node: object) -> None:
+        if isinstance(node, dict):
+            family = node.get("evidence_family")
+            family_sources = node.get("source_ids")
+            if isinstance(family, str) and isinstance(family_sources, list):
+                normalized_family = _normal(family)
+                if normalized_family and any(
+                    str(source_id) in cited for source_id in family_sources
+                ):
+                    labels.add(normalized_family)
+            for child in node.values():
+                collect(child)
+        elif isinstance(node, list):
+            for child in node:
+                collect(child)
+    collect(value)
+    return labels
+
+
+def _speech_subject(document: Document) -> str:
+    """Strip a short speaker prefix from titles such as ``Name: Speech title``."""
+    title = document.title.strip()
+    prefix, separator, subject = title.partition(":")
+    if (
+        separator
+        and 1 <= len(_normal(prefix).split()) <= 8
+        and len(_normal(subject).split()) >= 3
+    ):
+        return _normal(subject)
+    return _normal(title)
+
+
+def _content_shingles(value: str, *, width: int = 7) -> set[tuple[str, ...]]:
+    # Seven-word shingles make boilerplate matches unlikely while tolerating a
+    # publisher-specific header, footer or short introduction.
+    words = re.findall(r"[a-z0-9]+", value.casefold())
+    if len(words) < 80:
+        return set()
+    return {
+        tuple(words[index : index + width])
+        for index in range(len(words) - width + 1)
+    }
+
+
+def _content_overlap(left: Document, right: Document) -> float:
+    left_shingles = _content_shingles(left.body)
+    right_shingles = _content_shingles(right.body)
+    if not left_shingles or not right_shingles:
+        return 0.0
+    return len(left_shingles & right_shingles) / min(
+        len(left_shingles), len(right_shingles)
+    )
+
+
+def _speech_duplicate_targets(
+    documents: list[Document],
+    sources: dict[str, SourceDefinition],
+) -> dict[str, tuple[Document, float]]:
+    """Find narrow, high-confidence BIS/originating-bank speech duplicates.
+
+    A title is only a supporting signal. Removal requires a near-date publication
+    and strong seven-word-shingle overlap between a BIS aggregator copy and a
+    configured originating central-bank copy.
+    """
+    bis_documents = [
+        document
+        for document in documents
+        if document.source_id == _BIS_SPEECH_SOURCE_ID
+    ]
+    originating_documents = [
+        document
+        for document in documents
+        if document.source_id != _BIS_SPEECH_SOURCE_ID
+        and (source := sources.get(document.source_id)) is not None
+        and source.category == "central-bank"
+        and _normal(source.owner or source.publisher) != _BIS_OWNER
+    ]
+    matches: dict[str, tuple[Document, float]] = {}
+    for bis_document in bis_documents:
+        if bis_document.published_at is None:
+            continue
+        candidates: list[tuple[float, float, str, Document]] = []
+        bis_subject = _speech_subject(bis_document)
+        for origin_document in originating_documents:
+            if origin_document.published_at is None:
+                continue
+            day_gap = abs(
+                (
+                    bis_document.published_at.date()
+                    - origin_document.published_at.date()
+                ).days
+            )
+            if day_gap > _SPEECH_DUPLICATE_MAX_DAY_GAP:
+                continue
+            title_similarity = SequenceMatcher(
+                None,
+                bis_subject,
+                _speech_subject(origin_document),
+            ).ratio()
+            if title_similarity < _SPEECH_DUPLICATE_MIN_TITLE_SIMILARITY:
+                continue
+            overlap = _content_overlap(bis_document, origin_document)
+            if overlap < _SPEECH_DUPLICATE_MIN_CONTENT_OVERLAP:
+                continue
+            candidates.append(
+                (overlap, title_similarity, origin_document.id, origin_document)
+            )
+        if candidates:
+            overlap, _, _, origin_document = max(
+                candidates,
+                key=lambda item: item[:3],
+            )
+            matches[bis_document.id] = (origin_document, overlap)
+    return matches
+
+
 def prepare_corpus(
     documents: list[Document],
     settings: Settings,
@@ -179,7 +315,23 @@ def prepare_corpus(
     source_lookup = {source.id: source for source in sources or []}
     decisions: list[CorpusDecision] = []
     eligible: list[Document] = []
+    speech_duplicates = _speech_duplicate_targets(documents, source_lookup)
     for document in documents:
+        if duplicate := speech_duplicates.get(document.id):
+            retained, overlap = duplicate
+            decisions.append(
+                CorpusDecision(
+                    document.id,
+                    document.source_id,
+                    document.publisher,
+                    "omitted",
+                    "duplicate_underlying_speech",
+                    "BIS aggregator copy matched the originating central-bank "
+                    f"document {retained.id} with {overlap:.1%} content overlap; "
+                    "the direct publisher copy was retained",
+                )
+            )
+            continue
         source = source_lookup.get(document.source_id)
         exclude_pattern = source.selection_exclude_title_pattern if source else None
         if exclude_pattern and re.search(exclude_pattern, document.title):
@@ -218,6 +370,7 @@ def prepare_corpus(
 
     for document in ordered:
         source = source_lookup.get(document.source_id)
+        source_owner = (source.owner or source.publisher) if source else document.publisher
         if len(included) >= settings.max_articles:
             omitted.append(document.id)
             decisions.append(
@@ -242,6 +395,7 @@ def prepare_corpus(
                 "source_id": document.source_id,
                 "source_name": document.source_name,
                 "publisher": document.publisher,
+                "source_owner": source_owner,
                 "evidence_tier": tier,
                 "category": document.category,
                 "title": document.title,
@@ -365,10 +519,6 @@ def _resolve_citations(
         return value
 
     return DailyBriefV2Draft.model_validate(resolve(brief.model_dump(mode="python")))
-
-
-def _normal(value: str) -> str:
-    return " ".join(re.findall(r"[a-z0-9]+", value.casefold()))
 
 
 def _assert_semantic_contract(brief: DailyBriefV2Draft) -> None:
@@ -500,11 +650,7 @@ def _calibrate_confidence(
             updated = {key: calibrate(child) for key, child in node.items()}
             source_ids = updated.get("source_ids")
             if isinstance(source_ids, list) and source_ids:
-                evidence_families = {
-                    str(child)
-                    for key, child in _walk_pairs(updated)
-                    if key == "evidence_family" and isinstance(child, str)
-                }
+                evidence_families = _evidence_family_keys(updated, source_ids)
                 has_counterevidence = bool(
                     updated.get("counterevidence")
                     or updated.get("conflicting_evidence")

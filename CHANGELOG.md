@@ -1,5 +1,23 @@
 # Changelog
 
+## 0.7.2 - 2026-09-03
+
+### Evidence identity and speech deduplication
+
+- Changed confidence calibration to normalize evidence-family labels, connect
+  them to the exact cited documents and count distinct underlying releases.
+  Several publisher write-ups of one release can no longer raise
+  confidence as though they were independent evidence.
+- Added source-owner context to the synthesis records and made the prompt use
+  one stable family label for claims derived from the same release or event.
+- Added a narrow BIS speech duplicate rule that prefers an originating central
+  bank copy only when publication dates are close, speech titles agree and the
+  extracted bodies have at least 82% seven-word-sequence overlap. A title match
+  by itself never removes a document.
+- Kept every removed BIS copy in the private technical funnel under the explicit
+  `duplicate_underlying_speech` reason and added true-match, false-positive and
+  cross-publisher family regression tests.
+
 ## 0.7.1 - 2026-09-02
 
 ### Actionable source-health alerts

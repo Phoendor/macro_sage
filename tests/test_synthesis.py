@@ -1,4 +1,5 @@
 import json
+from dataclasses import replace
 from datetime import date, datetime, timezone
 
 import pytest
@@ -16,6 +17,7 @@ from macro_sage.settings import Settings
 from macro_sage.synthesis import (
     _assert_known_sources,
     _confidence_score,
+    _evidence_family_keys,
     prepare_corpus,
     synthesize,
 )
@@ -57,6 +59,25 @@ def test_prepare_corpus_uses_one_bounded_payload():
     assert "x" * 21 not in prepared.text
 
 
+def test_prepare_corpus_exposes_source_owner_for_release_family_reasoning():
+    source = SourceDefinition(
+        "research-desk",
+        "Research Desk",
+        "Desk Brand",
+        "https://example.com/feed.xml",
+        "research",
+        owner="Parent Institution",
+    )
+
+    prepared = prepare_corpus(
+        [document("one", source_id="research-desk")],
+        Settings(max_articles=1, max_article_chars=100, max_corpus_chars=1_000),
+        [source],
+    )
+
+    assert json.loads(prepared.text)[0]["source_owner"] == "Parent Institution"
+
+
 def test_prepare_corpus_balances_publishers_before_taking_second_item():
     settings = Settings(max_articles=2, max_article_chars=20, max_corpus_chars=1_000)
     documents = [
@@ -69,6 +90,102 @@ def test_prepare_corpus_balances_publishers_before_taking_second_item():
 
     assert [item.id for item in prepared.included] == ["a-new", "b-new"]
     assert prepared.omitted_ids == ["a-old"]
+
+
+def test_prepare_corpus_prefers_originating_bank_over_overlapping_bis_speech():
+    speech = " ".join(f"policyword{index}" for index in range(180))
+    bis_source = SourceDefinition(
+        "bis-speeches",
+        "Central Bank Speeches",
+        "Bank for International Settlements",
+        "https://www.bis.org/doclist/cbspeeches.rss",
+        "central-bank",
+        owner="Bank for International Settlements",
+    )
+    bank_source = SourceDefinition(
+        "boc-speeches",
+        "Bank of Canada Speeches",
+        "Bank of Canada",
+        "https://www.bankofcanada.ca/speeches/feed/",
+        "central-bank",
+        owner="Bank of Canada",
+    )
+    bis_document = document(
+        "bis-copy",
+        f"BIS introduction text {speech} BIS publication footer",
+        publisher="Bank for International Settlements",
+        source_id="bis-speeches",
+    )
+    bis_document = replace(
+        bis_document,
+        title="Jane Doe: Monetary policy in a changing economy",
+    )
+    origin_document = document(
+        "origin-copy",
+        f"Bank introduction text {speech} Bank publication footer",
+        publisher="Bank of Canada",
+        source_id="boc-speeches",
+    )
+    origin_document = replace(
+        origin_document,
+        title="Monetary policy in a changing economy",
+    )
+
+    prepared = prepare_corpus(
+        [bis_document, origin_document],
+        Settings(max_articles=5, max_article_chars=20_000, max_corpus_chars=50_000),
+        [bis_source, bank_source],
+    )
+
+    assert [item.id for item in prepared.included] == ["origin-copy"]
+    assert prepared.omitted_ids == ["bis-copy"]
+    decision = next(
+        item for item in prepared.decisions if item.document_id == "bis-copy"
+    )
+    assert decision.reason_label == "duplicate_underlying_speech"
+    assert "direct publisher copy was retained" in decision.reason
+
+
+def test_prepare_corpus_never_deduplicates_bis_speech_on_title_alone():
+    bis_source = SourceDefinition(
+        "bis-speeches",
+        "Central Bank Speeches",
+        "Bank for International Settlements",
+        "https://www.bis.org/doclist/cbspeeches.rss",
+        "central-bank",
+        owner="Bank for International Settlements",
+    )
+    bank_source = SourceDefinition(
+        "boc-speeches",
+        "Bank of Canada Speeches",
+        "Bank of Canada",
+        "https://www.bankofcanada.ca/speeches/feed/",
+        "central-bank",
+        owner="Bank of Canada",
+    )
+    first = document(
+        "bis-copy",
+        " ".join(f"alpha{index}" for index in range(120)),
+        publisher="Bank for International Settlements",
+        source_id="bis-speeches",
+    )
+    first = replace(first, title="Monetary policy in a changing economy")
+    second = document(
+        "origin-copy",
+        " ".join(f"beta{index}" for index in range(120)),
+        publisher="Bank of Canada",
+        source_id="boc-speeches",
+    )
+    second = replace(second, title="Monetary policy in a changing economy")
+
+    prepared = prepare_corpus(
+        [first, second],
+        Settings(max_articles=5, max_article_chars=20_000, max_corpus_chars=50_000),
+        [bis_source, bank_source],
+    )
+
+    assert {item.id for item in prepared.included} == {"bis-copy", "origin-copy"}
+    assert prepared.omitted_ids == []
 
 
 def test_unknown_model_citation_is_rejected():
@@ -123,6 +240,61 @@ def test_model_family_labels_cannot_inflate_single_publisher_confidence():
 
     assert score == 3
     assert "1 conservatively independent" in rationale
+
+
+def test_evidence_family_keys_join_cross_publisher_writeups():
+    node = {
+        "source_ids": ["doc-a", "doc-b", "doc-c"],
+        "evidence": [
+            {
+                "source_ids": ["doc-a"],
+                "evidence_family": "June CPI release",
+            },
+            {
+                "source_ids": ["doc-b"],
+                "evidence_family": "  JUNE cpi RELEASE ",
+            },
+            {
+                "source_ids": ["doc-c"],
+                "evidence_family": "ECB policy decision",
+            },
+        ],
+    }
+
+    families = _evidence_family_keys(node, node["source_ids"])
+
+    assert families == {"june cpi release", "ecb policy decision"}
+
+
+def test_grouped_release_writeups_do_not_inflate_confidence():
+    documents = {
+        item.id: item
+        for item in (
+            document("doc-a", publisher="Publisher A"),
+            document("doc-b", publisher="Publisher B"),
+            document("doc-c", publisher="Publisher C"),
+        )
+    }
+    node = {
+        "source_ids": list(documents),
+        "evidence": [
+            {"source_ids": ["doc-a"], "evidence_family": "June CPI release"},
+            {"source_ids": ["doc-b"], "evidence_family": "June CPI release"},
+            {"source_ids": ["doc-c"], "evidence_family": "ECB decision"},
+        ],
+    }
+
+    score, rationale = _confidence_score(
+        list(documents),
+        documents,
+        {},
+        _evidence_family_keys(node, node["source_ids"]),
+        has_counterevidence=False,
+        has_carried_evidence=False,
+    )
+
+    assert score == 4
+    assert "2 conservatively independent" in rationale
 
 
 def test_synthesize_uses_structured_responses_api():

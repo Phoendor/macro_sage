@@ -10,8 +10,9 @@ Milestone 3 passed its hosted fixed-date canary and awaits the first scheduled
 cutoff-window observation before closure. Milestone 5's version-0.7 clarity
 tranche removes the arbitrary source/publisher synthesis caps, separates public
 content from private operations, and adds a complete deterministic material
-funnel; its hosted observation and advanced evidence-family/token-accounting
-refinements remain open.
+funnel. Version 0.7.2 completes evidence-family confidence grouping and the
+narrow BIS/originating-bank speech deduplication rule; model-aware input
+accounting and a hosted corpus observation remain open.
 
 Baseline date: 2026-08-30.
 
@@ -80,8 +81,9 @@ allowed after a timestamped market-data source has been integrated.
 - [x] Made the same CLI operate locally and in GitHub Actions.
 - [x] Added model preflight selection and recorded the selected models.
 - [x] Added bounded offline compilation, generated-catalog validation, lint and
-  regression checks; version 0.7.1 carries transition-only health alerts on top
-  of the version-0.7 public/private reporting split.
+  regression checks; version 0.7.2 adds release-family confidence grouping and
+  conservative BIS/originating-bank speech deduplication on top of the
+  version-0.7 public/private reporting split.
 
 ### Current operating state
 
@@ -155,6 +157,10 @@ allowed after a timestamped market-data source has been integrated.
   zero new-alert source IDs, and reported 27 healthy sources. Bank of Canada
   News recovered, and BIS Research Hub did not participate after its explicit
   unavailable transition.
+- Version 0.7.2 groups claim citations by normalized underlying release before
+  confidence is scored and prefers a near-identical direct central-bank speech
+  over its BIS aggregator copy. Every such omission remains explicit in the
+  private technical report.
 
 ## 3. Priority and dependency map
 
@@ -990,15 +996,21 @@ reason to reject the fourth.
 - [x] Remove per-source and per-publisher hard synthesis caps. Interleave
   publishers for ordering, but keep every document eligible until the global
   article/character boundary.
-- [ ] Treat several publications derived from one underlying release as one
-  evidence family for confidence.
+- [x] Treat several publications derived from one underlying release as one
+  evidence family for confidence. Normalize claim-family labels, connect those
+  labels to their cited document IDs, and count the resulting families under
+  the existing conservative publisher boundary.
 - [x] Filter company-specific and lifestyle pieces from broad Saxo feeds unless
   they have a clear macro transmission channel.
 - [x] Filter narrowly sectoral ING material unless macro or cross-asset
   relevance is material.
 - [x] Limit NBER's batch feed to relevant macroeconomics, monetary economics,
   international finance, asset pricing, labour and public-finance research.
-- [ ] Deduplicate BIS speeches against the originating central bank.
+- [x] Deduplicate BIS speeches against the originating central bank only when
+  the two documents are near-dated, have compatible speech titles and share at
+  least 82% of their seven-word text sequences. Title similarity alone never
+  removes a document; the retained direct copy and rejection reason remain in
+  the private technical funnel.
 - [x] Label practitioner podcasts as opinion rather than primary evidence.
 - [x] Preserve genuine disagreement rather than forcing artificial consensus.
 - [x] Treat configured title-inclusion expressions as soft ordering preferences,
@@ -1548,13 +1560,16 @@ explicit participation outcomes, deterministic corpus admission, auditable
 omission reasons and safe JSON evidence serialization. Version 0.7.0 removes
 the hard per-source/publisher caps, stops inferring scheduled-day failures from
 broad cadence metadata, adds the complete deterministic material funnel, and
-splits public content from the private technical audit. Milestone closure remains
-open for a hosted observation plus cross-publisher evidence-family grouping,
-BIS/originating-bank speech deduplication and model-aware token accounting.
+splits public content from the private technical audit.
 Version 0.7.1 corrects the live monitor discovered during that observation:
 new failure transitions alert once, unchanged persistent failures stay visible
 without repeat failure email, and the proven-broken BIS Research Hub endpoint is
 kept in the unavailable register instead of being requested every day.
+Version 0.7.2 maps normalized claim-family labels back to cited documents before
+confidence is calibrated and removes a BIS aggregator copy only when a
+near-date direct-bank copy passes strong title-and-body agreement. Milestone
+closure remains open for a hosted corpus observation and model-aware input
+accounting.
 
 Hosted transition-alert canary
 [`33662151433`](https://github.com/Phoendor/macro_sage/actions/runs/33662151433)
