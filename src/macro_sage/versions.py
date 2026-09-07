@@ -23,6 +23,7 @@ ACQUISITION_WINDOW_VERSION = 1
 COMPARISON_KEY_VERSION = 1
 EVALUATION_CONTRACT_VERSION = 2
 DELIVERY_CONTRACT_VERSION = 1
+MARKET_DATA_CONTRACT_VERSION = 1
 
 
 def git_revision(root: Path | None = None) -> str | None:
@@ -63,4 +64,5 @@ def transformation_versions(root: Path | None = None) -> dict[str, object]:
         "comparison_keys": COMPARISON_KEY_VERSION,
         "evaluation_contract": EVALUATION_CONTRACT_VERSION,
         "delivery_contract": DELIVERY_CONTRACT_VERSION,
+        "market_data_contract": MARKET_DATA_CONTRACT_VERSION,
     }

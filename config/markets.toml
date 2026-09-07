@@ -1,0 +1,261 @@
+[market]
+version = 1
+convention = "latest completed provider observation; never implied live"
+lookback_days = 60
+
+[[instruments]]
+id = "us-policy-rate"
+label = "Effective federal funds rate"
+asset_class = "rates"
+provider = "fred"
+series_id = "DFF"
+units = "percent"
+currency = "USD"
+quote_status = "official_observation"
+change_method = "basis_points"
+max_age_days = 4
+source_url = "https://fred.stlouisfed.org/series/DFF"
+
+[[instruments]]
+id = "us-2y"
+label = "US Treasury 2-year yield"
+asset_class = "rates"
+provider = "fred"
+series_id = "DGS2"
+units = "percent"
+currency = "USD"
+quote_status = "official_observation"
+change_method = "basis_points"
+max_age_days = 4
+source_url = "https://fred.stlouisfed.org/series/DGS2"
+
+[[instruments]]
+id = "us-10y"
+label = "US Treasury 10-year yield"
+asset_class = "rates"
+provider = "fred"
+series_id = "DGS10"
+units = "percent"
+currency = "USD"
+quote_status = "official_observation"
+change_method = "basis_points"
+max_age_days = 4
+source_url = "https://fred.stlouisfed.org/series/DGS10"
+
+[[instruments]]
+id = "us-30y"
+label = "US Treasury 30-year yield"
+asset_class = "rates"
+provider = "fred"
+series_id = "DGS30"
+units = "percent"
+currency = "USD"
+quote_status = "official_observation"
+change_method = "basis_points"
+max_age_days = 4
+source_url = "https://fred.stlouisfed.org/series/DGS30"
+
+[[instruments]]
+id = "us-2s10s"
+label = "US Treasury 2s10s slope"
+asset_class = "rates"
+provider = "calculated"
+operation = "difference"
+operands = ["us-10y", "us-2y"]
+scale = 100
+units = "basis_points"
+currency = "USD"
+quote_status = "official_observation"
+change_method = "absolute"
+max_age_days = 4
+source_url = "https://fred.stlouisfed.org/series/DGS10"
+
+[[instruments]]
+id = "us-10y-real"
+label = "US 10-year real yield"
+asset_class = "rates"
+provider = "fred"
+series_id = "DFII10"
+units = "percent"
+currency = "USD"
+quote_status = "official_observation"
+change_method = "basis_points"
+max_age_days = 4
+source_url = "https://fred.stlouisfed.org/series/DFII10"
+
+[[instruments]]
+id = "us-10y-breakeven"
+label = "US 10-year inflation breakeven"
+asset_class = "rates"
+provider = "fred"
+series_id = "T10YIE"
+units = "percent"
+currency = "USD"
+quote_status = "official_observation"
+change_method = "basis_points"
+max_age_days = 4
+source_url = "https://fred.stlouisfed.org/series/T10YIE"
+
+[[instruments]]
+id = "sp500"
+label = "S&P 500"
+asset_class = "equities"
+provider = "fred"
+series_id = "SP500"
+units = "index_points"
+currency = "USD"
+quote_status = "completed_close"
+change_method = "percent"
+max_age_days = 4
+source_url = "https://fred.stlouisfed.org/series/SP500"
+
+[[instruments]]
+id = "nasdaq-composite"
+label = "Nasdaq Composite"
+asset_class = "equities"
+provider = "fred"
+series_id = "NASDAQCOM"
+units = "index_points"
+currency = "USD"
+quote_status = "completed_close"
+change_method = "percent"
+max_age_days = 4
+source_url = "https://fred.stlouisfed.org/series/NASDAQCOM"
+
+[[instruments]]
+id = "us-investment-grade-oas"
+label = "US corporate investment-grade option-adjusted spread"
+asset_class = "credit"
+provider = "fred"
+series_id = "BAMLC0A0CM"
+units = "percent"
+currency = "USD"
+quote_status = "official_observation"
+change_method = "basis_points"
+max_age_days = 4
+source_url = "https://fred.stlouisfed.org/series/BAMLC0A0CM"
+
+[[instruments]]
+id = "us-high-yield-oas"
+label = "US high-yield option-adjusted spread"
+asset_class = "credit"
+provider = "fred"
+series_id = "BAMLH0A0HYM2"
+units = "percent"
+currency = "USD"
+quote_status = "official_observation"
+change_method = "basis_points"
+max_age_days = 4
+source_url = "https://fred.stlouisfed.org/series/BAMLH0A0HYM2"
+
+[[instruments]]
+id = "wti"
+label = "WTI crude oil spot price"
+asset_class = "commodities"
+provider = "fred"
+series_id = "DCOILWTICO"
+units = "dollars_per_barrel"
+currency = "USD"
+quote_status = "official_observation"
+change_method = "percent"
+max_age_days = 7
+source_url = "https://fred.stlouisfed.org/series/DCOILWTICO"
+
+[[instruments]]
+id = "henry-hub-gas"
+label = "Henry Hub natural gas spot price"
+asset_class = "commodities"
+provider = "fred"
+series_id = "DHHNGSP"
+units = "dollars_per_million_btu"
+currency = "USD"
+quote_status = "official_observation"
+change_method = "percent"
+max_age_days = 7
+source_url = "https://fred.stlouisfed.org/series/DHHNGSP"
+
+[[instruments]]
+id = "vix"
+label = "CBOE VIX"
+asset_class = "volatility"
+provider = "fred"
+series_id = "VIXCLS"
+units = "index_points"
+quote_status = "completed_close"
+change_method = "absolute"
+max_age_days = 4
+source_url = "https://fred.stlouisfed.org/series/VIXCLS"
+
+[[instruments]]
+id = "chicago-fed-nfci"
+label = "Chicago Fed National Financial Conditions Index"
+asset_class = "financial_conditions"
+provider = "fred"
+series_id = "NFCI"
+units = "index_points"
+quote_status = "official_observation"
+change_method = "absolute"
+max_age_days = 10
+source_url = "https://fred.stlouisfed.org/series/NFCI"
+
+# ECB daily reference rates are deliberately registered but disabled until the
+# SDMX response, publication-time and cross-rate contracts have live fixtures.
+[[instruments]]
+id = "eur-usd"
+label = "EUR/USD ECB reference rate"
+asset_class = "fx"
+provider = "ecb"
+series_id = "D.USD.EUR.SP00.A"
+units = "USD_per_EUR"
+currency = "USD"
+quote_status = "official_fixing"
+change_method = "percent"
+max_age_days = 4
+source_url = "https://data.ecb.europa.eu/data/datasets/EXR/EXR.D.USD.EUR.SP00.A"
+enabled = false
+unavailable_reason = "ECB SDMX adapter and three-sample live contract are not implemented yet."
+
+[[instruments]]
+id = "eur-jpy"
+label = "EUR/JPY ECB reference rate"
+asset_class = "fx"
+provider = "ecb"
+series_id = "D.JPY.EUR.SP00.A"
+units = "JPY_per_EUR"
+currency = "JPY"
+quote_status = "official_fixing"
+change_method = "percent"
+max_age_days = 4
+source_url = "https://data.ecb.europa.eu/data/datasets/EXR/EXR.D.JPY.EUR.SP00.A"
+enabled = false
+unavailable_reason = "ECB SDMX adapter and three-sample live contract are not implemented yet."
+
+[[instruments]]
+id = "eur-gbp"
+label = "EUR/GBP ECB reference rate"
+asset_class = "fx"
+provider = "ecb"
+series_id = "D.GBP.EUR.SP00.A"
+units = "GBP_per_EUR"
+currency = "GBP"
+quote_status = "official_fixing"
+change_method = "percent"
+max_age_days = 4
+source_url = "https://data.ecb.europa.eu/data/datasets/EXR/EXR.D.GBP.EUR.SP00.A"
+enabled = false
+unavailable_reason = "ECB SDMX adapter and three-sample live contract are not implemented yet."
+
+[[instruments]]
+id = "eur-chf"
+label = "EUR/CHF ECB reference rate"
+asset_class = "fx"
+provider = "ecb"
+series_id = "D.CHF.EUR.SP00.A"
+units = "CHF_per_EUR"
+currency = "CHF"
+quote_status = "official_fixing"
+change_method = "percent"
+max_age_days = 4
+source_url = "https://data.ecb.europa.eu/data/datasets/EXR/EXR.D.CHF.EUR.SP00.A"
+enabled = false
+unavailable_reason = "ECB SDMX adapter and three-sample live contract are not implemented yet."

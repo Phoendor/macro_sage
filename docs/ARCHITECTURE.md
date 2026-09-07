@@ -38,6 +38,10 @@ Macro Sage is intentionally a small batch application, not a framework.
     rendered from the same run. The optional Telegram adapter sends the content
     PDF to the channel and, when configured, the technical PDF to the owner's
     numeric private chat ID. Each destination has its own idempotency record.
+14. The version-0.8 market-data foundation keeps a separate provider-neutral,
+    timestamped snapshot contract. It calculates observation changes and curve
+    slopes locally and cannot affect synthesis or public output until its live
+    and redistribution gates pass.
 
 ## Main decisions
 
@@ -154,6 +158,20 @@ technical PDF to that numeric private chat. The adapter validates PDF type and
 size, uses a destination-aware run/content idempotency key, retries only an
 explicit rate-limit response once, and records the returned message ID in
 durable history state. Report artifacts remain available when delivery fails.
+
+### Market data is a separate evidence channel
+
+Market values are not articles and are never smuggled into source prose. The
+authoritative instrument registry is `config/markets.toml`; each metric records
+provider, series identifier, units, currency, observation time, quote status,
+freshness and deterministic transformation. The first FRED adapter is available
+through the standalone `market-snapshot` command, while ECB reference-rate
+definitions remain explicitly disabled pending live contract validation.
+
+The convention is the latest completed provider observation, never implied
+live. One-, five- and one-month changes mean one, five and 21 available
+observations. Missing and stale series remain explicit and non-fatal. See
+[the market-data contract](MARKET_DATA.md).
 
 ### Failures are output, not log noise
 

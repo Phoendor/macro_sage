@@ -85,6 +85,9 @@ macro-sage list-sources --all
 # Check feed discovery and accumulated cadence health without OpenAI or extraction.
 macro-sage source-health
 
+# Build the standalone market-data foundation snapshot (requires FRED_API_KEY).
+macro-sage market-snapshot --as-of 2026-09-07T19:30:00+02:00
+
 # Check a saved brief against the deterministic grounding contract.
 macro-sage evaluate --brief output/runs/RUN_ID/brief.json \
   --manifest output/runs/RUN_ID/manifest.json
@@ -100,6 +103,14 @@ cross-asset transmission, scenarios, disagreement, catalysts, invalidations and
 at most three conditional research expressions. Without timestamped market
 data, the brief says so prominently and cannot label an expression ready for
 review.
+
+Version 0.8 adds a standalone, provider-neutral market snapshot without yet
+feeding it to the model or public PDF. It calculates 1/5/21-observation changes
+and the US 2s10s curve locally, records the provider and timestamp of every
+value, and labels stale or missing metrics explicitly. The initial FRED adapter
+requires `FRED_API_KEY`; official ECB FX definitions remain disabled until their
+live extraction contract is validated. See
+[the market-data contract](docs/MARKET_DATA.md).
 
 Every model-backed run checks the models available to the OpenAI project once
 before doing paid work, then passes that immutable selection through later
@@ -213,6 +224,7 @@ changing extraction, source, or transcription contracts.
 
 ```text
 .
+├── config/markets.toml     # timestamped market instrument registry
 ├── config/sources.toml     # curated article and opt-in podcast feeds
 ├── validation/             # dated live baseline and reviewed contract metadata
 ├── src/macro_sage/         # application package

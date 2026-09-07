@@ -14,7 +14,10 @@ funnel. Version 0.7.2 completes evidence-family confidence grouping and the
 narrow BIS/originating-bank speech deduplication rule. Version 0.7.3 completes
 model-aware input accounting and passed its hosted corpus observation. Version
 0.7.4 closes the pagination defect found during visual acceptance. Milestone 5
-is closed.
+is closed. Version 0.8.0 begins Milestone 6 with a provider-neutral market-data
+contract, deterministic changes and curve calculation, an initial FRED adapter,
+and explicit deferred ECB FX definitions. This foundation is not yet supplied
+to synthesis or public output.
 
 Baseline date: 2026-08-30.
 
@@ -1174,28 +1177,34 @@ candidate expressions as research hypotheses requiring market confirmation.
 - [ ] Evaluate official or appropriately licensed providers for accuracy,
   timeliness, history, stable access, redistribution terms and failure
   behavior.
-- [ ] Prefer primary statistical and central-bank data for macro series.
-- [ ] Do not scrape unstable consumer quote pages when a documented data source
+- [x] Prefer primary statistical and central-bank data for macro series. Select
+  the documented FRED API for the first US foundation and the official ECB SDMX
+  API for the planned FX layer, while retaining the original series source and
+  its attribution requirements.
+- [x] Do not scrape unstable consumer quote pages when a documented data source
   exists.
-- [ ] Record provider, symbol/series identifier, units, timezone, observation
+- [x] Record provider, symbol/series identifier, units, timezone, observation
   time and transformation for every value.
-- [ ] Make provider choice a documented decision before implementation.
-- [ ] Decide whether the 19:30 Amsterdam report uses clearly labelled delayed
-  US intraday data or whether the run moves later to use completed closes; do
-  not mix those conventions silently.
-- [ ] Define a provider-neutral interface so a lawful provider can be changed
+- [x] Make the initial provider choice and its unresolved public-use/licensing
+  gate a documented decision before report integration.
+- [x] Keep the 19:30 Amsterdam report on the latest completed provider
+  observation and never imply that it is live. If a later licensed provider can
+  reliably supply the current completed US close, move the schedule to 22:30
+  Amsterdam rather than mixing partial intraday and completed-close values.
+- [x] Define a provider-neutral interface so a lawful provider can be changed
   without rewriting synthesis or report schemas.
 
 ### H3. Integrate data deterministically
 
-- [ ] Calculate changes, slopes and spreads in local code rather than asking the
+- [x] Calculate changes, slopes and spreads in local code rather than asking the
   language model to infer them from raw tables.
 - [ ] Pass a compact timestamped market snapshot to synthesis separately from
   narrative documents.
-- [ ] Cite or attribute every market value to its provider.
-- [ ] Store canonical instrument identifier, field, units, currency, timestamp,
+- [x] Cite or attribute every market value to its provider in the standalone
+  snapshot contract.
+- [x] Store canonical instrument identifier, field, units, currency, timestamp,
   timezone, and real-time/delayed/previous-close status.
-- [ ] Mark stale or missing data explicitly and continue with the qualitative
+- [x] Mark stale or missing data explicitly and continue with the qualitative
   brief when appropriate.
 - [ ] Allow entry, invalidation and relative-value levels only when supported by
   this timestamped layer.
@@ -1682,6 +1691,15 @@ Exit gate:
 
 Includes H1–H3. Provider selection and the report's delayed-intraday versus
 completed-close convention must be decided before implementation is enabled.
+
+Implementation status: version 0.8.0 establishes the bounded foundation. A
+versioned instrument registry, provider-neutral snapshot contract, FRED adapter,
+explicit disabled ECB FX definitions, deterministic 1/5/21-observation changes,
+local 2s10s calculation and stale/missing states are implemented with offline
+tests. The standalone command neither calls OpenAI nor changes the report. Live
+sample validation, series-by-series public-use review, broader non-US provider
+coverage, synthesis input and dashboard rendering remain open; consequently the
+brief continues to report `market_data_available: false`.
 
 Exit gate:
 

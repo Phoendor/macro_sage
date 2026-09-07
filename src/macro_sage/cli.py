@@ -22,6 +22,7 @@ from macro_sage.history import (
     build_history_record,
 )
 from macro_sage.http import HttpClient
+from macro_sage.market import FredProvider, build_market_snapshot, load_market_config
 from macro_sage.models import (
     CollectionReport,
     ContentResult,
@@ -89,6 +90,7 @@ from macro_sage.validation import apply_manual_reviews, run_validation
 from macro_sage.versions import transformation_versions
 
 DEFAULT_CONFIG = Path("config/sources.toml")
+DEFAULT_MARKET_CONFIG = Path("config/markets.toml")
 DEFAULT_DATABASE = Path("data/macro_sage.sqlite3")
 DEFAULT_HISTORY = Path("data/brief-history")
 DEFAULT_OUTPUT = Path("output")
@@ -96,6 +98,13 @@ DEFAULT_OUTPUT = Path("output")
 
 def _date(value: str) -> date:
     return date.fromisoformat(value)
+
+
+def _aware_datetime(value: str) -> datetime:
+    parsed = datetime.fromisoformat(value)
+    if parsed.tzinfo is None:
+        raise argparse.ArgumentTypeError("timestamp must include a timezone offset")
+    return parsed
 
 
 def _positive_int(value: str) -> int:
@@ -1047,6 +1056,36 @@ def _source_health(args: argparse.Namespace) -> int:
     return int(bool(alert_source_ids))
 
 
+def _market_snapshot(args: argparse.Namespace) -> int:
+    settings = Settings.from_env()
+    config = load_market_config(args.market_config)
+    as_of = args.as_of or datetime.now(timezone.utc)
+    fred_api_key = os.getenv("FRED_API_KEY", "").strip()
+    if not fred_api_key:
+        raise SystemExit(
+            "FRED_API_KEY is required for market-snapshot; no data was requested "
+            "and no output was written"
+        )
+    with HttpClient(settings) as http:
+        batch = FredProvider(http, fred_api_key).fetch(
+            config.instruments,
+            as_of=as_of,
+            lookback_days=config.lookback_days,
+        )
+    snapshot = build_market_snapshot(config, batch, as_of=as_of)
+    write_json_atomic(args.output, snapshot.as_dict())
+    available = sum(
+        metric.status.value == "available" for metric in snapshot.metrics
+    )
+    print(
+        f"Market snapshot: {available}/{len(snapshot.metrics)} metrics current "
+        f"as of {snapshot.as_of.isoformat()}. Saved {args.output}."
+    )
+    for warning in snapshot.warnings:
+        print(f"- {warning}")
+    return 0
+
+
 def _evaluate(args: argparse.Namespace) -> int:
     result = evaluate_files(args.brief, args.manifest)
     value = result.as_dict()
@@ -1364,6 +1403,23 @@ def build_parser() -> argparse.ArgumentParser:
         default=DEFAULT_OUTPUT / "source-health" / "latest.md",
     )
     source_health.set_defaults(handler=_source_health)
+
+    market_snapshot = subparsers.add_parser(
+        "market-snapshot",
+        help="collect a timestamped deterministic market-data snapshot",
+    )
+    market_snapshot.add_argument(
+        "--market-config",
+        type=Path,
+        default=DEFAULT_MARKET_CONFIG,
+    )
+    market_snapshot.add_argument("--as-of", type=_aware_datetime)
+    market_snapshot.add_argument(
+        "--output",
+        type=Path,
+        default=DEFAULT_OUTPUT / "market-data" / "latest.json",
+    )
+    market_snapshot.set_defaults(handler=_market_snapshot)
 
     evaluate = subparsers.add_parser(
         "evaluate",

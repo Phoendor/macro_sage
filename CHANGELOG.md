@@ -1,5 +1,25 @@
 # Changelog
 
+## 0.8.0 - 2026-09-07
+
+### Timestamped market-data foundation
+
+- Added a versioned cross-asset instrument registry and provider-neutral
+  snapshot contract with explicit source, series, units, currency, timestamp,
+  quote status, freshness and transformation metadata.
+- Added a standalone FRED adapter and command for US rates, the locally
+  calculated 2s10s curve, broad US equity closes, credit spreads, energy,
+  volatility and financial conditions. It makes no OpenAI request and does not
+  yet alter the daily report.
+- Added deterministic changes across one, five and 21 available observations,
+  plus explicit partial, stale and missing behavior that never exposes the API
+  key in provider errors.
+- Registered official ECB reference-rate definitions as disabled until their
+  SDMX adapter and live contract pass validation.
+- Documented the latest-completed-observation convention, provider decision,
+  remaining coverage/licensing gate and the eventual condition for moving the
+  report after the US close.
+
 ## 0.7.4 - 2026-09-03
 
 ### PDF pagination correction
