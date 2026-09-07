@@ -65,6 +65,17 @@
       "content_sha256": "52756136b2bdf336cee002e565fde32560295813920b7d4deb24ac08832649cc",
       "pdf_sha256": "52756136b2bdf336cee002e565fde32560295813920b7d4deb24ac08832649cc",
       "message_id": 7
+    },
+    {
+      "status": "sent",
+      "idempotency_key": "github-34160460447-1:public:ae1c5daba65c67a283497282aa7f8b22439d4d21a06fb43ffa7f4a787c6a8972",
+      "target_date": "2026-09-07",
+      "run_id": "github-34160460447-1",
+      "delivery_kind": "pdf",
+      "destination": "public",
+      "content_sha256": "ae1c5daba65c67a283497282aa7f8b22439d4d21a06fb43ffa7f4a787c6a8972",
+      "pdf_sha256": "ae1c5daba65c67a283497282aa7f8b22439d4d21a06fb43ffa7f4a787c6a8972",
+      "message_id": 8
     }
   ]
 }
