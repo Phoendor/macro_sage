@@ -142,6 +142,17 @@
       "content_sha256": "dd3e75c3ab9679a105693df0f440e1d2b462a8cd6bd35713b142ec20883a0ab6",
       "pdf_sha256": "dd3e75c3ab9679a105693df0f440e1d2b462a8cd6bd35713b142ec20883a0ab6",
       "message_id": 14
+    },
+    {
+      "status": "sent",
+      "idempotency_key": "github-35145983032-1:public:2ff08ef1a3bbbb04f67579c49ffa0507f3ec6d07c620ee3b47752ba57ff52b87",
+      "target_date": "2026-09-16",
+      "run_id": "github-35145983032-1",
+      "delivery_kind": "pdf",
+      "destination": "public",
+      "content_sha256": "2ff08ef1a3bbbb04f67579c49ffa0507f3ec6d07c620ee3b47752ba57ff52b87",
+      "pdf_sha256": "2ff08ef1a3bbbb04f67579c49ffa0507f3ec6d07c620ee3b47752ba57ff52b87",
+      "message_id": 15
     }
   ]
 }
