@@ -1,0 +1,4764 @@
+{
+  "record_schema_version": 1,
+  "run_id": "github-36056336214-1",
+  "target_date": "2026-09-24",
+  "intended_cutoff": "2026-09-24T19:30:00+02:00",
+  "acquisition_start": "2026-09-23T17:30:00Z",
+  "acquisition_end": "2026-09-24T17:30:00Z",
+  "acquisition_rule": "since_previous_successful_cutoff",
+  "completed_at": "2026-09-24T20:45:37.581515Z",
+  "health": "degraded",
+  "versions": {
+    "application": "0.8.0",
+    "git_commit": "e416d3a1a5f006eede141a88414d5b423e992b6b",
+    "source_config": 2,
+    "extractor": "3",
+    "corpus": "5",
+    "synthesis_prompt": "4",
+    "brief_schema": "2",
+    "transcription_prompt": "1",
+    "renderer": "5",
+    "database_schema": 3,
+    "source_health_rules": 2,
+    "coverage_rules": 1,
+    "history_store": 1,
+    "history_record": 1,
+    "date_resolution": 2,
+    "acquisition_window": 1,
+    "comparison_keys": 1,
+    "evaluation_contract": 2,
+    "delivery_contract": 1,
+    "market_data_contract": 1
+  },
+  "brief_schema_version": "2",
+  "synthesis_prompt_version": "4",
+  "model": "gpt-5.6-luna",
+  "reasoning_effort": "low",
+  "document_ids": [
+    "doc:df3b94f184af1d0f",
+    "doc:ddc9efce84222c3c",
+    "doc:1324a0aa6a48edce",
+    "doc:0e28e165f3d5c2df",
+    "doc:5bbba29b671682fb",
+    "doc:4c5518d17e813612",
+    "doc:a873e98fd1354fd9",
+    "doc:326527f80ed1ea91",
+    "doc:df1b55017f55b7c6",
+    "doc:d3894a13e3d58617",
+    "doc:83c9cc1ea3e225d8",
+    "doc:0a40324922c2f8aa",
+    "doc:39a8f4369e3ea108",
+    "doc:5e82f827b28971c4",
+    "doc:8403c7c1cb67f635",
+    "doc:7ee7695471551680",
+    "doc:a483f43981eb7fa4",
+    "doc:88333e8965524fd7",
+    "doc:e6c01d6b0e285814",
+    "doc:795c27baa3bcd504",
+    "doc:01ea2cad58387dd0",
+    "doc:829a878067b716ec",
+    "doc:948d85b1ce612e5b",
+    "doc:4362fad6e26cf1b2",
+    "doc:653d93ccac4c6af8",
+    "doc:d9ba251ee6f41b02",
+    "doc:abc22c7a4e825211",
+    "doc:c1e5514b50aa5b5e",
+    "doc:fc2b0ce5137ebc7c",
+    "doc:36fa4b9f6de23a79",
+    "doc:880a37fa1bcd5357",
+    "doc:70756f404448999c",
+    "doc:e48491321abdbd23",
+    "doc:97d22205864b3eb0",
+    "doc:c8044ef0b4d829e2",
+    "doc:89f634fde173fbe1",
+    "doc:f36b13864ef01e3f",
+    "doc:67399a58d715eaeb",
+    "doc:8f0be03babea854e",
+    "doc:77c8c826015847a2",
+    "doc:b7e1b4da0aa72fbb",
+    "doc:76b949ed3d575dfc",
+    "doc:ca52c7e6038e64ba",
+    "doc:9f5e449f8b7f1f87",
+    "doc:3023717e8b314df8",
+    "doc:d66efec0f7a411d5"
+  ],
+  "cited_document_ids": [
+    "doc:77c8c826015847a2",
+    "doc:f36b13864ef01e3f",
+    "doc:948d85b1ce612e5b",
+    "doc:b7e1b4da0aa72fbb",
+    "doc:8f0be03babea854e",
+    "doc:5bbba29b671682fb",
+    "doc:df3b94f184af1d0f",
+    "doc:1324a0aa6a48edce",
+    "doc:5e82f827b28971c4",
+    "doc:ddc9efce84222c3c",
+    "doc:0e28e165f3d5c2df",
+    "doc:326527f80ed1ea91",
+    "doc:0a40324922c2f8aa",
+    "doc:a483f43981eb7fa4",
+    "doc:7ee7695471551680"
+  ],
+  "brief": {
+    "what_changed": [
+      {
+        "headline": "Energy shock is increasingly embedded in inflation and policy decisions",
+        "significance": "Norges Bank raised its policy rate to 4.5% and said it may tighten further; the Bank of England sees higher energy prices lifting UK inflation, while the ECB’s September projections also reflect an energy-led inflation rise.",
+        "affected_assets": [
+          "rates",
+          "commodities",
+          "fx"
+        ],
+        "transmission": "Higher energy and commodity costs raise headline inflation, delay easing and pressure real incomes; persistence would increase second-round and policy risks.",
+        "horizon": "short_term",
+        "source_ids": [
+          "doc:77c8c826015847a2",
+          "doc:f36b13864ef01e3f",
+          "doc:948d85b1ce612e5b"
+        ]
+      },
+      {
+        "headline": "Long-end yields and real rates remain a broad tightening impulse",
+        "significance": "Norges Bank reports higher long-term rates across markets; ECB analysis attributes financial-condition tightening partly to higher short- and long-term rates.",
+        "affected_assets": [
+          "rates",
+          "equities",
+          "credit"
+        ],
+        "transmission": "Higher discount rates weigh on duration, housing and investment while increasing fiscal debt-service sensitivity.",
+        "horizon": "short_term",
+        "source_ids": [
+          "doc:b7e1b4da0aa72fbb",
+          "doc:948d85b1ce612e5b"
+        ]
+      }
+    ],
+    "executive_decisions": [
+      {
+        "rank": 1,
+        "development": "Keep the inflation/rates shock as the dominant cross-asset risk.",
+        "why_it_matters": "Multiple central-bank sources identify higher energy prices as the main near-term inflation driver, but transmission beyond headline inflation remains incomplete.",
+        "transmission": "Monitor energy persistence, wage formation and inflation expectations before increasing conviction on further tightening.",
+        "urgency": "watch",
+        "horizon": "short_term",
+        "source_ids": [
+          "doc:77c8c826015847a2",
+          "doc:f36b13864ef01e3f",
+          "doc:8f0be03babea854e",
+          "doc:948d85b1ce612e5b"
+        ]
+      },
+      {
+        "rank": 2,
+        "development": "Treat growth resilience as selective rather than broad-based.",
+        "why_it_matters": "US, German and euro-area activity has shown resilience, while France, Belgium and parts of Central Europe face weaker demand and fiscal constraints.",
+        "transmission": "Supports targeted cyclical exposure but does not remove duration, fiscal or regional dispersion risks.",
+        "urgency": "routine",
+        "horizon": "medium_term",
+        "source_ids": [
+          "doc:5bbba29b671682fb",
+          "doc:df3b94f184af1d0f",
+          "doc:1324a0aa6a48edce",
+          "doc:5e82f827b28971c4",
+          "doc:ddc9efce84222c3c",
+          "doc:0e28e165f3d5c2df"
+        ]
+      }
+    ],
+    "regime_dashboard": [
+      {
+        "dimension": "inflation",
+        "state": "Higher near-term inflation, uncertain persistence",
+        "direction": "deteriorating",
+        "horizon": "short_term",
+        "confidence": 3,
+        "confidence_rationale": "Code-calibrated evidence strength: 4 cited document(s) from 1 conservatively independent evidence family/families from 4 publisher(s); strongest tier is primary.",
+        "evidence": [
+          {
+            "text": "Energy prices have raised inflation and may continue to do so.",
+            "claim_type": "observed_fact",
+            "source_ids": [
+              "doc:77c8c826015847a2",
+              "doc:f36b13864ef01e3f",
+              "doc:8f0be03babea854e",
+              "doc:948d85b1ce612e5b"
+            ],
+            "evidence_family": "September 2026 energy-price shock",
+            "carried_forward": false
+          },
+          {
+            "text": "Second-round effects have so far been limited or uncertain.",
+            "claim_type": "observed_fact",
+            "source_ids": [
+              "doc:f36b13864ef01e3f",
+              "doc:948d85b1ce612e5b"
+            ],
+            "evidence_family": "September 2026 energy-price shock",
+            "carried_forward": false
+          }
+        ],
+        "counterevidence": [],
+        "source_ids": [
+          "doc:77c8c826015847a2",
+          "doc:f36b13864ef01e3f",
+          "doc:8f0be03babea854e",
+          "doc:948d85b1ce612e5b"
+        ]
+      },
+      {
+        "dimension": "monetary_policy",
+        "state": "Restrictive bias across several developed-market central banks",
+        "direction": "deteriorating",
+        "horizon": "short_term",
+        "confidence": 4,
+        "confidence_rationale": "Code-calibrated evidence strength: 3 cited document(s) from 2 conservatively independent evidence family/families from 2 publisher(s); strongest tier is primary. Explicit counterevidence reduces the displayed tier.",
+        "evidence": [
+          {
+            "text": "Norges Bank raised its policy rate from 4.25% to 4.50% and retained a further-hike option.",
+            "claim_type": "observed_fact",
+            "source_ids": [
+              "doc:77c8c826015847a2",
+              "doc:b7e1b4da0aa72fbb"
+            ],
+            "evidence_family": "Norges Bank September 2026 monetary-policy decision",
+            "carried_forward": false
+          },
+          {
+            "text": "ECB and Federal Reserve policy rates were recently raised, according to Norges Bank.",
+            "claim_type": "observed_fact",
+            "source_ids": [
+              "doc:b7e1b4da0aa72fbb"
+            ],
+            "evidence_family": "September 2026 central-bank decisions",
+            "carried_forward": false
+          }
+        ],
+        "counterevidence": [
+          {
+            "text": "SNB left its policy rate unchanged at 0%.",
+            "claim_type": "observed_fact",
+            "source_ids": [
+              "doc:8f0be03babea854e"
+            ],
+            "evidence_family": "SNB September 2026 monetary-policy decision",
+            "carried_forward": false
+          }
+        ],
+        "source_ids": [
+          "doc:77c8c826015847a2",
+          "doc:8f0be03babea854e",
+          "doc:b7e1b4da0aa72fbb"
+        ]
+      },
+      {
+        "dimension": "growth",
+        "state": "Resilient but increasingly uneven",
+        "direction": "mixed",
+        "horizon": "medium_term",
+        "confidence": 3,
+        "confidence_rationale": "Code-calibrated evidence strength: 5 cited document(s) from 2 conservatively independent evidence family/families from 2 publisher(s); strongest tier is institutional_analysis. Explicit counterevidence reduces the displayed tier.",
+        "evidence": [
+          {
+            "text": "Euro-area growth was stronger than expected in the first half of 2026 and investment remains a support.",
+            "claim_type": "observed_fact",
+            "source_ids": [
+              "doc:948d85b1ce612e5b",
+              "doc:5e82f827b28971c4"
+            ],
+            "evidence_family": "2026 Q2 euro-area growth and September projections",
+            "carried_forward": false
+          },
+          {
+            "text": "US manufacturing and German sentiment have improved.",
+            "claim_type": "observed_fact",
+            "source_ids": [
+              "doc:5bbba29b671682fb",
+              "doc:1324a0aa6a48edce"
+            ],
+            "evidence_family": "September 2026 business surveys",
+            "carried_forward": false
+          }
+        ],
+        "counterevidence": [
+          {
+            "text": "French confidence is weak and Belgium faces rising energy and fiscal pressure.",
+            "claim_type": "observed_fact",
+            "source_ids": [
+              "doc:df3b94f184af1d0f",
+              "doc:0e28e165f3d5c2df"
+            ],
+            "evidence_family": "September 2026 business and consumer surveys",
+            "carried_forward": false
+          }
+        ],
+        "source_ids": [
+          "doc:5bbba29b671682fb",
+          "doc:df3b94f184af1d0f",
+          "doc:1324a0aa6a48edce",
+          "doc:5e82f827b28971c4",
+          "doc:0e28e165f3d5c2df"
+        ]
+      },
+      {
+        "dimension": "liquidity_financial_conditions",
+        "state": "Tighter through rates and refinancing costs",
+        "direction": "deteriorating",
+        "horizon": "short_term",
+        "confidence": 5,
+        "confidence_rationale": "Code-calibrated evidence strength: 2 cited document(s) from 2 conservatively independent evidence family/families from 2 publisher(s); strongest tier is primary.",
+        "evidence": [
+          {
+            "text": "ECB analysis states that higher short- and long-term rates are tightening euro-area financial conditions.",
+            "claim_type": "observed_fact",
+            "source_ids": [
+              "doc:948d85b1ce612e5b"
+            ],
+            "evidence_family": "September 2026 ECB financial-conditions analysis",
+            "carried_forward": false
+          },
+          {
+            "text": "Higher rates are expected to raise public and private borrowing costs.",
+            "claim_type": "source_forecast",
+            "source_ids": [
+              "doc:948d85b1ce612e5b",
+              "doc:5e82f827b28971c4"
+            ],
+            "evidence_family": "September 2026 ECB and euro-area projections",
+            "carried_forward": false
+          }
+        ],
+        "counterevidence": [],
+        "source_ids": [
+          "doc:948d85b1ce612e5b",
+          "doc:5e82f827b28971c4"
+        ]
+      },
+      {
+        "dimension": "risk_sentiment",
+        "state": "Resilient in equities but vulnerable to rates and geopolitics",
+        "direction": "mixed",
+        "horizon": "short_term",
+        "confidence": 4,
+        "confidence_rationale": "Code-calibrated evidence strength: 2 cited document(s) from 2 conservatively independent evidence family/families from 2 publisher(s); strongest tier is primary. Explicit counterevidence reduces the displayed tier.",
+        "evidence": [
+          {
+            "text": "Saxo reports a sharp rise in bond volatility while equity volatility moved less.",
+            "claim_type": "observed_fact",
+            "source_ids": [
+              "doc:326527f80ed1ea91"
+            ],
+            "evidence_family": "23 September 2026 rates and volatility session",
+            "carried_forward": false
+          }
+        ],
+        "counterevidence": [
+          {
+            "text": "Global equity prices had increased somewhat since June in Norges Bank’s assessment.",
+            "claim_type": "observed_fact",
+            "source_ids": [
+              "doc:b7e1b4da0aa72fbb"
+            ],
+            "evidence_family": "September 2026 global asset-price assessment",
+            "carried_forward": false
+          }
+        ],
+        "source_ids": [
+          "doc:b7e1b4da0aa72fbb",
+          "doc:326527f80ed1ea91"
+        ]
+      },
+      {
+        "dimension": "fiscal_policy",
+        "state": "Expansionary investment coexists with tightening constraints",
+        "direction": "mixed",
+        "horizon": "medium_term",
+        "confidence": 3,
+        "confidence_rationale": "Code-calibrated evidence strength: 6 cited document(s) from 2 conservatively independent evidence family/families from 2 publisher(s); strongest tier is institutional_analysis. Explicit counterevidence reduces the displayed tier.",
+        "evidence": [
+          {
+            "text": "Defence, infrastructure and AI investment are supporting activity in parts of Europe and the US.",
+            "claim_type": "source_forecast",
+            "source_ids": [
+              "doc:5bbba29b671682fb",
+              "doc:0a40324922c2f8aa",
+              "doc:5e82f827b28971c4"
+            ],
+            "evidence_family": "2026 advanced-economy investment cycle",
+            "carried_forward": false
+          }
+        ],
+        "counterevidence": [
+          {
+            "text": "Higher yields are increasing debt-service sensitivity in France, Italy and the euro area.",
+            "claim_type": "source_forecast",
+            "source_ids": [
+              "doc:a483f43981eb7fa4",
+              "doc:5e82f827b28971c4",
+              "doc:7ee7695471551680",
+              "doc:0e28e165f3d5c2df"
+            ],
+            "evidence_family": "2026 European fiscal outlook",
+            "carried_forward": false
+          }
+        ],
+        "source_ids": [
+          "doc:5bbba29b671682fb",
+          "doc:a483f43981eb7fa4",
+          "doc:0a40324922c2f8aa",
+          "doc:5e82f827b28971c4",
+          "doc:7ee7695471551680",
+          "doc:0e28e165f3d5c2df"
+        ]
+      }
+    ],
+    "macro_themes": [
+      {
+        "theme": "Energy shock versus disinflation",
+        "thesis": "The immediate inflation impulse is broad, but the investment-relevant question is whether higher energy prices generate persistent wage and price-setting effects.",
+        "market_implication": "Maintain a bias toward higher front-end and real-rate risk, while recognizing that weaker demand could eventually offset inflation pressure.",
+        "observed_facts": [
+          {
+            "text": "Energy prices have raised headline inflation across Norway, the UK, Switzerland and the euro area.",
+            "claim_type": "observed_fact",
+            "source_ids": [
+              "doc:77c8c826015847a2",
+              "doc:f36b13864ef01e3f",
+              "doc:8f0be03babea854e",
+              "doc:948d85b1ce612e5b"
+            ],
+            "evidence_family": "September 2026 energy-price shock",
+            "carried_forward": false
+          }
+        ],
+        "inferences": [
+          {
+            "text": "Persistence, rather than the initial energy move alone, is the key policy and asset-pricing risk.",
+            "claim_type": "synthesis_inference",
+            "source_ids": [
+              "doc:f36b13864ef01e3f",
+              "doc:b7e1b4da0aa72fbb",
+              "doc:948d85b1ce612e5b"
+            ],
+            "evidence_family": "September 2026 energy-price shock",
+            "carried_forward": false
+          }
+        ],
+        "conflicting_evidence": [
+          {
+            "text": "UK indirect and second-round effects remain limited so far.",
+            "claim_type": "observed_fact",
+            "source_ids": [
+              "doc:f36b13864ef01e3f"
+            ],
+            "evidence_family": "September 2026 UK inflation transmission assessment",
+            "carried_forward": false
+          }
+        ],
+        "unresolved_questions": [
+          "Will energy prices remain elevated through winter?",
+          "Will wage and price expectations respond materially?"
+        ],
+        "transmission": [
+          {
+            "asset_class": "rates",
+            "implication": "Upside risk to front-end and real yields if persistence increases."
+          },
+          {
+            "asset_class": "fx",
+            "implication": "Potential support for currencies of central banks maintaining restrictive policy, offset by growth effects."
+          },
+          {
+            "asset_class": "commodities",
+            "implication": "Energy remains the principal inflation and growth shock."
+          }
+        ],
+        "horizon": "short_term",
+        "catalysts": [
+          "Energy-price and shipping developments",
+          "Wage and inflation-expectation data"
+        ],
+        "invalidation_conditions": [
+          "Clear energy-price normalization with weaker activity and no second-round effects"
+        ],
+        "source_ids": [
+          "doc:77c8c826015847a2",
+          "doc:f36b13864ef01e3f",
+          "doc:8f0be03babea854e",
+          "doc:b7e1b4da0aa72fbb",
+          "doc:948d85b1ce612e5b"
+        ]
+      },
+      {
+        "theme": "Resilient investment cycle under tighter discount rates",
+        "thesis": "AI, defence, electrification and infrastructure investment are supporting growth, but higher yields and fiscal constraints limit the breadth of the cycle.",
+        "market_implication": "Favors selective capital-goods and infrastructure exposure over broad duration-sensitive risk.",
+        "observed_facts": [
+          {
+            "text": "AI, defence, infrastructure and electrification investment are cited as supports to growth.",
+            "claim_type": "observed_fact",
+            "source_ids": [
+              "doc:5bbba29b671682fb",
+              "doc:0a40324922c2f8aa",
+              "doc:1324a0aa6a48edce",
+              "doc:5e82f827b28971c4"
+            ],
+            "evidence_family": "2026 AI, defence and electrification investment cycle",
+            "carried_forward": false
+          }
+        ],
+        "inferences": [
+          {
+            "text": "The cycle is likely to remain sectorally concentrated rather than uniformly reflationary.",
+            "claim_type": "synthesis_inference",
+            "source_ids": [
+              "doc:5bbba29b671682fb",
+              "doc:0a40324922c2f8aa",
+              "doc:1324a0aa6a48edce",
+              "doc:5e82f827b28971c4"
+            ],
+            "evidence_family": "2026 AI, defence and electrification investment cycle",
+            "carried_forward": false
+          }
+        ],
+        "conflicting_evidence": [
+          {
+            "text": "Higher borrowing costs are a headwind for manufacturing, housing and business investment.",
+            "claim_type": "observed_fact",
+            "source_ids": [
+              "doc:1324a0aa6a48edce",
+              "doc:5e82f827b28971c4",
+              "doc:0e28e165f3d5c2df"
+            ],
+            "evidence_family": "2026 higher-rate transmission",
+            "carried_forward": false
+          }
+        ],
+        "unresolved_questions": [
+          "Can investment offset weaker household demand?",
+          "How persistent will higher real rates be?"
+        ],
+        "transmission": [
+          {
+            "asset_class": "equities",
+            "implication": "Selective support for advanced manufacturing, defence and power-related segments; vulnerability for long-duration sectors."
+          },
+          {
+            "asset_class": "rates",
+            "implication": "Investment resilience supports higher real-rate risk."
+          },
+          {
+            "asset_class": "credit",
+            "implication": "Higher refinancing costs matter most for leveraged and rate-sensitive borrowers."
+          }
+        ],
+        "horizon": "medium_term",
+        "catalysts": [
+          "Business investment and manufacturing surveys",
+          "Fiscal implementation of defence and infrastructure plans"
+        ],
+        "invalidation_conditions": [
+          "Broad investment slowdown or material deterioration in financial conditions"
+        ],
+        "source_ids": [
+          "doc:5bbba29b671682fb",
+          "doc:0a40324922c2f8aa",
+          "doc:1324a0aa6a48edce",
+          "doc:5e82f827b28971c4",
+          "doc:0e28e165f3d5c2df"
+        ]
+      }
+    ],
+    "asset_views": [
+      {
+        "asset": "Global developed-market duration",
+        "bias": "bearish",
+        "horizon": "short_term",
+        "confidence": 4,
+        "confidence_rationale": "Code-calibrated evidence strength: 4 cited document(s) from 3 conservatively independent evidence family/families from 3 publisher(s); strongest tier is primary. Explicit counterevidence reduces the displayed tier.",
+        "market_confirmation": "unavailable",
+        "thesis": "Energy-led inflation and resilient activity are delaying disinflation while higher real rates tighten financial conditions.",
+        "transmission": "Higher policy expectations and refinancing costs pressure nominal duration and fiscal-sensitive sovereigns.",
+        "drivers": [
+          "Norges Bank tightening and further-hike option",
+          "ECB projections show energy-led inflation and tighter conditions",
+          "Resilient US and European investment"
+        ],
+        "risks": [
+          "Energy shock weakens demand rapidly",
+          "Second-round effects remain limited and inflation falls faster"
+        ],
+        "catalyst": "Further central-bank communication or inflation data",
+        "invalidation_condition": "Clear disinflation combined with materially weaker activity",
+        "evidence": [
+          {
+            "text": "Norges Bank raised rates and expects them to remain elevated for a time.",
+            "claim_type": "observed_fact",
+            "source_ids": [
+              "doc:77c8c826015847a2",
+              "doc:b7e1b4da0aa72fbb"
+            ],
+            "evidence_family": "Norges Bank September 2026 monetary-policy decision",
+            "carried_forward": false
+          },
+          {
+            "text": "ECB analysis identifies higher short- and long-term rates as a source of tighter financial conditions.",
+            "claim_type": "observed_fact",
+            "source_ids": [
+              "doc:948d85b1ce612e5b"
+            ],
+            "evidence_family": "September 2026 ECB financial-conditions analysis",
+            "carried_forward": false
+          }
+        ],
+        "counterevidence": [
+          {
+            "text": "The BoE says indirect and second-round effects remain limited so far.",
+            "claim_type": "observed_fact",
+            "source_ids": [
+              "doc:f36b13864ef01e3f"
+            ],
+            "evidence_family": "September 2026 UK inflation transmission assessment",
+            "carried_forward": false
+          }
+        ],
+        "source_ids": [
+          "doc:77c8c826015847a2",
+          "doc:f36b13864ef01e3f",
+          "doc:b7e1b4da0aa72fbb",
+          "doc:948d85b1ce612e5b"
+        ]
+      },
+      {
+        "asset": "Energy commodities",
+        "bias": "bullish",
+        "horizon": "short_term",
+        "confidence": 4,
+        "confidence_rationale": "Code-calibrated evidence strength: 3 cited document(s) from 2 conservatively independent evidence family/families from 3 publisher(s); strongest tier is primary. Explicit counterevidence reduces the displayed tier.",
+        "market_confirmation": "unavailable",
+        "thesis": "Conflict-related supply and shipping disruption is sustaining energy-cost pressure into the inflation outlook.",
+        "transmission": "Higher energy prices support commodity revenues but weaken real incomes and raise policy risk.",
+        "drivers": [
+          "Higher oil and gas prices",
+          "Unresolved Middle East and Strait of Hormuz risks",
+          "Low European gas inventories cited in analysis"
+        ],
+        "risks": [
+          "Geopolitical de-escalation",
+          "Demand destruction from tighter financial conditions"
+        ],
+        "catalyst": "Developments affecting regional energy supply and shipping",
+        "invalidation_condition": "Sustained normalization of energy supply and prices",
+        "evidence": [
+          {
+            "text": "Norges Bank reports higher oil, gas and refined-product prices and unresolved Strait of Hormuz conditions.",
+            "claim_type": "observed_fact",
+            "source_ids": [
+              "doc:b7e1b4da0aa72fbb"
+            ],
+            "evidence_family": "September 2026 Middle East energy-supply shock",
+            "carried_forward": false
+          },
+          {
+            "text": "The BoE states that the conflict has pushed UK energy prices higher.",
+            "claim_type": "observed_fact",
+            "source_ids": [
+              "doc:f36b13864ef01e3f"
+            ],
+            "evidence_family": "September 2026 Middle East energy-supply shock",
+            "carried_forward": false
+          }
+        ],
+        "counterevidence": [
+          {
+            "text": "The SNB expects energy inflation to decline in coming quarters.",
+            "claim_type": "source_forecast",
+            "source_ids": [
+              "doc:8f0be03babea854e"
+            ],
+            "evidence_family": "SNB September 2026 inflation forecast",
+            "carried_forward": false
+          }
+        ],
+        "source_ids": [
+          "doc:f36b13864ef01e3f",
+          "doc:8f0be03babea854e",
+          "doc:b7e1b4da0aa72fbb"
+        ]
+      },
+      {
+        "asset": "European equities",
+        "bias": "mixed",
+        "horizon": "medium_term",
+        "confidence": 3,
+        "confidence_rationale": "Code-calibrated evidence strength: 3 cited document(s) from 2 conservatively independent evidence family/families from 2 publisher(s); strongest tier is institutional_analysis. Explicit counterevidence reduces the displayed tier.",
+        "market_confirmation": "unavailable",
+        "thesis": "Defence, AI and electrification investment support industrial activity, while higher rates and weak domestic demand constrain broad-market upside.",
+        "transmission": "Sectoral investment supports capital goods and technology-linked activity; discount-rate and fiscal risks weigh on long-duration and rate-sensitive segments.",
+        "drivers": [
+          "Euro-area investment and exports",
+          "German cyclical rebound evidence",
+          "Defence and AI spending"
+        ],
+        "risks": [
+          "Persistent energy shock",
+          "French and Belgian fiscal stress",
+          "Higher refinancing costs"
+        ],
+        "catalyst": "Investment orders and fiscal implementation",
+        "invalidation_condition": "Broad-based deterioration in business sentiment or investment",
+        "evidence": [
+          {
+            "text": "Euro-area growth and investment are expected to strengthen, supported by defence and AI.",
+            "claim_type": "source_forecast",
+            "source_ids": [
+              "doc:5e82f827b28971c4"
+            ],
+            "evidence_family": "2026 euro-area growth and investment outlook",
+            "carried_forward": false
+          },
+          {
+            "text": "German Ifo rose for a fifth consecutive month in September.",
+            "claim_type": "observed_fact",
+            "source_ids": [
+              "doc:5bbba29b671682fb"
+            ],
+            "evidence_family": "September 2026 German Ifo survey",
+            "carried_forward": false
+          }
+        ],
+        "counterevidence": [
+          {
+            "text": "French confidence weakened and higher yields add pressure to demand and public finances.",
+            "claim_type": "observed_fact",
+            "source_ids": [
+              "doc:0e28e165f3d5c2df"
+            ],
+            "evidence_family": "September 2026 French confidence and bond-market developments",
+            "carried_forward": false
+          }
+        ],
+        "source_ids": [
+          "doc:5bbba29b671682fb",
+          "doc:5e82f827b28971c4",
+          "doc:0e28e165f3d5c2df"
+        ]
+      }
+    ],
+    "candidate_expressions": [],
+    "scenarios": [
+      {
+        "kind": "base",
+        "qualitative_likelihood": "leading",
+        "description": "Energy prices remain elevated, inflation peaks late in 2026 or early 2027, and central banks keep policy restrictive while investment supports moderate growth.",
+        "signposts": [
+          "Persistent energy and refined-product prices",
+          "Limited but non-zero second-round effects",
+          "Continued defence, AI and infrastructure investment"
+        ],
+        "cross_asset_consequences": [
+          {
+            "asset_class": "rates",
+            "implication": "Duration remains pressured, with front-end and real-rate risk elevated."
+          },
+          {
+            "asset_class": "equities",
+            "implication": "Selective support for investment-linked sectors; broad valuations face higher discount rates."
+          },
+          {
+            "asset_class": "commodities",
+            "implication": "Energy remains supported but volatile."
+          }
+        ],
+        "assumptions": [
+          {
+            "text": "Norges Bank projects inflation to decline toward target over time while keeping rates elevated initially.",
+            "claim_type": "source_forecast",
+            "source_ids": [
+              "doc:b7e1b4da0aa72fbb"
+            ],
+            "evidence_family": "Norges Bank September 2026 projections",
+            "carried_forward": false
+          },
+          {
+            "text": "ECB and BoE assessments allow for temporary energy-led inflation without a confirmed broad second-round spiral.",
+            "claim_type": "source_opinion",
+            "source_ids": [
+              "doc:f36b13864ef01e3f",
+              "doc:948d85b1ce612e5b"
+            ],
+            "evidence_family": "September 2026 central-bank inflation assessments",
+            "carried_forward": false
+          }
+        ],
+        "source_ids": [
+          "doc:f36b13864ef01e3f",
+          "doc:b7e1b4da0aa72fbb",
+          "doc:948d85b1ce612e5b"
+        ]
+      },
+      {
+        "kind": "upside",
+        "qualitative_likelihood": "plausible",
+        "description": "Energy prices stabilize while investment and manufacturing momentum broaden, allowing growth resilience without materially higher inflation persistence.",
+        "signposts": [
+          "Energy-price normalization",
+          "Improving manufacturing orders",
+          "Stable wage and inflation expectations"
+        ],
+        "cross_asset_consequences": [
+          {
+            "asset_class": "equities",
+            "implication": "Broader cyclical and industrial participation."
+          },
+          {
+            "asset_class": "rates",
+            "implication": "Long-end pressure could ease if inflation risk declines."
+          },
+          {
+            "asset_class": "credit",
+            "implication": "Improving activity supports corporate credit quality."
+          }
+        ],
+        "assumptions": [
+          {
+            "text": "German and euro-area investment momentum continues.",
+            "claim_type": "source_forecast",
+            "source_ids": [
+              "doc:5bbba29b671682fb",
+              "doc:5e82f827b28971c4"
+            ],
+            "evidence_family": "2026 European investment cycle",
+            "carried_forward": false
+          }
+        ],
+        "source_ids": [
+          "doc:5bbba29b671682fb",
+          "doc:5e82f827b28971c4"
+        ]
+      },
+      {
+        "kind": "downside",
+        "qualitative_likelihood": "plausible",
+        "description": "Energy prices remain high or rise further, weakening real incomes and activity while second-round effects force additional tightening.",
+        "signposts": [
+          "Further supply disruption",
+          "Rising wage and price expectations",
+          "Weakening consumer and business confidence"
+        ],
+        "cross_asset_consequences": [
+          {
+            "asset_class": "rates",
+            "implication": "Higher front-end rates but eventual growth-driven curve volatility."
+          },
+          {
+            "asset_class": "equities",
+            "implication": "Pressure on consumer, housing and rate-sensitive sectors."
+          },
+          {
+            "asset_class": "credit",
+            "implication": "Higher refinancing costs and weaker activity increase vulnerability."
+          }
+        ],
+        "assumptions": [
+          {
+            "text": "The BoE identifies persistence of high energy prices as increasing the risk of indirect and second-round effects.",
+            "claim_type": "source_opinion",
+            "source_ids": [
+              "doc:f36b13864ef01e3f"
+            ],
+            "evidence_family": "September 2026 UK inflation transmission assessment",
+            "carried_forward": false
+          },
+          {
+            "text": "Norges Bank identifies prolonged energy-price elevation as an upside inflation risk.",
+            "claim_type": "source_forecast",
+            "source_ids": [
+              "doc:b7e1b4da0aa72fbb"
+            ],
+            "evidence_family": "Norges Bank September 2026 risk assessment",
+            "carried_forward": false
+          }
+        ],
+        "source_ids": [
+          "doc:f36b13864ef01e3f",
+          "doc:b7e1b4da0aa72fbb"
+        ]
+      }
+    ],
+    "disagreements": [],
+    "catalysts": [
+      {
+        "event_or_signpost": "Energy prices and Middle East shipping conditions",
+        "timing": "Ongoing",
+        "what_matters": "Persistence determines whether the shock remains headline-only or produces broader inflation and further tightening.",
+        "affected_views": [
+          "Global developed-market duration",
+          "Energy commodities",
+          "European equities"
+        ],
+        "source_ids": [
+          "doc:f36b13864ef01e3f",
+          "doc:b7e1b4da0aa72fbb",
+          "doc:948d85b1ce612e5b"
+        ]
+      },
+      {
+        "event_or_signpost": "Wage growth, inflation expectations and underlying inflation",
+        "timing": "Next data releases and policy communications",
+        "what_matters": "Evidence of second-round effects would materially alter the policy path.",
+        "affected_views": [
+          "Global developed-market duration",
+          "European equities"
+        ],
+        "source_ids": [
+          "doc:77c8c826015847a2",
+          "doc:f36b13864ef01e3f",
+          "doc:b7e1b4da0aa72fbb"
+        ]
+      }
+    ],
+    "top_risks": [
+      {
+        "risk": "Energy shock becomes persistent and generates second-round inflation.",
+        "why_it_matters": "Would extend restrictive policy and pressure duration, real incomes and rate-sensitive equities.",
+        "monitor": "Wages, inflation expectations, food and core-price pass-through.",
+        "source_ids": [
+          "doc:f36b13864ef01e3f",
+          "doc:b7e1b4da0aa72fbb",
+          "doc:948d85b1ce612e5b"
+        ]
+      },
+      {
+        "risk": "Higher yields amplify fiscal and refinancing stress.",
+        "why_it_matters": "France, Italy and other high-debt issuers face rising debt-service sensitivity as debt reprices.",
+        "monitor": "Sovereign yields, fiscal measures and refinancing conditions.",
+        "source_ids": [
+          "doc:a483f43981eb7fa4",
+          "doc:5e82f827b28971c4",
+          "doc:7ee7695471551680",
+          "doc:0e28e165f3d5c2df"
+        ]
+      },
+      {
+        "risk": "Growth resilience proves narrower than headline investment data suggest.",
+        "why_it_matters": "Weak household confidence and higher borrowing costs could undermine the investment-led cycle.",
+        "monitor": "Consumer confidence, housing finance, business orders and employment.",
+        "source_ids": [
+          "doc:df3b94f184af1d0f",
+          "doc:1324a0aa6a48edce",
+          "doc:5e82f827b28971c4",
+          "doc:0e28e165f3d5c2df"
+        ]
+      }
+    ],
+    "schema_version": "2",
+    "as_of_date": "2026-09-24",
+    "coverage": {
+      "data_cutoff": "2026-09-24T17:30:00Z",
+      "comparison_date": "2026-09-23",
+      "documents_collected": 46,
+      "sources_collected": 19,
+      "sources_failed_or_partial": 5,
+      "sources_without_items": 24,
+      "important_missing_coverage": [],
+      "market_data_available": false,
+      "market_data_note": "No timestamped market-price, positioning, or event-calendar feed is integrated. Candidate expressions require current-market confirmation."
+    },
+    "source_ids_used": [
+      "doc:77c8c826015847a2",
+      "doc:f36b13864ef01e3f",
+      "doc:948d85b1ce612e5b",
+      "doc:b7e1b4da0aa72fbb",
+      "doc:8f0be03babea854e",
+      "doc:5bbba29b671682fb",
+      "doc:df3b94f184af1d0f",
+      "doc:1324a0aa6a48edce",
+      "doc:5e82f827b28971c4",
+      "doc:ddc9efce84222c3c",
+      "doc:0e28e165f3d5c2df",
+      "doc:326527f80ed1ea91",
+      "doc:0a40324922c2f8aa",
+      "doc:a483f43981eb7fa4",
+      "doc:7ee7695471551680"
+    ]
+  },
+  "asset_views": [
+    {
+      "key": "asset-view:other:global-developed-market-duration:short_term",
+      "family": "other",
+      "horizon_key": "short_term",
+      "asset": "Global developed-market duration",
+      "horizon": "short_term",
+      "bias": "bearish",
+      "confidence": 4,
+      "supporting_evidence": [
+        "Norges Bank tightening and further-hike option",
+        "ECB projections show energy-led inflation and tighter conditions",
+        "Resilient US and European investment"
+      ],
+      "contradicting_evidence": [
+        "Energy shock weakens demand rapidly",
+        "Second-round effects remain limited and inflation falls faster"
+      ],
+      "source_document_ids": [
+        "doc:77c8c826015847a2",
+        "doc:f36b13864ef01e3f",
+        "doc:b7e1b4da0aa72fbb",
+        "doc:948d85b1ce612e5b"
+      ],
+      "first_seen_date": "2026-09-24",
+      "last_updated_date": "2026-09-24",
+      "expected_expiry_date": "2026-10-08",
+      "freshness": "current",
+      "status_history": [
+        {
+          "as_of_date": "2026-09-24",
+          "status": "new",
+          "bias": "bearish",
+          "confidence": 4,
+          "current_source_document_ids": [
+            "doc:77c8c826015847a2",
+            "doc:f36b13864ef01e3f",
+            "doc:b7e1b4da0aa72fbb",
+            "doc:948d85b1ce612e5b"
+          ],
+          "freshness": "current"
+        }
+      ]
+    },
+    {
+      "key": "asset-view:commodities:energy-commodities:short_term",
+      "family": "commodities",
+      "horizon_key": "short_term",
+      "asset": "Energy commodities",
+      "horizon": "short_term",
+      "bias": "bullish",
+      "confidence": 4,
+      "supporting_evidence": [
+        "Higher oil and gas prices",
+        "Unresolved Middle East and Strait of Hormuz risks",
+        "Low European gas inventories cited in analysis"
+      ],
+      "contradicting_evidence": [
+        "Geopolitical de-escalation",
+        "Demand destruction from tighter financial conditions"
+      ],
+      "source_document_ids": [
+        "doc:f36b13864ef01e3f",
+        "doc:8f0be03babea854e",
+        "doc:b7e1b4da0aa72fbb"
+      ],
+      "first_seen_date": "2026-09-01",
+      "last_updated_date": "2026-09-24",
+      "expected_expiry_date": "2026-10-08",
+      "freshness": "current",
+      "status_history": [
+        {
+          "as_of_date": "2026-09-01",
+          "status": "new",
+          "bias": "bullish",
+          "confidence": 4,
+          "current_source_document_ids": [
+            "doc:b6cd321248a2fe55",
+            "doc:d905d5da8fcd6563",
+            "doc:e3798a7b91ada43a"
+          ],
+          "freshness": "current"
+        },
+        {
+          "as_of_date": "2026-09-02",
+          "status": "weakened",
+          "bias": "bullish",
+          "confidence": 3,
+          "current_source_document_ids": [
+            "doc:b9264201ce0cb723",
+            "doc:d7a1dbc266bbc726",
+            "doc:dd5eae668dad31bc"
+          ],
+          "freshness": "current"
+        },
+        {
+          "as_of_date": "2026-09-03",
+          "status": "unchanged",
+          "bias": "bullish",
+          "confidence": 3,
+          "current_source_document_ids": [
+            "doc:add2fe286002ebae",
+            "doc:87b0ba49100c2459",
+            "doc:e6af6dacf397d6a2"
+          ],
+          "freshness": "current"
+        },
+        {
+          "as_of_date": "2026-09-04",
+          "status": "unchanged",
+          "bias": "bullish",
+          "confidence": 3,
+          "current_source_document_ids": [],
+          "freshness": "carried"
+        },
+        {
+          "as_of_date": "2026-09-07",
+          "status": "weakened",
+          "bias": "bullish",
+          "confidence": 2,
+          "current_source_document_ids": [
+            "doc:46fd5f26be23f1bb",
+            "doc:ed2e94802a116a84"
+          ],
+          "freshness": "current"
+        },
+        {
+          "as_of_date": "2026-09-08",
+          "status": "unchanged",
+          "bias": "bullish",
+          "confidence": 2,
+          "current_source_document_ids": [],
+          "freshness": "carried"
+        },
+        {
+          "as_of_date": "2026-09-09",
+          "status": "strengthened",
+          "bias": "bullish",
+          "confidence": 3,
+          "current_source_document_ids": [
+            "doc:76a3ba61c79d4151",
+            "doc:11418b0cf937f177"
+          ],
+          "freshness": "current"
+        },
+        {
+          "as_of_date": "2026-09-10",
+          "status": "unchanged",
+          "bias": "bullish",
+          "confidence": 3,
+          "current_source_document_ids": [],
+          "freshness": "carried"
+        },
+        {
+          "as_of_date": "2026-09-11",
+          "status": "weakened",
+          "bias": "bullish",
+          "confidence": 1,
+          "current_source_document_ids": [
+            "doc:79b9cd398f732945",
+            "doc:126f4e4000678343"
+          ],
+          "freshness": "current"
+        },
+        {
+          "as_of_date": "2026-09-14",
+          "status": "unchanged",
+          "bias": "bullish",
+          "confidence": 1,
+          "current_source_document_ids": [],
+          "freshness": "carried"
+        },
+        {
+          "as_of_date": "2026-09-15",
+          "status": "unchanged",
+          "bias": "bullish",
+          "confidence": 1,
+          "current_source_document_ids": [],
+          "freshness": "carried"
+        },
+        {
+          "as_of_date": "2026-09-16",
+          "status": "unchanged",
+          "bias": "bullish",
+          "confidence": 1,
+          "current_source_document_ids": [],
+          "freshness": "carried"
+        },
+        {
+          "as_of_date": "2026-09-17",
+          "status": "unchanged",
+          "bias": "bullish",
+          "confidence": 1,
+          "current_source_document_ids": [],
+          "freshness": "carried"
+        },
+        {
+          "as_of_date": "2026-09-18",
+          "status": "unchanged",
+          "bias": "bullish",
+          "confidence": 1,
+          "current_source_document_ids": [],
+          "freshness": "carried"
+        },
+        {
+          "as_of_date": "2026-09-21",
+          "status": "unchanged",
+          "bias": "bullish",
+          "confidence": 1,
+          "current_source_document_ids": [],
+          "freshness": "carried"
+        },
+        {
+          "as_of_date": "2026-09-22",
+          "status": "unchanged",
+          "bias": "bullish",
+          "confidence": 1,
+          "current_source_document_ids": [],
+          "freshness": "carried"
+        },
+        {
+          "as_of_date": "2026-09-23",
+          "status": "unchanged",
+          "bias": "bullish",
+          "confidence": 1,
+          "current_source_document_ids": [],
+          "freshness": "carried"
+        },
+        {
+          "as_of_date": "2026-09-24",
+          "status": "strengthened",
+          "bias": "bullish",
+          "confidence": 4,
+          "current_source_document_ids": [
+            "doc:f36b13864ef01e3f",
+            "doc:8f0be03babea854e",
+            "doc:b7e1b4da0aa72fbb"
+          ],
+          "freshness": "current"
+        }
+      ]
+    },
+    {
+      "key": "asset-view:equities:europe:medium_term",
+      "family": "equities",
+      "horizon_key": "medium_term",
+      "asset": "European equities",
+      "horizon": "medium_term",
+      "bias": "mixed",
+      "confidence": 3,
+      "supporting_evidence": [
+        "Euro-area investment and exports",
+        "German cyclical rebound evidence",
+        "Defence and AI spending"
+      ],
+      "contradicting_evidence": [
+        "Persistent energy shock",
+        "French and Belgian fiscal stress",
+        "Higher refinancing costs"
+      ],
+      "source_document_ids": [
+        "doc:5bbba29b671682fb",
+        "doc:5e82f827b28971c4",
+        "doc:0e28e165f3d5c2df"
+      ],
+      "first_seen_date": "2026-09-24",
+      "last_updated_date": "2026-09-24",
+      "expected_expiry_date": "2026-12-23",
+      "freshness": "current",
+      "status_history": [
+        {
+          "as_of_date": "2026-09-24",
+          "status": "new",
+          "bias": "mixed",
+          "confidence": 3,
+          "current_source_document_ids": [
+            "doc:5bbba29b671682fb",
+            "doc:5e82f827b28971c4",
+            "doc:0e28e165f3d5c2df"
+          ],
+          "freshness": "current"
+        }
+      ]
+    },
+    {
+      "key": "asset-view:fx:usd:short_term",
+      "family": "fx",
+      "horizon_key": "short_term",
+      "asset": "USD",
+      "horizon": "short_term",
+      "bias": "bullish",
+      "confidence": 3,
+      "supporting_evidence": [
+        "Higher US front-end yields and expectations of additional Fed tightening.",
+        "Reported broad USD follow-through despite lower oil prices."
+      ],
+      "contradicting_evidence": [
+        "A sharp deterioration in US activity or labour data.",
+        "A renewed European growth or policy repricing."
+      ],
+      "source_document_ids": [
+        "doc:24a1ae61981e9dd6",
+        "doc:0266cbfb6af336e0",
+        "doc:14d5131b88753e44",
+        "doc:47d5fc99f485d577"
+      ],
+      "first_seen_date": "2026-09-02",
+      "last_updated_date": "2026-09-23",
+      "expected_expiry_date": "2026-10-07",
+      "freshness": "carried",
+      "status_history": [
+        {
+          "as_of_date": "2026-09-02",
+          "status": "new",
+          "bias": "bullish",
+          "confidence": 2,
+          "current_source_document_ids": [
+            "doc:84e46fe6cd9ec1a4",
+            "doc:8378dec4b3aab489"
+          ],
+          "freshness": "current"
+        },
+        {
+          "as_of_date": "2026-09-03",
+          "status": "weakened",
+          "bias": "mixed",
+          "confidence": 4,
+          "current_source_document_ids": [
+            "doc:ac61ffbbcaa27e51",
+            "doc:e9a73134aa16f0a9"
+          ],
+          "freshness": "current"
+        },
+        {
+          "as_of_date": "2026-09-04",
+          "status": "unchanged",
+          "bias": "mixed",
+          "confidence": 4,
+          "current_source_document_ids": [],
+          "freshness": "carried"
+        },
+        {
+          "as_of_date": "2026-09-07",
+          "status": "unchanged",
+          "bias": "mixed",
+          "confidence": 4,
+          "current_source_document_ids": [],
+          "freshness": "carried"
+        },
+        {
+          "as_of_date": "2026-09-08",
+          "status": "unchanged",
+          "bias": "mixed",
+          "confidence": 4,
+          "current_source_document_ids": [],
+          "freshness": "carried"
+        },
+        {
+          "as_of_date": "2026-09-09",
+          "status": "unchanged",
+          "bias": "mixed",
+          "confidence": 4,
+          "current_source_document_ids": [],
+          "freshness": "carried"
+        },
+        {
+          "as_of_date": "2026-09-10",
+          "status": "unchanged",
+          "bias": "mixed",
+          "confidence": 4,
+          "current_source_document_ids": [],
+          "freshness": "carried"
+        },
+        {
+          "as_of_date": "2026-09-11",
+          "status": "unchanged",
+          "bias": "mixed",
+          "confidence": 4,
+          "current_source_document_ids": [],
+          "freshness": "carried"
+        },
+        {
+          "as_of_date": "2026-09-14",
+          "status": "weakened",
+          "bias": "mixed",
+          "confidence": 3,
+          "current_source_document_ids": [
+            "doc:dbe1577008ce122f",
+            "doc:475633817a230ca5"
+          ],
+          "freshness": "current"
+        },
+        {
+          "as_of_date": "2026-09-15",
+          "status": "unchanged",
+          "bias": "mixed",
+          "confidence": 3,
+          "current_source_document_ids": [],
+          "freshness": "carried"
+        },
+        {
+          "as_of_date": "2026-09-16",
+          "status": "unchanged",
+          "bias": "mixed",
+          "confidence": 3,
+          "current_source_document_ids": [],
+          "freshness": "carried"
+        },
+        {
+          "as_of_date": "2026-09-17",
+          "status": "strengthened",
+          "bias": "bullish",
+          "confidence": 2,
+          "current_source_document_ids": [
+            "doc:672aa60a5e6c57d4"
+          ],
+          "freshness": "current"
+        },
+        {
+          "as_of_date": "2026-09-18",
+          "status": "unchanged",
+          "bias": "bullish",
+          "confidence": 2,
+          "current_source_document_ids": [],
+          "freshness": "carried"
+        },
+        {
+          "as_of_date": "2026-09-21",
+          "status": "unchanged",
+          "bias": "bullish",
+          "confidence": 2,
+          "current_source_document_ids": [],
+          "freshness": "carried"
+        },
+        {
+          "as_of_date": "2026-09-22",
+          "status": "strengthened",
+          "bias": "bullish",
+          "confidence": 4,
+          "current_source_document_ids": [
+            "doc:27a81cdab4237254",
+            "doc:6cac787102c89513"
+          ],
+          "freshness": "current"
+        },
+        {
+          "as_of_date": "2026-09-23",
+          "status": "weakened",
+          "bias": "bullish",
+          "confidence": 3,
+          "current_source_document_ids": [
+            "doc:24a1ae61981e9dd6",
+            "doc:0266cbfb6af336e0",
+            "doc:14d5131b88753e44",
+            "doc:47d5fc99f485d577"
+          ],
+          "freshness": "current"
+        },
+        {
+          "as_of_date": "2026-09-24",
+          "status": "unchanged",
+          "bias": "bullish",
+          "confidence": 3,
+          "current_source_document_ids": [],
+          "freshness": "carried"
+        }
+      ]
+    },
+    {
+      "key": "asset-view:other:global-duration:short_term",
+      "family": "other",
+      "horizon_key": "short_term",
+      "asset": "Global duration",
+      "horizon": "short_term",
+      "bias": "bearish",
+      "confidence": 4,
+      "supporting_evidence": [
+        "Euro-area PMI resilience and higher price pressures.",
+        "Reported US 10-year yield above 5.1% intraday."
+      ],
+      "contradicting_evidence": [
+        "Rapid geopolitical de-escalation and weaker activity.",
+        "A sharp equity or credit shock producing safe-haven demand."
+      ],
+      "source_document_ids": [
+        "doc:2c4842d025293bb4",
+        "doc:6981fd7b6abb621d",
+        "doc:24a1ae61981e9dd6"
+      ],
+      "first_seen_date": "2026-09-23",
+      "last_updated_date": "2026-09-23",
+      "expected_expiry_date": "2026-10-07",
+      "freshness": "carried",
+      "status_history": [
+        {
+          "as_of_date": "2026-09-23",
+          "status": "new",
+          "bias": "bearish",
+          "confidence": 4,
+          "current_source_document_ids": [
+            "doc:2c4842d025293bb4",
+            "doc:6981fd7b6abb621d",
+            "doc:24a1ae61981e9dd6"
+          ],
+          "freshness": "current"
+        },
+        {
+          "as_of_date": "2026-09-24",
+          "status": "unchanged",
+          "bias": "bearish",
+          "confidence": 4,
+          "current_source_document_ids": [],
+          "freshness": "carried"
+        }
+      ]
+    },
+    {
+      "key": "asset-view:commodities:oil:short_term",
+      "family": "commodities",
+      "horizon_key": "short_term",
+      "asset": "Oil and refined products",
+      "horizon": "short_term",
+      "bias": "mixed",
+      "confidence": 4,
+      "supporting_evidence": [
+        "Saudi East-West pipeline restart.",
+        "US-Iran diplomatic progress.",
+        "Low diesel inventories and constrained refining capacity."
+      ],
+      "contradicting_evidence": [
+        "Renewed disruption around Hormuz.",
+        "A US diesel-export restriction worsening global product scarcity."
+      ],
+      "source_document_ids": [
+        "doc:b79858b706a2b8ca",
+        "doc:707e3136a96bc08b"
+      ],
+      "first_seen_date": "2026-09-10",
+      "last_updated_date": "2026-09-23",
+      "expected_expiry_date": "2026-10-07",
+      "freshness": "carried",
+      "status_history": [
+        {
+          "as_of_date": "2026-09-10",
+          "status": "new",
+          "bias": "bullish",
+          "confidence": 2,
+          "current_source_document_ids": [
+            "doc:24514bf526ea0443"
+          ],
+          "freshness": "current"
+        },
+        {
+          "as_of_date": "2026-09-11",
+          "status": "unchanged",
+          "bias": "bullish",
+          "confidence": 2,
+          "current_source_document_ids": [],
+          "freshness": "carried"
+        },
+        {
+          "as_of_date": "2026-09-14",
+          "status": "strengthened",
+          "bias": "bullish",
+          "confidence": 3,
+          "current_source_document_ids": [
+            "doc:422b65d1a51c8af0",
+            "doc:947b1a6892be47e5"
+          ],
+          "freshness": "current"
+        },
+        {
+          "as_of_date": "2026-09-15",
+          "status": "unchanged",
+          "bias": "bullish",
+          "confidence": 3,
+          "current_source_document_ids": [
+            "doc:e61b5c5fc830c19c"
+          ],
+          "freshness": "current"
+        },
+        {
+          "as_of_date": "2026-09-16",
+          "status": "weakened",
+          "bias": "bullish",
+          "confidence": 1,
+          "current_source_document_ids": [
+            "doc:7f11bba87cac1816"
+          ],
+          "freshness": "current"
+        },
+        {
+          "as_of_date": "2026-09-17",
+          "status": "unchanged",
+          "bias": "bullish",
+          "confidence": 1,
+          "current_source_document_ids": [],
+          "freshness": "carried"
+        },
+        {
+          "as_of_date": "2026-09-18",
+          "status": "unchanged",
+          "bias": "bullish",
+          "confidence": 1,
+          "current_source_document_ids": [],
+          "freshness": "carried"
+        },
+        {
+          "as_of_date": "2026-09-21",
+          "status": "strengthened",
+          "bias": "bullish",
+          "confidence": 2,
+          "current_source_document_ids": [
+            "doc:24a4b30a261527cb",
+            "doc:68aef951b26a7b47"
+          ],
+          "freshness": "current"
+        },
+        {
+          "as_of_date": "2026-09-22",
+          "status": "weakened",
+          "bias": "mixed",
+          "confidence": 4,
+          "current_source_document_ids": [
+            "doc:2f5ef4430405cbff",
+            "doc:77d7b6c5ec3c6359"
+          ],
+          "freshness": "current"
+        },
+        {
+          "as_of_date": "2026-09-23",
+          "status": "unchanged",
+          "bias": "mixed",
+          "confidence": 4,
+          "current_source_document_ids": [
+            "doc:b79858b706a2b8ca",
+            "doc:707e3136a96bc08b"
+          ],
+          "freshness": "current"
+        },
+        {
+          "as_of_date": "2026-09-24",
+          "status": "unchanged",
+          "bias": "mixed",
+          "confidence": 4,
+          "current_source_document_ids": [],
+          "freshness": "carried"
+        }
+      ]
+    },
+    {
+      "key": "asset-view:equities:ai-linked-equities:medium_term",
+      "family": "equities",
+      "horizon_key": "medium_term",
+      "asset": "AI-linked equities",
+      "horizon": "medium_term",
+      "bias": "mixed",
+      "confidence": 1,
+      "supporting_evidence": [
+        "Continued semiconductor leadership.",
+        "Potential expansion of AI inference and agent workloads.",
+        "Demand for power, networking and memory."
+      ],
+      "contradicting_evidence": [
+        "Slower infrastructure spending.",
+        "Model efficiency reducing hardware intensity.",
+        "Valuation and breadth reversal."
+      ],
+      "source_document_ids": [
+        "doc:24a1ae61981e9dd6",
+        "doc:30afe35832fd6aae",
+        "doc:dcfe6b7b143bc411"
+      ],
+      "first_seen_date": "2026-09-15",
+      "last_updated_date": "2026-09-23",
+      "expected_expiry_date": "2026-12-22",
+      "freshness": "carried",
+      "status_history": [
+        {
+          "as_of_date": "2026-09-15",
+          "status": "new",
+          "bias": "mixed",
+          "confidence": 2,
+          "current_source_document_ids": [
+            "doc:12afb3490e0aac8d",
+            "doc:be8df5ad2727443f",
+            "doc:97630f205e731357"
+          ],
+          "freshness": "current"
+        },
+        {
+          "as_of_date": "2026-09-16",
+          "status": "unchanged",
+          "bias": "mixed",
+          "confidence": 2,
+          "current_source_document_ids": [],
+          "freshness": "carried"
+        },
+        {
+          "as_of_date": "2026-09-17",
+          "status": "unchanged",
+          "bias": "mixed",
+          "confidence": 2,
+          "current_source_document_ids": [],
+          "freshness": "carried"
+        },
+        {
+          "as_of_date": "2026-09-18",
+          "status": "strengthened",
+          "bias": "mixed",
+          "confidence": 4,
+          "current_source_document_ids": [
+            "doc:baa6c8524e105995",
+            "doc:7c8747a2c03c1b21",
+            "doc:3f9a3e6bbdb69178"
+          ],
+          "freshness": "current"
+        },
+        {
+          "as_of_date": "2026-09-21",
+          "status": "unchanged",
+          "bias": "mixed",
+          "confidence": 4,
+          "current_source_document_ids": [],
+          "freshness": "carried"
+        },
+        {
+          "as_of_date": "2026-09-22",
+          "status": "weakened",
+          "bias": "mixed",
+          "confidence": 3,
+          "current_source_document_ids": [
+            "doc:33ca9ecc756b7acb",
+            "doc:98883e5c126672bc"
+          ],
+          "freshness": "current"
+        },
+        {
+          "as_of_date": "2026-09-23",
+          "status": "weakened",
+          "bias": "mixed",
+          "confidence": 1,
+          "current_source_document_ids": [
+            "doc:24a1ae61981e9dd6",
+            "doc:30afe35832fd6aae",
+            "doc:dcfe6b7b143bc411"
+          ],
+          "freshness": "current"
+        },
+        {
+          "as_of_date": "2026-09-24",
+          "status": "unchanged",
+          "bias": "mixed",
+          "confidence": 1,
+          "current_source_document_ids": [],
+          "freshness": "carried"
+        }
+      ]
+    },
+    {
+      "key": "asset-view:rates:global:curve:short_term",
+      "family": "rates",
+      "horizon_key": "short_term",
+      "asset": "Global rates",
+      "horizon": "short_term",
+      "bias": "bearish",
+      "confidence": 3,
+      "supporting_evidence": [
+        "ECB higher-for-longer assessment.",
+        "RBA concern about embedded inflation.",
+        "Hawkish Fed commentary."
+      ],
+      "contradicting_evidence": [
+        "Sharp growth deterioration.",
+        "Verified energy de-escalation."
+      ],
+      "source_document_ids": [
+        "doc:75ddda08b8add8f0",
+        "doc:27a81cdab4237254",
+        "doc:088580e342f98589",
+        "doc:6cac787102c89513"
+      ],
+      "first_seen_date": "2026-09-08",
+      "last_updated_date": "2026-09-22",
+      "expected_expiry_date": "2026-10-06",
+      "freshness": "carried",
+      "status_history": [
+        {
+          "as_of_date": "2026-09-08",
+          "status": "new",
+          "bias": "mixed",
+          "confidence": 3,
+          "current_source_document_ids": [
+            "doc:dbc892570d822357",
+            "doc:6416107d691d1824",
+            "doc:e7a90bc39a955a67"
+          ],
+          "freshness": "current"
+        },
+        {
+          "as_of_date": "2026-09-09",
+          "status": "unchanged",
+          "bias": "mixed",
+          "confidence": 3,
+          "current_source_document_ids": [],
+          "freshness": "carried"
+        },
+        {
+          "as_of_date": "2026-09-10",
+          "status": "strengthened",
+          "bias": "bearish",
+          "confidence": 3,
+          "current_source_document_ids": [
+            "doc:8c58f97b299aa3a5",
+            "doc:e56d98dfaae71c1b"
+          ],
+          "freshness": "current"
+        },
+        {
+          "as_of_date": "2026-09-11",
+          "status": "unchanged",
+          "bias": "bearish",
+          "confidence": 3,
+          "current_source_document_ids": [],
+          "freshness": "carried"
+        },
+        {
+          "as_of_date": "2026-09-14",
+          "status": "unchanged",
+          "bias": "bearish",
+          "confidence": 3,
+          "current_source_document_ids": [],
+          "freshness": "carried"
+        },
+        {
+          "as_of_date": "2026-09-15",
+          "status": "unchanged",
+          "bias": "bearish",
+          "confidence": 3,
+          "current_source_document_ids": [],
+          "freshness": "carried"
+        },
+        {
+          "as_of_date": "2026-09-16",
+          "status": "weakened",
+          "bias": "neutral",
+          "confidence": 3,
+          "current_source_document_ids": [
+            "doc:e4683473d240f4c1"
+          ],
+          "freshness": "current"
+        },
+        {
+          "as_of_date": "2026-09-17",
+          "status": "unchanged",
+          "bias": "neutral",
+          "confidence": 3,
+          "current_source_document_ids": [],
+          "freshness": "carried"
+        },
+        {
+          "as_of_date": "2026-09-18",
+          "status": "unchanged",
+          "bias": "neutral",
+          "confidence": 3,
+          "current_source_document_ids": [],
+          "freshness": "carried"
+        },
+        {
+          "as_of_date": "2026-09-21",
+          "status": "unchanged",
+          "bias": "neutral",
+          "confidence": 3,
+          "current_source_document_ids": [],
+          "freshness": "carried"
+        },
+        {
+          "as_of_date": "2026-09-22",
+          "status": "strengthened",
+          "bias": "bearish",
+          "confidence": 3,
+          "current_source_document_ids": [
+            "doc:75ddda08b8add8f0",
+            "doc:27a81cdab4237254",
+            "doc:088580e342f98589",
+            "doc:6cac787102c89513"
+          ],
+          "freshness": "current"
+        },
+        {
+          "as_of_date": "2026-09-23",
+          "status": "unchanged",
+          "bias": "bearish",
+          "confidence": 3,
+          "current_source_document_ids": [],
+          "freshness": "carried"
+        },
+        {
+          "as_of_date": "2026-09-24",
+          "status": "unchanged",
+          "bias": "bearish",
+          "confidence": 3,
+          "current_source_document_ids": [],
+          "freshness": "carried"
+        }
+      ]
+    },
+    {
+      "key": "asset-view:other:japanese-yen:short_term",
+      "family": "other",
+      "horizon_key": "short_term",
+      "asset": "Japanese yen",
+      "horizon": "short_term",
+      "bias": "mixed",
+      "confidence": 3,
+      "supporting_evidence": [
+        "BOJ rate normalization expectations",
+        "Energy-import inflation and political pressure"
+      ],
+      "contradicting_evidence": [
+        "Further policy-credibility deterioration",
+        "Renewed broad dollar strength"
+      ],
+      "source_document_ids": [
+        "doc:43e14e4c18bee4de",
+        "doc:6427597cb9b6b505"
+      ],
+      "first_seen_date": "2026-09-03",
+      "last_updated_date": "2026-09-21",
+      "expected_expiry_date": "2026-10-05",
+      "freshness": "carried",
+      "status_history": [
+        {
+          "as_of_date": "2026-09-03",
+          "status": "new",
+          "bias": "bullish",
+          "confidence": 1,
+          "current_source_document_ids": [
+            "doc:7af49a7bd9c4bb30"
+          ],
+          "freshness": "current"
+        },
+        {
+          "as_of_date": "2026-09-04",
+          "status": "unchanged",
+          "bias": "bullish",
+          "confidence": 1,
+          "current_source_document_ids": [],
+          "freshness": "carried"
+        },
+        {
+          "as_of_date": "2026-09-07",
+          "status": "strengthened",
+          "bias": "bullish",
+          "confidence": 2,
+          "current_source_document_ids": [
+            "doc:9eeeff2183d00686",
+            "doc:9f621e45af303374"
+          ],
+          "freshness": "current"
+        },
+        {
+          "as_of_date": "2026-09-08",
+          "status": "strengthened",
+          "bias": "bullish",
+          "confidence": 3,
+          "current_source_document_ids": [
+            "doc:062c5bf9e7c4e1c6",
+            "doc:dbc892570d822357",
+            "doc:0aaa40e7b743508b"
+          ],
+          "freshness": "current"
+        },
+        {
+          "as_of_date": "2026-09-09",
+          "status": "unchanged",
+          "bias": "bullish",
+          "confidence": 3,
+          "current_source_document_ids": [
+            "doc:76a3ba61c79d4151",
+            "doc:fc3eae9481daaf73"
+          ],
+          "freshness": "current"
+        },
+        {
+          "as_of_date": "2026-09-10",
+          "status": "unchanged",
+          "bias": "bullish",
+          "confidence": 3,
+          "current_source_document_ids": [],
+          "freshness": "carried"
+        },
+        {
+          "as_of_date": "2026-09-11",
+          "status": "weakened",
+          "bias": "bullish",
+          "confidence": 2,
+          "current_source_document_ids": [
+            "doc:9b648aa10b7bf816",
+            "doc:9eedfa4f0de99c10"
+          ],
+          "freshness": "current"
+        },
+        {
+          "as_of_date": "2026-09-14",
+          "status": "weakened",
+          "bias": "mixed",
+          "confidence": 4,
+          "current_source_document_ids": [
+            "doc:947b1a6892be47e5",
+            "doc:dbe1577008ce122f"
+          ],
+          "freshness": "current"
+        },
+        {
+          "as_of_date": "2026-09-15",
+          "status": "weakened",
+          "bias": "mixed",
+          "confidence": 2,
+          "current_source_document_ids": [
+            "doc:068a764c7fd6b2cd"
+          ],
+          "freshness": "current"
+        },
+        {
+          "as_of_date": "2026-09-16",
+          "status": "unchanged",
+          "bias": "mixed",
+          "confidence": 2,
+          "current_source_document_ids": [],
+          "freshness": "carried"
+        },
+        {
+          "as_of_date": "2026-09-17",
+          "status": "unchanged",
+          "bias": "mixed",
+          "confidence": 2,
+          "current_source_document_ids": [],
+          "freshness": "carried"
+        },
+        {
+          "as_of_date": "2026-09-18",
+          "status": "strengthened",
+          "bias": "mixed",
+          "confidence": 3,
+          "current_source_document_ids": [
+            "doc:9e334c6656ce4af1",
+            "doc:9a879309a1dc6272"
+          ],
+          "freshness": "current"
+        },
+        {
+          "as_of_date": "2026-09-21",
+          "status": "unchanged",
+          "bias": "mixed",
+          "confidence": 3,
+          "current_source_document_ids": [
+            "doc:43e14e4c18bee4de",
+            "doc:6427597cb9b6b505"
+          ],
+          "freshness": "current"
+        },
+        {
+          "as_of_date": "2026-09-22",
+          "status": "unchanged",
+          "bias": "mixed",
+          "confidence": 3,
+          "current_source_document_ids": [],
+          "freshness": "carried"
+        },
+        {
+          "as_of_date": "2026-09-23",
+          "status": "unchanged",
+          "bias": "mixed",
+          "confidence": 3,
+          "current_source_document_ids": [],
+          "freshness": "carried"
+        },
+        {
+          "as_of_date": "2026-09-24",
+          "status": "unchanged",
+          "bias": "mixed",
+          "confidence": 3,
+          "current_source_document_ids": [],
+          "freshness": "carried"
+        }
+      ]
+    },
+    {
+      "key": "asset-view:rates:us:curve:medium_term",
+      "family": "rates",
+      "horizon_key": "medium_term",
+      "asset": "European sovereign rates: France versus Germany",
+      "horizon": "medium_term",
+      "bias": "bearish",
+      "confidence": 2,
+      "supporting_evidence": [
+        "5.4% 2026 deficit forecast",
+        "Projected debt ratio of 121.7% of GDP in 2027",
+        "Uncertain parliamentary support"
+      ],
+      "contradicting_evidence": [
+        "Adoption of credible fiscal measures",
+        "Improved geopolitical conditions"
+      ],
+      "source_document_ids": [
+        "doc:684b6653e106413c"
+      ],
+      "first_seen_date": "2026-09-17",
+      "last_updated_date": "2026-09-21",
+      "expected_expiry_date": "2026-12-20",
+      "freshness": "carried",
+      "status_history": [
+        {
+          "as_of_date": "2026-09-17",
+          "status": "new",
+          "bias": "mixed",
+          "confidence": 3,
+          "current_source_document_ids": [
+            "doc:b35c83aa92ab276f",
+            "doc:a17c32e15c80823d"
+          ],
+          "freshness": "current"
+        },
+        {
+          "as_of_date": "2026-09-18",
+          "status": "unchanged",
+          "bias": "mixed",
+          "confidence": 3,
+          "current_source_document_ids": [],
+          "freshness": "carried"
+        },
+        {
+          "as_of_date": "2026-09-21",
+          "status": "strengthened",
+          "bias": "bearish",
+          "confidence": 2,
+          "current_source_document_ids": [
+            "doc:684b6653e106413c"
+          ],
+          "freshness": "current"
+        },
+        {
+          "as_of_date": "2026-09-22",
+          "status": "unchanged",
+          "bias": "bearish",
+          "confidence": 2,
+          "current_source_document_ids": [],
+          "freshness": "carried"
+        },
+        {
+          "as_of_date": "2026-09-23",
+          "status": "unchanged",
+          "bias": "bearish",
+          "confidence": 2,
+          "current_source_document_ids": [],
+          "freshness": "carried"
+        },
+        {
+          "as_of_date": "2026-09-24",
+          "status": "unchanged",
+          "bias": "bearish",
+          "confidence": 2,
+          "current_source_document_ids": [],
+          "freshness": "carried"
+        }
+      ]
+    },
+    {
+      "key": "asset-view:rates:us:front-end:short_term",
+      "family": "rates",
+      "horizon_key": "short_term",
+      "asset": "US front-end rates",
+      "horizon": "short_term",
+      "bias": "bearish",
+      "confidence": 2,
+      "supporting_evidence": [
+        "NY Fed DSGE core-PCE forecasts were revised higher. [S011]",
+        "ING expects another Fed hike in December. [S013]"
+      ],
+      "contradicting_evidence": [
+        "Growth deterioration [S011]",
+        "Faster disinflation [S011]"
+      ],
+      "source_document_ids": [
+        "doc:3f9a3e6bbdb69178",
+        "doc:e557c9d50c17e043"
+      ],
+      "first_seen_date": "2026-08-31",
+      "last_updated_date": "2026-09-18",
+      "expected_expiry_date": "2026-10-02",
+      "freshness": "carried",
+      "status_history": [
+        {
+          "as_of_date": "2026-08-31",
+          "status": "new",
+          "bias": "bearish",
+          "confidence": 1,
+          "current_source_document_ids": [
+            "doc:5bed8e55839c4e3b"
+          ],
+          "freshness": "current"
+        },
+        {
+          "as_of_date": "2026-09-01",
+          "status": "unchanged",
+          "bias": "bearish",
+          "confidence": 1,
+          "current_source_document_ids": [],
+          "freshness": "carried"
+        },
+        {
+          "as_of_date": "2026-09-02",
+          "status": "unchanged",
+          "bias": "bearish",
+          "confidence": 1,
+          "current_source_document_ids": [],
+          "freshness": "carried"
+        },
+        {
+          "as_of_date": "2026-09-03",
+          "status": "unchanged",
+          "bias": "bearish",
+          "confidence": 1,
+          "current_source_document_ids": [],
+          "freshness": "carried"
+        },
+        {
+          "as_of_date": "2026-09-04",
+          "status": "strengthened",
+          "bias": "bearish",
+          "confidence": 3,
+          "current_source_document_ids": [
+            "doc:fb54f22dd5c40c9d",
+            "doc:95fdcc9f35b216e3"
+          ],
+          "freshness": "current"
+        },
+        {
+          "as_of_date": "2026-09-07",
+          "status": "unchanged",
+          "bias": "bearish",
+          "confidence": 3,
+          "current_source_document_ids": [
+            "doc:03818fc481caa2c3",
+            "doc:bd0f592a4a4e84da",
+            "doc:06f75b3259688fba",
+            "doc:46fd5f26be23f1bb"
+          ],
+          "freshness": "current"
+        },
+        {
+          "as_of_date": "2026-09-08",
+          "status": "unchanged",
+          "bias": "bearish",
+          "confidence": 3,
+          "current_source_document_ids": [],
+          "freshness": "carried"
+        },
+        {
+          "as_of_date": "2026-09-09",
+          "status": "unchanged",
+          "bias": "bearish",
+          "confidence": 3,
+          "current_source_document_ids": [],
+          "freshness": "carried"
+        },
+        {
+          "as_of_date": "2026-09-10",
+          "status": "unchanged",
+          "bias": "bearish",
+          "confidence": 3,
+          "current_source_document_ids": [],
+          "freshness": "carried"
+        },
+        {
+          "as_of_date": "2026-09-11",
+          "status": "unchanged",
+          "bias": "bearish",
+          "confidence": 3,
+          "current_source_document_ids": [],
+          "freshness": "carried"
+        },
+        {
+          "as_of_date": "2026-09-14",
+          "status": "unchanged",
+          "bias": "bearish",
+          "confidence": 3,
+          "current_source_document_ids": [
+            "doc:947b1a6892be47e5",
+            "doc:7e0d153951408bb6",
+            "doc:8e6866e0e5a43a8a"
+          ],
+          "freshness": "current"
+        },
+        {
+          "as_of_date": "2026-09-15",
+          "status": "unchanged",
+          "bias": "bearish",
+          "confidence": 3,
+          "current_source_document_ids": [],
+          "freshness": "carried"
+        },
+        {
+          "as_of_date": "2026-09-16",
+          "status": "unchanged",
+          "bias": "bearish",
+          "confidence": 3,
+          "current_source_document_ids": [],
+          "freshness": "carried"
+        },
+        {
+          "as_of_date": "2026-09-17",
+          "status": "strengthened",
+          "bias": "bearish",
+          "confidence": 4,
+          "current_source_document_ids": [
+            "doc:da3bcbb85f4595d6",
+            "doc:b35c83aa92ab276f",
+            "doc:a17c32e15c80823d"
+          ],
+          "freshness": "current"
+        },
+        {
+          "as_of_date": "2026-09-18",
+          "status": "weakened",
+          "bias": "bearish",
+          "confidence": 2,
+          "current_source_document_ids": [
+            "doc:3f9a3e6bbdb69178",
+            "doc:e557c9d50c17e043"
+          ],
+          "freshness": "current"
+        },
+        {
+          "as_of_date": "2026-09-21",
+          "status": "unchanged",
+          "bias": "bearish",
+          "confidence": 2,
+          "current_source_document_ids": [],
+          "freshness": "carried"
+        },
+        {
+          "as_of_date": "2026-09-22",
+          "status": "unchanged",
+          "bias": "bearish",
+          "confidence": 2,
+          "current_source_document_ids": [],
+          "freshness": "carried"
+        },
+        {
+          "as_of_date": "2026-09-23",
+          "status": "unchanged",
+          "bias": "bearish",
+          "confidence": 2,
+          "current_source_document_ids": [],
+          "freshness": "carried"
+        },
+        {
+          "as_of_date": "2026-09-24",
+          "status": "unchanged",
+          "bias": "bearish",
+          "confidence": 2,
+          "current_source_document_ids": [],
+          "freshness": "carried"
+        }
+      ]
+    },
+    {
+      "key": "asset-view:other:us-duration:short_term",
+      "family": "other",
+      "horizon_key": "short_term",
+      "asset": "US duration",
+      "horizon": "short_term",
+      "bias": "bearish",
+      "confidence": 4,
+      "supporting_evidence": [
+        "US inflation remains above target",
+        "Physical energy scarcity",
+        "Conditional Fed tightening bias"
+      ],
+      "contradicting_evidence": [
+        "Rapid energy normalization",
+        "Incoming inflation continues to improve"
+      ],
+      "source_document_ids": [
+        "doc:b340db906d0770d7",
+        "doc:7f11bba87cac1816"
+      ],
+      "first_seen_date": "2026-09-16",
+      "last_updated_date": "2026-09-16",
+      "expected_expiry_date": "2026-09-30",
+      "freshness": "carried",
+      "status_history": [
+        {
+          "as_of_date": "2026-09-16",
+          "status": "new",
+          "bias": "bearish",
+          "confidence": 4,
+          "current_source_document_ids": [
+            "doc:b340db906d0770d7",
+            "doc:7f11bba87cac1816"
+          ],
+          "freshness": "current"
+        },
+        {
+          "as_of_date": "2026-09-17",
+          "status": "unchanged",
+          "bias": "bearish",
+          "confidence": 4,
+          "current_source_document_ids": [],
+          "freshness": "carried"
+        },
+        {
+          "as_of_date": "2026-09-18",
+          "status": "unchanged",
+          "bias": "bearish",
+          "confidence": 4,
+          "current_source_document_ids": [],
+          "freshness": "carried"
+        },
+        {
+          "as_of_date": "2026-09-21",
+          "status": "unchanged",
+          "bias": "bearish",
+          "confidence": 4,
+          "current_source_document_ids": [],
+          "freshness": "carried"
+        },
+        {
+          "as_of_date": "2026-09-22",
+          "status": "unchanged",
+          "bias": "bearish",
+          "confidence": 4,
+          "current_source_document_ids": [],
+          "freshness": "carried"
+        },
+        {
+          "as_of_date": "2026-09-23",
+          "status": "unchanged",
+          "bias": "bearish",
+          "confidence": 4,
+          "current_source_document_ids": [],
+          "freshness": "carried"
+        },
+        {
+          "as_of_date": "2026-09-24",
+          "status": "unchanged",
+          "bias": "bearish",
+          "confidence": 4,
+          "current_source_document_ids": [],
+          "freshness": "carried"
+        }
+      ]
+    },
+    {
+      "key": "asset-view:credit:global:medium_term",
+      "family": "credit",
+      "horizon_key": "medium_term",
+      "asset": "Investment-grade credit",
+      "horizon": "medium_term",
+      "bias": "mixed",
+      "confidence": 1,
+      "supporting_evidence": [
+        "AI infrastructure issuance",
+        "Higher Treasury yields",
+        "Issuer fundamentals"
+      ],
+      "contradicting_evidence": [
+        "Broader spread widening",
+        "Refinancing stress",
+        "AI capex disappointment"
+      ],
+      "source_document_ids": [
+        "doc:92e71c74afdf56f6"
+      ],
+      "first_seen_date": "2026-08-28",
+      "last_updated_date": "2026-09-16",
+      "expected_expiry_date": "2026-12-15",
+      "freshness": "carried",
+      "status_history": [
+        {
+          "as_of_date": "2026-08-28",
+          "status": "new",
+          "bias": "bearish",
+          "confidence": 3,
+          "current_source_document_ids": [
+            "doc:7bd26430a495467e"
+          ],
+          "freshness": "current"
+        },
+        {
+          "as_of_date": "2026-08-31",
+          "status": "unchanged",
+          "bias": "bearish",
+          "confidence": 3,
+          "current_source_document_ids": [
+            "doc:e010740a9791228f"
+          ],
+          "freshness": "current"
+        },
+        {
+          "as_of_date": "2026-09-01",
+          "status": "unchanged",
+          "bias": "bearish",
+          "confidence": 3,
+          "current_source_document_ids": [],
+          "freshness": "carried"
+        },
+        {
+          "as_of_date": "2026-09-02",
+          "status": "unchanged",
+          "bias": "bearish",
+          "confidence": 3,
+          "current_source_document_ids": [],
+          "freshness": "carried"
+        },
+        {
+          "as_of_date": "2026-09-03",
+          "status": "unchanged",
+          "bias": "bearish",
+          "confidence": 3,
+          "current_source_document_ids": [],
+          "freshness": "carried"
+        },
+        {
+          "as_of_date": "2026-09-04",
+          "status": "unchanged",
+          "bias": "bearish",
+          "confidence": 3,
+          "current_source_document_ids": [],
+          "freshness": "carried"
+        },
+        {
+          "as_of_date": "2026-09-07",
+          "status": "unchanged",
+          "bias": "bearish",
+          "confidence": 3,
+          "current_source_document_ids": [],
+          "freshness": "carried"
+        },
+        {
+          "as_of_date": "2026-09-08",
+          "status": "unchanged",
+          "bias": "bearish",
+          "confidence": 3,
+          "current_source_document_ids": [],
+          "freshness": "carried"
+        },
+        {
+          "as_of_date": "2026-09-09",
+          "status": "unchanged",
+          "bias": "bearish",
+          "confidence": 3,
+          "current_source_document_ids": [],
+          "freshness": "carried"
+        },
+        {
+          "as_of_date": "2026-09-10",
+          "status": "unchanged",
+          "bias": "bearish",
+          "confidence": 3,
+          "current_source_document_ids": [],
+          "freshness": "carried"
+        },
+        {
+          "as_of_date": "2026-09-11",
+          "status": "unchanged",
+          "bias": "bearish",
+          "confidence": 3,
+          "current_source_document_ids": [],
+          "freshness": "carried"
+        },
+        {
+          "as_of_date": "2026-09-14",
+          "status": "unchanged",
+          "bias": "bearish",
+          "confidence": 3,
+          "current_source_document_ids": [],
+          "freshness": "carried"
+        },
+        {
+          "as_of_date": "2026-09-15",
+          "status": "unchanged",
+          "bias": "bearish",
+          "confidence": 3,
+          "current_source_document_ids": [],
+          "freshness": "carried"
+        },
+        {
+          "as_of_date": "2026-09-16",
+          "status": "weakened",
+          "bias": "mixed",
+          "confidence": 1,
+          "current_source_document_ids": [
+            "doc:92e71c74afdf56f6"
+          ],
+          "freshness": "current"
+        },
+        {
+          "as_of_date": "2026-09-17",
+          "status": "unchanged",
+          "bias": "mixed",
+          "confidence": 1,
+          "current_source_document_ids": [],
+          "freshness": "carried"
+        },
+        {
+          "as_of_date": "2026-09-18",
+          "status": "unchanged",
+          "bias": "mixed",
+          "confidence": 1,
+          "current_source_document_ids": [],
+          "freshness": "carried"
+        },
+        {
+          "as_of_date": "2026-09-21",
+          "status": "unchanged",
+          "bias": "mixed",
+          "confidence": 1,
+          "current_source_document_ids": [],
+          "freshness": "carried"
+        },
+        {
+          "as_of_date": "2026-09-22",
+          "status": "unchanged",
+          "bias": "mixed",
+          "confidence": 1,
+          "current_source_document_ids": [],
+          "freshness": "carried"
+        },
+        {
+          "as_of_date": "2026-09-23",
+          "status": "unchanged",
+          "bias": "mixed",
+          "confidence": 1,
+          "current_source_document_ids": [],
+          "freshness": "carried"
+        },
+        {
+          "as_of_date": "2026-09-24",
+          "status": "unchanged",
+          "bias": "mixed",
+          "confidence": 1,
+          "current_source_document_ids": [],
+          "freshness": "carried"
+        }
+      ]
+    },
+    {
+      "key": "asset-view:rates:us:long-end:short_term",
+      "family": "rates",
+      "horizon_key": "short_term",
+      "asset": "US long-end rates",
+      "horizon": "short_term",
+      "bias": "bearish",
+      "confidence": 2,
+      "supporting_evidence": [
+        "Oil and refined-product disruption raises inflation risk.",
+        "Large government and corporate borrowing needs increase bond supply.",
+        "Fragile demand for duration amplifies moves."
+      ],
+      "contradicting_evidence": [
+        "A sharp growth slowdown could reverse yields.",
+        "Rapid energy de-escalation could reduce inflation compensation."
+      ],
+      "source_document_ids": [
+        "doc:12afb3490e0aac8d",
+        "doc:97630f205e731357"
+      ],
+      "first_seen_date": "2026-09-09",
+      "last_updated_date": "2026-09-15",
+      "expected_expiry_date": "2026-09-29",
+      "freshness": "carried",
+      "status_history": [
+        {
+          "as_of_date": "2026-09-09",
+          "status": "new",
+          "bias": "bearish",
+          "confidence": 2,
+          "current_source_document_ids": [
+            "doc:9e778842c185dd4f",
+            "doc:76a3ba61c79d4151",
+            "doc:b32884f27ef224e1"
+          ],
+          "freshness": "current"
+        },
+        {
+          "as_of_date": "2026-09-10",
+          "status": "unchanged",
+          "bias": "bearish",
+          "confidence": 2,
+          "current_source_document_ids": [],
+          "freshness": "carried"
+        },
+        {
+          "as_of_date": "2026-09-11",
+          "status": "unchanged",
+          "bias": "bearish",
+          "confidence": 2,
+          "current_source_document_ids": [],
+          "freshness": "carried"
+        },
+        {
+          "as_of_date": "2026-09-14",
+          "status": "strengthened",
+          "bias": "bearish",
+          "confidence": 5,
+          "current_source_document_ids": [
+            "doc:4f1e428219ffbb2e",
+            "doc:13b261005846818e"
+          ],
+          "freshness": "current"
+        },
+        {
+          "as_of_date": "2026-09-15",
+          "status": "weakened",
+          "bias": "bearish",
+          "confidence": 2,
+          "current_source_document_ids": [
+            "doc:12afb3490e0aac8d",
+            "doc:97630f205e731357"
+          ],
+          "freshness": "current"
+        },
+        {
+          "as_of_date": "2026-09-16",
+          "status": "unchanged",
+          "bias": "bearish",
+          "confidence": 2,
+          "current_source_document_ids": [],
+          "freshness": "carried"
+        },
+        {
+          "as_of_date": "2026-09-17",
+          "status": "unchanged",
+          "bias": "bearish",
+          "confidence": 2,
+          "current_source_document_ids": [],
+          "freshness": "carried"
+        },
+        {
+          "as_of_date": "2026-09-18",
+          "status": "unchanged",
+          "bias": "bearish",
+          "confidence": 2,
+          "current_source_document_ids": [],
+          "freshness": "carried"
+        },
+        {
+          "as_of_date": "2026-09-21",
+          "status": "unchanged",
+          "bias": "bearish",
+          "confidence": 2,
+          "current_source_document_ids": [],
+          "freshness": "carried"
+        },
+        {
+          "as_of_date": "2026-09-22",
+          "status": "unchanged",
+          "bias": "bearish",
+          "confidence": 2,
+          "current_source_document_ids": [],
+          "freshness": "carried"
+        },
+        {
+          "as_of_date": "2026-09-23",
+          "status": "unchanged",
+          "bias": "bearish",
+          "confidence": 2,
+          "current_source_document_ids": [],
+          "freshness": "carried"
+        },
+        {
+          "as_of_date": "2026-09-24",
+          "status": "unchanged",
+          "bias": "bearish",
+          "confidence": 2,
+          "current_source_document_ids": [],
+          "freshness": "carried"
+        }
+      ]
+    },
+    {
+      "key": "asset-view:rates:global:front-end:short_term",
+      "family": "rates",
+      "horizon_key": "short_term",
+      "asset": "Euro-area front-end rates",
+      "horizon": "short_term",
+      "bias": "bearish",
+      "confidence": 4,
+      "supporting_evidence": [
+        "ECB raised rates and medium-term inflation projections.",
+        "Energy disruption remains unresolved."
+      ],
+      "contradicting_evidence": [
+        "Energy flows normalise.",
+        "Underlying inflation and wages remain contained."
+      ],
+      "source_document_ids": [
+        "doc:0e83f9d149bfda4a",
+        "doc:ea4986814765dad8"
+      ],
+      "first_seen_date": "2026-09-11",
+      "last_updated_date": "2026-09-11",
+      "expected_expiry_date": "2026-09-25",
+      "freshness": "carried",
+      "status_history": [
+        {
+          "as_of_date": "2026-09-11",
+          "status": "new",
+          "bias": "bearish",
+          "confidence": 4,
+          "current_source_document_ids": [
+            "doc:0e83f9d149bfda4a",
+            "doc:ea4986814765dad8"
+          ],
+          "freshness": "current"
+        },
+        {
+          "as_of_date": "2026-09-14",
+          "status": "unchanged",
+          "bias": "bearish",
+          "confidence": 4,
+          "current_source_document_ids": [],
+          "freshness": "carried"
+        },
+        {
+          "as_of_date": "2026-09-15",
+          "status": "unchanged",
+          "bias": "bearish",
+          "confidence": 4,
+          "current_source_document_ids": [],
+          "freshness": "carried"
+        },
+        {
+          "as_of_date": "2026-09-16",
+          "status": "unchanged",
+          "bias": "bearish",
+          "confidence": 4,
+          "current_source_document_ids": [],
+          "freshness": "carried"
+        },
+        {
+          "as_of_date": "2026-09-17",
+          "status": "unchanged",
+          "bias": "bearish",
+          "confidence": 4,
+          "current_source_document_ids": [],
+          "freshness": "carried"
+        },
+        {
+          "as_of_date": "2026-09-18",
+          "status": "unchanged",
+          "bias": "bearish",
+          "confidence": 4,
+          "current_source_document_ids": [],
+          "freshness": "carried"
+        },
+        {
+          "as_of_date": "2026-09-21",
+          "status": "unchanged",
+          "bias": "bearish",
+          "confidence": 4,
+          "current_source_document_ids": [],
+          "freshness": "carried"
+        },
+        {
+          "as_of_date": "2026-09-22",
+          "status": "unchanged",
+          "bias": "bearish",
+          "confidence": 4,
+          "current_source_document_ids": [],
+          "freshness": "carried"
+        },
+        {
+          "as_of_date": "2026-09-23",
+          "status": "unchanged",
+          "bias": "bearish",
+          "confidence": 4,
+          "current_source_document_ids": [],
+          "freshness": "carried"
+        },
+        {
+          "as_of_date": "2026-09-24",
+          "status": "unchanged",
+          "bias": "bearish",
+          "confidence": 4,
+          "current_source_document_ids": [],
+          "freshness": "carried"
+        }
+      ]
+    },
+    {
+      "key": "asset-view:commodities:copper:medium_term",
+      "family": "commodities",
+      "horizon_key": "medium_term",
+      "asset": "Copper",
+      "horizon": "medium_term",
+      "bias": "mixed",
+      "confidence": 2,
+      "supporting_evidence": [
+        "Lower mined output in the first half.",
+        "Power-grid, EV and data-centre demand.",
+        "Potential US refined-copper tariff decision."
+      ],
+      "contradicting_evidence": [
+        "Tariffs are abandoned and US inventory is redistributed.",
+        "Refined-market surplus persists."
+      ],
+      "source_document_ids": [
+        "doc:3436921f7369c5ba"
+      ],
+      "first_seen_date": "2026-09-08",
+      "last_updated_date": "2026-09-10",
+      "expected_expiry_date": "2026-12-09",
+      "freshness": "carried",
+      "status_history": [
+        {
+          "as_of_date": "2026-09-08",
+          "status": "new",
+          "bias": "bullish",
+          "confidence": 3,
+          "current_source_document_ids": [
+            "doc:bba7b9a0fb466f73",
+            "doc:7e87caf747470c7d"
+          ],
+          "freshness": "current"
+        },
+        {
+          "as_of_date": "2026-09-09",
+          "status": "unchanged",
+          "bias": "bullish",
+          "confidence": 3,
+          "current_source_document_ids": [
+            "doc:712a6f7d1366ae06",
+            "doc:b32884f27ef224e1",
+            "doc:6be45c73af0ab657"
+          ],
+          "freshness": "current"
+        },
+        {
+          "as_of_date": "2026-09-10",
+          "status": "weakened",
+          "bias": "mixed",
+          "confidence": 2,
+          "current_source_document_ids": [
+            "doc:3436921f7369c5ba"
+          ],
+          "freshness": "current"
+        },
+        {
+          "as_of_date": "2026-09-11",
+          "status": "unchanged",
+          "bias": "mixed",
+          "confidence": 2,
+          "current_source_document_ids": [],
+          "freshness": "carried"
+        },
+        {
+          "as_of_date": "2026-09-14",
+          "status": "unchanged",
+          "bias": "mixed",
+          "confidence": 2,
+          "current_source_document_ids": [],
+          "freshness": "carried"
+        },
+        {
+          "as_of_date": "2026-09-15",
+          "status": "unchanged",
+          "bias": "mixed",
+          "confidence": 2,
+          "current_source_document_ids": [],
+          "freshness": "carried"
+        },
+        {
+          "as_of_date": "2026-09-16",
+          "status": "unchanged",
+          "bias": "mixed",
+          "confidence": 2,
+          "current_source_document_ids": [],
+          "freshness": "carried"
+        },
+        {
+          "as_of_date": "2026-09-17",
+          "status": "unchanged",
+          "bias": "mixed",
+          "confidence": 2,
+          "current_source_document_ids": [],
+          "freshness": "carried"
+        },
+        {
+          "as_of_date": "2026-09-18",
+          "status": "unchanged",
+          "bias": "mixed",
+          "confidence": 2,
+          "current_source_document_ids": [],
+          "freshness": "carried"
+        },
+        {
+          "as_of_date": "2026-09-21",
+          "status": "unchanged",
+          "bias": "mixed",
+          "confidence": 2,
+          "current_source_document_ids": [],
+          "freshness": "carried"
+        },
+        {
+          "as_of_date": "2026-09-22",
+          "status": "unchanged",
+          "bias": "mixed",
+          "confidence": 2,
+          "current_source_document_ids": [],
+          "freshness": "carried"
+        },
+        {
+          "as_of_date": "2026-09-23",
+          "status": "unchanged",
+          "bias": "mixed",
+          "confidence": 2,
+          "current_source_document_ids": [],
+          "freshness": "carried"
+        },
+        {
+          "as_of_date": "2026-09-24",
+          "status": "unchanged",
+          "bias": "mixed",
+          "confidence": 2,
+          "current_source_document_ids": [],
+          "freshness": "carried"
+        }
+      ]
+    },
+    {
+      "key": "asset-view:commodities:energy-commodities:medium_term",
+      "family": "commodities",
+      "horizon_key": "medium_term",
+      "asset": "Energy commodities",
+      "horizon": "medium_term",
+      "bias": "bullish",
+      "confidence": 2,
+      "supporting_evidence": [
+        "Middle East supply disruption.",
+        "Low European gas storage and constrained Qatari LNG exports.",
+        "Falling crude inventories and strong refined-product tightness."
+      ],
+      "contradicting_evidence": [
+        "Restoration of flows or weaker demand.",
+        "Milder winter and stronger alternative LNG supply."
+      ],
+      "source_document_ids": [
+        "doc:2a85271d6e7805c4",
+        "doc:e31a572049cdfe14"
+      ],
+      "first_seen_date": "2026-09-04",
+      "last_updated_date": "2026-09-04",
+      "expected_expiry_date": "2026-12-03",
+      "freshness": "carried",
+      "status_history": [
+        {
+          "as_of_date": "2026-09-04",
+          "status": "new",
+          "bias": "bullish",
+          "confidence": 2,
+          "current_source_document_ids": [
+            "doc:2a85271d6e7805c4",
+            "doc:e31a572049cdfe14"
+          ],
+          "freshness": "current"
+        },
+        {
+          "as_of_date": "2026-09-07",
+          "status": "unchanged",
+          "bias": "bullish",
+          "confidence": 2,
+          "current_source_document_ids": [],
+          "freshness": "carried"
+        },
+        {
+          "as_of_date": "2026-09-08",
+          "status": "unchanged",
+          "bias": "bullish",
+          "confidence": 2,
+          "current_source_document_ids": [],
+          "freshness": "carried"
+        },
+        {
+          "as_of_date": "2026-09-09",
+          "status": "unchanged",
+          "bias": "bullish",
+          "confidence": 2,
+          "current_source_document_ids": [],
+          "freshness": "carried"
+        },
+        {
+          "as_of_date": "2026-09-10",
+          "status": "unchanged",
+          "bias": "bullish",
+          "confidence": 2,
+          "current_source_document_ids": [],
+          "freshness": "carried"
+        },
+        {
+          "as_of_date": "2026-09-11",
+          "status": "unchanged",
+          "bias": "bullish",
+          "confidence": 2,
+          "current_source_document_ids": [],
+          "freshness": "carried"
+        },
+        {
+          "as_of_date": "2026-09-14",
+          "status": "unchanged",
+          "bias": "bullish",
+          "confidence": 2,
+          "current_source_document_ids": [],
+          "freshness": "carried"
+        },
+        {
+          "as_of_date": "2026-09-15",
+          "status": "unchanged",
+          "bias": "bullish",
+          "confidence": 2,
+          "current_source_document_ids": [],
+          "freshness": "carried"
+        },
+        {
+          "as_of_date": "2026-09-16",
+          "status": "unchanged",
+          "bias": "bullish",
+          "confidence": 2,
+          "current_source_document_ids": [],
+          "freshness": "carried"
+        },
+        {
+          "as_of_date": "2026-09-17",
+          "status": "unchanged",
+          "bias": "bullish",
+          "confidence": 2,
+          "current_source_document_ids": [],
+          "freshness": "carried"
+        },
+        {
+          "as_of_date": "2026-09-18",
+          "status": "unchanged",
+          "bias": "bullish",
+          "confidence": 2,
+          "current_source_document_ids": [],
+          "freshness": "carried"
+        },
+        {
+          "as_of_date": "2026-09-21",
+          "status": "unchanged",
+          "bias": "bullish",
+          "confidence": 2,
+          "current_source_document_ids": [],
+          "freshness": "carried"
+        },
+        {
+          "as_of_date": "2026-09-22",
+          "status": "unchanged",
+          "bias": "bullish",
+          "confidence": 2,
+          "current_source_document_ids": [],
+          "freshness": "carried"
+        },
+        {
+          "as_of_date": "2026-09-23",
+          "status": "unchanged",
+          "bias": "bullish",
+          "confidence": 2,
+          "current_source_document_ids": [],
+          "freshness": "carried"
+        },
+        {
+          "as_of_date": "2026-09-24",
+          "status": "unchanged",
+          "bias": "bullish",
+          "confidence": 2,
+          "current_source_document_ids": [],
+          "freshness": "carried"
+        }
+      ]
+    },
+    {
+      "key": "asset-view:rates:us:front-end:unspecified",
+      "family": "rates",
+      "horizon_key": "unspecified",
+      "asset": "US front-end rates",
+      "horizon": "immediate",
+      "bias": "bearish",
+      "confidence": 3,
+      "supporting_evidence": [
+        "PCE inflation remains above target.",
+        "Financial conditions and labour markets were described as resilient."
+      ],
+      "contradicting_evidence": [
+        "A rapid disinflation surprise.",
+        "A sharp deterioration in employment or credit."
+      ],
+      "source_document_ids": [
+        "doc:2c51127ee15af4b4"
+      ],
+      "first_seen_date": "2026-08-28",
+      "last_updated_date": "2026-08-28",
+      "expected_expiry_date": "2026-09-27",
+      "freshness": "carried",
+      "status_history": [
+        {
+          "as_of_date": "2026-08-28",
+          "status": "new",
+          "bias": "bearish",
+          "confidence": 3,
+          "current_source_document_ids": [
+            "doc:2c51127ee15af4b4"
+          ],
+          "freshness": "current"
+        },
+        {
+          "as_of_date": "2026-08-31",
+          "status": "unchanged",
+          "bias": "bearish",
+          "confidence": 3,
+          "current_source_document_ids": [],
+          "freshness": "carried"
+        },
+        {
+          "as_of_date": "2026-09-01",
+          "status": "unchanged",
+          "bias": "bearish",
+          "confidence": 3,
+          "current_source_document_ids": [],
+          "freshness": "carried"
+        },
+        {
+          "as_of_date": "2026-09-02",
+          "status": "unchanged",
+          "bias": "bearish",
+          "confidence": 3,
+          "current_source_document_ids": [],
+          "freshness": "carried"
+        },
+        {
+          "as_of_date": "2026-09-03",
+          "status": "unchanged",
+          "bias": "bearish",
+          "confidence": 3,
+          "current_source_document_ids": [],
+          "freshness": "carried"
+        },
+        {
+          "as_of_date": "2026-09-04",
+          "status": "unchanged",
+          "bias": "bearish",
+          "confidence": 3,
+          "current_source_document_ids": [],
+          "freshness": "carried"
+        },
+        {
+          "as_of_date": "2026-09-07",
+          "status": "unchanged",
+          "bias": "bearish",
+          "confidence": 3,
+          "current_source_document_ids": [],
+          "freshness": "carried"
+        },
+        {
+          "as_of_date": "2026-09-08",
+          "status": "unchanged",
+          "bias": "bearish",
+          "confidence": 3,
+          "current_source_document_ids": [],
+          "freshness": "carried"
+        },
+        {
+          "as_of_date": "2026-09-09",
+          "status": "unchanged",
+          "bias": "bearish",
+          "confidence": 3,
+          "current_source_document_ids": [],
+          "freshness": "carried"
+        },
+        {
+          "as_of_date": "2026-09-10",
+          "status": "unchanged",
+          "bias": "bearish",
+          "confidence": 3,
+          "current_source_document_ids": [],
+          "freshness": "carried"
+        },
+        {
+          "as_of_date": "2026-09-11",
+          "status": "unchanged",
+          "bias": "bearish",
+          "confidence": 3,
+          "current_source_document_ids": [],
+          "freshness": "carried"
+        },
+        {
+          "as_of_date": "2026-09-14",
+          "status": "unchanged",
+          "bias": "bearish",
+          "confidence": 3,
+          "current_source_document_ids": [],
+          "freshness": "carried"
+        },
+        {
+          "as_of_date": "2026-09-15",
+          "status": "unchanged",
+          "bias": "bearish",
+          "confidence": 3,
+          "current_source_document_ids": [],
+          "freshness": "carried"
+        },
+        {
+          "as_of_date": "2026-09-16",
+          "status": "unchanged",
+          "bias": "bearish",
+          "confidence": 3,
+          "current_source_document_ids": [],
+          "freshness": "carried"
+        },
+        {
+          "as_of_date": "2026-09-17",
+          "status": "unchanged",
+          "bias": "bearish",
+          "confidence": 3,
+          "current_source_document_ids": [],
+          "freshness": "carried"
+        },
+        {
+          "as_of_date": "2026-09-18",
+          "status": "unchanged",
+          "bias": "bearish",
+          "confidence": 3,
+          "current_source_document_ids": [],
+          "freshness": "carried"
+        },
+        {
+          "as_of_date": "2026-09-21",
+          "status": "unchanged",
+          "bias": "bearish",
+          "confidence": 3,
+          "current_source_document_ids": [],
+          "freshness": "carried"
+        },
+        {
+          "as_of_date": "2026-09-22",
+          "status": "unchanged",
+          "bias": "bearish",
+          "confidence": 3,
+          "current_source_document_ids": [],
+          "freshness": "carried"
+        },
+        {
+          "as_of_date": "2026-09-23",
+          "status": "unchanged",
+          "bias": "bearish",
+          "confidence": 3,
+          "current_source_document_ids": [],
+          "freshness": "carried"
+        },
+        {
+          "as_of_date": "2026-09-24",
+          "status": "unchanged",
+          "bias": "bearish",
+          "confidence": 3,
+          "current_source_document_ids": [],
+          "freshness": "carried"
+        }
+      ]
+    }
+  ],
+  "themes": [
+    {
+      "key": "event:energy-shock-versus-disinflation",
+      "entity_type": "event",
+      "title": "Energy shock versus disinflation",
+      "implication": "Maintain a bias toward higher front-end and real-rate risk, while recognizing that weaker demand could eventually offset inflation pressure.",
+      "source_document_ids": [
+        "doc:77c8c826015847a2",
+        "doc:f36b13864ef01e3f",
+        "doc:8f0be03babea854e",
+        "doc:b7e1b4da0aa72fbb",
+        "doc:948d85b1ce612e5b"
+      ],
+      "first_seen_date": "2026-09-09",
+      "last_updated_date": "2026-09-24",
+      "expected_expiry_date": "2026-10-08",
+      "freshness": "current"
+    },
+    {
+      "key": "regime:monetary-policy",
+      "entity_type": "regime",
+      "title": "Resilient investment cycle under tighter discount rates",
+      "implication": "Favors selective capital-goods and infrastructure exposure over broad duration-sensitive risk.",
+      "source_document_ids": [
+        "doc:5bbba29b671682fb",
+        "doc:0a40324922c2f8aa",
+        "doc:1324a0aa6a48edce",
+        "doc:5e82f827b28971c4",
+        "doc:0e28e165f3d5c2df"
+      ],
+      "first_seen_date": "2026-09-24",
+      "last_updated_date": "2026-09-24",
+      "expected_expiry_date": "2026-10-08",
+      "freshness": "current"
+    },
+    {
+      "key": "event:energy-shock-meets-resilient-demand",
+      "entity_type": "event",
+      "title": "Energy shock meets resilient demand",
+      "implication": "Prefer caution on duration; the balance remains supportive of USD strength and vulnerable to renewed energy headlines.",
+      "source_document_ids": [
+        "doc:93d32ba157dc23c2",
+        "doc:707e3136a96bc08b",
+        "doc:b79858b706a2b8ca"
+      ],
+      "first_seen_date": "2026-09-23",
+      "last_updated_date": "2026-09-23",
+      "expected_expiry_date": "2026-10-07",
+      "freshness": "carried"
+    },
+    {
+      "key": "thesis:ai-investment-remains-powerful-but-increasingly-narrow",
+      "entity_type": "thesis",
+      "title": "AI investment remains powerful but increasingly narrow",
+      "implication": "Broad equity exposure is less compelling than differentiated exposure to infrastructure beneficiaries and disruption risk.",
+      "source_document_ids": [
+        "doc:dcfe6b7b143bc411",
+        "doc:30afe35832fd6aae",
+        "doc:5486a303790ced5e"
+      ],
+      "first_seen_date": "2026-09-23",
+      "last_updated_date": "2026-09-23",
+      "expected_expiry_date": "2026-10-07",
+      "freshness": "carried"
+    },
+    {
+      "key": "thesis:agentic-ai-concentration",
+      "entity_type": "thesis",
+      "title": "Agentic AI and concentration",
+      "implication": "Selected CPU and infrastructure exposures may benefit, while concentration and valuation-reversal risks remain material.",
+      "source_document_ids": [
+        "doc:33ca9ecc756b7acb",
+        "doc:98883e5c126672bc",
+        "doc:25d5c899d8ad969c"
+      ],
+      "first_seen_date": "2026-09-22",
+      "last_updated_date": "2026-09-22",
+      "expected_expiry_date": "2026-10-06",
+      "freshness": "carried"
+    },
+    {
+      "key": "thesis:energy-driven-inflation-versus-growth",
+      "entity_type": "thesis",
+      "title": "Energy-driven inflation versus growth",
+      "implication": "Rates retain upside inflation sensitivity while growth-sensitive assets face demand risk; oil can soften tactically without resolving physical tightness.",
+      "source_document_ids": [
+        "doc:fd7ec169053ee856",
+        "doc:24a4b30a261527cb",
+        "doc:68aef951b26a7b47"
+      ],
+      "first_seen_date": "2026-09-21",
+      "last_updated_date": "2026-09-21",
+      "expected_expiry_date": "2026-10-05",
+      "freshness": "carried"
+    },
+    {
+      "key": "regime:fiscal-policy",
+      "entity_type": "regime",
+      "title": "Fiscal credibility and sovereign term premia",
+      "implication": "French duration and spread exposure remain vulnerable to political or budget setbacks.",
+      "source_document_ids": [
+        "doc:684b6653e106413c"
+      ],
+      "first_seen_date": "2026-09-21",
+      "last_updated_date": "2026-09-21",
+      "expected_expiry_date": "2026-10-05",
+      "freshness": "carried"
+    },
+    {
+      "key": "event:energy-shock-meets-policy-normalization",
+      "entity_type": "event",
+      "title": "Energy shock meets policy normalization",
+      "implication": "Front-end rates remain vulnerable to upside inflation surprises, but weaker real incomes create a later growth downside.",
+      "source_document_ids": [
+        "doc:1f2741306e4f925d",
+        "doc:9e334c6656ce4af1",
+        "doc:7c8747a2c03c1b21"
+      ],
+      "first_seen_date": "2026-09-18",
+      "last_updated_date": "2026-09-18",
+      "expected_expiry_date": "2026-10-02",
+      "freshness": "carried"
+    },
+    {
+      "key": "regime:risk-sentiment",
+      "entity_type": "regime",
+      "title": "AI investment: productivity promise versus concentration risk",
+      "implication": "AI-linked equities retain a supportive fundamental narrative, while duration and credit are exposed to investment-financing and valuation shocks.",
+      "source_document_ids": [
+        "doc:baa6c8524e105995",
+        "doc:7c8747a2c03c1b21",
+        "doc:3f9a3e6bbdb69178"
+      ],
+      "first_seen_date": "2026-09-02",
+      "last_updated_date": "2026-09-18",
+      "expected_expiry_date": "2026-10-02",
+      "freshness": "carried"
+    },
+    {
+      "key": "thesis:renewed-us-tightening-versus-persistent-inflation-risk",
+      "entity_type": "thesis",
+      "title": "Renewed US tightening versus persistent inflation risk",
+      "implication": "Supports USD and short-end yields; creates a higher hurdle for duration and long-duration equities.",
+      "source_document_ids": [
+        "doc:da3bcbb85f4595d6",
+        "doc:b35c83aa92ab276f",
+        "doc:a17c32e15c80823d"
+      ],
+      "first_seen_date": "2026-09-17",
+      "last_updated_date": "2026-09-17",
+      "expected_expiry_date": "2026-10-01",
+      "freshness": "carried"
+    },
+    {
+      "key": "event:energy-shock-as-cross-asset-policy-variable",
+      "entity_type": "event",
+      "title": "Energy shock as the cross-asset policy variable",
+      "implication": "Persistent energy strength would prolong tightening risk; normalization would reopen disinflation and easing scenarios.",
+      "source_document_ids": [
+        "doc:21e17ba7b13c83f5",
+        "doc:3842e16e0b471718",
+        "doc:b35c83aa92ab276f",
+        "doc:eab3ddc8665c3063"
+      ],
+      "first_seen_date": "2026-09-17",
+      "last_updated_date": "2026-09-17",
+      "expected_expiry_date": "2026-10-01",
+      "freshness": "carried"
+    },
+    {
+      "key": "thesis:ai-investment-growth-fiscal-crowding-out",
+      "entity_type": "thesis",
+      "title": "AI investment, growth and fiscal crowding-out",
+      "implication": "Supports selective exposure to durable productivity beneficiaries while cautioning against treating AI as a complete macro or fiscal solution.",
+      "source_document_ids": [
+        "doc:b340db906d0770d7",
+        "doc:087cb610183404a3",
+        "doc:92e71c74afdf56f6"
+      ],
+      "first_seen_date": "2026-09-16",
+      "last_updated_date": "2026-09-16",
+      "expected_expiry_date": "2026-09-30",
+      "freshness": "carried"
+    },
+    {
+      "key": "event:energy-shock-fiscal-supply-duration-premium",
+      "entity_type": "event",
+      "title": "Energy shock, fiscal supply and the duration premium",
+      "implication": "The combination is adverse for long-duration rates and rate-sensitive equities, while supporting near-term USD demand; confirmation requires continued energy and yield data.",
+      "source_document_ids": [
+        "doc:271dedb7ea0f943f",
+        "doc:af51772342c4f8a1",
+        "doc:6df45ad6a23d35c9",
+        "doc:e61b5c5fc830c19c",
+        "doc:97630f205e731357"
+      ],
+      "first_seen_date": "2026-09-15",
+      "last_updated_date": "2026-09-15",
+      "expected_expiry_date": "2026-09-29",
+      "freshness": "carried"
+    },
+    {
+      "key": "thesis:japan-normalization-global-duration-spillovers",
+      "entity_type": "thesis",
+      "title": "Japan normalization and global duration spillovers",
+      "implication": "The yen and JGB curve remain sensitive to the balance between faster normalization and fiscal/financial-stability concerns.",
+      "source_document_ids": [
+        "doc:c6e34976df385065",
+        "doc:068a764c7fd6b2cd"
+      ],
+      "first_seen_date": "2026-09-15",
+      "last_updated_date": "2026-09-15",
+      "expected_expiry_date": "2026-09-29",
+      "freshness": "carried"
+    },
+    {
+      "key": "event:energy-shock-versus-policy-credibility",
+      "entity_type": "event",
+      "title": "Energy shock versus policy credibility",
+      "implication": "Upside risk to front-end and inflation-sensitive rates; downside risk to energy-importing growth assets; dollar support is possible but not assured.",
+      "source_document_ids": [
+        "doc:422b65d1a51c8af0",
+        "doc:13b261005846818e",
+        "doc:947b1a6892be47e5"
+      ],
+      "first_seen_date": "2026-09-14",
+      "last_updated_date": "2026-09-14",
+      "expected_expiry_date": "2026-09-28",
+      "freshness": "carried"
+    },
+    {
+      "key": "thesis:ai-investment-productivity-financing-strain",
+      "entity_type": "thesis",
+      "title": "AI investment, productivity and financing strain",
+      "implication": "Supports selective AI infrastructure exposure over the medium term but raises duration, credit and equity-correction risks.",
+      "source_document_ids": [
+        "doc:72b35314026c7830",
+        "doc:13b261005846818e"
+      ],
+      "first_seen_date": "2026-09-14",
+      "last_updated_date": "2026-09-14",
+      "expected_expiry_date": "2026-09-28",
+      "freshness": "carried"
+    },
+    {
+      "key": "event:energy-supply-shock-becomes-policy-shock",
+      "entity_type": "event",
+      "title": "Energy supply shock becomes a policy shock",
+      "implication": "Near-term bias remains toward higher inflation risk, tighter policy expectations and pressure on duration; growth-sensitive assets remain vulnerable if the shock persists.",
+      "source_document_ids": [
+        "doc:0e83f9d149bfda4a",
+        "doc:3879b378203b39a8",
+        "doc:79b9cd398f732945",
+        "doc:28d653e71d03b617"
+      ],
+      "first_seen_date": "2026-09-11",
+      "last_updated_date": "2026-09-11",
+      "expected_expiry_date": "2026-09-25",
+      "freshness": "carried"
+    },
+    {
+      "key": "regime:growth",
+      "entity_type": "regime",
+      "title": "AI investment supports activity but raises capital-intensity and valuation questions",
+      "implication": "Infrastructure beneficiaries may remain supported, while software and credit exposures require proof of monetisation.",
+      "source_document_ids": [
+        "doc:0e83f9d149bfda4a",
+        "doc:9d402a06105dc05d",
+        "doc:d1d772e7e0efc6e4"
+      ],
+      "first_seen_date": "2026-09-11",
+      "last_updated_date": "2026-09-11",
+      "expected_expiry_date": "2026-09-25",
+      "freshness": "carried"
+    }
+  ],
+  "comparison": {
+    "baseline_status": "available",
+    "baseline_detail": "Compared with successful brief github-35917026412-1.",
+    "previous_run_id": "github-35917026412-1",
+    "previous_date": "2026-09-23",
+    "week_run_id": "github-35271024389-1",
+    "week_date": "2026-09-17",
+    "asset_view_changes": [
+      {
+        "key": "asset-view:commodities:copper:medium_term",
+        "status": "unchanged",
+        "asset": "Copper",
+        "horizon": "medium_term",
+        "previous_bias": "mixed",
+        "current_bias": "mixed",
+        "previous_confidence": 2,
+        "current_confidence": 2,
+        "current_source_document_ids": [],
+        "historical_source_document_ids": [
+          "doc:3436921f7369c5ba"
+        ],
+        "first_seen_date": "2026-09-08",
+        "last_updated_date": "2026-09-10",
+        "expected_expiry_date": "2026-12-09",
+        "resolved_date": null,
+        "carried_forward": true,
+        "explanation": "No current evidence renewed the view; it is retained only as historical context."
+      },
+      {
+        "key": "asset-view:commodities:energy-commodities:medium_term",
+        "status": "unchanged",
+        "asset": "Energy commodities",
+        "horizon": "medium_term",
+        "previous_bias": "bullish",
+        "current_bias": "bullish",
+        "previous_confidence": 2,
+        "current_confidence": 2,
+        "current_source_document_ids": [],
+        "historical_source_document_ids": [
+          "doc:2a85271d6e7805c4",
+          "doc:e31a572049cdfe14"
+        ],
+        "first_seen_date": "2026-09-04",
+        "last_updated_date": "2026-09-04",
+        "expected_expiry_date": "2026-12-03",
+        "resolved_date": null,
+        "carried_forward": true,
+        "explanation": "No current evidence renewed the view; it is retained only as historical context."
+      },
+      {
+        "key": "asset-view:commodities:energy-commodities:short_term",
+        "status": "strengthened",
+        "asset": "Energy commodities",
+        "horizon": "short_term",
+        "previous_bias": "bullish",
+        "current_bias": "bullish",
+        "previous_confidence": 1,
+        "current_confidence": 4,
+        "current_source_document_ids": [
+          "doc:f36b13864ef01e3f",
+          "doc:8f0be03babea854e",
+          "doc:b7e1b4da0aa72fbb"
+        ],
+        "historical_source_document_ids": [
+          "doc:79b9cd398f732945",
+          "doc:126f4e4000678343"
+        ],
+        "first_seen_date": "2026-09-01",
+        "last_updated_date": "2026-09-24",
+        "expected_expiry_date": "2026-10-08",
+        "resolved_date": null,
+        "carried_forward": false,
+        "explanation": "Bias moved from bullish/1 to bullish/4."
+      },
+      {
+        "key": "asset-view:commodities:oil:short_term",
+        "status": "unchanged",
+        "asset": "Oil and refined products",
+        "horizon": "short_term",
+        "previous_bias": "mixed",
+        "current_bias": "mixed",
+        "previous_confidence": 4,
+        "current_confidence": 4,
+        "current_source_document_ids": [],
+        "historical_source_document_ids": [
+          "doc:b79858b706a2b8ca",
+          "doc:707e3136a96bc08b"
+        ],
+        "first_seen_date": "2026-09-10",
+        "last_updated_date": "2026-09-23",
+        "expected_expiry_date": "2026-10-07",
+        "resolved_date": null,
+        "carried_forward": true,
+        "explanation": "No current evidence renewed the view; it is retained only as historical context."
+      },
+      {
+        "key": "asset-view:credit:global:medium_term",
+        "status": "unchanged",
+        "asset": "Investment-grade credit",
+        "horizon": "medium_term",
+        "previous_bias": "mixed",
+        "current_bias": "mixed",
+        "previous_confidence": 1,
+        "current_confidence": 1,
+        "current_source_document_ids": [],
+        "historical_source_document_ids": [
+          "doc:92e71c74afdf56f6"
+        ],
+        "first_seen_date": "2026-08-28",
+        "last_updated_date": "2026-09-16",
+        "expected_expiry_date": "2026-12-15",
+        "resolved_date": null,
+        "carried_forward": true,
+        "explanation": "No current evidence renewed the view; it is retained only as historical context."
+      },
+      {
+        "key": "asset-view:equities:ai-linked-equities:medium_term",
+        "status": "unchanged",
+        "asset": "AI-linked equities",
+        "horizon": "medium_term",
+        "previous_bias": "mixed",
+        "current_bias": "mixed",
+        "previous_confidence": 1,
+        "current_confidence": 1,
+        "current_source_document_ids": [],
+        "historical_source_document_ids": [
+          "doc:24a1ae61981e9dd6",
+          "doc:30afe35832fd6aae",
+          "doc:dcfe6b7b143bc411"
+        ],
+        "first_seen_date": "2026-09-15",
+        "last_updated_date": "2026-09-23",
+        "expected_expiry_date": "2026-12-22",
+        "resolved_date": null,
+        "carried_forward": true,
+        "explanation": "No current evidence renewed the view; it is retained only as historical context."
+      },
+      {
+        "key": "asset-view:equities:europe:medium_term",
+        "status": "new",
+        "asset": "European equities",
+        "horizon": "medium_term",
+        "previous_bias": null,
+        "current_bias": "mixed",
+        "previous_confidence": null,
+        "current_confidence": 3,
+        "current_source_document_ids": [
+          "doc:5bbba29b671682fb",
+          "doc:5e82f827b28971c4",
+          "doc:0e28e165f3d5c2df"
+        ],
+        "historical_source_document_ids": [],
+        "first_seen_date": "2026-09-24",
+        "last_updated_date": "2026-09-24",
+        "expected_expiry_date": "2026-12-23",
+        "resolved_date": null,
+        "carried_forward": false,
+        "explanation": "No comparable view appeared in the previous successful brief."
+      },
+      {
+        "key": "asset-view:fx:usd:short_term",
+        "status": "unchanged",
+        "asset": "USD",
+        "horizon": "short_term",
+        "previous_bias": "bullish",
+        "current_bias": "bullish",
+        "previous_confidence": 3,
+        "current_confidence": 3,
+        "current_source_document_ids": [],
+        "historical_source_document_ids": [
+          "doc:24a1ae61981e9dd6",
+          "doc:0266cbfb6af336e0",
+          "doc:14d5131b88753e44",
+          "doc:47d5fc99f485d577"
+        ],
+        "first_seen_date": "2026-09-02",
+        "last_updated_date": "2026-09-23",
+        "expected_expiry_date": "2026-10-07",
+        "resolved_date": null,
+        "carried_forward": true,
+        "explanation": "No current evidence renewed the view; it is retained only as historical context."
+      },
+      {
+        "key": "asset-view:other:global-developed-market-duration:short_term",
+        "status": "new",
+        "asset": "Global developed-market duration",
+        "horizon": "short_term",
+        "previous_bias": null,
+        "current_bias": "bearish",
+        "previous_confidence": null,
+        "current_confidence": 4,
+        "current_source_document_ids": [
+          "doc:77c8c826015847a2",
+          "doc:f36b13864ef01e3f",
+          "doc:b7e1b4da0aa72fbb",
+          "doc:948d85b1ce612e5b"
+        ],
+        "historical_source_document_ids": [],
+        "first_seen_date": "2026-09-24",
+        "last_updated_date": "2026-09-24",
+        "expected_expiry_date": "2026-10-08",
+        "resolved_date": null,
+        "carried_forward": false,
+        "explanation": "No comparable view appeared in the previous successful brief."
+      },
+      {
+        "key": "asset-view:other:global-duration:short_term",
+        "status": "unchanged",
+        "asset": "Global duration",
+        "horizon": "short_term",
+        "previous_bias": "bearish",
+        "current_bias": "bearish",
+        "previous_confidence": 4,
+        "current_confidence": 4,
+        "current_source_document_ids": [],
+        "historical_source_document_ids": [
+          "doc:2c4842d025293bb4",
+          "doc:6981fd7b6abb621d",
+          "doc:24a1ae61981e9dd6"
+        ],
+        "first_seen_date": "2026-09-23",
+        "last_updated_date": "2026-09-23",
+        "expected_expiry_date": "2026-10-07",
+        "resolved_date": null,
+        "carried_forward": true,
+        "explanation": "No current evidence renewed the view; it is retained only as historical context."
+      },
+      {
+        "key": "asset-view:other:japanese-yen:short_term",
+        "status": "unchanged",
+        "asset": "Japanese yen",
+        "horizon": "short_term",
+        "previous_bias": "mixed",
+        "current_bias": "mixed",
+        "previous_confidence": 3,
+        "current_confidence": 3,
+        "current_source_document_ids": [],
+        "historical_source_document_ids": [
+          "doc:43e14e4c18bee4de",
+          "doc:6427597cb9b6b505"
+        ],
+        "first_seen_date": "2026-09-03",
+        "last_updated_date": "2026-09-21",
+        "expected_expiry_date": "2026-10-05",
+        "resolved_date": null,
+        "carried_forward": true,
+        "explanation": "No current evidence renewed the view; it is retained only as historical context."
+      },
+      {
+        "key": "asset-view:other:us-duration:short_term",
+        "status": "unchanged",
+        "asset": "US duration",
+        "horizon": "short_term",
+        "previous_bias": "bearish",
+        "current_bias": "bearish",
+        "previous_confidence": 4,
+        "current_confidence": 4,
+        "current_source_document_ids": [],
+        "historical_source_document_ids": [
+          "doc:b340db906d0770d7",
+          "doc:7f11bba87cac1816"
+        ],
+        "first_seen_date": "2026-09-16",
+        "last_updated_date": "2026-09-16",
+        "expected_expiry_date": "2026-09-30",
+        "resolved_date": null,
+        "carried_forward": true,
+        "explanation": "No current evidence renewed the view; it is retained only as historical context."
+      },
+      {
+        "key": "asset-view:rates:global:curve:short_term",
+        "status": "unchanged",
+        "asset": "Global rates",
+        "horizon": "short_term",
+        "previous_bias": "bearish",
+        "current_bias": "bearish",
+        "previous_confidence": 3,
+        "current_confidence": 3,
+        "current_source_document_ids": [],
+        "historical_source_document_ids": [
+          "doc:75ddda08b8add8f0",
+          "doc:27a81cdab4237254",
+          "doc:088580e342f98589",
+          "doc:6cac787102c89513"
+        ],
+        "first_seen_date": "2026-09-08",
+        "last_updated_date": "2026-09-22",
+        "expected_expiry_date": "2026-10-06",
+        "resolved_date": null,
+        "carried_forward": true,
+        "explanation": "No current evidence renewed the view; it is retained only as historical context."
+      },
+      {
+        "key": "asset-view:rates:global:front-end:short_term",
+        "status": "unchanged",
+        "asset": "Euro-area front-end rates",
+        "horizon": "short_term",
+        "previous_bias": "bearish",
+        "current_bias": "bearish",
+        "previous_confidence": 4,
+        "current_confidence": 4,
+        "current_source_document_ids": [],
+        "historical_source_document_ids": [
+          "doc:0e83f9d149bfda4a",
+          "doc:ea4986814765dad8"
+        ],
+        "first_seen_date": "2026-09-11",
+        "last_updated_date": "2026-09-11",
+        "expected_expiry_date": "2026-09-25",
+        "resolved_date": null,
+        "carried_forward": true,
+        "explanation": "No current evidence renewed the view; it is retained only as historical context."
+      },
+      {
+        "key": "asset-view:rates:us:curve:medium_term",
+        "status": "unchanged",
+        "asset": "European sovereign rates: France versus Germany",
+        "horizon": "medium_term",
+        "previous_bias": "bearish",
+        "current_bias": "bearish",
+        "previous_confidence": 2,
+        "current_confidence": 2,
+        "current_source_document_ids": [],
+        "historical_source_document_ids": [
+          "doc:684b6653e106413c"
+        ],
+        "first_seen_date": "2026-09-17",
+        "last_updated_date": "2026-09-21",
+        "expected_expiry_date": "2026-12-20",
+        "resolved_date": null,
+        "carried_forward": true,
+        "explanation": "No current evidence renewed the view; it is retained only as historical context."
+      },
+      {
+        "key": "asset-view:rates:us:front-end:short_term",
+        "status": "unchanged",
+        "asset": "US front-end rates",
+        "horizon": "short_term",
+        "previous_bias": "bearish",
+        "current_bias": "bearish",
+        "previous_confidence": 2,
+        "current_confidence": 2,
+        "current_source_document_ids": [],
+        "historical_source_document_ids": [
+          "doc:3f9a3e6bbdb69178",
+          "doc:e557c9d50c17e043"
+        ],
+        "first_seen_date": "2026-08-31",
+        "last_updated_date": "2026-09-18",
+        "expected_expiry_date": "2026-10-02",
+        "resolved_date": null,
+        "carried_forward": true,
+        "explanation": "No current evidence renewed the view; it is retained only as historical context."
+      },
+      {
+        "key": "asset-view:rates:us:front-end:unspecified",
+        "status": "unchanged",
+        "asset": "US front-end rates",
+        "horizon": "immediate",
+        "previous_bias": "bearish",
+        "current_bias": "bearish",
+        "previous_confidence": 3,
+        "current_confidence": 3,
+        "current_source_document_ids": [],
+        "historical_source_document_ids": [
+          "doc:2c51127ee15af4b4"
+        ],
+        "first_seen_date": "2026-08-28",
+        "last_updated_date": "2026-08-28",
+        "expected_expiry_date": "2026-09-27",
+        "resolved_date": null,
+        "carried_forward": true,
+        "explanation": "No current evidence renewed the view; it is retained only as historical context."
+      },
+      {
+        "key": "asset-view:rates:us:long-end:short_term",
+        "status": "unchanged",
+        "asset": "US long-end rates",
+        "horizon": "short_term",
+        "previous_bias": "bearish",
+        "current_bias": "bearish",
+        "previous_confidence": 2,
+        "current_confidence": 2,
+        "current_source_document_ids": [],
+        "historical_source_document_ids": [
+          "doc:12afb3490e0aac8d",
+          "doc:97630f205e731357"
+        ],
+        "first_seen_date": "2026-09-09",
+        "last_updated_date": "2026-09-15",
+        "expected_expiry_date": "2026-09-29",
+        "resolved_date": null,
+        "carried_forward": true,
+        "explanation": "No current evidence renewed the view; it is retained only as historical context."
+      }
+    ],
+    "theme_changes": [
+      {
+        "key": "event:energy-shock-as-cross-asset-policy-variable",
+        "entity_type": "event",
+        "status": "unchanged",
+        "title": "Energy shock as the cross-asset policy variable",
+        "current_source_document_ids": [],
+        "historical_source_document_ids": [
+          "doc:21e17ba7b13c83f5",
+          "doc:3842e16e0b471718",
+          "doc:b35c83aa92ab276f",
+          "doc:eab3ddc8665c3063"
+        ],
+        "first_seen_date": "2026-09-17",
+        "last_updated_date": "2026-09-17",
+        "expected_expiry_date": "2026-10-01",
+        "resolved_date": null,
+        "carried_forward": true
+      },
+      {
+        "key": "event:energy-shock-fiscal-supply-duration-premium",
+        "entity_type": "event",
+        "status": "unchanged",
+        "title": "Energy shock, fiscal supply and the duration premium",
+        "current_source_document_ids": [],
+        "historical_source_document_ids": [
+          "doc:271dedb7ea0f943f",
+          "doc:af51772342c4f8a1",
+          "doc:6df45ad6a23d35c9",
+          "doc:e61b5c5fc830c19c",
+          "doc:97630f205e731357"
+        ],
+        "first_seen_date": "2026-09-15",
+        "last_updated_date": "2026-09-15",
+        "expected_expiry_date": "2026-09-29",
+        "resolved_date": null,
+        "carried_forward": true
+      },
+      {
+        "key": "event:energy-shock-meets-policy-normalization",
+        "entity_type": "event",
+        "status": "unchanged",
+        "title": "Energy shock meets policy normalization",
+        "current_source_document_ids": [],
+        "historical_source_document_ids": [
+          "doc:1f2741306e4f925d",
+          "doc:9e334c6656ce4af1",
+          "doc:7c8747a2c03c1b21"
+        ],
+        "first_seen_date": "2026-09-18",
+        "last_updated_date": "2026-09-18",
+        "expected_expiry_date": "2026-10-02",
+        "resolved_date": null,
+        "carried_forward": true
+      },
+      {
+        "key": "event:energy-shock-meets-resilient-demand",
+        "entity_type": "event",
+        "status": "unchanged",
+        "title": "Energy shock meets resilient demand",
+        "current_source_document_ids": [],
+        "historical_source_document_ids": [
+          "doc:93d32ba157dc23c2",
+          "doc:707e3136a96bc08b",
+          "doc:b79858b706a2b8ca"
+        ],
+        "first_seen_date": "2026-09-23",
+        "last_updated_date": "2026-09-23",
+        "expected_expiry_date": "2026-10-07",
+        "resolved_date": null,
+        "carried_forward": true
+      },
+      {
+        "key": "event:energy-shock-meets-restrictive-policy",
+        "entity_type": "event",
+        "status": "retired",
+        "title": "Energy shock meets restrictive policy",
+        "current_source_document_ids": [],
+        "historical_source_document_ids": [
+          "doc:8c58f97b299aa3a5",
+          "doc:e56d98dfaae71c1b",
+          "doc:24514bf526ea0443"
+        ],
+        "first_seen_date": "2026-09-10",
+        "last_updated_date": "2026-09-10",
+        "expected_expiry_date": "2026-09-24",
+        "resolved_date": "2026-09-24",
+        "carried_forward": false
+      },
+      {
+        "key": "event:energy-shock-versus-disinflation",
+        "entity_type": "event",
+        "status": "unchanged",
+        "title": "Energy shock versus disinflation",
+        "current_source_document_ids": [
+          "doc:77c8c826015847a2",
+          "doc:f36b13864ef01e3f",
+          "doc:8f0be03babea854e",
+          "doc:b7e1b4da0aa72fbb",
+          "doc:948d85b1ce612e5b"
+        ],
+        "historical_source_document_ids": [
+          "doc:27a81cdab4237254",
+          "doc:088580e342f98589",
+          "doc:2f5ef4430405cbff",
+          "doc:77d7b6c5ec3c6359"
+        ],
+        "first_seen_date": "2026-09-09",
+        "last_updated_date": "2026-09-24",
+        "expected_expiry_date": "2026-10-08",
+        "resolved_date": null,
+        "carried_forward": false
+      },
+      {
+        "key": "event:energy-shock-versus-policy-credibility",
+        "entity_type": "event",
+        "status": "unchanged",
+        "title": "Energy shock versus policy credibility",
+        "current_source_document_ids": [],
+        "historical_source_document_ids": [
+          "doc:422b65d1a51c8af0",
+          "doc:13b261005846818e",
+          "doc:947b1a6892be47e5"
+        ],
+        "first_seen_date": "2026-09-14",
+        "last_updated_date": "2026-09-14",
+        "expected_expiry_date": "2026-09-28",
+        "resolved_date": null,
+        "carried_forward": true
+      },
+      {
+        "key": "event:energy-supply-shock-becomes-policy-shock",
+        "entity_type": "event",
+        "status": "unchanged",
+        "title": "Energy supply shock becomes a policy shock",
+        "current_source_document_ids": [],
+        "historical_source_document_ids": [
+          "doc:0e83f9d149bfda4a",
+          "doc:3879b378203b39a8",
+          "doc:79b9cd398f732945",
+          "doc:28d653e71d03b617"
+        ],
+        "first_seen_date": "2026-09-11",
+        "last_updated_date": "2026-09-11",
+        "expected_expiry_date": "2026-09-25",
+        "resolved_date": null,
+        "carried_forward": true
+      },
+      {
+        "key": "regime:fiscal-policy",
+        "entity_type": "regime",
+        "status": "unchanged",
+        "title": "Fiscal credibility and sovereign term premia",
+        "current_source_document_ids": [],
+        "historical_source_document_ids": [
+          "doc:684b6653e106413c"
+        ],
+        "first_seen_date": "2026-09-21",
+        "last_updated_date": "2026-09-21",
+        "expected_expiry_date": "2026-10-05",
+        "resolved_date": null,
+        "carried_forward": true
+      },
+      {
+        "key": "regime:growth",
+        "entity_type": "regime",
+        "status": "unchanged",
+        "title": "AI investment supports activity but raises capital-intensity and valuation questions",
+        "current_source_document_ids": [],
+        "historical_source_document_ids": [
+          "doc:0e83f9d149bfda4a",
+          "doc:9d402a06105dc05d",
+          "doc:d1d772e7e0efc6e4"
+        ],
+        "first_seen_date": "2026-09-11",
+        "last_updated_date": "2026-09-11",
+        "expected_expiry_date": "2026-09-25",
+        "resolved_date": null,
+        "carried_forward": true
+      },
+      {
+        "key": "regime:monetary-policy",
+        "entity_type": "regime",
+        "status": "new",
+        "title": "Resilient investment cycle under tighter discount rates",
+        "current_source_document_ids": [
+          "doc:5bbba29b671682fb",
+          "doc:0a40324922c2f8aa",
+          "doc:1324a0aa6a48edce",
+          "doc:5e82f827b28971c4",
+          "doc:0e28e165f3d5c2df"
+        ],
+        "historical_source_document_ids": [],
+        "first_seen_date": "2026-09-24",
+        "last_updated_date": "2026-09-24",
+        "expected_expiry_date": "2026-10-08",
+        "resolved_date": null,
+        "carried_forward": false
+      },
+      {
+        "key": "regime:risk-sentiment",
+        "entity_type": "regime",
+        "status": "unchanged",
+        "title": "AI investment: productivity promise versus concentration risk",
+        "current_source_document_ids": [],
+        "historical_source_document_ids": [
+          "doc:baa6c8524e105995",
+          "doc:7c8747a2c03c1b21",
+          "doc:3f9a3e6bbdb69178"
+        ],
+        "first_seen_date": "2026-09-02",
+        "last_updated_date": "2026-09-18",
+        "expected_expiry_date": "2026-10-02",
+        "resolved_date": null,
+        "carried_forward": true
+      },
+      {
+        "key": "thesis:agentic-ai-concentration",
+        "entity_type": "thesis",
+        "status": "unchanged",
+        "title": "Agentic AI and concentration",
+        "current_source_document_ids": [],
+        "historical_source_document_ids": [
+          "doc:33ca9ecc756b7acb",
+          "doc:98883e5c126672bc",
+          "doc:25d5c899d8ad969c"
+        ],
+        "first_seen_date": "2026-09-22",
+        "last_updated_date": "2026-09-22",
+        "expected_expiry_date": "2026-10-06",
+        "resolved_date": null,
+        "carried_forward": true
+      },
+      {
+        "key": "thesis:ai-investment-growth-fiscal-crowding-out",
+        "entity_type": "thesis",
+        "status": "unchanged",
+        "title": "AI investment, growth and fiscal crowding-out",
+        "current_source_document_ids": [],
+        "historical_source_document_ids": [
+          "doc:b340db906d0770d7",
+          "doc:087cb610183404a3",
+          "doc:92e71c74afdf56f6"
+        ],
+        "first_seen_date": "2026-09-16",
+        "last_updated_date": "2026-09-16",
+        "expected_expiry_date": "2026-09-30",
+        "resolved_date": null,
+        "carried_forward": true
+      },
+      {
+        "key": "thesis:ai-investment-productivity-financing-strain",
+        "entity_type": "thesis",
+        "status": "unchanged",
+        "title": "AI investment, productivity and financing strain",
+        "current_source_document_ids": [],
+        "historical_source_document_ids": [
+          "doc:72b35314026c7830",
+          "doc:13b261005846818e"
+        ],
+        "first_seen_date": "2026-09-14",
+        "last_updated_date": "2026-09-14",
+        "expected_expiry_date": "2026-09-28",
+        "resolved_date": null,
+        "carried_forward": true
+      },
+      {
+        "key": "thesis:ai-investment-remains-powerful-but-increasingly-narrow",
+        "entity_type": "thesis",
+        "status": "unchanged",
+        "title": "AI investment remains powerful but increasingly narrow",
+        "current_source_document_ids": [],
+        "historical_source_document_ids": [
+          "doc:dcfe6b7b143bc411",
+          "doc:30afe35832fd6aae",
+          "doc:5486a303790ced5e"
+        ],
+        "first_seen_date": "2026-09-23",
+        "last_updated_date": "2026-09-23",
+        "expected_expiry_date": "2026-10-07",
+        "resolved_date": null,
+        "carried_forward": true
+      },
+      {
+        "key": "thesis:energy-driven-inflation-versus-growth",
+        "entity_type": "thesis",
+        "status": "unchanged",
+        "title": "Energy-driven inflation versus growth",
+        "current_source_document_ids": [],
+        "historical_source_document_ids": [
+          "doc:fd7ec169053ee856",
+          "doc:24a4b30a261527cb",
+          "doc:68aef951b26a7b47"
+        ],
+        "first_seen_date": "2026-09-21",
+        "last_updated_date": "2026-09-21",
+        "expected_expiry_date": "2026-10-05",
+        "resolved_date": null,
+        "carried_forward": true
+      },
+      {
+        "key": "thesis:japan-normalization-global-duration-spillovers",
+        "entity_type": "thesis",
+        "status": "unchanged",
+        "title": "Japan normalization and global duration spillovers",
+        "current_source_document_ids": [],
+        "historical_source_document_ids": [
+          "doc:c6e34976df385065",
+          "doc:068a764c7fd6b2cd"
+        ],
+        "first_seen_date": "2026-09-15",
+        "last_updated_date": "2026-09-15",
+        "expected_expiry_date": "2026-09-29",
+        "resolved_date": null,
+        "carried_forward": true
+      },
+      {
+        "key": "thesis:long-end-yield-pressure-is-becoming-cross-asset-constraint",
+        "entity_type": "thesis",
+        "status": "retired",
+        "title": "Long-end yield pressure is becoming a cross-asset constraint",
+        "current_source_document_ids": [],
+        "historical_source_document_ids": [
+          "doc:2a10bd6f2d62e374",
+          "doc:548d14a67569910a"
+        ],
+        "first_seen_date": "2026-09-10",
+        "last_updated_date": "2026-09-10",
+        "expected_expiry_date": "2026-09-24",
+        "resolved_date": "2026-09-24",
+        "carried_forward": false
+      },
+      {
+        "key": "thesis:renewed-us-tightening-versus-persistent-inflation-risk",
+        "entity_type": "thesis",
+        "status": "unchanged",
+        "title": "Renewed US tightening versus persistent inflation risk",
+        "current_source_document_ids": [],
+        "historical_source_document_ids": [
+          "doc:da3bcbb85f4595d6",
+          "doc:b35c83aa92ab276f",
+          "doc:a17c32e15c80823d"
+        ],
+        "first_seen_date": "2026-09-17",
+        "last_updated_date": "2026-09-17",
+        "expected_expiry_date": "2026-10-01",
+        "resolved_date": null,
+        "carried_forward": true
+      }
+    ],
+    "week_asset_view_changes": [
+      {
+        "key": "asset-view:commodities:copper:medium_term",
+        "status": "unchanged",
+        "asset": "Copper",
+        "horizon": "medium_term",
+        "previous_bias": "mixed",
+        "current_bias": "mixed",
+        "previous_confidence": 2,
+        "current_confidence": 2,
+        "current_source_document_ids": [],
+        "historical_source_document_ids": [
+          "doc:3436921f7369c5ba"
+        ],
+        "first_seen_date": "2026-09-08",
+        "last_updated_date": "2026-09-10",
+        "expected_expiry_date": "2026-12-09",
+        "resolved_date": null,
+        "carried_forward": true,
+        "explanation": "No current evidence renewed the view; it is retained only as historical context."
+      },
+      {
+        "key": "asset-view:commodities:energy-commodities:medium_term",
+        "status": "unchanged",
+        "asset": "Energy commodities",
+        "horizon": "medium_term",
+        "previous_bias": "bullish",
+        "current_bias": "bullish",
+        "previous_confidence": 2,
+        "current_confidence": 2,
+        "current_source_document_ids": [],
+        "historical_source_document_ids": [
+          "doc:2a85271d6e7805c4",
+          "doc:e31a572049cdfe14"
+        ],
+        "first_seen_date": "2026-09-04",
+        "last_updated_date": "2026-09-04",
+        "expected_expiry_date": "2026-12-03",
+        "resolved_date": null,
+        "carried_forward": true,
+        "explanation": "No current evidence renewed the view; it is retained only as historical context."
+      },
+      {
+        "key": "asset-view:commodities:energy-commodities:short_term",
+        "status": "strengthened",
+        "asset": "Energy commodities",
+        "horizon": "short_term",
+        "previous_bias": "bullish",
+        "current_bias": "bullish",
+        "previous_confidence": 1,
+        "current_confidence": 4,
+        "current_source_document_ids": [
+          "doc:f36b13864ef01e3f",
+          "doc:8f0be03babea854e",
+          "doc:b7e1b4da0aa72fbb"
+        ],
+        "historical_source_document_ids": [
+          "doc:79b9cd398f732945",
+          "doc:126f4e4000678343"
+        ],
+        "first_seen_date": "2026-09-01",
+        "last_updated_date": "2026-09-24",
+        "expected_expiry_date": "2026-10-08",
+        "resolved_date": null,
+        "carried_forward": false,
+        "explanation": "Bias moved from bullish/1 to bullish/4."
+      },
+      {
+        "key": "asset-view:commodities:oil:short_term",
+        "status": "unchanged",
+        "asset": "Oil and refined products",
+        "horizon": "short_term",
+        "previous_bias": "bullish",
+        "current_bias": "bullish",
+        "previous_confidence": 1,
+        "current_confidence": 1,
+        "current_source_document_ids": [],
+        "historical_source_document_ids": [
+          "doc:7f11bba87cac1816"
+        ],
+        "first_seen_date": "2026-09-10",
+        "last_updated_date": "2026-09-16",
+        "expected_expiry_date": "2026-09-30",
+        "resolved_date": null,
+        "carried_forward": true,
+        "explanation": "No current evidence renewed the view; it is retained only as historical context."
+      },
+      {
+        "key": "asset-view:credit:global:medium_term",
+        "status": "unchanged",
+        "asset": "Investment-grade credit",
+        "horizon": "medium_term",
+        "previous_bias": "mixed",
+        "current_bias": "mixed",
+        "previous_confidence": 1,
+        "current_confidence": 1,
+        "current_source_document_ids": [],
+        "historical_source_document_ids": [
+          "doc:92e71c74afdf56f6"
+        ],
+        "first_seen_date": "2026-08-28",
+        "last_updated_date": "2026-09-16",
+        "expected_expiry_date": "2026-12-15",
+        "resolved_date": null,
+        "carried_forward": true,
+        "explanation": "No current evidence renewed the view; it is retained only as historical context."
+      },
+      {
+        "key": "asset-view:equities:ai-linked-equities:medium_term",
+        "status": "unchanged",
+        "asset": "AI-linked equities",
+        "horizon": "medium_term",
+        "previous_bias": "mixed",
+        "current_bias": "mixed",
+        "previous_confidence": 2,
+        "current_confidence": 2,
+        "current_source_document_ids": [],
+        "historical_source_document_ids": [
+          "doc:12afb3490e0aac8d",
+          "doc:be8df5ad2727443f",
+          "doc:97630f205e731357"
+        ],
+        "first_seen_date": "2026-09-15",
+        "last_updated_date": "2026-09-15",
+        "expected_expiry_date": "2026-12-14",
+        "resolved_date": null,
+        "carried_forward": true,
+        "explanation": "No current evidence renewed the view; it is retained only as historical context."
+      },
+      {
+        "key": "asset-view:equities:europe:medium_term",
+        "status": "new",
+        "asset": "European equities",
+        "horizon": "medium_term",
+        "previous_bias": null,
+        "current_bias": "mixed",
+        "previous_confidence": null,
+        "current_confidence": 3,
+        "current_source_document_ids": [
+          "doc:5bbba29b671682fb",
+          "doc:5e82f827b28971c4",
+          "doc:0e28e165f3d5c2df"
+        ],
+        "historical_source_document_ids": [],
+        "first_seen_date": "2026-09-24",
+        "last_updated_date": "2026-09-24",
+        "expected_expiry_date": "2026-12-23",
+        "resolved_date": null,
+        "carried_forward": false,
+        "explanation": "No comparable view appeared in the previous successful brief."
+      },
+      {
+        "key": "asset-view:fx:jpy:short_term",
+        "status": "retired",
+        "asset": "JPY",
+        "horizon": "short_term",
+        "previous_bias": "bullish",
+        "current_bias": null,
+        "previous_confidence": 3,
+        "current_confidence": null,
+        "current_source_document_ids": [],
+        "historical_source_document_ids": [
+          "doc:c63d5138143eeb25",
+          "doc:a9a47b0f4f296ec3"
+        ],
+        "first_seen_date": "2026-09-04",
+        "last_updated_date": "2026-09-04",
+        "expected_expiry_date": "2026-09-18",
+        "resolved_date": "2026-09-24",
+        "carried_forward": false,
+        "explanation": "The prior view reached its deterministic horizon expiry without current renewal."
+      },
+      {
+        "key": "asset-view:fx:usd:short_term",
+        "status": "unchanged",
+        "asset": "US dollar",
+        "horizon": "short_term",
+        "previous_bias": "bullish",
+        "current_bias": "bullish",
+        "previous_confidence": 2,
+        "current_confidence": 2,
+        "current_source_document_ids": [],
+        "historical_source_document_ids": [
+          "doc:672aa60a5e6c57d4"
+        ],
+        "first_seen_date": "2026-09-02",
+        "last_updated_date": "2026-09-17",
+        "expected_expiry_date": "2026-10-01",
+        "resolved_date": null,
+        "carried_forward": true,
+        "explanation": "No current evidence renewed the view; it is retained only as historical context."
+      },
+      {
+        "key": "asset-view:other:global-developed-market-duration:short_term",
+        "status": "new",
+        "asset": "Global developed-market duration",
+        "horizon": "short_term",
+        "previous_bias": null,
+        "current_bias": "bearish",
+        "previous_confidence": null,
+        "current_confidence": 4,
+        "current_source_document_ids": [
+          "doc:77c8c826015847a2",
+          "doc:f36b13864ef01e3f",
+          "doc:b7e1b4da0aa72fbb",
+          "doc:948d85b1ce612e5b"
+        ],
+        "historical_source_document_ids": [],
+        "first_seen_date": "2026-09-24",
+        "last_updated_date": "2026-09-24",
+        "expected_expiry_date": "2026-10-08",
+        "resolved_date": null,
+        "carried_forward": false,
+        "explanation": "No comparable view appeared in the previous successful brief."
+      },
+      {
+        "key": "asset-view:other:japanese-yen:short_term",
+        "status": "unchanged",
+        "asset": "Japanese yen",
+        "horizon": "short_term",
+        "previous_bias": "mixed",
+        "current_bias": "mixed",
+        "previous_confidence": 2,
+        "current_confidence": 2,
+        "current_source_document_ids": [],
+        "historical_source_document_ids": [
+          "doc:068a764c7fd6b2cd"
+        ],
+        "first_seen_date": "2026-09-03",
+        "last_updated_date": "2026-09-15",
+        "expected_expiry_date": "2026-09-29",
+        "resolved_date": null,
+        "carried_forward": true,
+        "explanation": "No current evidence renewed the view; it is retained only as historical context."
+      },
+      {
+        "key": "asset-view:other:us-duration:short_term",
+        "status": "unchanged",
+        "asset": "US duration",
+        "horizon": "short_term",
+        "previous_bias": "bearish",
+        "current_bias": "bearish",
+        "previous_confidence": 4,
+        "current_confidence": 4,
+        "current_source_document_ids": [],
+        "historical_source_document_ids": [
+          "doc:b340db906d0770d7",
+          "doc:7f11bba87cac1816"
+        ],
+        "first_seen_date": "2026-09-16",
+        "last_updated_date": "2026-09-16",
+        "expected_expiry_date": "2026-09-30",
+        "resolved_date": null,
+        "carried_forward": true,
+        "explanation": "No current evidence renewed the view; it is retained only as historical context."
+      },
+      {
+        "key": "asset-view:rates:global:curve:short_term",
+        "status": "unchanged",
+        "asset": "European rates",
+        "horizon": "short_term",
+        "previous_bias": "neutral",
+        "current_bias": "neutral",
+        "previous_confidence": 3,
+        "current_confidence": 3,
+        "current_source_document_ids": [],
+        "historical_source_document_ids": [
+          "doc:e4683473d240f4c1"
+        ],
+        "first_seen_date": "2026-09-08",
+        "last_updated_date": "2026-09-16",
+        "expected_expiry_date": "2026-09-30",
+        "resolved_date": null,
+        "carried_forward": true,
+        "explanation": "No current evidence renewed the view; it is retained only as historical context."
+      },
+      {
+        "key": "asset-view:rates:global:front-end:short_term",
+        "status": "unchanged",
+        "asset": "Euro-area front-end rates",
+        "horizon": "short_term",
+        "previous_bias": "bearish",
+        "current_bias": "bearish",
+        "previous_confidence": 4,
+        "current_confidence": 4,
+        "current_source_document_ids": [],
+        "historical_source_document_ids": [
+          "doc:0e83f9d149bfda4a",
+          "doc:ea4986814765dad8"
+        ],
+        "first_seen_date": "2026-09-11",
+        "last_updated_date": "2026-09-11",
+        "expected_expiry_date": "2026-09-25",
+        "resolved_date": null,
+        "carried_forward": true,
+        "explanation": "No current evidence renewed the view; it is retained only as historical context."
+      },
+      {
+        "key": "asset-view:rates:us:curve:medium_term",
+        "status": "unchanged",
+        "asset": "US long-duration rates",
+        "horizon": "medium_term",
+        "previous_bias": "mixed",
+        "current_bias": "mixed",
+        "previous_confidence": 3,
+        "current_confidence": 3,
+        "current_source_document_ids": [],
+        "historical_source_document_ids": [
+          "doc:b35c83aa92ab276f",
+          "doc:a17c32e15c80823d"
+        ],
+        "first_seen_date": "2026-09-17",
+        "last_updated_date": "2026-09-17",
+        "expected_expiry_date": "2026-12-16",
+        "resolved_date": null,
+        "carried_forward": true,
+        "explanation": "No current evidence renewed the view; it is retained only as historical context."
+      },
+      {
+        "key": "asset-view:rates:us:front-end:short_term",
+        "status": "unchanged",
+        "asset": "US front-end rates",
+        "horizon": "short_term",
+        "previous_bias": "bearish",
+        "current_bias": "bearish",
+        "previous_confidence": 4,
+        "current_confidence": 4,
+        "current_source_document_ids": [],
+        "historical_source_document_ids": [
+          "doc:da3bcbb85f4595d6",
+          "doc:b35c83aa92ab276f",
+          "doc:a17c32e15c80823d"
+        ],
+        "first_seen_date": "2026-08-31",
+        "last_updated_date": "2026-09-17",
+        "expected_expiry_date": "2026-10-01",
+        "resolved_date": null,
+        "carried_forward": true,
+        "explanation": "No current evidence renewed the view; it is retained only as historical context."
+      },
+      {
+        "key": "asset-view:rates:us:front-end:unspecified",
+        "status": "unchanged",
+        "asset": "US front-end rates",
+        "horizon": "immediate",
+        "previous_bias": "bearish",
+        "current_bias": "bearish",
+        "previous_confidence": 3,
+        "current_confidence": 3,
+        "current_source_document_ids": [],
+        "historical_source_document_ids": [
+          "doc:2c51127ee15af4b4"
+        ],
+        "first_seen_date": "2026-08-28",
+        "last_updated_date": "2026-08-28",
+        "expected_expiry_date": "2026-09-27",
+        "resolved_date": null,
+        "carried_forward": true,
+        "explanation": "No current evidence renewed the view; it is retained only as historical context."
+      },
+      {
+        "key": "asset-view:rates:us:long-end:short_term",
+        "status": "unchanged",
+        "asset": "US long-end rates",
+        "horizon": "short_term",
+        "previous_bias": "bearish",
+        "current_bias": "bearish",
+        "previous_confidence": 2,
+        "current_confidence": 2,
+        "current_source_document_ids": [],
+        "historical_source_document_ids": [
+          "doc:12afb3490e0aac8d",
+          "doc:97630f205e731357"
+        ],
+        "first_seen_date": "2026-09-09",
+        "last_updated_date": "2026-09-15",
+        "expected_expiry_date": "2026-09-29",
+        "resolved_date": null,
+        "carried_forward": true,
+        "explanation": "No current evidence renewed the view; it is retained only as historical context."
+      }
+    ],
+    "warnings": []
+  }
+}
